@@ -4,5 +4,6 @@
     "i-icon": "/lee-components/leeIcon/index",
     "i-image": "/lee-components/leePlaceholdImage/index",
     "i-panel": "/dist/panel/index"
-  }
+  },
+  "enablePullDownRefresh": true
 }
