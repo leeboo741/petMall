@@ -1,0 +1,4 @@
+<!--pages/store/index.wxml-->
+<i-navigation-bar title='商家'
+                  showBackButton='{{false}}'>
+</i-navigation-bar>

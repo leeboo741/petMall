@@ -1,0 +1,178 @@
+<!--index.wxml-->
+<i-navigation-bar title='首页'
+                  showBackButton='{{false}}'>
+</i-navigation-bar>
+
+<view class="search-box">
+  <view class="search-content">
+    <i-icon type="search"
+            size="35">
+    </i-icon>
+    <input class="search-input"
+           bindfocus="searchInputFocus"
+           placeholder="搜宠物、商家、品牌">
+    </input>
+  </view>
+</view>
+
+<swiper class='banner'
+        circular="{{true}}"
+        indicator-dots="{{true}}"
+        autoplay="{{true}}"
+        interval="5000"
+        duration="300"
+        vertical="{{false}}"
+        indicator-active-color="#7bbfea"
+        indicator-color="#cccccc">
+  <swiper-item wx:for="{{bannerDataSource}}"
+               wx:for-item="bannerItem"
+               wx:for-index="bannerIndex"
+               wx:key="bannerIndex">
+    <view class='banner-item'
+          data-index="{{bannerIndex}}"
+          data-link="{{bannerItem.link}}"
+          data-imageurl="{{bannerItem.imageUrl}}"
+          bindtap='tapBanner'>
+      <i-image i-class='banner-item-image'
+               mode='scaleToFill'
+               lazy-load='{{true}}'
+               imageSrc='{{bannerItem.imageUrl}}'
+               placeholderSrc='../../resource/placeholder.jpg'
+               failSrc='../../resource/fail.png'>
+      </i-image>
+    </view>
+  </swiper-item>
+</swiper>
+
+<view class="fast-action-area">
+  <view wx:for="{{fastActionList}}"
+        wx:for-item='fastActionItem'
+        wx:for-index='fastActionIndex'
+        wx:key='{{fastActionIndex}}'
+        class="fast-action-item">
+    <image class="fast-action-icon"
+           src='{{fastActionItem.iconPath}}'>
+    </image>
+    <view class="fast-action-title">
+    {{fastActionItem.actionName}}
+    </view>
+  </view>
+</view>
+
+<i-panel>
+  <view class="section-title-area">
+    <i-icon type="star"
+            size="32"
+            color="#ff9900">
+    </i-icon>
+    <view class="section-title" style="color: #ff9900">
+    特惠抢购
+    </view>
+    <view class="section-info">
+    </view>
+    <view class="section-more">
+    更多
+    </view>
+    <i-icon type="right-arrow"
+            size="32">
+    </i-icon>
+  </view>
+  <scroll-view class="section-scroll-h"
+               scroll-x
+               enable-flex>
+      <view wx:for='{{preferentialList}}'
+            wx:for-item="preferentialItem"
+            wx:for-index="preferentialIndex"
+            wx:key='{{preferentialIndex}}'
+            class="goods-item">
+        <view class="goods-image-box">
+          <i-image i-class="goods-image"
+                   imageSrc='{{preferentialItem.imagePath}}'
+                   placeholderSrc='../../resource/placeholder.jpg'
+                   failSrc='../../resource/fail.png'>
+          </i-image>
+        </view>
+        
+        <view class="goods-info-box">
+          <view class="goods-info-line">
+            <view class="text-name">
+            {{preferentialItem.name}}
+            </view>
+            <view class="text-price">
+            ￥{{preferentialItem.preferentialPrice}}
+            </view>
+          </view>
+          <view class="goods-info-line">
+            <view class="text-address">
+            {{preferentialItem.province}} {{preferentialItem.city}}
+            </view>
+            <view class="text-original-price">
+            ￥{{preferentialItem.originalPrice}}
+            </view>
+          </view>
+        </view>
+      </view>
+  </scroll-view>
+</i-panel>
+
+<i-panel>
+  <view class="section-title-area">
+    <i-icon type="clock"
+            size="32"
+            color="#ff6600">
+    </i-icon>
+    <view class="section-title" style="color: #ff6600">
+    最新上架
+    </view>
+    <view class="section-info">
+    </view>
+    <view class="section-more">
+    更多
+    </view>
+    <i-icon type="right-arrow"
+            size="32">
+    </i-icon>
+  </view>
+  <scroll-view class="section-scroll-h"
+               scroll-x
+               enable-flex>
+      <view wx:for='{{newestList}}'
+            wx:for-item="newestItem"
+            wx:for-index="newestIndex"
+            wx:key='{{newestIndex}}'
+            class="goods-item">
+        <view class="goods-image-box">
+          <i-image i-class="goods-image"
+                   imageSrc='{{newestItem.imagePath}}'
+                   placeholderSrc='../../resource/placeholder.jpg'
+                   failSrc='../../resource/fail.png'>
+          </i-image>
+        </view>
+        
+        <view class="goods-info-box">
+          <view class="goods-info-line">
+            <view class="text-name">
+            {{newestItem.name}}
+            </view>
+          </view>
+          <view class="goods-info-line">
+            <view class="text-price">
+            ￥{{newestItem.price}}
+            </view>
+            <view class="text-time">
+            {{parse.getDuringTime(newestItem.releaseDate, newestItem.releaseTime)}}
+            </view>
+          </view>
+        </view>
+      </view>
+  </scroll-view>
+</i-panel>
+
+
+<wxs module='parse'>
+  module.exports={
+    getDuringTime: function(date, time) {
+      return "1天前"
+    }
+  }
+</wxs>

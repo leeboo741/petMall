@@ -1,0 +1,4 @@
+<!--pages/me/index.wxml-->
+<i-navigation-bar title='我的'
+                  showBackButton='{{false}}'>
+</i-navigation-bar>

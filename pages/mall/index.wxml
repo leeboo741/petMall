@@ -1,0 +1,4 @@
+<!--pages/mall/index.wxml-->
+<i-navigation-bar title='商城'
+                  showBackButton='{{false}}'>
+</i-navigation-bar>
