@@ -337,6 +337,110 @@
   </view>
 </i-panel>
 
+<!-- 推荐商家 -->
+<i-panel>
+  <view class="section-title-area">
+    <view class="section-title" style="color: #ff6600">
+    推 / 荐 / 商 / 家
+    </view>
+  </view>
+  <view class="section-content-flex">
+    <view wx:for='{{recommendStoreList}}'
+          wx:for-item="recommendStoreItem"
+          wx:for-index="recommendStoreIndex"
+          wx:key='{{recommendStoreIndex}}'
+          class="recommend-store-item">
+      <view class="recommend-store-logo-box">
+        <i-image i-class="recommend-store-logo"
+                 imageSrc="{{recommendStoreItem.logoPath}}"
+                 placeholderSrc='../../resource/placeholder.jpg'
+                 failSrc='../../resource/fail.png'>
+        </i-image>
+      </view>
+      <view class="text-name">
+      {{recommendStoreItem.name}}
+      </view>
+      <view class="text-address">
+      {{recommendStoreItem.province}} {{recommendStoreItem.city}}
+      </view>
+    </view>
+  </view>
+</i-panel>
+
+<!-- 热门分类 -->
+<i-panel>
+  <view class="section-title-area">
+    <view class="section-title" style="color: #ff6600">
+    热 / 门 / 分 / 类
+    </view>
+  </view>
+  <view class="section-content-flex">
+    <view wx:for='{{hotTypeList}}'
+          wx:for-item="hotTypeItem"
+          wx:for-index="hotTypeIndex"
+          wx:key='{{hotTypeIndex}}'
+          class="hot-type-item">
+      <i-image i-class="hot-type-icon"
+                imageSrc="{{hotTypeItem.iconPath}}"
+                placeholderSrc='../../resource/placeholder.jpg'
+                failSrc='../../resource/fail.png'>
+      </i-image>
+      <view class="text-name">
+      {{hotTypeItem.name}}
+      </view>
+    </view>
+  </view>
+</i-panel>
+
+<!-- 为您推荐 -->
+<i-panel>
+  <view class="section-title-area">
+    <view class="section-title" style="color: #ff6600">
+    为 / 您 / 推 / 荐
+    </view>
+  </view>
+  <view class="section-content-flex">
+    <view wx:for='{{recommendGoodsList}}'
+          wx:for-item="recommendGoodsItem"
+          wx:for-index="recommendGoodsIndex"
+          wx:key='{{recommendGoodsIndex}}'
+          class="recommend-goods-item">
+      <view class="recommend-goods-image-box">
+        <i-image i-class="recommend-goods-image"
+                  imageSrc='{{recommendGoodsItem.imagePath}}'
+                  placeholderSrc='../../resource/placeholder.jpg'
+                  failSrc='../../resource/fail.png'>
+        </i-image>
+      </view>
+      <view class="goods-info-box">
+        <view class="goods-info-line">
+          <view class="text-name">
+          {{recommendGoodsItem.name}}
+          </view>
+          <view class="text-price">
+          ￥{{recommendGoodsItem.price}}
+          </view>
+        </view>
+        <view class="goods-info-line">
+          <view class="goods-info-line">
+            <i-image i-class="recommend-goods-store-logo"
+                  imageSrc='{{recommendGoodsItem.store.logoPath}}'
+                  placeholderSrc='../../resource/placeholder.jpg'
+                  failSrc='../../resource/fail.png'>
+            </i-image>
+            <view class="text-info">
+            {{recommendGoodsItem.store.name}}
+            </view>
+          </view>
+          <view class="text-address">
+          {{recommendGoodsItem.province}} {{recommendGoodsItem.city}}
+          </view>
+        </view>
+      </view>  
+    </view>
+  </view>
+</i-panel>
+
 <wxs module='parse'>
   module.exports={
     getDuringTime: function(date, time) {
