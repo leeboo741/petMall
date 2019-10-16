@@ -1,18 +1,25 @@
 // pages/me/index.js
+
+const UserService = require("../../services/userService.js");
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    isLogin: null,
+    userInfo: null,
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    this.setData({
+      isLogin: UserService.isLogin(),
+      userInfo: UserService.getLocalUserInfo()
+    })
   },
 
   /**

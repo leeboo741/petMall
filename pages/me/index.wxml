@@ -3,9 +3,100 @@
                   showBackButton='{{false}}'>
 </i-navigation-bar>
 
+<!-- 用户信息 -->
 <i-panel>
-  <view class="userinfo-box"
-        wx:if='{{isLogin}}'>
-
+  <view class="userinfo-box">
+    <!-- 基本信息 -->
+    <!-- 未登录 -->
+    <view class="userinfo-base-box"
+          wx:if='{{!isLogin}}'>
+      <view class="avatar-box">
+        <image class="avatar-image"
+                src="../../resource/avatar_placeholder.jpg">
+        </image>
+      </view>
+      <view class="info-box">
+        <view class="info-content-box">
+          <view class="info-title">
+          点击头像登陆
+          </view>
+          <view class="info-detail">
+          宠物市场购宠、售宠专业有保障
+          </view>
+        </view>
+        <i-icon i-class="right-arrow"
+                type="right-arrow"
+                size="38"
+                color="#778899">
+        </i-icon>
+      </view>
+    </view>
+    <!-- 登录 -->
+    <view class='userinfo-base-box'
+          wx:else>
+      <view class="avatar-box">
+        <i-image i-class="avatar-image"
+                  imageSrc="{{userInfo.avatar}}"
+                  placeholderSrc='../../resource/avatar_placeholder.jpg'>
+        </i-image>
+        <view class="avatar-detail">
+        商城会员
+        </view>
+      </view>
+      <view class="info-box">
+        <view class="info-content-box">
+          <view class="info-title">
+          {{userInfo.name}}
+          </view>
+          <view class="info-explain">
+          {{userInfo.explain}}
+          </view>
+        </view>
+        <i-icon i-class="right-arrow"
+                type="right-arrow"
+                size="38"
+                color="#778899">
+        </i-icon>
+      </view>
+    </view>
+    <!-- 分割线 -->
+    <view class="userinfo-box-line-h">
+    </view>
+    <!-- 积分 优惠券 -->
+    <view class="userinfo-value-box">
+      <view class='userinfo-value-item'>
+        <view class="userinfo-value-item-value-box">
+          <view class="userinfo-value-item-value">
+          0<!-- {{userinfo.point}} -->
+          </view>
+          <view class="userinfo-value-item-unit">
+          分
+          </view>
+        </view>
+        <view class="userinfo-value-item-name">
+        积分
+        </view>
+      </view>
+      <view class="userinfo-box-line-v">
+      </view>
+      <view class='userinfo-value-item'>
+        <view class="userinfo-value-item-value-box">
+          <view class="userinfo-value-item-value">
+          0<!-- {{userinfo.couponCount}} -->
+          </view>
+          <view class="userinfo-value-item-unit">
+          张
+          </view>
+        </view>
+        <view class="userinfo-value-item-name">
+        优惠券
+        </view>
+      </view>
+    </view>
   </view>
+</i-panel>
+
+<!-- 用户信息 -->
+<i-panel>
+  <view class=""></view>
 </i-panel>
