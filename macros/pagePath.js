@@ -8,6 +8,8 @@ const Page_Mall_Sstaplefood = "/pages/mall/staplefood/index";  //商城主粮更
 
 const Page_Me_Index = "/pages/me/index"; // 我的 首页
 
+const Page_Login_Index = "/pages/login/index"; // 登陆
+
 module.exports={
   Page_Home, // 首页
   
@@ -17,5 +19,7 @@ module.exports={
   Page_Mall_Sstaplefood, //商城主粮更多
   
   Page_Me_Index, // 我的首页
+
+  Page_Login_Index, // 登陆
 }
 
