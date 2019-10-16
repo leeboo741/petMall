@@ -412,7 +412,7 @@
                   failSrc='../../resource/fail.png'>
         </i-image>
       </view>
-      <view class="goods-info-box">
+      <view class="recommend-goods-info-box">
         <view class="goods-info-line">
           <view class="text-name">
           {{recommendGoodsItem.name}}
@@ -422,7 +422,7 @@
           </view>
         </view>
         <view class="goods-info-line">
-          <view class="goods-info-line">
+          <view class="recomend-goods-store-name-box">
             <i-image i-class="recommend-goods-store-logo"
                   imageSrc='{{recommendGoodsItem.store.logoPath}}'
                   placeholderSrc='../../resource/placeholder.jpg'
@@ -440,6 +440,10 @@
     </view>
   </view>
 </i-panel>
+
+<!-- 加载块 -->
+<i-load-foot-item loadState='{{loadState}}'>
+</i-load-foot-item>
 
 <wxs module='parse'>
   module.exports={

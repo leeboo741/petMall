@@ -1,5 +1,5 @@
 <!--lee-components/leePlaceholdImage/index.wxml-->
-<image class="i-class normal-image"
+<image class="i-class"
        src='{{imageSrc}}'
        mode="{{mode}}"
        lazy-load="{{lazyLoad}}"
@@ -10,14 +10,14 @@
 
 <image class="i-class placehold-image"
        src='{{placeholderSrc}}'
-       mode="aspectFit"
+       mode="{{mode}}"
        lazy-load="{{lazyLoad}}"
        wx:if="{{parse.showPlaceholderImage(loadState)}}">
 </image>
 
 <image class="i-class fail-image"
        src='{{parse.getFailSrc(failSrc, placeholderSrc)}}'
-       mode="aspectFit"
+       mode="{{mode}}"
        lazy-load="{{lazyLoad}}"
        wx:if="{{parse.showFailImage(loadState,failSrc)}}">
 </image>

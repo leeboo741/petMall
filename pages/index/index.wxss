@@ -149,6 +149,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin: 15rpx 0rpx;
 }
 
 .goods-image-box{
@@ -192,6 +193,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  margin: 15rpx 0rpx;
 }
 
 .setmenu-item-content{
@@ -217,6 +219,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 15rpx 0rpx;
 }
 
 .recommend-store-logo-box{
@@ -234,6 +237,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 15rpx 0rpx;
 }
 
 .hot-type-icon{
@@ -248,6 +252,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin: 15rpx 0rpx;
 }
 
 .recommend-goods-image-box{
@@ -267,6 +272,19 @@
 .recommend-goods-store-logo{
   width: 30rpx;
   height: 30rpx;
+}
+
+.recommend-goods-info-box {
+  width: 44vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.recomend-goods-store-name-box {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .text-name{

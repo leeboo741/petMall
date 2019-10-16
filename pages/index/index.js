@@ -1,12 +1,137 @@
 //index.js
 //获取应用实例
-const app = getApp()
-
+const app = getApp();
+const LoadFootItemState = require("../../lee-components/leeLoadingFootItem/loadFootObj.js");
+const PageSize = 20;
 Page({
-  onLoad: function () {
-    
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+
   },
+
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function () {
+
+  },
+
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function () {
+
+  },
+
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function () {
+    if (this.data.loadState == LoadFootItemState.Loading_State_End) {
+      return;
+    }
+    this.setData({
+      loadState: LoadFootItemState.Loading_State_Loading,
+    })
+    let that = this;
+    this.data.tempTimeInterval = setTimeout(function(){
+      that.data.pageIndex = that.data.pageIndex + 1;
+      if (that.data.pageIndex >= 5){
+        that.setData({
+          loadState: LoadFootItemState.Loading_State_End
+        })
+      } else {
+        that.setData({
+          recommendGoodsList: that.data.recommendGoodsList.concat(that.data.tempRecommendGoodsList),
+          loadState: LoadFootItemState.Loading_State_Normal
+        })
+      }
+    },1000)
+  },
+
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function () {
+
+  },
+
+  /**
+   * 页面数据
+   */
   data: {
+    tempRecommendGoodsList: [
+      {
+        name: "布偶猫",
+        price: 2000,
+        store: {
+          name: "莎莎",
+          logoPath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571138693420&di=fee3aa2a043f375cdb1cbb90f9380c2a&imgtype=0&src=http%3A%2F%2Fd5.file.680.com%2FItem%2F2018-6%2F20%2F10596211_201862011416.jpg"
+        },
+        province: "云南",
+        city: "昆明",
+        imagePath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571142500505&di=7f83a91e6f0ac575e2b95feb01ef941a&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201706%2F28%2F20170628205251_n2iCd.jpeg"
+      },
+      {
+        name: "秋田犬",
+        price: 3000,
+        store: {
+          name: "田田",
+          logoPath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571141353757&di=bfa169b0ff9c44c88c56f15c45582967&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0132565a447811a801219741f137ba.jpeg"
+        },
+        province: "上海",
+        city: "静安",
+        imagePath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571142526663&di=43a1330a539f801e3a378919588f36a6&imgtype=0&src=http%3A%2F%2Fwww.pig66.com%2Fuploadfile%2F2017%2F1204%2F20171204053030929.png",
+      },
+      {
+        name: "美短",
+        price: 4000,
+        store: {
+          name: "旺旺",
+          logoPath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571138363687&di=18e750383ce1bb7e631e984f87897f57&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F01b9de5be67338a80120925291fad2.jpg%401280w_1l_2o_100sh.jpg"
+        },
+        province: "河南",
+        city: "开封",
+        imagePath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571142568961&di=40a2a5147b7dec086ec0d0a5f58636ab&imgtype=0&src=http%3A%2F%2Fwww.5jjc.net%2Ftu5jJDAzJDIyL1Qxc2NFN1hmQmYkNiQ2XyEhJDM.jpg",
+      },
+      {
+        name: "二哈",
+        price: 2000,
+        store: {
+          name: "妍妍",
+          logoPath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571142296864&di=91b3eda493c9e1b5a44af05943d0b150&imgtype=0&src=http%3A%2F%2Fwww.new-s.com.cn%2Fupload%2F20160713%2F69831468391032541.jpg"
+        },
+        province: "浙江",
+        city: "杭州",
+        imagePath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571142592265&di=7a06c842ea2fd44ed79c0819544ef6df&imgtype=0&src=http%3A%2F%2F5b0988e595225.cdn.sohucs.com%2Fimages%2F20180119%2Fd006418460834892a15ff56878abef36.jpeg",
+      },
+    ],
+    tempTimeInterval: null,
+    pageIndex: 0,
+    loadState: LoadFootItemState.Loading_State_Normal,
     bannerDataSource: [
       {
         imageUrl: "https://petimg.tyferp.com/weapp/banner01.jpg", // 图片地址
