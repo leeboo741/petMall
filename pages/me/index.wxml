@@ -2,3 +2,10 @@
 <i-navigation-bar title='我的'
                   showBackButton='{{false}}'>
 </i-navigation-bar>
+
+<i-panel>
+  <view class="userinfo-box"
+        wx:if='{{isLogin}}'>
+
+  </view>
+</i-panel>

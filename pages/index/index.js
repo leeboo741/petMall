@@ -36,7 +36,8 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+    clearTimeout(this.data.tempTimeInterval);
+    this.data.tempTimeInterval = null;
   },
 
   /**
@@ -48,6 +49,7 @@ Page({
 
   /**
    * 页面上拉触底事件的处理函数
+   * 触底 loadmore
    */
   onReachBottom: function () {
     if (this.data.loadState == LoadFootItemState.Loading_State_End) {
@@ -130,8 +132,8 @@ Page({
       },
     ],
     tempTimeInterval: null,
-    pageIndex: 0,
-    loadState: LoadFootItemState.Loading_State_Normal,
+    pageIndex: 0, // 页码
+    loadState: LoadFootItemState.Loading_State_Normal, // 底部状态
     bannerDataSource: [
       {
         imageUrl: "https://petimg.tyferp.com/weapp/banner01.jpg", // 图片地址
