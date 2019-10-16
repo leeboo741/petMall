@@ -4,6 +4,7 @@
     "pages/store/index",
     "pages/mall/index",
     "pages/me/index",
+    "pages/mall/staplefood/index",
     "pages/login/index"
   ],
   "tabBar": {

@@ -112,7 +112,7 @@
     </view>
     <view class="section-info">
     </view>
-    <view class="section-more">
+    <view class="section-more" bindtap="foodgrainMoreTap">
     更多
     </view>
     <i-icon type="right-arrow"

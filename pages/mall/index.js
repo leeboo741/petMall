@@ -1,4 +1,5 @@
 // pages/mall/index.js
+const Page_path=require("../../macros/pagePath.js");
 Page({
 
   /**
@@ -279,5 +280,14 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+
+  /**
+   * 点击粮食更多
+   */
+  foodgrainMoreTap:function(){
+    wx.navigateTo({
+      url: Page_path.Page_Mall_Sstaplefood
+    })
   }
 })

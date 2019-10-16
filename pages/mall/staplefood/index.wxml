@@ -1,0 +1,23 @@
+<!--pages/mall/ff/index.wxml-->
+<i-navigation-bar title='商城'
+                  showBackButton='{{true}}'>
+</i-navigation-bar>
+
+<view class="foodgrainmore-head">
+  <view class="foodgrainmore-head-titleselect" wx:for='{{titleSelectList}}'
+          wx:for-item="titleSelectItem"
+          wx:for-index="titleSelectIndex"
+          wx:key='{{titleSelectIndex}}' bindtap="titleSelectTap" data-index="{{titleSelectIndex}}" data-key="{{titleSelectItem.selectInfo}}" >
+          {{titleSelectItem.selectInfo}}
+           <i-icon type="{{titleSelectItem.showSelect?'unfold':'packup'}}" size="20"/>      
+        <!-- unfold':'packup' -->
+  </view>
+</view>
+
+
+ 
+<wxs module='parse'>                                                                        
+   module.exports={
+
+   }
+</wxs>

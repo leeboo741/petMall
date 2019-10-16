@@ -1,4 +1,5 @@
 // pages/store/index.js
+
 Page({
 
   /**
