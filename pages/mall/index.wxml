@@ -2,3 +2,244 @@
 <i-navigation-bar title='商城'
                   showBackButton='{{false}}'>
 </i-navigation-bar>
+
+<swiper class='banner'
+        circular="{{true}}"
+        indicator-dots="{{true}}"
+        autoplay="{{true}}"
+        interval="5000"
+        duration="300"
+        vertical="{{false}}"
+        indicator-active-color="#7bbfea"
+        indicator-color="#cccccc">
+  <swiper-item wx:for="{{bannerDataSource}}"
+               wx:for-item="bannerItem"
+               wx:for-index="bannerIndex"
+               wx:key="bannerIndex">
+    <view class='banner-item'
+          data-index="{{bannerIndex}}"
+          data-link="{{bannerItem.link}}"
+          data-imageurl="{{bannerItem.imageUrl}}"
+          bindtap='tapBanner'>
+      <i-image i-class='banner-item-image'
+               mode='scaleToFill'
+               lazy-load='{{true}}'
+               imageSrc='{{bannerItem.imageUrl}}'
+               placeholderSrc='../../resource/placeholder.jpg'
+               failSrc='../../resource/fail.png'>
+      </i-image>
+    </view>
+  </swiper-item>
+</swiper>
+
+<view class="fast-action-area">
+  <view wx:for="{{fastActionList}}"
+        wx:for-item='fastActionItem'
+        wx:for-index='fastActionIndex'
+        wx:key='{{fastActionIndex}}'
+        class="fast-action-item">
+    <image class="fast-action-icon"
+           src='{{fastActionItem.iconPath}}'>
+    </image>
+    <view class="fast-action-title">
+    {{fastActionItem.actionName}}
+    </view>
+  </view>
+</view>
+
+<view class="divLine"/>
+
+<!-- 养宠套餐 -->
+<i-panel>
+  <view class="section-title-area">
+    <view class="section-title" style="color:black;font-weight: bold;">
+      套餐
+    </view>
+    <view class="section-info">
+    </view>
+  </view>
+  <view class="section-content-flex">
+    <view wx:for='{{setMenuList}}'
+          wx:for-item="setMenuItem"
+          wx:for-index="setMenuIndex"
+          wx:key='{{setMenuIndex}}'
+          class="setmenu-item">
+      <view class="setmenu-item-content">
+        <view class="setmenu-item-info">
+          <view class="text-name">
+          {{setMenuItem.name}}
+          </view>
+          <view class="text-info">
+          {{setMenuItem.info}}
+          </view>
+        </view>
+        <i-image i-class="setmenu-item-icon"
+                imageSrc='{{setMenuItem.iconPath}}'
+                placeholderSrc='../../resource/placeholder.jpg'
+                failSrc='../../resource/fail.png'>
+        </i-image>
+      </view>
+    </view>
+  </view>
+</i-panel>
+
+<view class="divLine"/>
+
+  <view class="section-title-area">
+    <view class="section-title" style="color:black;font-weight: bold;">
+      品牌
+    </view>
+    <view class="section-info">
+    </view>
+  </view>
+
+<view class="brand-page">
+    <view class="brand-body-content" wx:for='{{brandList}}'
+          wx:for-item="brandItem"
+          wx:for-index="brandIndex"
+          wx:key='{{brandIndex}}'>
+      <image class="brand-body-content-image" src="{{brandItem.imageUrl}}"></image>
+      <view class="brand-body-content-text">{{brandItem.information}}</view>
+    </view>
+</view>
+
+<view class="divLine"/>
+
+  <view class="section-title-area">
+
+    <view class="section-title" style="color: black;font-weight: bold;">
+    主粮
+    </view>
+    <view class="section-info">
+    </view>
+    <view class="section-more">
+    更多
+    </view>
+    <i-icon type="right-arrow"
+            size="32">
+    </i-icon>
+  </view>
+
+<view class="foodgrain-page">
+  <view class="foodgrain-page-formation" wx:for='{{foodGrainList}}'
+          wx:for-item="foodGrainItem"
+          wx:for-index="foodGrainIndex"
+          wx:key='{{foodGrainIndex}}'>
+    <image class="foodgrain-page-formation-head" src="{{foodGrainItem.imageUrl}}"></image>
+    <view class="foodgrain-page-formation-middle">{{foodGrainItem.commodity}}</view>
+    <view class="foodgrain-page-formation-introduce">{{foodGrainItem.introduce}}</view>
+    <view class="foodgrain-page-formation-down">￥{{foodGrainItem.price}}                  <view class="foodgrain-page-formation-down-member">
+            会员价
+         </view>
+         <text style="color:#ccc;padding-left:18%;text-decoration:line-through;">￥{{foodGrainItem.originalPrice}}</text>
+    </view>
+  </view>
+</view>
+
+
+
+<view class="divLine"/>
+
+  <view class="section-title-area">
+
+    <view class="section-title" style="color: black;font-weight: bold;">
+      零食
+    </view>
+    <view class="section-info">
+    </view>
+    <view class="section-more">
+    更多
+    </view>
+    <i-icon type="right-arrow"
+            size="32">
+    </i-icon>
+  </view>
+
+<view class="foodgrain-page">
+  <view class="foodgrain-page-formation" wx:for='{{snacksList}}'
+          wx:for-item="snacksItem"
+          wx:for-index="snacksIndex"
+          wx:key='{{snacksIndex}}'>
+    <image class="foodgrain-page-formation-head" src="{{snacksItem.imageUrl}}"></image>
+    <view class="foodgrain-page-formation-middle">{{snacksItem.commodity}}</view>
+    <view class="foodgrain-page-formation-introduce">{{snacksItem.introduce}}</view>
+    <view class="foodgrain-page-formation-down">￥{{snacksItem.price}}                  <view class="foodgrain-page-formation-down-member">
+            会员价
+         </view>
+         <text style="color:#ccc;padding-left:18%;text-decoration:line-through;">￥{{snacksItem.originalPrice}}</text>
+    </view>
+  </view>
+</view>
+
+
+
+<view class="divLine"/>
+
+  <view class="section-title-area">
+
+    <view class="section-title" style="color: black;font-weight: bold;">
+    保健品
+    </view>
+    <view class="section-info">
+    </view>
+    <view class="section-more">
+    更多
+    </view>
+    <i-icon type="right-arrow"
+            size="32">
+    </i-icon>
+  </view>
+
+<view class="foodgrain-page">
+  <view class="foodgrain-page-formation" wx:for='{{healthProductsList}}'
+          wx:for-item="healthProductsItem"
+          wx:for-index="healthProductsIndex"
+          wx:key='{{healthProductsIndex}}'>
+    <image class="foodgrain-page-formation-head" src="{{healthProductsItem.imageUrl}}"></image>
+    <view class="foodgrain-page-formation-middle">{{healthProductsItem.commodity}}</view>
+    <view class="foodgrain-page-formation-introduce">{{healthProductsItem.introduce}}</view>
+    <view class="foodgrain-page-formation-down">￥{{healthProductsItem.price}}                  <view class="foodgrain-page-formation-down-member">
+            会员价
+         </view>
+         <text style="color:#ccc;padding-left:18%;text-decoration:line-through;">￥{{healthProductsItem.originalPrice}}</text>
+    </view>
+  </view>
+</view>
+
+
+
+<view class="divLine"/>
+
+  <view class="section-title-area">
+
+    <view class="section-title" style="color: black;font-weight: bold;">
+    用品
+    </view>
+    <view class="section-info">
+    </view>
+    <view class="section-more">
+    更多
+    </view>
+    <i-icon type="right-arrow"
+            size="32">
+    </i-icon>
+  </view>
+
+<view class="foodgrain-page">
+  <view class="foodgrain-page-formation" wx:for='{{articlesList}}'
+          wx:for-item="articlesItem"
+          wx:for-index="articlesIndex"
+          wx:key='{{articlesIndex}}'>
+    <image class="foodgrain-page-formation-head" src="{{articlesItem.imageUrl}}"></image>
+    <view class="foodgrain-page-formation-middle">{{articlesItem.commodity}}</view>
+    <view class="foodgrain-page-formation-introduce">{{articlesItem.introduce}}</view>
+    <view class="foodgrain-page-formation-down">￥{{articlesItem.price}}                  <view class="foodgrain-page-formation-down-member">
+            会员价
+         </view>
+         <text style="color:#ccc;padding-left:18%;text-decoration:line-through;">￥{{articlesItem.originalPrice}}</text>
+    </view>
+  </view>
+</view>
+
+
+
