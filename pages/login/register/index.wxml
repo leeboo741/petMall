@@ -1,0 +1,4 @@
+<!--pages/login/register/index.wxml-->
+<i-navigation-bar title='注册'
+                  showBackButton>
+</i-navigation-bar>

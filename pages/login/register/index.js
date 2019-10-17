@@ -1,8 +1,4 @@
-// pages/login/index.js
-
-const PagePath = require("../../macros/pagePath.js");
-const UserService = require("../../services/userService.js");
-
+// pages/login/register/index.js
 Page({
 
   /**
@@ -66,24 +62,5 @@ Page({
    */
   onShareAppMessage: function () {
 
-  },
-
-  /**
-   * 点击登陆|注册
-   */
-  tapLoginOrRegister: function () {
-    UserService.saveLocalUserInfo({
-        avatar: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571228473763&di=7983ab89537ae923fc13b05acf6baf04&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201609%2F28%2F20160928230144_QARdX.thumb.700_0.png",
-        name: "逗",
-        explain: "商城所有商品享受会员价",
-        openId: "123123123",
-        phone: "16607093121"
-    })
-    wx.navigateBack({
-      delta: 1
-    })
-    // wx.navigateTo({
-    //   url: PagePath.Page_Register_Index,
-    // })
-  },
+  }
 })

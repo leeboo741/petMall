@@ -2,6 +2,7 @@
 
 const UserService = require("../../services/userService.js");
 const Config = require("../../macros/config.js");
+const PagePath = require("../../macros/pagePath.js");
 
 Page({
 
@@ -47,7 +48,7 @@ Page({
       {
         name: "收货地址",
         detail: "",
-        link: "",
+        link: PagePath.Page_Me_AddressManager,
       }, 
       {
         name: "我的收藏",
@@ -76,10 +77,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.setData({
-      isLogin: UserService.isLogin(),
-      userInfo: UserService.getLocalUserInfo()
-    })
+
   },
 
   /**
@@ -93,7 +91,10 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    this.setData({
+      isLogin: UserService.isLogin(),
+      userInfo: UserService.getLocalUserInfo()
+    })
   },
 
   /**
@@ -136,5 +137,25 @@ Page({
    */
   tapOtherAction: function(e) {
     console.log("点击 CELL :\n" + e.currentTarget.dataset.index)
+    switch(e.currentTarget.dataset.index) {
+      case 0:
+        break;
+      case 1:
+        wx.navigateTo({
+          url: e.currentTarget.dataset.link,
+        })
+        break;
+      default:
+        break;
+    }
+  },
+
+  /**
+   * 点击头像登陆
+   */
+  tapToLogin: function() {
+    wx.navigateTo({
+      url: PagePath.Page_Login_Index,
+    })
   }
 })

@@ -1,2 +1,124 @@
 <!--pages/me/addressManager/addNewAddress.wxml-->
-<text>pages/me/addressManager/addNewAddress.wxml</text>
+<i-navigation-bar title='{{pageTitle}}'
+                  showBackButton>
+</i-navigation-bar>
+<scroll-view class="content-view"
+             style="height: {{pageHeight-50}}px"
+             scroll-y>
+  <i-cell-group>
+    <i-cell>
+      <view class="item-1"
+            slot='header'>
+        <view class="item-title">
+        联系人
+        </view>
+        <input class="item-input"
+               placeholder="请输入联系人姓名"
+               placeholder-class="placeholder"
+               value="{{addressee}}"
+               bindinput="inputAddressee">
+        </input>
+      </view>
+    </i-cell>
+    
+    <i-cell>  
+      <view class="item-1"
+            slot='header'>
+        <view class="item-title">
+        联系电话
+        </view>
+        <input class="item-input"
+               placeholder="请输入联系电话"
+               placeholder-class="placeholder"
+               value="{{phone}}"
+               bindinput="inputPhone">
+        </input>
+      </view>
+    </i-cell>
+    
+    <i-cell>
+      <view class="item-1"
+            slot='header'>
+        <view class="item-title">
+        所在地区
+        </view>
+        <picker class="item-input"
+                mode="region"
+                value="{{region}}"
+                bindchange="selectRegion">
+          <view class="input-content {{parse.getRegionClass(region)}}">
+          {{parse.getRegionStr(region)}}
+          </view>
+        </picker>
+        <i-icon i-class='item-icon'
+                type="right-arrow"
+                size="36"
+                color="#778899">
+        </i-icon>
+      </view>
+    </i-cell>
+    
+    <i-cell>
+      <view class="item-1"
+            slot='header'>
+        <view class="item-title">
+        详细地址
+        </view>
+        <input class="item-input"
+               placeholder="请输入详细地址"
+               placeholder-class="placeholder"
+               value="{{detailAddress}}"
+               bindinput="inputDetailAddress">
+        </input>
+        <i-icon i-class='item-icon'
+                type="location"
+                size="36"
+                color="#778899">
+        </i-icon>
+      </view>
+    </i-cell>
+    
+    <i-cell>
+      <view class="item-2"
+            slot='header'>
+        <view class="item-info">
+          <view class="item-title"
+                style="width: 100%">
+          设置默认地址
+          </view>
+          <view class="item-detail">
+          每次下单时会默认使用该地址，请在下单时确认！
+          </view>
+        </view>
+        <switch checked='{{isDefault}}'
+                color='#FF9357'
+                bindchange='checkDefault'>
+        
+        </switch>
+      </view>
+    </i-cell>
+  </i-cell-group>
+</scroll-view>
+
+<view class="addnew-button"
+      style="height: 50px; line-height:50px"
+      bindtap="tapToAddNew">
+{{buttonTitle}}
+</view>
+
+<wxs module='parse'>
+  module.exports={
+    getRegionClass: function(region) {
+      if(region == null || region.length <= 0) {
+        return "placeholder";
+      }
+      return "normal";
+    },
+    getRegionStr: function(region) {
+      if(region == null || region.length <= 0) {
+        return '请选择省市区';
+      }
+      return region[0] + "-" + region[1] + "-" + region[2];
+    }
+  }
+</wxs>

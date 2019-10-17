@@ -1,27 +1,89 @@
+
+const Key_UserInfo = "userInfo";
+
+/**
+ * 获取用户
+ */
+function saveLocalUserInfo(userInfo) {
+  let userInfoStr = JSON.stringify(userInfo);
+  try {
+    wx.setStorageSync(Key_UserInfo, userInfoStr);
+  } catch (e) {
+
+  }
+}
+
+/**
+ * 删除用户
+ */
+function deleteLocalUserInfo(deleteCallback) {
+  wx.removeStorage({
+    key: Key_UserInfo,
+    success(res) {
+      console.log("删除用户 success: \n" + JSON.stringify(res));
+      if (deleteCallback && typeof deleteCallback == "function") {
+        deleteCallback(true)
+      }
+    },
+    fail(res) {
+      console.log("删除用户 fail: \n" + JSON.stringify(res));
+      if (deleteCallback && typeof deleteCallback == "function") {
+        deleteCallback(false)
+      }
+    }
+  })
+}
+
 /**
  * 获取本地用户信息
  */
 function getLocalUserInfo(){
-  return {
-    avatar: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571228473763&di=7983ab89537ae923fc13b05acf6baf04&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201609%2F28%2F20160928230144_QARdX.thumb.700_0.png",
-    name: "逗",
-    explain:"商城所有商品享受会员价"
+  try {
+    let userInfo = JSON.parse(wx.getStorageSync(Key_UserInfo));
+    return userInfo;
+  } catch (e) {
+    return null;
   }
-  // return null;
+}
+
+/**
+ * 获取用户电话
+ */
+function getPhone() {
+  let userInfo = getLocalUserInfo();
+  if (userInfo == null || userInfo.phone == null || userInfo.phone.length <= 0) {
+    return null;
+  }
+  return userInfo.phone;
+}
+
+/**
+ * 获取openId
+ */
+function getOpenId() {
+  let userInfo = getLocalUserInfo();
+  if (userInfo == null || userInfo.openId == null || userInfo.openId.length <= 0) {
+    return null;
+  }
+  return userInfo.openId;
 }
 
 /**
  * 是否登陆
  */
-function isLogin(){
-  let userInfo = this.getLocalUserInfo();
-  if (userInfo == null) {
+function isLogin() {
+  let openId = getOpenId();
+  if (openId == null) {
     return false;
   }
   return true;
 }
 
-module.exports={
+module.exports = {
+  saveLocalUserInfo: saveLocalUserInfo,
+  deleteLocalUserInfo: deleteLocalUserInfo,
   getLocalUserInfo: getLocalUserInfo,
+  getPhone: getPhone,
+  getOpenId: getOpenId,
   isLogin: isLogin
 }

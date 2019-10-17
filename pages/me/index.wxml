@@ -10,7 +10,8 @@
     <!-- 未登录 -->
     <view class="userinfo-base-box"
           wx:if='{{!isLogin}}'>
-      <view class="avatar-box">
+      <view class="avatar-box"
+            bindtap="tapToLogin">
         <image class="avatar-image"
                 src="../../resource/avatar_placeholder.jpg">
         </image>
@@ -125,7 +126,8 @@
             value='{{otherActionItem.detail}}'
             is-link
             bind:click='tapOtherAction'
-            data-index="{{otherActionIndex}}">
+            data-index="{{otherActionIndex}}"
+            data-link="{{otherActionItem.link}}">
     </i-cell>
   </i-cell-group>
 </i-panel>

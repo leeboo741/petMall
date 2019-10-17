@@ -7,7 +7,8 @@
     "pages/mall/staplefood/index",
     "pages/login/index",
     "pages/me/addressManager/index",
-    "pages/me/addressManager/addNewAddress"
+    "pages/me/addressManager/addNewAddress",
+    "pages/login/register/index"
   ],
   "tabBar": {
     "color": "#80848f",
