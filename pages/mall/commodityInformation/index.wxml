@@ -1,0 +1,20 @@
+<!--pages/mall/commodityInformation/index.wxml-->
+<i-navigation-bar title='{{commodityInformation}}'
+                  showBackButton='{{true}}'>
+</i-navigation-bar>
+
+<view class="image-page-info">
+    <view class="image-page-head" >
+        <image class="images-cal" src="{{imageUrls}}" >
+        </image>
+    </view>
+    <view class="image-page-bottom" style="font-weight: bold;font-size:35rpx;">{{commodityInformation}}</view>
+    <view class="image-page-bottom" style="color:#ccc;">{{commodityintroduce}}</view>
+    <view class="image-page-bottom" style="color:#ED630A;font-weight: bold;font-size:35rpx;">￥{{price}}
+         <view class="foodgrain-page-formation-down-member">
+            会员价
+         </view>
+         <text style="color:#ccc;padding-left:55%;text-decoration:line-through;">￥{{originalPrice}}</text>
+    </view>
+</view>
+

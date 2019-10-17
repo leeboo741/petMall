@@ -287,7 +287,7 @@ Page({
    */
   foodgrainMoreTap:function(){
     wx.navigateTo({
-      url: Page_path.Page_Mall_Sstaplefood+'?resinfo='+'宠粮'
+      url: Page_path.Page_Mall_Sstaplefood+'?resinfo='+'主粮'
     })
   },
 
@@ -305,7 +305,7 @@ Page({
    */
   healthProductsMore:function(){
     wx.navigateTo({
-      url: Page_path.Page_Mall_Sstaplefood + '?resinfo=' + '保健品'
+      url: Page_path.Page_Mall_Sstaplefood + '?resinfo=' + '保健'
     })
   },
 
@@ -316,5 +316,34 @@ Page({
     wx.navigateTo({
       url: Page_path.Page_Mall_Sstaplefood + '?resinfo=' + '用品'
     })
+  },
+
+  /**
+   * 头部点击动作（主粮、零食、用品、保健）
+   */
+  fastActionTap:function(e){
+    var actinoKey = e.currentTarget.dataset.key
+  
+    wx.navigateTo({
+      url: Page_path.Page_Mall_Sstaplefood + '?resinfo=' + actinoKey
+    })
+  },
+
+  /**
+   * 点击商品详情
+   */
+  commodityInforMationTap:function(e){
+
+    var actinoKey = e.currentTarget.dataset.key
+
+    console.log(actinoKey);
+
+    let information = JSON.stringify(actinoKey);
+
+    wx.navigateTo({
+      url: Page_path.Page_Mall_CommodityInformation + '?resinfo=' + encodeURIComponent(information)
+    })
+
   }
+
 })

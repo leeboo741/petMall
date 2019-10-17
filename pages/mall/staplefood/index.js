@@ -1,11 +1,17 @@
 // pages/mall/ff/index.js
+
+const LoadFootItemState = require("../../../lee-components/leeLoadingFootItem/loadFootObj.js");
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    
+    loadState: LoadFootItemState.Loading_State_Normal,  //底部状态
+     //是否隐藏蒙版
+    maskVarietiesShow: true,
+    maskFavoritegrainShow: true,
+    maskbrandShow: true,
     titleSelectIndex:1, //默认选择
     titleSelectList:[ 
       {
@@ -52,6 +58,55 @@ Page({
         price: 529,
         originalPrice: 629
       },
+      {
+        imageUrl: "http://pic4.58cdn.com.cn/zhuanzh/n_v2bbebe75ef9264afda39b5b5b482144ee.jpg?w=750&h=0",
+        commodity: '健康无限系列五谷九种肉猫粮16磅',
+        introduce: "【全球购】80%肉含量 天然五谷",
+        price: 529,
+        originalPrice: 629
+      },
+      {
+        imageUrl: "http://pic4.58cdn.com.cn/zhuanzh/n_v2bbebe75ef9264afda39b5b5b482144ee.jpg?w=750&h=0",
+        commodity: '健康无限系列五谷九种肉猫粮16磅',
+        introduce: "【全球购】80%肉含量 天然五谷",
+        price: 529,
+        originalPrice: 629
+      },
+      {
+        imageUrl: "http://pic4.58cdn.com.cn/zhuanzh/n_v2bbebe75ef9264afda39b5b5b482144ee.jpg?w=750&h=0",
+        commodity: '健康无限系列五谷九种肉猫粮16磅',
+        introduce: "【全球购】80%肉含量 天然五谷",
+        price: 529,
+        originalPrice: 629
+      },
+      {
+        imageUrl: "http://pic4.58cdn.com.cn/zhuanzh/n_v2bbebe75ef9264afda39b5b5b482144ee.jpg?w=750&h=0",
+        commodity: '健康无限系列五谷九种肉猫粮16磅',
+        introduce: "【全球购】80%肉含量 天然五谷",
+        price: 529,
+        originalPrice: 629
+      },
+      {
+        imageUrl: "http://pic4.58cdn.com.cn/zhuanzh/n_v2bbebe75ef9264afda39b5b5b482144ee.jpg?w=750&h=0",
+        commodity: '健康无限系列五谷九种肉猫粮16磅',
+        introduce: "【全球购】80%肉含量 天然五谷",
+        price: 529,
+        originalPrice: 629
+      },
+      {
+        imageUrl: "http://pic4.58cdn.com.cn/zhuanzh/n_v2bbebe75ef9264afda39b5b5b482144ee.jpg?w=750&h=0",
+        commodity: '健康无限系列五谷九种肉猫粮16磅',
+        introduce: "【全球购】80%肉含量 天然五谷",
+        price: 529,
+        originalPrice: 629
+      },
+      {
+        imageUrl: "http://pic4.58cdn.com.cn/zhuanzh/n_v2bbebe75ef9264afda39b5b5b482144ee.jpg?w=750&h=0",
+        commodity: '健康无限系列五谷九种肉猫粮16磅',
+        introduce: "【全球购】80%肉含量 天然五谷",
+        price: 529,
+        originalPrice: 629
+      },
     ],  //主粮
 
     snacksList: [
@@ -83,6 +138,61 @@ Page({
         price: 529,
         originalPrice: 629
       },
+           {
+        imageUrl: "http://www.tbw-hufu.com/tuhfJDEwLmFsaWNkbi5jb20vaTMvMTk4MTYxNTUzMy9PMUNOMDExcWs5dGRPRDRzaXZpcFJfISExOTgxNjE1NTMzJDk.jpg",
+        commodity: '健康无限系列五谷九种肉猫粮16磅',
+        introduce: "【全球购】80%肉含量 天然五谷",
+        price: 529,
+        originalPrice: 629
+      }
+      ,
+      {
+        imageUrl: "http://www.tbw-hufu.com/tuhfJDEwLmFsaWNkbi5jb20vaTMvMTk4MTYxNTUzMy9PMUNOMDExcWs5dGRPRDRzaXZpcFJfISExOTgxNjE1NTMzJDk.jpg",
+        commodity: '健康无限系列五谷九种肉猫粮16磅',
+        introduce: "【全球购】80%肉含量 天然五谷",
+        price: 529,
+        originalPrice: 629
+      }
+      ,
+      {
+        imageUrl: "http://www.tbw-hufu.com/tuhfJDEwLmFsaWNkbi5jb20vaTMvMTk4MTYxNTUzMy9PMUNOMDExcWs5dGRPRDRzaXZpcFJfISExOTgxNjE1NTMzJDk.jpg",
+        commodity: '健康无限系列五谷九种肉猫粮16磅',
+        introduce: "【全球购】80%肉含量 天然五谷",
+        price: 529,
+        originalPrice: 629
+      }
+      ,
+      {
+        imageUrl: "http://www.tbw-hufu.com/tuhfJDEwLmFsaWNkbi5jb20vaTMvMTk4MTYxNTUzMy9PMUNOMDExcWs5dGRPRDRzaXZpcFJfISExOTgxNjE1NTMzJDk.jpg",
+        commodity: '健康无限系列五谷九种肉猫粮16磅',
+        introduce: "【全球购】80%肉含量 天然五谷",
+        price: 529,
+        originalPrice: 629
+      }
+      ,
+      {
+        imageUrl: "http://www.tbw-hufu.com/tuhfJDEwLmFsaWNkbi5jb20vaTMvMTk4MTYxNTUzMy9PMUNOMDExcWs5dGRPRDRzaXZpcFJfISExOTgxNjE1NTMzJDk.jpg",
+        commodity: '健康无限系列五谷九种肉猫粮16磅',
+        introduce: "【全球购】80%肉含量 天然五谷",
+        price: 529,
+        originalPrice: 629
+      }
+      ,
+      {
+        imageUrl: "http://www.tbw-hufu.com/tuhfJDEwLmFsaWNkbi5jb20vaTMvMTk4MTYxNTUzMy9PMUNOMDExcWs5dGRPRDRzaXZpcFJfISExOTgxNjE1NTMzJDk.jpg",
+        commodity: '健康无限系列五谷九种肉猫粮16磅',
+        introduce: "【全球购】80%肉含量 天然五谷",
+        price: 529,
+        originalPrice: 629
+      }
+      ,
+      {
+        imageUrl: "http://www.tbw-hufu.com/tuhfJDEwLmFsaWNkbi5jb20vaTMvMTk4MTYxNTUzMy9PMUNOMDExcWs5dGRPRDRzaXZpcFJfISExOTgxNjE1NTMzJDk.jpg",
+        commodity: '健康无限系列五谷九种肉猫粮16磅',
+        introduce: "【全球购】80%肉含量 天然五谷",
+        price: 529,
+        originalPrice: 629
+      }
     ],  //零食
 
     healthProductsList: [
@@ -114,6 +224,62 @@ Page({
         price: 529,
         originalPrice: 629
       },
+      {
+        imageUrl: "https://pop.nosdn.127.net/cd699185-97ba-4dc7-9165-6d19d347a9c5?imageView&thumbnail=262x262&quality=90",
+        commodity: '健康无限系列五谷九种肉猫粮16磅',
+        introduce: "【全球购】80%肉含量 天然五谷",
+        price: 529,
+        originalPrice: 629
+      }
+      ,
+      {
+        imageUrl: "https://pop.nosdn.127.net/cd699185-97ba-4dc7-9165-6d19d347a9c5?imageView&thumbnail=262x262&quality=90",
+        commodity: '健康无限系列五谷九种肉猫粮16磅',
+        introduce: "【全球购】80%肉含量 天然五谷",
+        price: 529,
+        originalPrice: 629
+      }
+      ,
+      {
+        imageUrl: "https://pop.nosdn.127.net/cd699185-97ba-4dc7-9165-6d19d347a9c5?imageView&thumbnail=262x262&quality=90",
+        commodity: '健康无限系列五谷九种肉猫粮16磅',
+        introduce: "【全球购】80%肉含量 天然五谷",
+        price: 529,
+        originalPrice: 629
+      }
+      ,
+      {
+        imageUrl: "https://pop.nosdn.127.net/cd699185-97ba-4dc7-9165-6d19d347a9c5?imageView&thumbnail=262x262&quality=90",
+        commodity: '健康无限系列五谷九种肉猫粮16磅',
+        introduce: "【全球购】80%肉含量 天然五谷",
+        price: 529,
+        originalPrice: 629
+      }
+      ,
+      {
+        imageUrl: "https://pop.nosdn.127.net/cd699185-97ba-4dc7-9165-6d19d347a9c5?imageView&thumbnail=262x262&quality=90",
+        commodity: '健康无限系列五谷九种肉猫粮16磅',
+        introduce: "【全球购】80%肉含量 天然五谷",
+        price: 529,
+        originalPrice: 629
+      }
+      ,
+      {
+        imageUrl: "https://pop.nosdn.127.net/cd699185-97ba-4dc7-9165-6d19d347a9c5?imageView&thumbnail=262x262&quality=90",
+        commodity: '健康无限系列五谷九种肉猫粮16磅',
+        introduce: "【全球购】80%肉含量 天然五谷",
+        price: 529,
+        originalPrice: 629
+      }
+      ,
+      {
+        imageUrl: "https://pop.nosdn.127.net/cd699185-97ba-4dc7-9165-6d19d347a9c5?imageView&thumbnail=262x262&quality=90",
+        commodity: '健康无限系列五谷九种肉猫粮16磅',
+        introduce: "【全球购】80%肉含量 天然五谷",
+        price: 529,
+        originalPrice: 629
+      }
+
     ],  //保健品
     articlesList: [
       {
@@ -144,6 +310,53 @@ Page({
         price: 529,
         originalPrice: 629
       },
+      {
+        imageUrl: "https://pop.nosdn.127.net/a8d246c8-db44-414b-b449-645495372682?imageView&thumbnail=262x262&quality=90",
+        commodity: '健康无限系列五谷九种肉猫粮16磅',
+        introduce: "【全球购】80%肉含量 天然五谷",
+        price: 529,
+        originalPrice: 629
+      }
+      ,
+      {
+        imageUrl: "https://pop.nosdn.127.net/a8d246c8-db44-414b-b449-645495372682?imageView&thumbnail=262x262&quality=90",
+        commodity: '健康无限系列五谷九种肉猫粮16磅',
+        introduce: "【全球购】80%肉含量 天然五谷",
+        price: 529,
+        originalPrice: 629
+      }
+      ,
+      {
+        imageUrl: "https://pop.nosdn.127.net/a8d246c8-db44-414b-b449-645495372682?imageView&thumbnail=262x262&quality=90",
+        commodity: '健康无限系列五谷九种肉猫粮16磅',
+        introduce: "【全球购】80%肉含量 天然五谷",
+        price: 529,
+        originalPrice: 629
+      }
+      ,
+      {
+        imageUrl: "https://pop.nosdn.127.net/a8d246c8-db44-414b-b449-645495372682?imageView&thumbnail=262x262&quality=90",
+        commodity: '健康无限系列五谷九种肉猫粮16磅',
+        introduce: "【全球购】80%肉含量 天然五谷",
+        price: 529,
+        originalPrice: 629
+      }
+      ,
+      {
+        imageUrl: "https://pop.nosdn.127.net/a8d246c8-db44-414b-b449-645495372682?imageView&thumbnail=262x262&quality=90",
+        commodity: '健康无限系列五谷九种肉猫粮16磅',
+        introduce: "【全球购】80%肉含量 天然五谷",
+        price: 529,
+        originalPrice: 629
+      }
+      ,
+      {
+        imageUrl: "https://pop.nosdn.127.net/a8d246c8-db44-414b-b449-645495372682?imageView&thumbnail=262x262&quality=90",
+        commodity: '健康无限系列五谷九种肉猫粮16磅',
+        introduce: "【全球购】80%肉含量 天然五谷",
+        price: 529,
+        originalPrice: 629
+      }
     ] , //用品
     varieties:[
       {
@@ -217,7 +430,7 @@ Page({
     var biographyInfo = options.resinfo;  //连接传参进来的值
     var showSecondSelectInfo = "titleSelectList[" + 1 + "].selectInfo"; //下拉框信息[1]字符串拼接
     let that=this;
-    if (biographyInfo=='宠粮'){
+    if (biographyInfo=='主粮'){
       that.setData({
         dataSource: that.data.foodGrainList,
         [showSecondSelectInfo] : '宠粮'
@@ -231,7 +444,7 @@ Page({
       })
     }
 
-    if (biographyInfo == '保健品') {
+    if (biographyInfo == '保健') {
       that.setData({
         dataSource: that.data.healthProductsList,
         [showSecondSelectInfo]: '营养品'
@@ -302,19 +515,22 @@ Page({
   titleSelectTap:function(e){
     let that=this;
     var selectType = e.currentTarget.dataset.index;  //下标
-    var upone = "titleSelectList[" + 0 + "].showSelect";  //数组进行字符串拼接
-    var uptwo = "titleSelectList[" + 1 + "].showSelect";
-    var upthree = "titleSelectList[" + 2 + "].showSelect";
+    var upone = "titleSelectList[" + 0 + "].showSelect";  //数组进行字符串拼接 下拉提示信息1
+    var uptwo = "titleSelectList[" + 1 + "].showSelect";    //下拉提示信息2
+    var upthree = "titleSelectList[" + 2 + "].showSelect";  //下拉提示信息3
     this.setData({
-      titleSelectIndex: selectType
+      titleSelectIndex: selectType,
     })
 
     if (selectType==0){  //判断类型显示各个属性值
         that.setData({
           [upone]: !that.data.titleSelectList[0].showSelect,  //替换数组里的某个属性
-          [uptwo]: true,  
-          [upthree]: true,
-          dataSourceType: that.data.varieties
+          [uptwo]: true,     //下拉箭头方向
+          [upthree]: true,   //下拉箭头方向
+          dataSourceType: that.data.varieties, //数据切换
+          maskVarietiesShow: !that.data.maskVarietiesShow, //蒙版重复点击
+          maskFavoritegrainShow:true,   //其他两块蒙版是否隐藏
+          maskbrandShow: true            //其他两块蒙版是否隐藏
         })
 
     }
@@ -324,7 +540,10 @@ Page({
         [uptwo]: !that.data.titleSelectList[1].showSelect, 
         [upone]: true,
         [upthree]: true,
-        dataSourceType: that.data.favoriteGrain
+        dataSourceType: that.data.favoriteGrain,
+        maskFavoritegrainShow: !that.data.maskFavoritegrainShow,
+        maskVarietiesShow:true,
+        maskbrandShow:true
       })
     }
 
@@ -333,7 +552,10 @@ Page({
         [upthree]: !that.data.titleSelectList[2].showSelect, 
         [upone]: true,
         [uptwo]: true,
-        dataSourceType: that.data.brand
+        dataSourceType: that.data.brand,
+        maskbrandShow: !that.data.maskbrandShow,
+        maskFavoritegrainShow:true,
+        maskVarietiesShow:true
       })
     }
 
@@ -346,7 +568,68 @@ Page({
         showDropDownMessage: false
       })
     }
-  }
 
-  
+  }
+,
+
+/**加载更多 */
+
+  loadiongtap:function(){
+     console.log("到底了哟！！");
+     this.setData({
+       loadState:LoadFootItemState.Loading_State_End
+     })
+  },
+
+  /**
+   * 点击蒙版----------------------------------
+   */
+  maskVarietiesTap:function(){
+    var upone = "titleSelectList[" + 0 + "].showSelect";  //数组进行字符串拼接
+    let that=this;
+    if (that.data.maskVarietiesShow==false){
+      that.setData({
+        maskVarietiesShow:true,    //蒙版是否隐藏
+        showDropDownMessage: true, //下拉信息
+        [upone]: true    //下拉箭头是上还是下
+      })
+    }
+  },
+
+  maskFavoritegrainTap: function () {
+    var uptwo = "titleSelectList[" + 1 + "].showSelect";
+    let that = this;
+    if (that.data.maskFavoritegrainShow == false) {
+      that.setData({
+        maskFavoritegrainShow: true,
+        showDropDownMessage: true,
+        [uptwo]: true
+      })
+    }
+  },
+
+  maskbrandTap: function () {
+    var upthree = "titleSelectList[" + 2 + "].showSelect";
+    let that = this;
+    if (that.data.maskbrandShow == false) {
+      that.setData({
+        maskbrandShow: true,
+        showDropDownMessage: true,
+        [upthree]: true
+      })
+    }
+  },
+  /**
+   * ------------------------------------
+   */
+
+
+  /**
+   * 点击下拉框选择信息
+   */
+    selectDataSourceTypeTap:function(e){
+      var selectKey = e.currentTarget.dataset.key
+
+      console.log(selectKey)
+    }
 })
