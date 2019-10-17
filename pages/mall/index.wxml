@@ -147,7 +147,7 @@
     </view>
     <view class="section-info">
     </view>
-    <view class="section-more">
+    <view class="section-more" bindtap="snacksMore">
     更多
     </view>
     <i-icon type="right-arrow"
@@ -182,7 +182,7 @@
     </view>
     <view class="section-info">
     </view>
-    <view class="section-more">
+    <view class="section-more" bindtap="healthProductsMore">
     更多
     </view>
     <i-icon type="right-arrow"
@@ -217,7 +217,7 @@
     </view>
     <view class="section-info">
     </view>
-    <view class="section-more">
+    <view class="section-more" bindtap="aiclesMore">
     更多
     </view>
     <i-icon type="right-arrow"

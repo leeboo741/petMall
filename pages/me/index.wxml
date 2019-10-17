@@ -96,7 +96,36 @@
   </view>
 </i-panel>
 
-<!-- 用户信息 -->
+<!-- 单据操作 -->
 <i-panel>
-  <view class=""></view>
+  <view class="order-action-box">
+    <view class="order-action-item"
+          wx:for="{{orderActionList}}"
+          wx:for-item='orderActionItem'
+          wx:for-index='orderActionIndex'
+          wx:key='{{orderActionIndex}}'>
+      <image class="order-action-icon"
+             src="{{orderActionItem.iconPath}}">
+      </image>
+      <view class="order-action-name">
+      {{orderActionItem.name}}
+      </view>
+    </view>
+  </view>
+</i-panel>
+
+<!-- 其他操作 -->
+<i-panel>
+  <i-cell-group>
+    <i-cell wx:for="{{otherActionList}}"
+            wx:for-item='otherActionItem'
+            wx:for-index='otherActionIndex'
+            wx:key='{{otherActionIndex}}'
+            title='{{otherActionItem.name}}'
+            value='{{otherActionItem.detail}}'
+            is-link
+            bind:click='tapOtherAction'
+            data-index="{{otherActionIndex}}">
+    </i-cell>
+  </i-cell-group>
 </i-panel>

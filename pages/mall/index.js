@@ -287,7 +287,34 @@ Page({
    */
   foodgrainMoreTap:function(){
     wx.navigateTo({
-      url: Page_path.Page_Mall_Sstaplefood
+      url: Page_path.Page_Mall_Sstaplefood+'?resinfo='+'宠粮'
+    })
+  },
+
+  /**
+   * 点击零食更多
+   */
+  snacksMore:function(){
+    wx.navigateTo({
+      url: Page_path.Page_Mall_Sstaplefood + '?resinfo=' + '零食'
+    })
+  },
+
+  /**
+   * 点击保健品更多
+   */
+  healthProductsMore:function(){
+    wx.navigateTo({
+      url: Page_path.Page_Mall_Sstaplefood + '?resinfo=' + '保健品'
+    })
+  },
+
+  /**
+   * 点击用品更多
+   */
+  aiclesMore:function(){
+    wx.navigateTo({
+      url: Page_path.Page_Mall_Sstaplefood + '?resinfo=' + '用品'
     })
   }
 })
