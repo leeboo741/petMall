@@ -7,17 +7,43 @@
   <view class="foodgrainmore-head-titleselect" wx:for='{{titleSelectList}}'
           wx:for-item="titleSelectItem"
           wx:for-index="titleSelectIndex"
-          wx:key='{{titleSelectIndex}}' bindtap="titleSelectTap" data-index="{{titleSelectIndex}}" data-key="{{titleSelectItem.selectInfo}}" >
+          wx:key='{{titleSelectIndex}}' bindtap="titleSelectTap" data-index="{{titleSelectIndex}}" data-key="{{titleSelectItem.selectInfo}}">
           {{titleSelectItem.selectInfo}}
            <i-icon type="{{titleSelectItem.showSelect?'unfold':'packup'}}" size="20"/>      
         <!-- unfold':'packup' -->
   </view>
+
 </view>
 
+<view class="foodgrain-page">
+  <view class="foodgrain-page-formation" wx:for='{{dataSource}}'
+          wx:for-item="dataSourceItem"
+          wx:for-index="dataSourceIndex"
+          wx:key='{{dataSourceIndex}}'>
+    <image class="foodgrain-page-formation-head" src="{{dataSourceItem.imageUrl}}"></image>
+    <view class="foodgrain-page-formation-middle">{{dataSourceItem.commodity}}</view>
+    <view class="foodgrain-page-formation-introduce">{{dataSourceItem.introduce}}</view>
+    <view class="foodgrain-page-formation-down">￥{{dataSourceItem.price}}                  <view class="foodgrain-page-formation-down-member">
+            会员价
+         </view>
+         <text style="color:#ccc;padding-left:18%;text-decoration:line-through;">￥{{dataSourceItem.originalPrice}}</text>
+    </view>
+  </view>
+</view>
+
+
+<view class="dropdownbox-infomation" hidden="{{showDropDownMessage}}">
+    <view class="dropdownbox-infomation-table" 
+          wx:for='{{dataSourceType}}'
+          wx:for-item="dataSourceTypeItem"
+          wx:for-index="dataSourceTypeIndex"
+          wx:key='{{dataSourceTypeIndex}}'>
+              {{dataSourceTypeItem.name}}
+          </view>
+</view>
 
  
 <wxs module='parse'>                                                                        
    module.exports={
-
    }
 </wxs>
