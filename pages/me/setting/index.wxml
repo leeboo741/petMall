@@ -1,0 +1,46 @@
+<!--pages/me/editPersonal/index.wxml-->
+<i-navigation-bar title='个人设置'
+                  showBackButton>
+</i-navigation-bar>
+<view class="content"
+      style="height: {{pageHeight-50}}px">
+  <i-panel>
+    <i-cell-group>
+      <i-cell title='修改头像'>
+        <image class="avatar"
+              slot='footer'
+              src='{{parse.getAvatarPath(newAvatarPath, userInfo)}}'
+              bindtap="selectUserAvatar">
+        </image>
+      </i-cell>
+      <i-cell title='修改昵称'>
+        <input slot='footer'
+              placeholder="{{userInfo.name}}"
+              value='{{newNameStr}}'
+              bindinput="inputUserName">
+        </input>
+      </i-cell>
+      <i-cell title='管理收货地址'
+              is-link
+              url='{{managerAddressUrl}}'
+              link-type='navigateTo'>
+      </i-cell>
+    </i-cell-group>
+  </i-panel>   
+</view>
+<view class="login-out-button"
+      style="height: 50px; line-height:50px;"
+      bindtap="tapLoginOut">
+退出登陆
+</view>
+
+<wxs module='parse'>
+  module.exports={
+    getAvatarPath: function(newAvatarPath, userInfo) {
+      if (newAvatarPath == null || newAvatarPath.length <= 0) {
+        return userInfo.avatar;
+      } 
+      return newAvatarPath;
+    }
+  }
+</wxs>

@@ -3,131 +3,317 @@
                   showBackButton='{{false}}'>
 </i-navigation-bar>
 
-<!-- 用户信息 -->
-<i-panel>
-  <view class="userinfo-box">
-    <!-- 基本信息 -->
-    <!-- 未登录 -->
-    <view class="userinfo-base-box"
-          wx:if='{{!isLogin}}'>
-      <view class="avatar-box"
-            bindtap="tapToLogin">
-        <image class="avatar-image"
-                src="../../resource/avatar_placeholder.jpg">
+<!-- 买家 -->
+<block wx:if='{{currentRole==0}}'>
+  <!-- 用户信息 -->
+  <i-panel>
+    <view class="userinfo-box">
+      <!-- 基本信息 -->
+      <!-- 未登录 -->
+      <view class="userinfo-base-box"
+            wx:if='{{!isLogin}}'>
+        <view class="avatar-box"
+              bindtap="tapToLogin">
+          <image class="avatar-image"
+                  src="../../resource/avatar_placeholder.jpg">
+          </image>
+        </view>
+        <view class="info-box">
+          <view class="info-content-box">
+            <view class="info-title">
+            点击头像登陆
+            </view>
+            <view class="info-detail">
+            宠物市场购宠、售宠专业有保障
+            </view>
+          </view>
+          <i-icon i-class="right-arrow"
+                  type="right-arrow"
+                  size="38"
+                  color="#778899">
+          </i-icon>
+        </view>
+      </view>
+      <!-- 登录 -->
+      <view class='userinfo-base-box'
+            wx:else
+            bindtap="tapToEdit">
+        <view class="avatar-box">
+          <i-image i-class="avatar-image"
+                    imageSrc="{{userInfo.avatar}}"
+                    placeholderSrc='../../resource/avatar_placeholder.jpg'>
+          </i-image>
+          <view class="avatar-detail">
+          商城会员
+          </view>
+        </view>
+        <view class="info-box">
+          <view class="info-content-box">
+            <view class="info-title">
+            {{userInfo.name}}
+            </view>
+            <view class="info-explain">
+            {{userInfo.explain}}
+            </view>
+          </view>
+          <i-icon i-class="right-arrow"
+                  type="right-arrow"
+                  size="38"
+                  color="#778899">
+          </i-icon>
+        </view>
+      </view>
+      <!-- 分割线 -->
+      <view class="userinfo-box-line-h">
+      </view>
+      <!-- 积分 优惠券 -->
+      <view class="userinfo-value-box">
+        <view class='userinfo-value-item'>
+          <view class="userinfo-value-item-value-box">
+            <view class="userinfo-value-item-value">
+            0<!-- {{userinfo.point}} -->
+            </view>
+            <view class="userinfo-value-item-unit">
+            分
+            </view>
+          </view>
+          <view class="userinfo-value-item-name">
+          积分
+          </view>
+        </view>
+        <view class="userinfo-box-line-v">
+        </view>
+        <view class='userinfo-value-item'>
+          <view class="userinfo-value-item-value-box">
+            <view class="userinfo-value-item-value">
+            0<!-- {{userinfo.couponCount}} -->
+            </view>
+            <view class="userinfo-value-item-unit">
+            张
+            </view>
+          </view>
+          <view class="userinfo-value-item-name">
+          优惠券
+          </view>
+        </view>
+      </view>
+    </view>
+  </i-panel>
+
+  <!-- 单据操作 -->
+  <i-panel>
+    <view class="order-action-box">
+      <view class="order-action-item"
+            wx:for="{{orderActionList}}"
+            wx:for-item='orderActionItem'
+            wx:for-index='orderActionIndex'
+            wx:key='{{orderActionIndex}}'
+            bindtap="tapOrderAction"
+            data-index='{{orderActionIndex}}'
+            data-link="{{orderActionItem.link}}">
+        <image class="order-action-icon"
+              src="{{orderActionItem.iconPath}}">
         </image>
-      </view>
-      <view class="info-box">
-        <view class="info-content-box">
-          <view class="info-title">
-          点击头像登陆
-          </view>
-          <view class="info-detail">
-          宠物市场购宠、售宠专业有保障
-          </view>
-        </view>
-        <i-icon i-class="right-arrow"
-                type="right-arrow"
-                size="38"
-                color="#778899">
-        </i-icon>
-      </view>
-    </view>
-    <!-- 登录 -->
-    <view class='userinfo-base-box'
-          wx:else>
-      <view class="avatar-box">
-        <i-image i-class="avatar-image"
-                  imageSrc="{{userInfo.avatar}}"
-                  placeholderSrc='../../resource/avatar_placeholder.jpg'>
-        </i-image>
-        <view class="avatar-detail">
-        商城会员
-        </view>
-      </view>
-      <view class="info-box">
-        <view class="info-content-box">
-          <view class="info-title">
-          {{userInfo.name}}
-          </view>
-          <view class="info-explain">
-          {{userInfo.explain}}
-          </view>
-        </view>
-        <i-icon i-class="right-arrow"
-                type="right-arrow"
-                size="38"
-                color="#778899">
-        </i-icon>
-      </view>
-    </view>
-    <!-- 分割线 -->
-    <view class="userinfo-box-line-h">
-    </view>
-    <!-- 积分 优惠券 -->
-    <view class="userinfo-value-box">
-      <view class='userinfo-value-item'>
-        <view class="userinfo-value-item-value-box">
-          <view class="userinfo-value-item-value">
-          0<!-- {{userinfo.point}} -->
-          </view>
-          <view class="userinfo-value-item-unit">
-          分
-          </view>
-        </view>
-        <view class="userinfo-value-item-name">
-        积分
-        </view>
-      </view>
-      <view class="userinfo-box-line-v">
-      </view>
-      <view class='userinfo-value-item'>
-        <view class="userinfo-value-item-value-box">
-          <view class="userinfo-value-item-value">
-          0<!-- {{userinfo.couponCount}} -->
-          </view>
-          <view class="userinfo-value-item-unit">
-          张
-          </view>
-        </view>
-        <view class="userinfo-value-item-name">
-        优惠券
+        <view class="order-action-name">
+        {{orderActionItem.name}}
         </view>
       </view>
     </view>
-  </view>
-</i-panel>
+  </i-panel>
 
-<!-- 单据操作 -->
-<i-panel>
-  <view class="order-action-box">
-    <view class="order-action-item"
-          wx:for="{{orderActionList}}"
-          wx:for-item='orderActionItem'
-          wx:for-index='orderActionIndex'
-          wx:key='{{orderActionIndex}}'>
-      <image class="order-action-icon"
-             src="{{orderActionItem.iconPath}}">
-      </image>
-      <view class="order-action-name">
-      {{orderActionItem.name}}
+  <!-- 其他操作 -->
+  <i-panel>
+    <i-cell-group>
+      <i-cell wx:for="{{otherActionList}}"
+              wx:for-item='otherActionItem'
+              wx:for-index='otherActionIndex'
+              wx:key='{{otherActionIndex}}'
+              title='{{otherActionItem.name}}'
+              value='{{otherActionItem.detail}}'
+              is-link
+              bind:click='tapOtherAction'
+              data-index="{{otherActionIndex}}"
+              data-link="{{otherActionItem.link}}">
+      </i-cell>
+    </i-cell-group>
+  </i-panel>
+</block>
+
+<block wx:else>
+  <!-- 用户信息 -->
+  <i-panel>
+    <view class="userinfo-box">
+      <!-- 基本信息 -->
+      <!-- 未登录 -->
+      <view class="userinfo-base-box"
+            wx:if='{{!isLogin}}'>
+        <view class="avatar-box"
+              bindtap="tapToLogin">
+          <image class="avatar-image"
+                  src="../../resource/avatar_placeholder.jpg">
+          </image>
+        </view>
+        <view class="info-box">
+          <view class="info-content-box">
+            <view class="info-title">
+            点击头像登陆
+            </view>
+            <view class="info-detail">
+            宠物市场购宠、售宠专业有保障
+            </view>
+          </view>
+          <i-icon i-class="right-arrow"
+                  type="right-arrow"
+                  size="38"
+                  color="#778899">
+          </i-icon>
+        </view>
+      </view>
+      <!-- 登录 -->
+      <view class='userinfo-base-box'
+            wx:else
+            bindtap="tapToEditStore">
+        <view class="avatar-box">
+          <i-image i-class="avatar-image"
+                    imageSrc="{{userInfo.avatar}}"
+                    placeholderSrc='../../resource/avatar_placeholder.jpg'>
+          </i-image>
+          <view class="avatar-detail">
+          实名认证
+          </view>
+        </view>
+        <view class="info-box">
+          <view class="info-content-box">
+            <view class="info-title">
+            {{userInfo.name}}
+            </view>
+            <view class="info-start-box">
+              <i-icon type='star'
+                      size='32'
+                      color="{{userInfo.starCount >= 0?'#FFA500':'#778899'}}">
+              </i-icon>
+              <i-icon type='star'
+                      size='32'
+                      color="{{userInfo.starCount >= 2?'#FFA500':'#778899'}}">
+              </i-icon>
+              <i-icon type='star'
+                      size='32'
+                      color="{{userInfo.starCount >= 3?'#FFA500':'#778899'}}">
+              </i-icon>
+              <i-icon type='star'
+                      size='32'
+                      color="{{userInfo.starCount >= 4?'#FFA500':'#778899'}}">
+              </i-icon>
+              <i-icon type='star'
+                      size='32'
+                      color="{{userInfo.starCount >= 5?'#FFA500':'#778899'}}">
+              </i-icon>
+            </view>
+          </view>
+          <i-icon i-class="right-arrow"
+                  type="right-arrow"
+                  size="38"
+                  color="#778899">
+          </i-icon>
+        </view>
+      </view>
+      <!-- 本月交易额 -->
+      <view class="userinfo-trade-volume-box">
+        <view class="userinfo-trade-volume-value-box">
+          <view class="userinfo-trade-volum-value">
+          {{parse.getTradeVolume(userInfo.tradeVolume)}}
+          </view>
+          <view class="userinfo-trade-volum-unit">
+          元
+          </view>
+        </view>
+        <view class="userinfo-trade-volum-title">
+        本月交易额
+        </view>
+      </view>
+      <!-- 分割线 -->
+      <view class="userinfo-box-line-h">
+      </view>
+      <!-- 积分 优惠券 -->
+      <view class="userinfo-value-box">
+        <view class='userinfo-value-item'>
+          <view class="userinfo-value-item-value-box">
+            <view class="userinfo-value-item-value">
+            0<!-- {{userinfo.point}} -->
+            </view>
+            <view class="userinfo-value-item-unit">
+            元
+            </view>
+          </view>
+          <view class="userinfo-value-item-name">
+          发布余额
+          </view>
+        </view>
+        <view class="userinfo-box-line-v">
+        </view>
+        <view class='userinfo-value-item'>
+          <view class="userinfo-value-item-value-box">
+            <view class="userinfo-value-item-value">
+            0<!-- {{userinfo.couponCount}} -->
+            </view>
+            <view class="userinfo-value-item-unit">
+            元
+            </view>
+          </view>
+          <view class="userinfo-value-item-name">
+          可提金额
+          </view>
+        </view>
       </view>
     </view>
-  </view>
-</i-panel>
+  </i-panel>
 
-<!-- 其他操作 -->
-<i-panel>
-  <i-cell-group>
-    <i-cell wx:for="{{otherActionList}}"
-            wx:for-item='otherActionItem'
-            wx:for-index='otherActionIndex'
-            wx:key='{{otherActionIndex}}'
-            title='{{otherActionItem.name}}'
-            value='{{otherActionItem.detail}}'
-            is-link
-            bind:click='tapOtherAction'
-            data-index="{{otherActionIndex}}"
-            data-link="{{otherActionItem.link}}">
-    </i-cell>
-  </i-cell-group>
-</i-panel>
+  <!-- 单据操作 -->
+  <i-panel>
+    <view class="order-action-box">
+      <view class="order-action-item"
+            wx:for="{{sellerOrderActionList}}"
+            wx:for-item='orderActionItem'
+            wx:for-index='orderActionIndex'
+            wx:key='{{orderActionIndex}}'
+            bindtap="tapOrderAction"
+            data-index='{{orderActionIndex}}'
+            data-link="{{orderActionItem.link}}">
+        <image class="order-action-icon"
+              src="{{orderActionItem.iconPath}}">
+        </image>
+        <view class="order-action-name">
+        {{orderActionItem.name}}
+        </view>
+      </view>
+    </view>
+  </i-panel>
+
+  <!-- 其他操作 -->
+  <i-panel>
+    <i-cell-group>
+      <i-cell wx:for="{{sellerOtherActionList}}"
+              wx:for-item='otherActionItem'
+              wx:for-index='otherActionIndex'
+              wx:key='{{otherActionIndex}}'
+              title='{{otherActionItem.name}}'
+              value='{{otherActionItem.detail}}'
+              is-link
+              bind:click='tapOtherAction'
+              data-index="{{otherActionIndex}}"
+              data-link="{{otherActionItem.link}}">
+      </i-cell>
+    </i-cell-group>
+  </i-panel>
+</block>
+
+<wxs module='parse'>
+  module.exports={
+    getTradeVolume: function(tradeVolume) {
+      if (tradeVolume == null || tradeVolume.length <= 0) {
+        return 0;
+      }
+      return tradeVolume;
+    }
+  }
+</wxs>

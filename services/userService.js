@@ -1,5 +1,32 @@
 
 const Key_UserInfo = "userInfo";
+const Key_CurrentRole = "currentRole";
+
+/**
+ * 存储当前角色 买家 0 卖家 1
+ */
+function saveCurrentRole(role) {
+  try {
+    wx.setStorageSync(Key_CurrentRole, role)
+  } catch (e) {
+
+  }
+}
+
+/**
+ * 获取当前角色 买家 0 卖家 1
+ */
+function getCurrentRole() {
+  try {
+    let userInfo = wx.getStorageSync(Key_CurrentRole);
+    if (userInfo == null) {
+      return 0;
+    }
+    return userInfo;
+  } catch (e) {
+    return null;
+  }
+}
 
 /**
  * 获取用户
@@ -80,6 +107,8 @@ function isLogin() {
 }
 
 module.exports = {
+  saveCurrentRole: saveCurrentRole,
+  getCurrentRole: getCurrentRole,
   saveLocalUserInfo: saveLocalUserInfo,
   deleteLocalUserInfo: deleteLocalUserInfo,
   getLocalUserInfo: getLocalUserInfo,

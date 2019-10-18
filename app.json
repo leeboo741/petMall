@@ -3,12 +3,14 @@
     "pages/index/index",
     "pages/store/index",
     "pages/mall/index",
-    "pages/me/index",
     "pages/mall/staplefood/index",
-    "pages/login/index",
+    "pages/me/index",
     "pages/me/addressManager/index",
     "pages/me/addressManager/addNewAddress",
-    "pages/login/register/index"
+    "pages/me/setting/index",
+    "pages/login/index",
+    "pages/login/register/index",
+    "pages/order/unpayOrderList/index"
   ],
   "tabBar": {
     "color": "#80848f",
@@ -45,6 +47,7 @@
   },
   "window": {
     "backgroundTextStyle": "light",
+    "backgroundColor": "#F0F0F0",
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "WeChat",
     "navigationBarTextStyle": "black",
