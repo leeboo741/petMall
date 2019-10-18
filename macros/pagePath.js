@@ -6,6 +6,8 @@ const Page_Store_Index = "/pages/store/index"; // 商家 首页
 const Page_Mall_Index = "/pages/mall/index"; // 商城 首页
 const Page_Mall_Sstaplefood = "/pages/mall/staplefood/index";  //商城更多
 const Page_Mall_CommodityInformation ="/pages/mall/commodityInformation/index";//商品详情页
+const Page_Mall_SetMeal ="/pages/mall/setmeal/index"; //套餐
+const Page_Mall_Evaluate ="/pages/mall/evaluate/index";  //评价
 
 const Page_Me_Index = "/pages/me/index"; // 我的 首页
 const Page_Me_AddressManager = "/pages/me/addressManager/index"; // 我的 收货地址 管理
@@ -29,6 +31,8 @@ module.exports={
   Page_Mall_Index, // 商城首页
   Page_Mall_Sstaplefood, //商城更多
   Page_Mall_CommodityInformation, //商品详情页
+  Page_Mall_SetMeal,   //套餐
+  Page_Mall_Evaluate,  //评价
 
   Page_Me_Index, // 我的首页
   Page_Me_AddressManager, // 我的 收货地址 管理
