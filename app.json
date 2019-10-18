@@ -1,15 +1,23 @@
 {
   "pages": [
     "pages/index/index",
+
     "pages/store/index",
-    "pages/mall/index",
-    "pages/mall/staplefood/index",
+
     "pages/me/index",
     "pages/me/addressManager/index",
     "pages/me/addressManager/addNewAddress",
     "pages/me/setting/index",
+
+    "pages/mall/setmeal/index",
+    "pages/mall/evaluate/index",
+    "pages/mall/commodityInformation/index",
+    "pages/mall/index",
+    "pages/mall/staplefood/index",
+
     "pages/login/index",
     "pages/login/register/index",
+
     "pages/order/unpayOrderList/index"
   ],
   "tabBar": {

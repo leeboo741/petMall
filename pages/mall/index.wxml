@@ -64,7 +64,9 @@
           wx:for-item="setMenuItem"
           wx:for-index="setMenuIndex"
           wx:key='{{setMenuIndex}}'
-          class="setmenu-item">
+          class="setmenu-item"
+          bindtap="setMenuTap"
+          data-index="{{setMenuIndex}}">
       <view class="setmenu-item-content">
         <view class="setmenu-item-info">
           <view class="text-name">
@@ -162,7 +164,8 @@
   </view>
 
 <view class="foodgrain-page">
-  <view class="foodgrain-page-formation" wx:for='{{snacksList}}'
+  <view  class="foodgrain-page-formation"
+          wx:for='{{snacksList}}'
           wx:for-item="snacksItem"
           wx:for-index="snacksIndex"
           wx:key='{{snacksIndex}}'
@@ -171,7 +174,7 @@
     <image class="foodgrain-page-formation-head" src="{{snacksItem.imageUrl}}"></image>
     <view class="foodgrain-page-formation-middle">{{snacksItem.commodity}}</view>
     <view class="foodgrain-page-formation-introduce">{{snacksItem.introduce}}</view>
-    <view class="foodgrain-page-formation-down">￥{{snacksItem.price}}                  <view class="foodgrain-page-formation-down-member">
+    <view class="foodgrain-page-formation-down">￥{{snacksItem.price}}                     <view class="foodgrain-page-formation-down-member">
             会员价
          </view>
          <text style="color:#ccc;padding-left:18%;text-decoration:line-through;">￥{{snacksItem.originalPrice}}</text>

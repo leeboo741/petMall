@@ -344,6 +344,18 @@ Page({
       url: Page_path.Page_Mall_CommodityInformation + '?resinfo=' + encodeURIComponent(information)
     })
 
+  },
+
+  /**
+   * 点击套餐中犬类
+   */
+  setMenuTap:function(res){
+    var actionIndex = res.currentTarget.dataset.index
+
+    wx.navigateTo({
+      url: Page_path.Page_Mall_SetMeal + '?setMealType=' + actionIndex
+    })
+
   }
 
 })

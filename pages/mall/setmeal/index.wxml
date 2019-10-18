@@ -1,18 +1,24 @@
-<!--pages/mall/ff/index.wxml-->
-<i-navigation-bar title='商城'
+<!--pages/mall/setmeal/index.wxml-->
+<i-navigation-bar title='套餐'
                   showBackButton='{{true}}'>
 </i-navigation-bar>
 
-<view class="foodgrainmore-head"
-      style="height:50px">
-  <view class="foodgrainmore-head-titleselect" wx:for='{{titleSelectList}}'
-          wx:for-item="titleSelectItem"
-          wx:for-index="titleSelectIndex"
-          wx:key='{{titleSelectIndex}}' bindtap="titleSelectTap" data-index="{{titleSelectIndex}}" data-key="{{titleSelectItem.selectInfo}}" style="color:{{parse.textShowColor(titleSelectItem.showSelect)}}">
-          {{titleSelectItem.selectInfo}}
-           <i-icon type="{{titleSelectItem.showSelect?'unfold':'packup'}}" size="20"/>      
-  </view>
 
+<view class="setmeal-head">
+   <view  style="height:50px"
+          class="setmeal-selectinfo" 
+          wx:for='{{petType}}'
+          wx:for-item="petTypeItem"
+          wx:for-index="petTypeIndex"
+          wx:key='{{petTypeIndex}}'
+          bindtap="petTypeTap"
+          data-index="{{petTypeIndex}}">
+
+         <view style="{{parse.showStyle(petTypeItem.showLine)}}">
+             {{petTypeItem.petName}}
+         </view>
+        
+   </view>
 </view>
 
 <scroll-view scroll-y
@@ -53,32 +59,18 @@
   <i-load-foot-item loadState='{{loadState}}'>
   </i-load-foot-item>
 </scroll-view>
-<!--下拉信息-->
-<view class="dropdownbox-infomation" hidden="{{showDropDownMessage}}">
-    <view class="dropdownbox-infomation-table" 
-          wx:for='{{dataSourceType}}'
-          wx:for-item="dataSourceTypeItem"
-          wx:for-index="dataSourceTypeIndex"
-          wx:key='{{dataSourceTypeIndex}}'
-          bindtap="selectDataSourceTypeTap" data-key="{{dataSourceTypeItem.name}}">
-              {{dataSourceTypeItem.name}}
-          </view>
-</view>
 
-<!--蒙版-->
-<view class="mask-page" hidden="{{maskVarietiesShow}}" bindtap="maskVarietiesTap"></view>
-<view class="mask-page" hidden="{{maskFavoritegrainShow}}" bindtap="maskFavoritegrainTap"></view>
-<view class="mask-page" hidden="{{maskbrandShow}}" bindtap="maskbrandTap"></view>
- 
+
 <wxs module='parse'>                                                                        
    module.exports={
-        textShowColor:function(res){
-            if(res==true){
-                return "black"
-            }else{
-                return "#ED630A"
-            }
-        }
+      showStyle:function(res){
+          if(res==true){
+             return "border-bottom:3px solid #ED630A"
+          }else{
+             return "border-bottom:0px solid #ED630A"
+          }
+      }
+        
    }
 
 </wxs>

@@ -1,0 +1,4 @@
+<!--pages/mall/evaluate/index.wxml-->
+<i-navigation-bar title='评价列表'
+                  showBackButton='{{true}}'>
+</i-navigation-bar>

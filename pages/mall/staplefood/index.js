@@ -1,12 +1,16 @@
 // pages/mall/ff/index.js
 
 const LoadFootItemState = require("../../../lee-components/leeLoadingFootItem/loadFootObj.js");
+const app = getApp();
+
+const Page_path = require("../../../macros/pagePath.js");
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    pageHeight: null,
     loadState: LoadFootItemState.Loading_State_Normal,  //底部状态
      //是否隐藏蒙版
     maskVarietiesShow: true,
@@ -430,6 +434,9 @@ Page({
     var biographyInfo = options.resinfo;  //连接传参进来的值
     var showSecondSelectInfo = "titleSelectList[" + 1 + "].selectInfo"; //下拉框信息[1]字符串拼接
     let that=this;
+    that.setData({
+      pageHeight: app.globalData.pageHeight
+    })
     if (biographyInfo=='主粮'){
       that.setData({
         dataSource: that.data.foodGrainList,
@@ -631,5 +638,22 @@ Page({
       var selectKey = e.currentTarget.dataset.key
 
       console.log(selectKey)
-    }
+    },
+
+    /**
+    * 点击商品详情
+    */
+  commodityInforMationTap: function (e) {
+
+    var actinoKey = e.currentTarget.dataset.key
+
+    console.log(actinoKey);
+
+    let information = JSON.stringify(actinoKey);
+
+    wx.navigateTo({
+      url: Page_path.Page_Mall_CommodityInformation + '?resinfo=' + encodeURIComponent(information)
+    })
+
+  }
 })
