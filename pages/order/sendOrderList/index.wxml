@@ -1,0 +1,4 @@
+<!--pages/order/sendOrderList/index.wxml-->
+<i-navigation-bar title='已发货'
+                  showBackButton>
+</i-navigation-bar>
