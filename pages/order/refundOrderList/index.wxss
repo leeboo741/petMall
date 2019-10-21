@@ -1,1 +1,141 @@
 /* pages/order/refundOrderList/index.wxss */
+.order-item{
+  display: flex;
+  flex-direction: column;
+}
+
+.order-info-box{
+  padding: 10rpx 15rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.order-info-number{
+  font-size: 35rpx;
+  font-weight: bold;
+  color: #778899;
+}
+
+.order-info-time{
+  font-size: 26rpx;
+  color: gray;
+}
+
+.order-goods-box{
+  margin: 15rpx;
+  border-radius: 8rpx;
+  box-shadow: 0px -2px 5px 2px #F4F4F4;
+}
+
+.order-goods-item{
+  margin: 15rpx 10rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.order-goods-image{
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 8rpx;
+  margin: 15rpx;
+}
+
+.order-goods-info{
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  margin: 15rpx;
+}
+
+.order-goods-item-line{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 15rpx;
+}
+
+.order-goods-name{
+  color: #778899;
+  font-size: 35rpx;
+  font-weight: bold;
+}
+
+.order-goods-sexy{
+  padding: 8rpx 10rpx;
+  font-size: 30rpx;
+  color: white;
+  background: linear-gradient(to right, rgb(255,147,87) , rgb(255, 51, 59));
+  border-radius: 8rpx;
+  margin-left: 20rpx;
+}
+
+.order-goods-count{
+  font-size: 30rpx;
+  color: orange;
+}
+
+.order-goods-price{
+  font-size: 27rpx;
+  color: gray;
+}
+
+.order-goods-amount{
+  font-size: 32rpx;
+  color: #ee2c2c;
+  font-weight: bold;
+}
+
+.order-goods-pay-time{
+  font-size: 26rpx;
+  color: gray;
+  margin-left: 10rpx;
+}
+
+.order-operate-box{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10rpx 20rpx;
+}
+
+.order-store-box{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.order-store-image{
+  width: 50rpx;
+  height: 50rpx;
+  border-radius: 8rpx;
+}
+
+.order-store-name{
+  font-size: 24rpx;
+  color: gray;
+  margin-left: 10rpx;
+}
+
+.order-operate-button-box{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.order-operate-button{
+  padding: 15rpx;
+  width: 120rpx;
+  text-align: center;
+  font-size: 28rpx;
+  border-radius: 8rpx;
+  border: 1rpx solid #778899;
+  margin-left: 15rpx;
+}
+
+.order-splice-line{
+  border-bottom: 8rpx solid rgb(240, 240, 240);
+}

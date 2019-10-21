@@ -10,7 +10,7 @@ Page({
    */
   data: {
     pageIndex: 0, // 页码
-    loadState: LoadFootItemState.Loading_State_Normal, // 底部状态
+    loadState: LoadFootItemState.Loading_State_Empty, // 底部状态
     dataSource: [
       {
         orderNo: "2232232232232232",

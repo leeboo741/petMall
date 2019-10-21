@@ -50,9 +50,6 @@
             <view class="order-goods-price">
             {{goodsItem.goodsPrice}}/{{goodsItem.goodsUnit}}
             </view>
-            <view class="order-goods-amount">
-            总计：{{goodsItem.goodsAmount}}元
-            </view>
           </view>
           <view class="order-goods-item-line">
             <i-icon type='clock'
@@ -68,7 +65,14 @@
             交易关闭
             </view>
           </view>
-        </view> 
+        </view>
+      </view>
+      <!-- 订单金额 -->
+      <view class="order-goods-item-line"
+            style="justify-content: flex-end;">
+        <view class="order-goods-amount">
+        总计：{{orderItem.orderAmount}}元
+        </view>
       </view>
     </view>
     <!-- 订单操作 -->
@@ -83,6 +87,9 @@
         </view>
       </view>
       <view class="order-operate-button-box">
+        <view class="order-operate-button">
+        更多
+        </view>
         <view class="order-operate-button"
               hidden>
         联系商家
@@ -151,9 +158,6 @@
             <view class="order-goods-price">
             {{goodsItem.goodsPrice}}/{{goodsItem.goodsUnit}}
             </view>
-            <view class="order-goods-amount">
-            总计：{{goodsItem.goodsAmount}}元
-            </view>
           </view>
           <view class="order-goods-item-line">
             <i-icon type='clock'
@@ -171,6 +175,13 @@
           </view>
         </view> 
       </view>
+      <!-- 订单金额 -->
+      <view class="order-goods-item-line"
+            style="justify-content: flex-end;">
+        <view class="order-goods-amount">
+        总计：{{orderItem.orderAmount}}元
+        </view>
+      </view>
     </view>
     <!-- 订单操作 -->
     <view class="order-operate-box">
@@ -184,6 +195,9 @@
         </view>
       </view>
       <view class="order-operate-button-box">
+        <view class="order-operate-button">
+        更多
+        </view>
         <view class="order-operate-button"
               hidden>
         联系买家

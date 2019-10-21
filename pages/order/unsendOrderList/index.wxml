@@ -2,3 +2,195 @@
 <i-navigation-bar title='待发货'
                   showBackButton>
 </i-navigation-bar>
+
+<!-- 买家版 -->
+<block wx:if='{{currentRole == 0}}'>
+  <!-- 订单Item -->
+  <view wx:for='{{dataSource}}'
+        wx:for-item='orderItem'
+        wx:for-index='orderIndex'
+        wx:key='{{orderIndex}}'
+        class="order-item">
+    <!-- 订单信息 -->
+    <view class="order-info-box">
+      <view class="order-info-number">
+      {{orderItem.orderNo}}
+      </view>
+      <view class="order-info-time">
+      {{orderItem.orderDate}} {{orderItem.orderTime}}
+      </view>
+    </view>
+    <!-- 订单商品 -->
+    <view class="order-goods-box">
+      <!-- 商品Item -->
+      <view class="order-goods-item"
+            wx:for='{{orderItem.goods}}'
+            wx:for-item='goodsItem'
+            wx:for-index='goodsIndex'
+            wx:key='{{goodsIndex}}'>
+        <i-image i-class="order-goods-image"
+                 imageSrc='{{goodsItem.goodsImagePath}}'
+                 placeholderSrc='../../resource/avatar_placeholder.jpg'>
+        </i-image>
+        <view class="order-goods-info">
+          <view class="order-goods-item-line">
+            <view class="order-goods-name">
+            {{goodsItem.goodsName}}
+            </view>
+            <view class="order-goods-sexy"
+                  wx:if='{{parse.showSexy(goodsItem)}}'>
+            {{goodsItem.goodsSexy}}
+            </view>
+          </view>
+          <view class="order-goods-item-line"
+                style="justify-content: space-between; align-items: flex-end;">
+            <view class="order-goods-count">
+            x{{goodsItem.goodsCount}}{{goodsItem.goodsUnit}}
+            </view>
+            <view class="order-goods-price">
+            {{goodsItem.goodsPrice}}/{{goodsItem.goodsUnit}}
+            </view>
+          </view>
+        </view>
+      </view>
+      <!-- 订单金额 -->
+      <view class="order-goods-item-line"
+            style="justify-content: flex-end;">
+        <view class="order-goods-amount">
+        总计：{{orderItem.orderAmount}}元
+        </view>
+      </view>
+    </view>
+    <!-- 订单操作 -->
+    <view class="order-operate-box">
+      <view class="order-store-box">
+        <i-image i-class="order-store-image"
+                 imageSrc='{{orderItem.store.storeLogoPath}}'
+                 placeholderSrc='../../resource/avatar_placeholder.jpg'>
+        </i-image>
+        <view class="order-store-name">
+        {{orderItem.store.storeName}}
+        </view>
+      </view>
+      <view class="order-operate-button-box">
+        <view class="order-operate-button">
+        更多
+        </view>
+        <view class="order-operate-button"
+              hidden>
+        联系商家
+        </view>
+        <view class="order-operate-button">
+        提醒发货
+        </view>
+      </view>
+    </view>
+    <!-- 分割线 -->
+    <view class="order-splice-line">
+    </view>
+  </view>
+</block>
+
+<!-- 卖家版 -->
+<block wx:else>
+  <!-- 订单Item -->
+  <view wx:for='{{sellerDataSource}}'
+        wx:for-item='orderItem'
+        wx:for-index='orderIndex'
+        wx:key='{{orderIndex}}'
+        class="order-item">
+    <!-- 订单信息 -->
+    <view class="order-info-box">
+      <view class="order-info-number">
+      {{orderItem.orderNo}}
+      </view>
+      <view class="order-info-time">
+      {{orderItem.orderDate}} {{orderItem.orderTime}}
+      </view>
+    </view>
+    <!-- 订单商品 -->
+    <view class="order-goods-box">
+      <!-- 商品Item -->
+      <view class="order-goods-item"
+            wx:for='{{orderItem.goods}}'
+            wx:for-item='goodsItem'
+            wx:for-index='goodsIndex'
+            wx:key='{{goodsIndex}}'>
+        <i-image i-class="order-goods-image"
+                 imageSrc='{{goodsItem.goodsImagePath}}'
+                 placeholderSrc='../../resource/avatar_placeholder.jpg'>
+        </i-image>
+        <view class="order-goods-info">
+          <view class="order-goods-item-line">
+            <view class="order-goods-name">
+            {{goodsItem.goodsName}}
+            </view>
+            <view class="order-goods-sexy"
+                  wx:if='{{parse.showSexy(goodsItem)}}'>
+            {{goodsItem.goodsSexy}}
+            </view>
+          </view>
+          <view class="order-goods-item-line"
+                style="justify-content: space-between; align-items: flex-end;">
+            <view class="order-goods-count">
+            x{{goodsItem.goodsCount}}{{goodsItem.goodsUnit}}
+            </view>
+            <view class="order-goods-price">
+            {{goodsItem.goodsPrice}}/{{goodsItem.goodsUnit}}
+            </view>
+          </view>
+        </view> 
+      </view>
+      
+      <!-- 订单金额 -->
+      <view class="order-goods-item-line"
+            style="justify-content: flex-end;">
+        <view class="order-goods-amount">
+        总计：{{orderItem.orderAmount}}元
+        </view>
+      </view>
+    </view>
+    <!-- 订单操作 -->
+    <view class="order-operate-box">
+      <view class="order-store-box">
+        <i-image i-class="order-store-image"
+                 imageSrc='{{orderItem.customer.customerAvatarPath}}'
+                 placeholderSrc='../../resource/avatar_placeholder.jpg'>
+        </i-image>
+        <view class="order-store-name">
+        {{orderItem.customer.customerName}}
+        </view>
+      </view>
+      <view class="order-operate-button-box">
+        <view class="order-operate-button">
+        更多
+        </view>
+        <view class="order-operate-button"
+              hidden>
+        联系买家
+        </view>
+        <view class="order-operate-button">
+        确认发货
+        </view>
+      </view>
+    </view>
+    <!-- 分割线 -->
+    <view class="order-splice-line">
+    </view>
+  </view>
+</block>
+
+<!-- 加载块 -->
+<i-load-foot-item loadState='{{loadState}}'>
+</i-load-foot-item>
+
+<wxs module='parse'>
+  module.exports={
+    showSexy: function(goodsItem) {
+      if (goodsItem.goodsSexy == null || goodsItem.goodsSexy.length <= 0) {
+        return false;
+      }
+      return true;
+    }
+  }
+</wxs>

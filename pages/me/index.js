@@ -22,22 +22,22 @@ Page({
       {
         name: "待发货",
         iconPath: "../../resource/unsend.png",
-        link: "",
+        link: PagePath.Page_Order_UnsendList_Index,
       },
       {
         name: "已发货",
         iconPath: "../../resource/transport.png",
-        link: "",
+        link: PagePath.Page_Order_SendList_Index,
       },
       {
         name: "待评价",
         iconPath: "../../resource/unEvaluate.png",
-        link: "",
+        link: PagePath.Page_Order_UnevaluateList_Index,
       },
       {
         name: "退款",
         iconPath: "../../resource/refund.png",
-        link: "",
+        link: PagePath.Page_Order_RefundList_Index,
       },
     ], // 单据操作
     sellerOrderActionList: [
@@ -49,22 +49,22 @@ Page({
       {
         name: "待发货",
         iconPath: "../../resource/unsend.png",
-        link: "",
+        link: PagePath.Page_Order_UnsendList_Index,
       },
       {
         name: "已发货",
         iconPath: "../../resource/transport.png",
-        link: "",
+        link: PagePath.Page_Order_SendList_Index,
       },
       {
         name: "待评价",
         iconPath: "../../resource/unEvaluate.png",
-        link: "",
+        link: PagePath.Page_Order_UnevaluateList_Index,
       },
       {
         name: "退款",
         iconPath: "../../resource/refund.png",
-        link: "",
+        link: PagePath.Page_Order_RefundList_Index,
       },
       {
         name: "发布管理",

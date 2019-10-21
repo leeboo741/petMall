@@ -21,7 +21,7 @@ const Page_Order_UnpayList_Index = "/pages/order/unpayOrderList/index"; // 待�
 const Page_Order_UnsendList_Index = "/pages/order/unsendOrderList/index"; // 待发货订单列表
 const Page_Order_SendList_Index = "/pages/order/sendOrderList/index"; // 已发货订单列表
 const Page_Order_UnevaluateList_Index = "/pages/order/unevaluateOrderList/index"; // 未评价订单列表
-const Page_Order_RefundList_Index = "/pages/order/RefundOrderList/index"; // 退货|退款订单列表
+const Page_Order_RefundList_Index = "/pages/order/refundOrderList/index"; // 退货|退款订单列表
 
 module.exports={
   Page_Home, // 首页
