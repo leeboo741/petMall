@@ -69,7 +69,7 @@ Page({
       {
         name: "发布管理",
         iconPath: "../../resource/deliver.png",
-        link: "",
+        link: PagePath.Page_Me_ReleaseManager_Index,
       },
       {
         name: "发券管理",

@@ -17,7 +17,10 @@
     "pages/order/unsendOrderList/index",
     "pages/order/sendOrderList/index",
     "pages/order/unevaluateOrderList/index",
-    "pages/order/refundOrderList/index"
+    "pages/order/refundOrderList/index",
+    "pages/me/releaseManager/index",
+    "pages/me/releaseManager/releaseNew/index",
+    "pages/me/releaseManager/releaseNew/selectTransportType/index"
   ],
   "tabBar": {
     "color": "#80848f",

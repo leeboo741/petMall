@@ -1,0 +1,166 @@
+/* pages/me/releaseManager/releaseNew/index.wxss */
+
+.normal-text{
+  color: #778899;
+}
+
+.placeholder-text{
+  color: lightgray;
+}
+
+.input-box{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.transport-box{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.transport-item{
+  display: flex;
+  flex-direction: row;
+  padding: 0rpx 10rpx;
+}
+
+.transport-item-icon{
+  width: 40rpx;
+  height: 40rpx;
+  margin-right: 8rpx;
+}
+
+.transport-item-name{
+  font-size: 24rpx;
+  color: gray;
+  margin-right: 8rpx;
+}
+
+.transport-item-price{
+  font-size: 24rpx;
+  color: orange;
+}
+
+.upload-image-box{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.upload-image-item{
+  width: 33.3333333%;
+  height: 200rpx;
+}
+
+.upload-image-item-image{
+  background: rgb(235, 235, 235);
+  width: 95%;
+  height: 97%;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.upload-image-item-center{
+  width: 120rpx;
+  height: 120rpx;
+}
+
+.input-textarea{
+  width: 100%;
+  min-height: 200rpx;
+}
+
+.vaccine-repellent-item{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.vaccine-repellent-input{
+  width: 45%;
+  flex-grow: 1;
+  text-align: center;
+}
+
+.vaccine-repellent-item-line-v{
+  border-left: 2rpx solid lightgray;
+  height: 40rpx;
+}
+
+.parent-info-box{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.parent-info-item{
+  height: 200rpx;
+  width: 33.33333333%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.parent-info-item-image-box{
+  position: relative;
+  width: 200rpx;
+  height: 200rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgb(245, 245, 245);
+}
+
+.parent-info-item-image{
+  width: 200rpx;
+  height: 200rpx;
+  z-index: 1;
+}
+
+.parent-info-item-image-little{
+  width: 80rpx;
+  height: 80rpx;
+  z-index: 1;
+}
+
+.parent-info-item-label{
+  line-height: 40rpx;
+  height: 40rpx;
+  width: 100rpx;
+  background:  linear-gradient(to right, rgb(255,147,87) , rgb(255, 51, 59));
+  text-align: center;
+  color: white;
+  font-size: 28rpx;
+  border-bottom-right-radius: 20rpx;
+  border-top-right-radius: 20rpx;
+  position: absolute;
+  left: 0rpx;
+  bottom: 30rpx;
+  z-index: 2;
+}
+
+.parent-input{
+  height: 45%;
+  background: rgb(245, 245, 245);
+}
+
+.parent-info-item-line-h{
+  width: 160rpx;
+  border-bottom: 1rpx solid #778899;
+}
+
+.add-new-button{
+  height: 90rpx;
+  background: linear-gradient(to right, rgb(255,147,87) , rgb(255, 51, 59));
+  color: white;
+  font-size: 34rpx;
+  line-height: 90rpx;
+  text-align: center;
+}

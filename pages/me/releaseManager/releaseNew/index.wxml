@@ -1,0 +1,291 @@
+<!--pages/me/releaseManager/releaseNew/index.wxml-->
+<i-navigation-bar title='发布新宠'
+                  showBackButton>
+</i-navigation-bar>
+
+<i-panel i-class='panel'
+         title='基本信息'>
+  <i-cell-group>
+    <i-cell title='品种'>
+      <input slot='footer'
+             placeholder="请输入品种"
+             placeholder-class="placeholder-text"
+             class="normal-text"
+             bindinput="inputPetType">
+
+      </input>
+    </i-cell>
+    
+    <i-cell title='性别'
+            is-link>
+      <picker slot='footer'
+              range="{{sexyRange}}"
+              bindchange="selectSexy">
+        <view class="{{sexy==null||sexy.length<=0?'placeholder-text':'normal-text'}}">
+        {{sexy==null||sexy.length<=0?"请选择性别":sexy}}
+        </view>
+      </picker>
+    </i-cell>
+
+    <i-cell title='绝育'
+            is-link>
+      <picker slot='footer'
+              range="{{sterilizedRange}}"
+              bindchange="selectSterilized">
+        <view class="{{sterilized==null||sterilized.length<=0?'placeholder-text':'normal-text'}}">
+        {{sterilized==null||sterilized.length<=0?"请选择是否绝育":sterilized}}
+        </view>
+      </picker>
+    </i-cell>
+
+    <i-cell title='生日'
+            is-link>
+      <picker slot='footer'
+              mode='date'
+              bindchange='selectBirthday'>
+        <view class="{{birthday==null||birthday.length<=0?'placeholder-text':'normal-text'}}">
+        {{birthday==null||birthday.length<=0?"请选择生日":birthday}}
+        </view>
+      </picker>
+    </i-cell>
+
+    <i-cell title='价格'>
+      <view slot='footer'
+            class="input-box">
+        <input placeholder="请输入价格"
+               placeholder-class="placeholder-text"
+               class="normal-text"
+               style="flex-grow: 1;"
+               bindinput="inputPetPrice"
+               type="digit">
+
+        </input>
+        <view class="normal-text"
+              style="margin-left: 10rpx;">
+        元
+        </view>
+      </view>
+    </i-cell>
+
+    <i-cell title='佣金比例'>
+      <view slot='footer'
+            class="input-box">
+        <input placeholder="请输入佣金比率"
+               placeholder-class="placeholder-text"
+               class="normal-text"
+               style="flex-grow: 1;"
+               bindinput="inputCommissionRatio"
+               type="digit">
+
+        </input>
+        <view class="normal-text"
+              style="margin-left: 10rpx;">
+        %
+        </view>
+      </view>
+    </i-cell>
+  </i-cell-group>
+</i-panel>
+
+<i-panel i-class='panel'
+         title='配送方式及费用'>
+  <i-cell is-link
+          value='修改'
+          url='{{transportTypePage}}'>
+    <view class="transport-box"
+          slot='header'>
+      <view class="transport-item"
+            wx:for='{{transportTypeList}}'
+            wx:for-item='transportTypeItem'
+            wx:for-index='transportTypeIndex'
+            wx:key='{{transportTypeIndex}}'>
+        <image src='{{parse.getTransportIcon(transportTypeItem)}}'
+               class="transport-item-icon">
+        </image>
+        <view class="transport-item-name">
+        {{transportTypeItem.name}}
+        </view>
+        <view class="transport-item-price">
+        {{transportTypeItem.price}}元
+        </view>
+      </view>
+    </view>
+  </i-cell>
+</i-panel>
+
+<i-panel i-class='panel'
+         title='上传图片（最多6张）'>
+  <i-cell>
+    <view class="upload-image-box"
+          slot='header'>
+      <view class="upload-image-item"
+            wx:for='{{uploadImageList}}'
+            wx:for-item='uploadImageItem'
+            wx:for-index='uploadImageIndex'
+            wx:key='{{uploadImageIndex}}'>
+        <image src='{{uploadImageItem}}'
+              class='upload-image-item-image'>
+        </image>
+      </view>
+      <view class="upload-image-item">
+        <view class='upload-image-item-image'
+              bindtap="tapAddNewUploadImage">
+          <image class="upload-image-item-center"
+                 src='../../../../resource/add_new.png'>
+          </image>
+        </view>
+      </view>
+    </view>
+  </i-cell>
+</i-panel>
+
+<i-panel i-class='panel'
+         title='添加描述'>
+  <i-cell>
+    <textarea slot='header'
+              auto-height
+              class="normal-text input-textarea"
+              placeholder-class='placeholder-text'
+              placeholder='描述中不得包含微信相关信息，违者封号处理'
+              bindinput="inputDescribe">
+    </textarea>
+  </i-cell>
+</i-panel>
+
+<i-panel i-class='panel'
+         title='健康免疫'>
+  <i-cell-group>
+    <i-cell title='疫苗'>
+      <view class="vaccine-repellent-item"
+            slot='footer'>
+        <picker class="vaccine-repellent-input normal-text"
+                mode='date'
+                bindchange='selectVaccineDate'>
+          <view class="{{vaccine.date==null||vaccine.date.length<=0?'placeholder-text':'normal-text'}}">
+          {{vaccine.date==null||vaccine.date.length<=0?"第一针疫苗时间":vaccine.date}}
+          </view>
+        </picker>
+        <view class="vaccine-repellent-item-line-v"></view>
+        <input class="vaccine-repellent-input normal-text"
+               placeholder="第一针疫苗品牌"
+               placeholder-class="placeholder-text"
+               bindinput="inputVaccineBrand">
+        </input>
+      </view>
+    </i-cell>
+    <i-cell title='驱虫'>
+      <view class="vaccine-repellent-item"
+            slot='footer'>
+        <picker class="vaccine-repellent-input normal-text"
+                mode='date'
+                bindchange='selectRepellentDate'>
+          <view class="{{repellent.date==null||repellent.date.length<=0?'placeholder-text':'normal-text'}}">
+          {{repellent.date==null||repellent.date.length<=0?"第一次驱虫时间":repellent.date}}
+          </view>
+        </picker>
+        <view class="vaccine-repellent-item-line-v"></view>
+        <input class="vaccine-repellent-input normal-text"
+               placeholder="第一次驱虫品牌"
+               placeholder-class="placeholder-text"
+               bindinput="inputRepellentBrand">
+        </input>
+      </view>
+    </i-cell>
+  </i-cell-group>
+</i-panel>
+
+<i-panel i-class='panel'
+         title='高端宠物认证(仅限高端宠物商家填写)'>
+  <i-cell title='编号'>
+    <input slot='footer'
+           class="normal-text"
+           placeholder-class="placeholder-text"
+           placeholder="宠物CKU编号或芯片号"
+           bindinput="inputIdentifier">
+    </input>
+  </i-cell>
+</i-panel>
+
+<i-panel i-class='panel'
+         title='父母信息'>
+  <i-cell>
+    <view class="parent-info-box"
+          slot='header'>
+      <view class="parent-info-item">
+        <view class="parent-info-item-image-box"
+              bindtap="selectFatherImage">
+          <image class="parent-info-item-image"
+                 src="{{parent.father.imagePath}}"
+                 wx:if='{{parse.showParentImage(parent.father)}}'>
+          </image>
+          <image class="parent-info-item-image-little"
+                 src='../../../../resource/add_new.png'
+                 wx:else>
+          </image>
+          <view class="parent-info-item-label">
+          父亲
+          </view>
+        </view>
+      </view>
+      <view class="parent-info-item">
+        <view class="parent-info-item-image-box"
+              bindtap="selectMotherImage">
+          <image class="parent-info-item-image"
+                 src="{{parent.mother.imagePath}}"
+                 wx:if='{{parse.showParentImage(parent.mother)}}'>
+          </image>
+          <image class="parent-info-item-image-little"
+                 src='../../../../resource/add_new.png'
+                 wx:else>
+          </image>
+          <view class="parent-info-item-label">
+          母亲
+          </view>
+        </view>
+      </view> 
+      <view class="parent-info-item">
+        <input class='parent-input normal-text'
+               placeholder-class="placeholder-text"
+               placeholder="父亲名称"
+               bindinput="inputFatherName">
+        </input>
+        <view class="parent-info-item-line-h"></view>
+        <input class='parent-input normal-text'
+               placeholder-class="placeholder-text"
+               placeholder="母亲名称"
+               bindinput="inputMotherName">
+        </input>   
+      </view>    
+    </view>
+  </i-cell>
+</i-panel>
+
+<view class="add-new-button">
+发布
+</view>
+
+<wxs module='parse'>
+  module.exports={
+    showParentImage: function(parent) {
+      if (parent.imagePath == null || parent.imagePath.length <= 0) {
+        return false;
+      }
+      return true;
+    },
+    getTransportIcon: function(transportType) {
+      if (transportType.name == '航空') {
+        return "../../../../resource/transport_plane.png";
+      } else if (transportType.name == '专车') {
+        return "../../../../resource/transport_special_car.png";
+      } else if (transportType.name == '大巴') {
+        return "../../../../resource/transport_bus.png";
+      } else if (transportType.name == '铁路') {
+        return "../../../../resource/transport_train.png";
+      } else if (transportType.name == '航运') {
+        return "../../../../resource/transport_ship.png";
+      } else if (transportType.name == '自提') {
+        return "../../../../resource/transport_self.png";
+      }
+    }
+  }
+</wxs>

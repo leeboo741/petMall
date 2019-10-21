@@ -1,2 +1,6 @@
 /**app.wxss**/
 
+.panel{
+  background: rgb(245, 245, 245);
+}
+

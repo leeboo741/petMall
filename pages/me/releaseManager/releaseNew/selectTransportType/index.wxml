@@ -1,0 +1,4 @@
+<!--pages/me/releaseManager/releaseNew/selectTransportType/index.wxml-->
+<i-navigation-bar title='选择运输方式'
+                  showBackButton>
+</i-navigation-bar>
