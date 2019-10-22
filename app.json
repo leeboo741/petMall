@@ -78,5 +78,10 @@
     "navigationBarTextStyle": "black",
     "navigationStyle": "custom"
   },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于提供周边商家和服务"
+    }
+  },
   "sitemapLocation": "sitemap.json"
 }
