@@ -101,7 +101,9 @@
     <view class="brand-body-content" wx:for='{{brandList}}'
           wx:for-item="brandItem"
           wx:for-index="brandIndex"
-          wx:key='{{brandIndex}}'>
+          wx:key='{{brandIndex}}'
+          bindtap="brandTap"
+          data-index="brandIndex">
       <image class="brand-body-content-image" src="{{brandItem.imageUrl}}"></image>
       <view class="brand-body-content-text">{{brandItem.information}}</view>
     </view>

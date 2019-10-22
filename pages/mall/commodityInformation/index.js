@@ -12,6 +12,7 @@ Page({
     price: 0,                  //商品会员价格
     originalPrice: 0,         //商品原价
 
+    shopDataSource:[],      //商品信息
     commodityInforType:[    //商品具体分类信息
       {
         type:"配送",
@@ -136,6 +137,7 @@ Page({
     let requestOptions = JSON.parse(decodeURIComponent(options.resinfo));
     console.log(requestOptions.imageUrl);
     that.setData({
+      shopDataSource: options.resinfo,
       commodityInformation: requestOptions.commodity,
       imageUrls: requestOptions.imageUrl,
       commodityintroduce: requestOptions.introduce,
@@ -199,6 +201,15 @@ Page({
   evaluateTap:function(){
     wx.navigateTo({
       url: Page_path.Page_Mall_Evaluate
+    })
+  },
+
+  /**
+   * 担保购买
+   */
+  goShopTap:function(){
+    wx.navigateTo({
+      url: Page_path.Page_Mall_Shoppingpayment+"?requestInfo="+this.data.shopDataSource
     })
   }
 })

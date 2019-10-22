@@ -2,3 +2,53 @@
 <i-navigation-bar title='商家'
                   showBackButton='{{false}}'>
 </i-navigation-bar>
+
+<view class="foodgrainmore-head"
+      style="height:50px">
+  <view class="foodgrainmore-head-titleselect" wx:for='{{titleSelectList}}'
+          wx:for-item="titleSelectItem"
+          wx:for-index="titleSelectIndex"
+          wx:key='{{titleSelectIndex}}' bindtap="titleSelectTap" data-index="{{titleSelectIndex}}" data-key="{{titleSelectItem.selectInfo}}" style="color:{{parse.textShowColor(titleSelectItem.showSelect)}}">
+          {{titleSelectItem.selectInfo}}
+           <i-icon type="{{titleSelectItem.showSelect?'unfold':'packup'}}" size="20"/>      
+  </view>
+</view>
+
+<scroll-view class="scroll-view-page"
+             scroll-x>
+    <view style="display: flex;align-items:center;flex-wrap: nowrap;margin-top: 2%;">
+        <view class="recommended-page" 
+        wx:for="{{recommendedBusinesses}}"
+        wx:for-item='recommendedItem'
+        wx:for-index='recommendedIndex'
+        wx:key='{{recommendedIndex}}'>
+        <image class="recommended-head-page" src="{{recommendedItem.recommendeImageUrl}}"></image>
+        <view class="recommended-bottom-page">
+           {{recommendedItem.recommendeName}}
+        </view>
+    </view>
+    </view>
+
+</scroll-view>
+
+
+    <!--蒙版-->
+    <view class="mask-page" hidden="{{maskVarietiesShow}}" bindtap="maskVarietiesTap"></view>
+    <view class="mask-page" hidden="{{maskFavoritegrainShow}}" bindtap="maskFavoritegrainTap"></view>
+    <view class="mask-page" hidden="{{maskbrandShow}}" 
+    bindtap="maskbrandTap"></view>
+ 
+
+
+<wxs module='parse'>                                                                        
+   module.exports={
+        textShowColor:function(res){
+            if(res==true){
+                return "black"
+            }else{
+                return "#ED630A"
+            }
+        }
+   }
+
+</wxs>

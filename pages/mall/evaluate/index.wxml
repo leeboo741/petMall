@@ -2,3 +2,40 @@
 <i-navigation-bar title='评价列表'
                   showBackButton='{{true}}'>
 </i-navigation-bar>
+<scroll-view scroll-y>
+  <view class="userevaluate-content-page">
+        <view class="userevaluate-content-tables-page"
+               wx:for="{{evaluationInformation}}"
+               wx:for-item="evaluationInformationItem"
+               wx:for-index="evaluationInformationIndex"
+               wx:key="evaluationInformationIndex">
+                <view class="userevaluate-content-head" style="margin-left:2%">
+                    <image src="{{evaluationInformationItem.userImageUrl}}" class="image-sty"></image>
+                    <view style="margin-left:2%;font-weight:bold;font-size:32rpx;">
+                      {{evaluationInformationItem.userName}}
+                    </view>
+                    <view style="margin-left:50%;font-size:28rpx;color:#ccc;">
+                      {{evaluationInformationItem.evaluationTime}}
+                    </view>
+                </view>
+
+            <view style="margin-left:10%; display: flex;flex-wrap: nowrap;">
+            <!-- 遍历星星-->
+                <view
+                 wx:for="{{evaluationInformationItem.starsNumber}}"
+                 wx:for-item="starsNumberItem"
+                 wx:for-index="starsNumberIndex"
+                 wx:key="starsNumberIndex">
+                     <i-icon type="collection_fill" color="#EFCC83"/>
+                </view>
+                
+            </view>
+
+            <view style="margin-left:8%;font-size:28rpx;">
+            {{evaluationInformationItem.information}}
+            </view>
+        </view>
+        
+    </view>
+
+    </scroll-view>

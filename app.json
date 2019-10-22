@@ -11,6 +11,7 @@
     "pages/mall/commodityInformation/index",
     "pages/mall/index",
     "pages/mall/staplefood/index",
+    "pages/mall/shoppingpayment/index",
     "pages/login/index",
     "pages/login/register/index",
     "pages/order/unpayOrderList/index",
@@ -21,6 +22,7 @@
     "pages/me/releaseManager/index",
     "pages/me/releaseManager/releaseNew/index",
     "pages/me/releaseManager/releaseNew/selectTransportType/index"
+    
   ],
   "tabBar": {
     "color": "#80848f",

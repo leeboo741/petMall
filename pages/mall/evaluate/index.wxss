@@ -1,1 +1,46 @@
 /* pages/mall/evaluate/index.wxss */
+.userevaluate-page{
+  width: 100%;
+  display: flex;
+  flex-direction: column; 
+  align-items: center;
+}
+
+.userevaluate-head-page{
+  width: 100%;
+  height: 100rpx;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+
+.userevaluate-content-page{
+   width: 100%;
+   display: flex;
+   align-items: center;
+   flex-direction: column; 
+
+}
+
+
+.userevaluate-content-tables-page{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin-top:2%;
+}
+
+.userevaluate-content-head{
+  display: flex;
+  flex-wrap: nowrap;
+  width: 100%;
+  align-items: center;
+}
+  
+.image-sty{
+  width: 50rpx;
+  height: 50rpx;
+  border: 1rpx solid #ccc;
+  border-radius: 50% 50%;
+}
