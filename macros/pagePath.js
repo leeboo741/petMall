@@ -19,6 +19,9 @@ const Page_Me_ReleaseManager_ReleaseNew = "/pages/me/releaseManager/releaseNew/i
 const Page_Me_ReleaseManager_ReleaseNew_TransportType = '/pages/me/releaseManager/releaseNew/selectTransportType/index'; // 发布管理 发布新宠 选择运输方式
 const Page_Me_AuthenticateManager_Index = "/pages/me/authenticateManager/index"; // 认证管理 首页
 const Page_Me_AuthenticateManager_Submit = "/pages/me/authenticateManager/submitAuthenticate/index"; // 认证管理 提交
+const Page_Me_Bond_Index = "/pages/me/bond/index"; // 缴保证金
+const Page_Me_ReceivingAccount_Index = "/pages/me/receivingAccount/index"; // 收款账户
+const Page_Me_Collect_Index = "/pages/me/collect/index"; // 收藏 首页
 
 const Page_Login_Index = "/pages/login/index"; // 登陆
 const Page_Register_Index = "/pages/login/register/index"; // 注册
@@ -50,6 +53,9 @@ module.exports={
   Page_Me_ReleaseManager_ReleaseNew_TransportType, // 发布管理 发布新宠 选择运输方式
   Page_Me_AuthenticateManager_Index, // 认证管理 首页
   Page_Me_AuthenticateManager_Submit, // 认证管理 提交
+  Page_Me_Bond_Index, // 缴保证金
+  Page_Me_ReceivingAccount_Index, // 收款账户
+  Page_Me_Collect_Index, // 收藏 首页
 
   Page_Login_Index, // 登陆
   Page_Register_Index, // 注册

@@ -84,12 +84,12 @@ Page({
       {
         name: "收款账户",
         iconPath: "../../resource/money_account.png",
-        link: "",
+        link: PagePath.Page_Me_ReceivingAccount_Index,
       },
       {
         name: "缴保证金",
         iconPath: "../../resource/bond.png",
-        link: "",
+        link: PagePath.Page_Me_Bond_Index,
       },
     ], // 卖家单据操作
     otherActionList: [
@@ -106,7 +106,7 @@ Page({
       {
         name: "我的收藏",
         detail: "",
-        link: "",
+        link: PagePath.Page_Me_Collect_Index,
       },
       {
         name: "用户帮助",
@@ -231,6 +231,7 @@ Page({
         UserService.saveCurrentRole(this.data.currentRole)
         break;
       case 1:
+      case 2:
         wx.navigateTo({
           url: e.currentTarget.dataset.link,
         })

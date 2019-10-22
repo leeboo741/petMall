@@ -1,0 +1,77 @@
+/* pages/me/bond/index.wxss */
+
+.explain-image-box{
+  width: 100vw;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.explain-image{
+  width: 94%;
+}
+
+
+.operate-box{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 200rpx;
+  background: white;
+}
+
+.contract-box{
+  padding: 25rpx 50rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  color: rgb(7, 132, 250);
+  width: 100%;
+}
+
+.contract-text{
+  font-size: 32rpx;
+  margin-left: 14rpx;
+}
+
+.button-box{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.operate-button{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 47%;
+  height: 90rpx;
+  margin: 15rpx auto;
+  border: 1rpx solid rgb(255,147,87);
+  border-radius: 10rpx;
+}
+
+.empty-button{
+  background: white;
+  color: rgb(255, 147, 87);
+}
+
+.full-button{
+  background: rgb(255,147,87);
+  color: white;
+}
+
+.operate-button-title{
+  font-size: 32rpx;
+  letter-spacing: 3rpx;
+}
+
+.operate-button-detail{
+  font-size: 26rpx;
+}

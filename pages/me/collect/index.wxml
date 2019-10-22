@@ -1,0 +1,4 @@
+<!--pages/me/collect/index.wxml-->
+<i-navigation-bar title='我的收藏'
+                  showBackButton>
+</i-navigation-bar>

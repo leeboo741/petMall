@@ -1,0 +1,39 @@
+/* pages/me/receivingAccount/index.wxss */
+.explain-box{
+  background: rgb(112, 126, 173);
+  color: white;
+  font-size: 30rpx;
+  letter-spacing: 1rpx;
+  padding: 15rpx 20rpx;
+}
+
+.normal-text{
+  color: #778899;
+}
+
+.placeholder-text{
+  color: lightgray;
+}
+
+.header-box{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.header-title{
+  margin-left: 8rpx;
+}
+
+.submit-button{
+  width: 90%;
+  border-radius: 10rpx;
+  margin: 20rpx auto;
+  height: 90rpx;
+  background: linear-gradient(to right, rgb(255,147,87) , rgb(255, 51, 59));
+  color: white;
+  font-size: 34rpx;
+  line-height: 90rpx;
+  text-align: center;
+  box-shadow: 0rpx 0rpx 30rpx 5rpx #dad9d9;
+}

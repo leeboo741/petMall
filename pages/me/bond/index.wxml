@@ -1,0 +1,49 @@
+<!--pages/me/bond/index.wxml-->
+<i-navigation-bar title='缴保证金'
+                  showBackButton>
+</i-navigation-bar>
+
+<view class="explain-image-box">
+  <image class="explain-image"
+         style="height: 900rpx;"
+         src="../../../resource/bond_1.png"
+         mode="scaleToFit">
+  </image>
+  <image class="explain-image"
+         style="height: 600rpx;"
+         src="../../../resource/bond_2.png"
+         mode="scaleToFit">
+  </image>
+</view>
+
+<view class="operate-box">
+  <view class="contract-box"
+        bindtap="tapCheckContract">
+    <i-icon type='unselected'
+            size="32"
+            wx:if='{{!checkContract}}'>
+    </i-icon>
+    <i-icon type='selected'
+            size="32"
+            wx:else>
+    </i-icon>
+    <view class="contract-text">
+    已阅读并同意《保证金合同》
+    </view>
+  </view>
+  <view class="button-box">
+    <view class="operate-button empty-button">
+      <view class="operate-button-title empty-title">
+      暂不缴纳
+      </view>
+    </view>
+    <view class="operate-button full-button">
+      <view class="operate-button-title full-title">
+      缴纳保证金
+      </view>
+      <view class="operate-button-detail full-title">
+      ￥5000, 可原额退回
+      </view>
+    </view>
+  </view>
+</view>

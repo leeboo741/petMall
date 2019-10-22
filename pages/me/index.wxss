@@ -87,7 +87,7 @@
   align-items: center;
   justify-content: center;
   width: 80%;
-  min-height: 200rpx;
+  min-height: 160rpx;
   margin: 15rpx auto;
   border-radius: 10rpx;
   background: linear-gradient(to right, rgb(255,147,87) , rgb(255, 51, 59));
@@ -103,6 +103,7 @@
 .userinfo-trade-volum-value{
   font-size: 38rpx;
   font-weight: bold;
+  margin-right: 8rpx;
 }
 
 .userinfo-trade-volum-unit{
