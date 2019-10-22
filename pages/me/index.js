@@ -305,5 +305,14 @@ Page({
     wx.navigateTo({
       url: e.currentTarget.dataset.link,
     })
-  }
+  },
+
+  /**
+   * 点击积分
+   */
+  tapPoint: function () {
+    wx.navigateTo({
+      url: PagePath.Page_Me_Point_Index,
+    })
+  },
 })

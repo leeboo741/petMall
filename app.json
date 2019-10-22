@@ -14,6 +14,7 @@
     "pages/me/bond/index",
     "pages/me/receivingAccount/index",
     "pages/me/collect/index",
+    "pages/me/point/index",
     "pages/mall/setmeal/index",
     "pages/mall/evaluate/index",
     "pages/mall/commodityInformation/index",
@@ -26,7 +27,8 @@
     "pages/order/unsendOrderList/index",
     "pages/order/sendOrderList/index",
     "pages/order/unevaluateOrderList/index",
-    "pages/order/refundOrderList/index"
+    "pages/order/refundOrderList/index",
+    "pages/me/point/pointDetail/index"
   ],
   "tabBar": {
     "color": "#80848f",

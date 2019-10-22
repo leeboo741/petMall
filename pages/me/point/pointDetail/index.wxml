@@ -1,0 +1,4 @@
+<!--pages/me/point/pointDetail/index.wxml-->
+<i-navigation-bar title='积分明细'
+                  showBackButton>
+</i-navigation-bar>

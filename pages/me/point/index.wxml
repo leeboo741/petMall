@@ -1,0 +1,46 @@
+<!--pages/me/point/index.wxml-->
+<i-navigation-bar title='我的积分'
+                  showBackButton>
+</i-navigation-bar>
+
+<i-panel i-class='panel'>
+  <view class="point-box">
+    <view class="point-value">
+    {{pointValue}}
+    </view>
+    <view class="point-title">
+    可用积分
+    </view>
+  </view>
+  <i-cell is-link
+          url="{{pointDetailPath}}">
+    <view class="cell-header"
+          slot='header'>
+      <i-icon type='point'
+              size="36"
+              color="#F7C84D">
+      </i-icon>
+      <view class="cell-header-title">
+      积分明细
+      </view>
+    </view>
+  </i-cell>
+</i-panel>
+
+<button class="share-button"
+        open-type="share">
+分享赢积分
+</button>
+
+<i-panel i-class='panel'
+         title='积分用途'>
+  <i-cell>
+    <text class="content"
+          slot='header'>
+    1.积分可在本小程序中使用，如果用户被封禁，则本司有权利取消用户账号内积分相关使用权利。\n
+    2.积分可用于支付部分宠物市场订单（充值等不支持积分支付商品除外）。\n
+    3.您可以在“我的 - 积分”中查询到您的积分详细情况。
+    </text>
+  </i-cell>
+</i-panel>
+

@@ -68,7 +68,8 @@
       </view>
       <!-- 积分 优惠券 -->
       <view class="userinfo-value-box">
-        <view class='userinfo-value-item'>
+        <view class='userinfo-value-item'
+              bindtap="tapPoint">
           <view class="userinfo-value-item-value-box">
             <view class="userinfo-value-item-value">
             0<!-- {{userinfo.point}} -->

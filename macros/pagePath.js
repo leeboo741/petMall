@@ -22,6 +22,8 @@ const Page_Me_AuthenticateManager_Submit = "/pages/me/authenticateManager/submit
 const Page_Me_Bond_Index = "/pages/me/bond/index"; // 缴保证金
 const Page_Me_ReceivingAccount_Index = "/pages/me/receivingAccount/index"; // 收款账户
 const Page_Me_Collect_Index = "/pages/me/collect/index"; // 收藏 首页
+const Page_Me_Point_Index = "/pages/me/point/index"; // 积分首页
+const Page_Me_Point_PointDetail = "/pages/me/point/pointDetail/index"; // 积分 明细
 
 const Page_Login_Index = "/pages/login/index"; // 登陆
 const Page_Register_Index = "/pages/login/register/index"; // 注册
@@ -56,6 +58,8 @@ module.exports={
   Page_Me_Bond_Index, // 缴保证金
   Page_Me_ReceivingAccount_Index, // 收款账户
   Page_Me_Collect_Index, // 收藏 首页
+  Page_Me_Point_Index, // 积分 首页
+  Page_Me_Point_PointDetail, // 积分 明细
 
   Page_Login_Index, // 登陆
   Page_Register_Index, // 注册
