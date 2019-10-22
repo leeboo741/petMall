@@ -16,8 +16,7 @@
 
          <view style="{{parse.showStyle(petTypeItem.showLine)}}">
              {{petTypeItem.petName}}
-         </view>
-        
+         </view>       
    </view>
 </view>
 

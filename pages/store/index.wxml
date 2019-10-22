@@ -3,42 +3,172 @@
                   showBackButton='{{false}}'>
 </i-navigation-bar>
 
+
 <view class="foodgrainmore-head"
       style="height:50px">
-  <view class="foodgrainmore-head-titleselect" wx:for='{{titleSelectList}}'
+  <view class="foodgrainmore-head-titleselect"
+          wx:for='{{titleSelectList}}'
           wx:for-item="titleSelectItem"
           wx:for-index="titleSelectIndex"
-          wx:key='{{titleSelectIndex}}' bindtap="titleSelectTap" data-index="{{titleSelectIndex}}" data-key="{{titleSelectItem.selectInfo}}" style="color:{{parse.textShowColor(titleSelectItem.showSelect)}}">
+          wx:key='{{titleSelectIndex}}'
+          bindtap="titleSelectTap" 
+          data-index="{{titleSelectIndex}}" 
+          data-key="{{titleSelectItem.selectInfo}}" 
+          style="color:{{parse.textShowColor(titleSelectItem.showSelect)}}">
           {{titleSelectItem.selectInfo}}
            <i-icon type="{{titleSelectItem.showSelect?'unfold':'packup'}}" size="20"/>      
   </view>
 </view>
 
+
+<scroll-view
+ scroll-y
+ style="height: {{pageHeight-50}}px"
+ class="scrollview-page">
+
 <scroll-view class="scroll-view-page"
              scroll-x>
     <view style="display: flex;align-items:center;flex-wrap: nowrap;margin-top: 2%;">
         <view class="recommended-page" 
-        wx:for="{{recommendedBusinesses}}"
-        wx:for-item='recommendedItem'
-        wx:for-index='recommendedIndex'
-        wx:key='{{recommendedIndex}}'>
-        <image class="recommended-head-page" src="{{recommendedItem.recommendeImageUrl}}"></image>
-        <view class="recommended-bottom-page">
-           {{recommendedItem.recommendeName}}
-        </view>
+              wx:for="{{recommendedBusinesses}}"
+              wx:for-item='recommendedItem'
+              wx:for-index='recommendedIndex'
+              wx:key='{{recommendedIndex}}'
+              bindtap="recommendedTap"
+              data-item="{{recommendedItem}}">
+              <image class="recommended-head-page" src="{{recommendedItem.recommendeImageUrl}}"></image>
+              <view class="recommended-bottom-page">
+                {{recommendedItem.recommendeName}}
+              </view>
+       </view>
     </view>
-    </view>
-
 </scroll-view>
+
+<view class="merchant-information-page"
+      wx:for="{{merchantInformationList}}"
+      wx:for-item='merchantInformationItem'
+      wx:for-index='merchantInformationIndex'
+      wx:key='{{merchantInformationIndex}}'>
+  
+      <view class="merchant-information-head-page">
+        <view class="merchant-information-head-left" bindtap="merchantTap">
+            <image src="{{merchantInformationItem.merchantImage}}" class="merchant-information-head-leftimage" />
+        </view>
+        <view class="merchant-information-head-middle">
+            <view style="font-weight:bold;">
+                {{merchantInformationItem.merchantName}}
+            </view>
+            <view style="font-size:27rpx;color:#ccc;">
+                {{merchantInformationItem.merchantAddress}}
+            </view>
+            <view style="font-size:27rpx;color:#ccc;">
+                {{merchantInformationItem.merchantOnSale}}
+            </view>
+        </view>
+        <view class="merchant-information-head-right">  <!--星星遍历-->
+            <view class="stars-page">                
+                <view wx:for="{{merchantInformationItem.merchantStars}}"
+                      wx:for-item='StarsItem'
+                      wx:for-index='StarsIndex'
+                      wx:key='{{StarsIndex}}'>
+                      <i-icon type="collection_fill"  color="#EFCC83"/>
+                </view>
+            </view>
+            <view style="color:red;">
+                {{merchantInformationItem.merchantPraise}}
+            </view>
+            <view style="font-size:27rpx;color:#ccc;">
+                好评数
+            </view>
+        </view> 
+      </view>  
+        
+      <view class="merchant-information-bottom-page">
+        <view class="merchant-information-bottom-doginformation"
+              wx:for="{{merchantInformationItem.dogInforMation}}"
+              wx:for-item='dogInforMationItem'
+              wx:for-index='dogInforMationIndex'
+              wx:key='{{dogInforMationIndex}}'>        
+            <image src="{{dogInforMationItem.dogImage}}" class="merchant-information-bottom-dogimage"/>
+            <view style="font-weight:bold;">
+                {{dogInforMationItem.dogName}}
+            </view>
+
+            <view style="display:flex;flex-wrap:nowrap;">
+                <view style="font-size:27rpx;color:red;font-weight:bold;">
+                ￥{{dogInforMationItem.dogPrice}}
+                </view>
+
+                <view style="font-size:27rpx;color:#ccc;">
+                    {{dogInforMationItem.dogAddress}}
+                </view>
+            </view>
+        </view>
+    </view>  
+    
+
+</view>
 
 
     <!--蒙版-->
-    <view class="mask-page" hidden="{{maskVarietiesShow}}" bindtap="maskVarietiesTap"></view>
     <view class="mask-page" hidden="{{maskFavoritegrainShow}}" bindtap="maskFavoritegrainTap"></view>
     <view class="mask-page" hidden="{{maskbrandShow}}" 
     bindtap="maskbrandTap"></view>
- 
 
+
+    <!--下拉显示信息-->
+ <!--下拉信息-->
+<view class="dropdownbox-infomation" hidden="{{showDropDownMessage}}">
+    <view class="dropdownbox-infomation-table" 
+          wx:for='{{dataSourceType}}'
+          wx:for-item="dataSourceTypeItem"
+          wx:for-index="dataSourceTypeIndex"
+          wx:key='{{dataSourceTypeIndex}}'
+          bindtap="selectDataSourceTypeTap"
+         data-index="{{dataSourceTypeIndex}}">
+              {{dataSourceTypeItem}}
+          </view>
+</view>
+ 
+   
+   <!--选择位置信息-->
+   <view class="select-address-page" hidden="{{maskVarietiesShow}}">
+      <view class="searchLetter touchClass">
+        <view class="thishotText" bindtap="hotCity">
+          <view style="margin-top:0;">当前</view>
+          <view style="margin-top:0;">热门</view>
+        </view>
+      <view wx:for="{{searchLetter}}" style="color:#2ab4ff;font-size:20rpx;" wx:key="index" data-letter="{{item.name}}" catchtouchend="clickLetter" >{{item.name}}</view>
+    </view>
+    <block wx:if="{{isShowLetter}}">
+      <view class="showSlectedLetter">
+        {{showLetter}}
+      </view>
+    </block>
+    <scroll-view scroll-y="true" style="height:{{winHeight}}px" 
+    scroll-into-view="{{scrollTopId}}" scroll-top="{{scrollTop}}">
+      <view class="hotcity-common thisCity">当前定位城市</view>
+      <view class="thisCityName">{{city}}</view>
+      <view>
+        <text class="hotcity hotcity-common">热门城市</text>
+        <view class="weui-grids">
+          <block wx:for-items="{{hotcityList}}" wx:key="{{index}}">
+            <view class="weui-grid" data-cityCode="{{item.cityCode}}" data-city="{{item.city}}" bindtap="bindHotCity" >
+              <view class="weui-grid__label">{{item.city}}</view>
+            </view>
+          </block>
+        </view>
+      </view>
+      <view class="selection" wx:for="{{cityList}}" wx:key="{{item.initial}}">
+        <view class="item_letter"  id="{{item.initial}}">{{item.initial}}</view>
+        <view class="item_city"  wx:for="{{item.cityInfo}}" wx:for-item="ct" wx:key="{{ct.id}}" data-cityCode="{{ct.code}}" data-city="{{ct.city}}" bindtap="bindCity">
+          {{ct.city}}
+        </view>
+      </view>
+    </scroll-view>
+</view>
+   
+</scroll-view>
 
 <wxs module='parse'>                                                                        
    module.exports={

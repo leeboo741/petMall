@@ -1,0 +1,132 @@
+/* pages/store/storeinformation/index.wxss */
+
+.business-head-page{
+  width: 100%;
+  height: 150rpx;
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.business-head-inleft{
+  width: 20%;
+  height: 150rpx;
+  display: flex;
+  align-items: center;
+  justify-content:center;
+}
+
+.business-image{
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50% 50%;
+}
+
+.business-head-inright{
+  width: 80%;
+  height: 150rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content:center;
+}
+
+.divLine{
+  background: #E0E3DA;
+  width: 100%;
+  height: 5rpx;
+}
+
+.business-select-head{
+  width: 100%;
+  height: 100rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.business-selectinfo{
+  width: 33.33%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  color: #949494;
+}
+
+.business-pets-page{
+  width: 100%;
+  height: 500rpx;
+  display: flex;
+  flex-direction: column;
+}
+
+.business-pets-information{
+   width: 50%;
+   height: 420rpx;
+   display:flex;
+   justify-content: center;
+   flex-direction: column;
+   align-items: center;
+   margin-top:2%;
+}
+
+.business-pets-image{
+  height: 420rpx;
+  width: 340rpx;
+  border-radius: 20rpx;
+}
+
+.business-pets-bottom{
+  width:100%;
+  height: 80rpx;
+  display:flex;
+  flex-direction: column;
+}
+
+.noevaluation-page{
+  width: 200rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.noevaluation-image-page{
+  width: 200rpx;
+  height: 160rpx;
+}
+
+.noevaluation-bottom{
+  width: 200rpx;
+  height: 40rpx;
+  align-items: center;
+}
+
+.business-evaluate-page{
+  margin-top:25%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.business-introduction-page{
+  display: flex;
+  flex-direction: column;
+}
+
+.page-bottom-icon{
+  position: fixed;
+  bottom: 0rpx;
+  width: 100%;
+  height: 100rpx;
+  background-color: white;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.page-icon-sly{
+  display: flex;
+  flex-direction: column;
+}

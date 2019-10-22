@@ -1,7 +1,10 @@
 {
   "pages": [
     "pages/index/index",
+
     "pages/store/index",
+    "pages/store/storeinformation/index",
+
     "pages/me/index",
     "pages/me/addressManager/index",
     "pages/me/addressManager/addNewAddress",
@@ -15,20 +18,24 @@
     "pages/me/receivingAccount/index",
     "pages/me/collect/index",
     "pages/me/point/index",
+    "pages/me/point/pointDetail/index",
+
     "pages/mall/setmeal/index",
     "pages/mall/evaluate/index",
     "pages/mall/commodityInformation/index",
     "pages/mall/index",
     "pages/mall/staplefood/index",
     "pages/mall/shoppingpayment/index",
+
     "pages/login/index",
     "pages/login/register/index",
+
     "pages/order/unpayOrderList/index",
     "pages/order/unsendOrderList/index",
     "pages/order/sendOrderList/index",
     "pages/order/unevaluateOrderList/index",
-    "pages/order/refundOrderList/index",
-    "pages/me/point/pointDetail/index"
+    "pages/order/refundOrderList/index"
+    
   ],
   "tabBar": {
     "color": "#80848f",

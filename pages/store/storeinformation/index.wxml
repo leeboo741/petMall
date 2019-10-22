@@ -1,0 +1,116 @@
+<!--pages/store/storeinformation/index.wxml-->
+<i-navigation-bar title='{{businessDataSource.recommendeName}}'
+                  showBackButton='{{true}}'>
+</i-navigation-bar>
+
+<view class="business-head-page">
+    <view class="business-head-inleft">
+        <image src="{{businessDataSource.recommendeImageUrl}}" class="business-image"/>
+    </view>
+    <view class="business-head-inright">
+        <view style="font-weight:bold;">
+          {{businessDataSource.recommendeName}}
+        </view>
+        <view style="display: flex;flex-wrap: nowrap;">
+                <view wx:for="{{businessDataSource.merchantStars}}"
+                      wx:for-item='StarsItem'
+                      wx:for-index='StarsIndex'
+                      wx:key='{{StarsIndex}}'>
+                      <i-icon type="collection_fill" color="#EFCC83"/>
+                </view>
+        </view>
+        <view style="color:#ccc;">
+          {{businessDataSource.merchantAddress}}
+        </view>
+    </view>
+</view>
+
+<view class="divLine"/>
+
+<view class="business-select-head">
+   <view  style="height:50px"
+          class="business-selectinfo" 
+          wx:for='{{buisnessList}}'
+          wx:for-item="buisnessItem"
+          wx:for-index="buisnessIndex"
+          wx:key='{{buisnessIndex}}'
+          bindtap="buisnessTap"
+          data-index="{{buisnessIndex}}">
+
+         <view style="{{parse.showStyle(buisnessItem.showLine)}}">
+             {{buisnessItem.title}}
+         </view>       
+   </view>
+</view>
+
+
+
+<view class="business-pets-page"
+      hidden="{{showPetsPage}}"> 
+  <view style="display:flex;flex-wrap:nowrap;">
+      <view style="color:#ccc;font-size:27rpx;margin-left:3%;">
+        担保交易量{{businessDataSource.tradingVolume}}
+      </view>
+      <view style="color:blue;margin-left:45%;font-size:27rpx;">
+        什么是担保交易量？
+      </view>
+  </view>
+  <view class="business-pets-information">
+      <view class="business-pets-information">
+          <image src="{{businessDataSource.petsImage}}" class="business-pets-image" />
+      </view>
+      <view class="business-pets-bottom">
+        <view style="margin-left:6%;font-weight:bold;">
+          {{businessDataSource.petsName}}
+        </view>
+        <view style="color:red;margin-left:5%;font-weight:bold;display:flex;flex-wrap:nowrap;">
+          ￥{{businessDataSource.petsPrice}}
+        </view>
+      </view>
+  </view>
+</view>
+
+
+<view class="business-evaluate-page"
+      hidden="{{showEvaluate}}">
+    <view wx:if="{{evaluate.length==0}}" class="noevaluation-page">
+        <image class="noevaluation-image-page" src="../../../resource/dogerror.png"/>
+         <view style="color:#949494;">暂无评价哟！</view>
+    </view>
+   
+    <view wx:else>
+    </view>
+</view>
+
+<view class="business-introduction-page"
+      hidden="{{showIntroduction}}"
+      style="margin-left:3%;">
+    <view>地址：{{businessDataSource.merchantAddress}}</view>
+    <view>简介：{{businessDataSource.merchantIntroduction}}</view>
+</view>
+
+<view class="page-bottom-icon">
+      <view class="page-icon-sly" style="margin-left:20%;">
+          <i-icon type="send" size="35"/>
+          <view style="font-size:27rpx;margin-left:10%;">分享</view> 
+      </view>
+      
+      <view class="page-icon-sly" style="margin-left:41%;">
+          <i-icon type="customerservice_fill" size="35"/>
+          <view style="font-size:27rpx;margin-left:10%;">电话</view>
+      </view>
+</view>
+
+<wxs module='parse'>                                                                        
+   module.exports={
+      showStyle:function(res){
+          if(res==true){
+             return "border-bottom:3px solid #ED630A;color:black;"
+          }else{
+             return "border-bottom:0px solid #ED630A;color:#949494;"
+          }
+      }
+        
+   }
+
+</wxs>
