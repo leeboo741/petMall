@@ -110,7 +110,8 @@
             wx:key='{{orderActionIndex}}'
             bindtap="tapOrderAction"
             data-index='{{orderActionIndex}}'
-            data-link="{{orderActionItem.link}}">
+            data-link="{{orderActionItem.link}}"
+            wx:if='{{orderActionItem.show}}'>
         <image class="order-action-icon"
               src="{{orderActionItem.iconPath}}">
         </image>
@@ -133,7 +134,8 @@
               is-link
               bind:click='tapOtherAction'
               data-index="{{otherActionIndex}}"
-              data-link="{{otherActionItem.link}}">
+              data-link="{{otherActionItem.link}}"
+              wx:if='{{otherActionItem.show}}'>
       </i-cell>
     </i-cell-group>
   </i-panel>
@@ -278,7 +280,8 @@
             wx:key='{{orderActionIndex}}'
             bindtap="tapOrderAction"
             data-index='{{orderActionIndex}}'
-            data-link="{{orderActionItem.link}}">
+            data-link="{{orderActionItem.link}}"
+            wx:if='{{orderActionItem.show}}'>
         <image class="order-action-icon"
               src="{{orderActionItem.iconPath}}">
         </image>
@@ -301,7 +304,8 @@
               is-link
               bind:click='tapOtherAction'
               data-index="{{otherActionIndex}}"
-              data-link="{{otherActionItem.link}}">
+              data-link="{{otherActionItem.link}}"
+              wx:if='{{otherActionItem.show}}'>
       </i-cell>
     </i-cell-group>
   </i-panel>

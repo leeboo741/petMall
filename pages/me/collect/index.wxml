@@ -2,3 +2,41 @@
 <i-navigation-bar title='我的收藏'
                   showBackButton>
 </i-navigation-bar>
+
+<view class="collection-box">
+  <view wx:for='{{collectionList}}'
+        wx:for-item='collectionItem'
+        wx:for-index='collectionIndex'
+        wx:key='{{collectionIndex}}'
+        class="collection-item">
+    <view class="collection-item-image-box">
+      <i-image i-class="collection-item-image"
+               imageSrc="{{collectionItem.goods.imagePath}}"
+               placeholderSrc='../../resource/avatar_placeholder.jpg'
+               mode='scaleToFit'>
+      </i-image>
+    </view>
+    <view class="collection-item-info-box">
+      <view class="collection-item-info-line">
+        <view class="collection-item-info-name">
+        {{collectionItem.goods.name}}
+        </view>
+      </view>
+      <view class="collection-item-info-line">
+        <view class="collection-item-info-address">
+        {{collectionItem.goods.province}} {{collectionItem.goods.city}}
+        </view>
+        <view class="collection-item-info-price">
+        ￥{{collectionItem.goods.price}}
+        </view>
+      </view>
+      <view class="cancel-collection-button">
+      取消收藏
+      </view>
+    </view> 
+  </view>
+</view>
+
+<!-- 加载块 -->
+<i-load-foot-item loadState='{{loadState}}'>
+</i-load-foot-item>

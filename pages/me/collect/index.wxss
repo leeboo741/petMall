@@ -1,1 +1,75 @@
 /* pages/me/collect/index.wxss */
+.collection-box{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.collection-item{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 45%;
+  margin: 20rpx 2.5%;
+  border-radius: 10rpx;
+  box-shadow: 0rpx 0rpx 30rpx 5rpx #dad9d9;
+}
+
+.collection-item-image-box{
+  width: 100%;
+  height: 380rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.collection-item-image{
+  width: 300rpx;
+  height: 350rpx;
+}
+
+.collection-item-info-box{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.collection-item-info-line{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 90%;
+  margin: 10rpx auto;
+}
+
+.collection-item-info-name{
+  font-size: 35rpx;
+  font-weight: bold;
+  color: #778899;
+}
+
+.collection-item-info-address{
+  font-size: 28rpx;
+  color: gray;
+}
+
+.collection-item-info-price{
+  font-size: 30rpx;
+  color: #ee2c2c;
+}
+
+.cancel-collection-button{
+  height: 60rpx;
+  line-height: 60rpx;
+  border-bottom-left-radius: 10rpx;
+  border-bottom-right-radius: 10rpx;
+  text-align: center;
+  width: 100%;
+  background: linear-gradient(to right, rgb(255,147,87) , rgb(255, 51, 59));
+  color: white;
+  font-size: 30rpx;
+}

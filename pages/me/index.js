@@ -18,26 +18,31 @@ Page({
         name: "待付款",
         iconPath: "../../resource/unpay.png",
         link: PagePath.Page_Order_UnpayList_Index,
+        show: true,
       },
       {
         name: "待发货",
         iconPath: "../../resource/unsend.png",
         link: PagePath.Page_Order_UnsendList_Index,
+        show: true,
       },
       {
         name: "已发货",
         iconPath: "../../resource/transport.png",
         link: PagePath.Page_Order_SendList_Index,
+        show: true,
       },
       {
         name: "待评价",
         iconPath: "../../resource/unEvaluate.png",
         link: PagePath.Page_Order_UnevaluateList_Index,
+        show: true,
       },
       {
         name: "退款",
         iconPath: "../../resource/refund.png",
         link: PagePath.Page_Order_RefundList_Index,
+        show: true,
       },
     ], // 单据操作
     sellerOrderActionList: [
@@ -45,51 +50,61 @@ Page({
         name: "待付款",
         iconPath: "../../resource/unpay.png",
         link: PagePath.Page_Order_UnpayList_Index,
+        show: true,
       },
       {
         name: "待发货",
         iconPath: "../../resource/unsend.png",
         link: PagePath.Page_Order_UnsendList_Index,
+        show: true,
       },
       {
         name: "已发货",
         iconPath: "../../resource/transport.png",
         link: PagePath.Page_Order_SendList_Index,
+        show: true,
       },
       {
         name: "待评价",
         iconPath: "../../resource/unEvaluate.png",
         link: PagePath.Page_Order_UnevaluateList_Index,
+        show: true,
       },
       {
         name: "退款",
         iconPath: "../../resource/refund.png",
         link: PagePath.Page_Order_RefundList_Index,
+        show: true,
       },
       {
         name: "发布管理",
         iconPath: "../../resource/deliver.png",
         link: PagePath.Page_Me_ReleaseManager_Index,
+        show: true,
       },
       {
         name: "发券管理",
         iconPath: "../../resource/coupon.png",
         link: "",
+        show: false,
       },
       {
         name: "卖家认证",
         iconPath: "../../resource/qualification.png",
         link: PagePath.Page_Me_AuthenticateManager_Index,
+        show: true,
       },
       {
         name: "收款账户",
         iconPath: "../../resource/money_account.png",
         link: PagePath.Page_Me_ReceivingAccount_Index,
+        show: true,
       },
       {
         name: "缴保证金",
         iconPath: "../../resource/bond.png",
         link: PagePath.Page_Me_Bond_Index,
+        show: true,
       },
     ], // 卖家单据操作
     otherActionList: [
@@ -97,31 +112,37 @@ Page({
         name: "我是卖家",
         detail: "切换身份",
         link: "",
+        show: true,
       }, 
       {
         name: "收货地址",
         detail: "",
         link: PagePath.Page_Me_AddressManager,
+        show: true,
       }, 
       {
         name: "我的收藏",
         detail: "",
         link: PagePath.Page_Me_Collect_Index,
+        show: true,
       },
       {
         name: "用户帮助",
         detail: "",
         link: "",
+        show: false,
       }, 
       {
         name: "客服热线",
         detail: Config.Service_Phone,
         link: "",
+        show: true,
       }, 
       {
         name: "意见反馈",
         detail: "",
         link: "",
+        show: false,
       },
     ], // 其他操作
     sellerOtherActionList: [
@@ -129,31 +150,37 @@ Page({
         name: "我是买家",
         detail: "切换身份",
         link: "",
+        show: true,
       },
       {
         name: "售宠协议",
         detail: "",
         link: "",
+        show: false,
       },
       {
         name: "商家规范",
         detail: "",
         link: "",
+        show: false,
       },
       {
         name: "用户帮助",
         detail: "",
         link: "",
+        show: false,
       },
       {
         name: "客服热线",
         detail: Config.Service_Phone,
         link: "",
+        show: true,
       },
       {
         name: "意见反馈",
         detail: "",
         link: "",
+        show: false,
       },
     ], // 卖家其他操作
   },
