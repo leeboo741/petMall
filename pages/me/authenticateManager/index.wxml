@@ -1,0 +1,16 @@
+<!--pages/me/authenticateManager/index.wxml-->
+<i-navigation-bar title='卖家认证'
+                  showBackButton>
+</i-navigation-bar>
+
+<view wx:for='{{authenticateList}}'
+      wx:for-item='authenticateItem'
+      wx:for-index='authenticateIndex'
+      wx:key='{{authenticateIndex}}'
+      class="authenticate-item"
+      bindtap="tapItem"
+      data-link='{{authenticateItem.link}}'>
+  <view class="authenticate-item-title">
+  {{authenticateItem.name}}
+  </view>
+</view>

@@ -79,7 +79,7 @@ Page({
       {
         name: "卖家认证",
         iconPath: "../../resource/qualification.png",
-        link: "",
+        link: PagePath.Page_Me_AuthenticateManager_Index,
       },
       {
         name: "收款账户",
@@ -91,7 +91,7 @@ Page({
         iconPath: "../../resource/bond.png",
         link: "",
       },
-    ],
+    ], // 卖家单据操作
     otherActionList: [
       {
         name: "我是卖家",
@@ -155,7 +155,7 @@ Page({
         detail: "",
         link: "",
       },
-    ],
+    ], // 卖家其他操作
   },
 
   /**

@@ -17,6 +17,8 @@ const Page_Me_Setting = "/pages/me/setting/index"; // 编辑用户
 const Page_Me_ReleaseManager_Index = "/pages/me/releaseManager/index"; // 发布管理 首页 已发布列表
 const Page_Me_ReleaseManager_ReleaseNew = "/pages/me/releaseManager/releaseNew/index"; // 发布管理 发布新宠
 const Page_Me_ReleaseManager_ReleaseNew_TransportType = '/pages/me/releaseManager/releaseNew/selectTransportType/index'; // 发布管理 发布新宠 选择运输方式
+const Page_Me_AuthenticateManager_Index = "/pages/me/authenticateManager/index"; // 认证管理 首页
+const Page_Me_AuthenticateManager_Submit = "/pages/me/authenticateManager/submitAuthenticate/index"; // 认证管理 提交
 
 const Page_Login_Index = "/pages/login/index"; // 登陆
 const Page_Register_Index = "/pages/login/register/index"; // 注册
@@ -46,6 +48,8 @@ module.exports={
   Page_Me_ReleaseManager_Index, // 发布管理 首页 已发布列表
   Page_Me_ReleaseManager_ReleaseNew, // 发布管理 发布新宠
   Page_Me_ReleaseManager_ReleaseNew_TransportType, // 发布管理 发布新宠 选择运输方式
+  Page_Me_AuthenticateManager_Index, // 认证管理 首页
+  Page_Me_AuthenticateManager_Submit, // 认证管理 提交
 
   Page_Login_Index, // 登陆
   Page_Register_Index, // 注册

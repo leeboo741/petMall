@@ -21,8 +21,9 @@
     "pages/order/refundOrderList/index",
     "pages/me/releaseManager/index",
     "pages/me/releaseManager/releaseNew/index",
-    "pages/me/releaseManager/releaseNew/selectTransportType/index"
-    
+    "pages/me/releaseManager/releaseNew/selectTransportType/index",
+    "pages/me/authenticateManager/index",
+    "pages/me/authenticateManager/submitAuthenticate/index"
   ],
   "tabBar": {
     "color": "#80848f",

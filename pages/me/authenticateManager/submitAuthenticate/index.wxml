@@ -1,0 +1,124 @@
+<!--pages/me/authenticateManager/personalAuthenticate/index.wxml-->
+<i-navigation-bar title='{{title}}'
+                  showBackButton>
+</i-navigation-bar>
+
+<i-panel i-class='panel'
+         title='真实姓名及身份证号'>
+  <i-cell-group>
+    <i-cell title='真实姓名'>
+      <input class="normal-text"
+             slot='footer'
+             placeholder-class="placeholder-text"
+             placeholder="请输入您的真实姓名"
+             bindinput="inputName">
+      </input>
+    </i-cell>
+    <i-cell title='身份证号'>
+      <input class="normal-text"
+             slot='footer'
+             placeholder-class="placeholder-text"
+             placeholder="请输入您的身份证号码"
+             bindinput="inputIdentifier">
+      </input>
+    </i-cell>
+  </i-cell-group>
+</i-panel>
+
+<i-panel i-class='panel'
+         title='{{type==0?"手持身份证照片":"法定代表人手持身份证照片"}}'>
+  <i-cell>
+    <view slot='header'
+          class="upload-image-item">
+      <view class="upload-image-box"
+            bindtap="selectIdentifierImage">
+        <view class="upload-image-content">
+          <image class="upload-image"
+                  src="{{imagePathWithIdentifier}}"
+                  wx:if='{{parse.showImage(imagePathWithIdentifier)}}'>
+          </image>
+          <image class="upload-image-little"
+                  src='../../../../resource/add_new.png'
+                  wx:else>
+          </image>
+        </view>
+      </view>
+      <view class="upload-explain-box">
+        <image class="upload-explain-image"
+               src='../../../../resource/explain_identifier.png'>
+        </image>
+      </view>
+    </view>
+  </i-cell>
+</i-panel>
+
+<i-panel i-class='panel'
+         title='营业执照'
+         wx:if='{{type != 0}}'>
+  <i-cell>
+    <view slot='header'
+          class="upload-image-item">
+      <view class="upload-image-box"
+            bindtap="selectLicenseImage">
+        <view class="upload-image-content">
+          <image class="upload-image"
+                  src="{{imagePathWithLicense}}"
+                  wx:if='{{parse.showImage(imagePathWithLicense)}}'>
+          </image>
+          <image class="upload-image-little"
+                  src='../../../../resource/add_new.png'
+                  wx:else>
+          </image>
+        </view>
+      </view>
+      <view class="upload-explain-box">
+        <image class="upload-explain-image"
+               src='../../../../resource/explain_license.png'>
+        </image>
+      </view>
+    </view>
+  </i-cell>
+</i-panel>
+
+<i-panel i-class='panel'
+         title='实体照片'
+         wx:if='{{type == 2}}'>
+  <i-cell>
+    <view slot='header'
+          class="upload-image-item">
+      <view class="upload-image-box"
+            bindtap="selectStorefrontImage">
+        <view class="upload-image-content">
+          <image class="upload-image"
+                  src="{{imagePathWithStorefront}}"
+                  wx:if='{{parse.showImage(imagePathWithStorefront)}}'>
+          </image>
+          <image class="upload-image-little"
+                  src='../../../../resource/add_new.png'
+                  wx:else>
+          </image>
+        </view>
+      </view>
+      <view class="upload-explain-box">
+        <image class="upload-explain-image"
+               src='../../../../resource/explain_storefont.png'>
+        </image>
+      </view>
+    </view>
+  </i-cell>
+</i-panel>
+
+<view class="submit-button">
+提交审核
+</view>
+
+<wxs module='parse'>
+  module.exports={
+    showImage: function(image) {
+      if (image == null || image.length <= 0) {
+        return false;
+      }
+      return true;
+    }
+  }
+</wxs>
