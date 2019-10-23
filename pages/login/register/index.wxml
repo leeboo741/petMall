@@ -2,3 +2,38 @@
 <i-navigation-bar title='注册'
                   showBackButton>
 </i-navigation-bar>
+
+<i-cell-group>
+  <i-cell title='手机号'>
+    <view slot="icon"
+          class="non-null-icon">
+    *
+    </view>
+    <input slot="footer" 
+           placeholder="输入手机号"
+           bindinput="inputPhone"
+           type="number">
+    </input>
+  </i-cell>
+  <i-cell>
+    <view slot="icon"
+          class="non-null-icon">
+    *
+    </view>
+    <input slot="header"
+           placeholder="输入验证码"
+           bindinput="inputCode"
+           type="number">
+    </input>
+    <view class="get-code-button {{ableGetCode?'get-able':'get-disable'}}"
+          slot="footer"
+          bindtap="getCode">
+    {{getCodeTitle}}
+    </view>
+  </i-cell>
+</i-cell-group>
+<!-- 注册按钮 -->
+<button class='button-confirm' 
+        bindtap='registerAccount'>
+注册用户
+</button>
