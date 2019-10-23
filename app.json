@@ -17,6 +17,9 @@
     "pages/me/collect/index",
     "pages/me/point/index",
     "pages/me/point/pointDetail/index",
+    "pages/me/couponManager/index",
+    "pages/me/recharge/index",
+    "pages/me/withdrawal/index",
     "pages/mall/setmeal/index",
     "pages/mall/evaluate/index",
     "pages/mall/commodityInformation/index",
@@ -30,9 +33,8 @@
     "pages/order/sendOrderList/index",
     "pages/order/unevaluateOrderList/index",
     "pages/order/refundOrderList/index",
-    "pages/me/couponManager/index",
-    "pages/me/recharge/index",
-    "pages/me/withdrawal/index"
+    "pages/order/orderDetail/index",
+    "pages/me/setting/sellerSetting"
   ],
   "tabBar": {
     "color": "#80848f",

@@ -295,7 +295,9 @@ Page({
    * 点击修改商家信息
    */
   tapToEditStore: function(){
-
+    wx.navigateTo({
+      url: PagePath.Page_Me_SellerSetting,
+    })
   },
 
   /**

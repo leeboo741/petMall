@@ -2,3 +2,46 @@
 <i-navigation-bar title='选择运输方式'
                   showBackButton>
 </i-navigation-bar>
+
+<i-panel title='运输方式'
+         i-class='panel'>
+  <i-cell-group>
+    <i-cell wx:for='{{transportList}}'
+            wx:for-item='transportItem'
+            wx:for-index='transportIndex'
+            wx:key='{{transportIndex}}'>
+      <view class="header"
+            slot='header'
+            bindtap="tapSelected"
+            data-index='{{transportIndex}}'>
+        <i-icon type="unselected"
+                size="34"
+                color="orange"
+                wx:if='{{!transportItem.useable}}'>
+        </i-icon>
+        <i-icon type="selected"
+                size="34"
+                color="orange"
+                wx:else>
+        </i-icon>
+        <view class="name normal-text">
+        {{transportItem.name}}
+        </view>
+      </view>
+      <input class="input normal-text"
+             slot='footer'
+             placeholder-class="placeholder-class"
+             placeholder='{{transportItem.price}}'
+             bindinput="inputPrice"
+             data-index='{{transportIndex}}'
+             type="digit">
+
+      </input>
+    </i-cell>
+  </i-cell-group>
+</i-panel>
+
+<view class="submit-button"
+      bindtap="confirmSelected">
+确定
+</view>

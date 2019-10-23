@@ -15,6 +15,7 @@ const Page_Me_Index = "/pages/me/index"; // 我的 首页
 const Page_Me_AddressManager = "/pages/me/addressManager/index"; // 我的 收货地址 管理
 const Page_Me_AddressManager_AddNew = "/pages/me/addressManager/addNewAddress"; // 我的 收货地址管理 新增收货地址
 const Page_Me_Setting = "/pages/me/setting/index"; // 编辑用户
+const Page_Me_SellerSetting = "/pages/me/setting/sellerSetting"; // 编辑商家
 const Page_Me_ReleaseManager_Index = "/pages/me/releaseManager/index"; // 发布管理 首页 已发布列表
 const Page_Me_ReleaseManager_ReleaseNew = "/pages/me/releaseManager/releaseNew/index"; // 发布管理 发布新宠
 const Page_Me_ReleaseManager_ReleaseNew_TransportType = '/pages/me/releaseManager/releaseNew/selectTransportType/index'; // 发布管理 发布新宠 选择运输方式
@@ -37,6 +38,7 @@ const Page_Order_UnsendList_Index = "/pages/order/unsendOrderList/index"; // 待
 const Page_Order_SendList_Index = "/pages/order/sendOrderList/index"; // 已发货订单列表
 const Page_Order_UnevaluateList_Index = "/pages/order/unevaluateOrderList/index"; // 未评价订单列表
 const Page_Order_RefundList_Index = "/pages/order/refundOrderList/index"; // 退货|退款订单列表
+const Page_Order_Detail = "/pages/order/orderDetail/index"; // 订单详情
 
 module.exports={
   Page_Home, // 首页
@@ -55,6 +57,7 @@ module.exports={
   Page_Me_AddressManager, // 我的 收货地址 管理
   Page_Me_AddressManager_AddNew, // 我的 收货地址管理 新增收货地址
   Page_Me_Setting, // 我的 个人设置
+  Page_Me_SellerSetting, // 我的 商家设置
   Page_Me_ReleaseManager_Index, // 发布管理 首页 已发布列表
   Page_Me_ReleaseManager_ReleaseNew, // 发布管理 发布新宠
   Page_Me_ReleaseManager_ReleaseNew_TransportType, // 发布管理 发布新宠 选择运输方式
@@ -77,6 +80,6 @@ module.exports={
   Page_Order_SendList_Index, // 已发货订单列表
   Page_Order_UnevaluateList_Index, // 未评价订单列表
   Page_Order_RefundList_Index, // 退货|退款订单列表
- 
+  Page_Order_Detail, // 订单详情
 }
 

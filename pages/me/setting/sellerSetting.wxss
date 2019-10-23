@@ -1,0 +1,18 @@
+/* pages/me/setting/sellerSetting.wxss */
+
+.avatar{
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 40rpx;
+}
+
+.login-out-button{
+  width: 100%;
+  background: linear-gradient(to right, rgb(255,147,87) , rgb(255, 51, 59));
+  text-align: center;
+  font-size: 38rpx;
+  color: white;
+  position: fixed;
+  bottom: 0rpx;
+  left: 0rpx;
+}

@@ -5,7 +5,38 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    transportList: [
+      {
+        name: "航空", // 名称
+        price: 600, // 价格
+        useable: true, // 可用
+      },
+      {
+        name: "专车", // 名称
+        price: 400, // 价格
+        useable: true, // 可用
+      },
+      {
+        name: "大巴", // 名称
+        price: 200, // 价格
+        useable: true, // 可用
+      },
+      {
+        name: "铁路", // 名称
+        price: 300, // 价格
+        useable: true, // 可用
+      },
+      {
+        name: "航运", // 名称
+        price: 500, // 价格
+        useable: true, // 可用
+      },
+      {
+        name: "自提", // 名称
+        price: 0, // 价格
+        useable: true, // 可用
+      },
+    ],
   },
 
   /**
@@ -62,5 +93,34 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+
+  /**
+   * 点击 选择 取消
+   */
+  tapSelected: function (e) {
+    let tempTransport = this.data.transportList[e.currentTarget.dataset.index];
+    tempTransport.useable = !tempTransport.useable;
+    this.setData({
+      transportList: this.data.transportList
+    })
+  },
+
+  /**
+   * 输入价格
+   */
+  inputPrice: function (e) {
+    let tempTransport = this.data.transportList[e.currentTarget.dataset.index];
+    tempTransport.tempPrice = e.detail.value;
+    this.setData({
+      transportList: this.data.transportList
+    })
+  },
+
+  /**
+   * 确认选择
+   */
+  confirmSelected: function () {
+    console.log("确定选择: \n" + JSON.stringify(this.data.transportList));
   }
 })

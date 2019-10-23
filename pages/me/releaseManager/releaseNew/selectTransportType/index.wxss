@@ -1,1 +1,35 @@
 /* pages/me/releaseManager/releaseNew/selectTransportType/index.wxss */
+
+.header{
+  display: flex;
+  flex-direction: row;
+}
+
+.name{
+  margin-left: 8rpx;
+}
+
+.input{
+  background: rgb(240, 240, 240);
+}
+
+.normal-text{
+  color: #778899;
+}
+
+.placeholder-text{
+  color: lightgray;
+}
+
+.submit-button{
+  width: 90%;
+  border-radius: 10rpx;
+  margin: 20rpx auto;
+  height: 90rpx;
+  background: linear-gradient(to right, rgb(255,147,87) , rgb(255, 51, 59));
+  color: white;
+  font-size: 34rpx;
+  line-height: 90rpx;
+  text-align: center;
+  box-shadow: 0rpx 0rpx 30rpx 5rpx #dad9d9;
+}

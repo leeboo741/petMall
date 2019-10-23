@@ -1,7 +1,8 @@
-// pages/me/editPersonal/index.js
-const UserService = require("../../../services/userService.js");
-const PagePath = require("../../../macros/pagePath.js");
+// pages/me/setting/sellerSetting.js
+
 const app = getApp();
+const UserService = require("../../../services/userService.js");
+
 Page({
 
   /**
@@ -11,11 +12,6 @@ Page({
     pageHeight: null,
 
     userInfo: null,
-
-    newAvatarPath: null, 
-    newNameStr: null,
-
-    managerAddressUrl: null,
   },
 
   /**
@@ -24,7 +20,6 @@ Page({
   onLoad: function (options) {
     this.setData({
       userInfo: UserService.getLocalUserInfo(),
-      managerAddressUrl: PagePath.Page_Me_AddressManager,
       pageHeight: app.globalData.pageHeight
     })
   },
@@ -76,37 +71,5 @@ Page({
    */
   onShareAppMessage: function () {
 
-  },
-
-  /**
-   * 点击退出登陆
-   */
-  tapLoginOut: function() {
-    UserService.deleteLocalUserInfo();
-    wx.navigateBack({
-      
-    })
-  },
-
-  /**
-   * 选择头像
-   */
-  selectUserAvatar: function () {
-    let that = this;
-    wx.chooseImage({
-      count: 1,
-      success: function(res) {
-        that.setData({
-          newAvatarPath: res.tempFilePaths[0]
-        })
-      },
-    })
-  },
-
-  /**
-   * 输入用户名称
-   */
-  inputUserName: function (e) {
-    this.data.newNameStr = e.detail.value
   }
 })

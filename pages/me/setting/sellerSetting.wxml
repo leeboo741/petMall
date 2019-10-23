@@ -1,0 +1,57 @@
+<!--pages/me/setting/sellerSetting.wxml-->
+<i-navigation-bar title='商家资料'
+                  showBackButton>
+</i-navigation-bar>
+
+<i-panel>
+  <i-cell-group>
+    <i-cell title='修改店铺Logo'>
+      <image class="avatar"
+             slot='footer'
+             src='{{parse.getAvatarPath(newAvatarPath, userInfo)}}'
+             bindtap="selectStoreLogo">
+      </image>
+    </i-cell>
+    
+    <i-cell title='修改店铺名称'>
+      <input slot='footer'
+            placeholder="{{userInfo.name}}"
+            value='{{newNameStr}}'
+            bindinput="inputUserName">
+      </input>
+    </i-cell>
+
+    <i-cell title='修改店铺联系人'>
+      <input slot='footer'
+            placeholder="{{userInfo.name}}"
+            value='{{newNameStr}}'
+            bindinput="inputUserName">
+      </input>
+    </i-cell>
+
+    <i-cell title='修改店铺联系电话'>
+      <input slot='footer'
+            placeholder="{{userInfo.phone}}"
+            value='{{newNameStr}}'
+            bindinput="inputUserName">
+      </input>
+    </i-cell>
+  </i-cell-group>
+</i-panel>
+
+<view class="login-out-button"
+      style="height: 50px; line-height:50px;"
+      bindtap="tapLoginOut">
+退出登陆
+</view>
+
+<wxs module='parse'>
+  module.exports={
+    getAvatarPath: function(newAvatarPath, userInfo) {
+      if (newAvatarPath == null || newAvatarPath.length <= 0) {
+        return userInfo.avatar;
+      } 
+      return newAvatarPath;
+    }
+  }
+</wxs>
