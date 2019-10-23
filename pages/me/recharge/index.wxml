@@ -1,0 +1,26 @@
+<!--pages/me/recharge/index.wxml-->
+<i-navigation-bar title='充值'
+                  showBackButton>
+</i-navigation-bar>
+
+<view class="page-box"
+      style="height: {{pageHeight}}px">
+  <view class="recharge-content">
+    <view class="recharge-input-box">
+      <view class="recharge-unit">
+      ￥
+      </view>
+      <input class="recharge-input"
+             type="digit"
+             placeholder="充值金额"
+             placeholder-class="recharge-input-placeholder"
+             bindinput="inputAmount">
+      </input>
+    </view>
+    <view class="pay-button"
+          bindtap="tapRecharge">
+    充值
+    </view>
+  </view>
+</view>
+

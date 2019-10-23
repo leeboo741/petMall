@@ -30,7 +30,9 @@
     "pages/order/sendOrderList/index",
     "pages/order/unevaluateOrderList/index",
     "pages/order/refundOrderList/index",
-    "pages/me/couponManager/index"
+    "pages/me/couponManager/index",
+    "pages/me/recharge/index",
+    "pages/me/withdrawal/index"
   ],
   "tabBar": {
     "color": "#80848f",

@@ -1,0 +1,28 @@
+<!--pages/me/withdrawal/index.wxml-->
+<i-navigation-bar title='提现'
+                  showBackButton>
+</i-navigation-bar>
+
+<view class="page-box"
+      style="height: {{pageHeight}}px">
+  <view class="recharge-content">
+    <view class="balance">
+    可提余额：{{balance}}元
+    </view>
+    <view class="recharge-input-box">
+      <view class="recharge-unit">
+      ￥
+      </view>
+      <input class="recharge-input"
+             type="digit"
+             placeholder="提现金额"
+             placeholder-class="recharge-input-placeholder"
+             bindinput="inputAmount">
+      </input>
+    </view>
+    <view class="pay-button"
+          bindtap="tapRecharge">
+    提现
+    </view>
+  </view>
+</view>

@@ -329,13 +329,17 @@ Page({
    * 点击余额
    */
   tapRecharge: function() {
-
+    wx.navigateTo({
+      url: PagePath.Page_Me_Recharge_Index,
+    })
   },
 
   /**
    * 点击提现
    */
   tapWithdrawal: function () {
-
+    wx.navigateTo({
+      url: PagePath.Page_Me_Withdrawal_Index,
+    })
   },
 })
