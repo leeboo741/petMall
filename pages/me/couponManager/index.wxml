@@ -1,0 +1,50 @@
+<!--pages/me/couponManager/index.wxml-->
+<i-navigation-bar title='优惠券'
+                  showBackButton>
+</i-navigation-bar>
+
+<view wx:for='{{couponList}}'
+      wx:for-item='couponItem'
+      wx:for-index='couponIndex'
+      wx:key='{{couponIndex}}'
+      class="coupon-item">
+  <view class="coupon-value-box">
+    <view class="coupon-value">
+    ￥{{couponItem.value}}
+    </view>
+    <view class="coupon-unit">
+    元
+    </view>
+  </view>
+  <view class="coupon-line-v">
+  </view>
+  <view class="coupon-info-box">
+    <view class="coupon-info-name">
+    {{couponItem.name}}
+    </view>
+    <view class="coupon-info-detail">
+    {{couponItem.detail}}
+    </view>
+    <view class="coupon-info-expire">
+    有效期至：{{couponItem.expireDate}}
+    </view>
+  </view>
+</view>
+
+<view class="explain-box">
+  <view class="explain-title-box">
+    <view class="explain-title-bg-box">
+      <view class="explain-title-bg-line"></view>
+    </view>
+    <view class="explain-title-content">
+    优惠券规则
+    </view>
+  </view>
+  <text class="explain-content">
+  1. 优惠券必须在有效期内和指定使用范围内使用。\n
+  2. 一个订单只能使用一张优惠券，可以和积分一起使用。\n
+  3. 包括但不限于恶意刷单、利用程序漏洞、被封号处理等行为，平台将取消优惠券使用资格。\n
+  4. 用户获得但未使用的积分，将在一个自然年底过期。每年1月1日清空上一年度获得但未使用的积分。\n
+  5. 使用积分支付的订单，如果发生退款，积分将直接进行作废处理，不再返还。
+  </text>
+</view>

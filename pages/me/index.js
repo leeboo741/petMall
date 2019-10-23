@@ -315,4 +315,27 @@ Page({
       url: PagePath.Page_Me_Point_Index,
     })
   },
+
+  /**
+   * 点击优惠券
+   */
+  tapCoupon: function() {
+    wx.navigateTo({
+      url: PagePath.Page_Me_CouponManager_Index,
+    })
+  },
+
+  /**
+   * 点击余额
+   */
+  tapRecharge: function() {
+
+  },
+
+  /**
+   * 点击提现
+   */
+  tapWithdrawal: function () {
+
+  },
 })

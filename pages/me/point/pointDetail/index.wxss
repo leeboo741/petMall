@@ -1,1 +1,52 @@
 /* pages/me/point/pointDetail/index.wxss */
+.detail-title-box{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-bottom: 2rpx solid #778899;
+  font-size: 34rpx;
+  font-weight: bold;
+  color: #778899;
+  height: 90rpx;
+  padding: 10rpx 20rpx;
+}
+
+.detail-point{
+  text-align: center;
+  width: 20%;
+}
+
+.detail-reason{
+  text-align: center;
+  width:50%;
+}
+
+.detail-time{
+  text-align: center;
+  width: 35%;
+}
+
+
+
+.point-detail-item{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-bottom: 1rpx dashed lightgray;
+  font-size: 30rpx;
+  color: gray;
+  height: 90rpx;
+  padding: 10rpx 20rpx;
+}
+
+.time{
+  font-size: 22rpx;
+}
+
+.out{
+  color: #ee2c2c;
+}
+
+.in{
+  color: #F7C84D;
+}

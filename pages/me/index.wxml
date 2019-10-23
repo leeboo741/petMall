@@ -84,7 +84,8 @@
         </view>
         <view class="userinfo-box-line-v">
         </view>
-        <view class='userinfo-value-item'>
+        <view class='userinfo-value-item'
+              bindtap="tapCoupon">
           <view class="userinfo-value-item-value-box">
             <view class="userinfo-value-item-value">
             0<!-- {{userinfo.couponCount}} -->
@@ -239,7 +240,8 @@
       </view>
       <!-- 积分 优惠券 -->
       <view class="userinfo-value-box">
-        <view class='userinfo-value-item'>
+        <view class='userinfo-value-item'
+              bindtap="tapRecharge">
           <view class="userinfo-value-item-value-box">
             <view class="userinfo-value-item-value">
             0<!-- {{userinfo.point}} -->
@@ -254,7 +256,8 @@
         </view>
         <view class="userinfo-box-line-v">
         </view>
-        <view class='userinfo-value-item'>
+        <view class='userinfo-value-item'
+              bindtap="tapWithdrawal">
           <view class="userinfo-value-item-value-box">
             <view class="userinfo-value-item-value">
             0<!-- {{userinfo.couponCount}} -->

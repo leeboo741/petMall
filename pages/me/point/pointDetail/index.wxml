@@ -2,3 +2,38 @@
 <i-navigation-bar title='积分明细'
                   showBackButton>
 </i-navigation-bar>
+
+<view class="detail-title-box">
+  <view class="detail-point">
+  积分
+  </view>
+  <view class="detail-reason">
+  事项
+  </view>
+  <view class="detail-time">
+  时间
+  </view>
+</view>
+
+<view wx:for='{{pointDetailList}}'
+      wx:for-item='pointDetailItem'
+      wx:for-index='pointDetailIndex'
+      wx:key='{{pointDetailIndex}}'
+      class="point-detail-item">
+  <view class="detail-point {{pointDetailItem.type=='支出'?'out':'in'}}">
+  {{pointDetailItem.type=="支出"?"-":"+"}} {{pointDetailItem.point}}
+  </view>
+  <view class="detail-reason">
+  {{pointDetailItem.reason}}
+  </view>
+  <view class="detail-time time">
+  {{pointDetailItem.date}} {{pointDetailItem.time}}
+  </view>
+</view>
+
+<!-- 加载块 -->
+<i-load-foot-item loadState='{{loadState}}'>
+</i-load-foot-item>
+
+
+
