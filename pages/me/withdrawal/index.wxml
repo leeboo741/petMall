@@ -21,7 +21,7 @@
       </input>
     </view>
     <view class="pay-button"
-          bindtap="tapRecharge">
+          bindtap="tapWithdrawal">
     提现
     </view>
   </view>

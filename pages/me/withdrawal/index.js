@@ -68,5 +68,12 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+
+  /**
+   * 提现
+   */
+  tapWithdrawal: function () {
+    
   }
 })

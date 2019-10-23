@@ -67,5 +67,12 @@ Page({
    */
   onShareAppMessage: function () {
 
-  }
+  },
+
+  /**
+   * 点击充值
+   */
+  tapRecharge: function () {
+
+  },
 })
