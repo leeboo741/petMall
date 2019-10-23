@@ -146,7 +146,7 @@
 
 .select-address-page{
   position: fixed; 
-  top:244rpx;
+  top:230rpx;
   width: 100%;
   height: 85vh;
   z-index: 2;

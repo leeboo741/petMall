@@ -25,170 +25,357 @@ Page({
     ],
     recommendedBusinesses:[
       {
-        recommendeImageUrl:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571659615888&di=c28964589a162ad2e7d23f914e3121a8&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201802%2F12%2F20180212000014_5jSev.jpeg",//头像
-        recommendeName:"聚宠优品", //商户名称
-        merchantStars:2,          //好评星星数
-        merchantAddress:"江西南昌东湖区666号",  //地址
-        merchantIntroduction:"家养泰迪",        //介绍
-        petsImage:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571659615888&di=c28964589a162ad2e7d23f914e3121a8&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201802%2F12%2F20180212000014_5jSev.jpeg",  //宠物图片
-        tradingVolume:2,   //担保交易量
-        petsName:"大宝",   //宠物名称
-        petsPrice:1200     //价格
+        merchantImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805063571&di=0bccd3e717c8d8bf148f02e38f9cca26&imgtype=0&src=http%3A%2F%2Fimg.taopic.com%2Fuploads%2Fallimg%2F120620%2F201981-120620142308100.jpg",  //头像
+        merchantName: "阿宝精品",                                //商家名称
+        merchantAddress: "江西省南昌市南昌县666号",               //商家地址
+        merchantOnSale: "在售574只，担保交易量505只",             //交易数量介绍
+        merchantStars: 3,                                       //评价星星数
+        tradingVolume: 5,                                       //担保交易量
+        merchantIntroduction:"最帅宝宝",                         //宠物介绍
+        dogInforMation: [
+          {
+            dogImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805063571&di=927a863a0899b6e8e2562efee970caa1&imgtype=0&src=http%3A%2F%2Fwww.pig66.com%2Fuploadfile%2F2017%2F1223%2F20171223041006689.png",                                                            //宠物图片
+            dogName: "边境牧羊犬1",                                //宠物品种
+            dogPrice: 3000,                                      //宠物价格
+            dogAddress: "江西南昌",                               //宠物地址
+            petsName: "大宝"                                      //宠物名称
+          },
+          {
+            dogImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805063570&di=dc3942f265da34441b08990dd317a6c3&imgtype=0&src=http%3A%2F%2Fwww.pig66.com%2Fuploadfile%2F2017%2F1223%2F20171223041021235.png",
+            dogName: "边境牧羊犬2",
+            dogPrice: 3000,
+            dogAddress: "江西南昌",
+            petsName: "小宝"   //宠物名称
+          },
+          {
+            dogImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805063570&di=b9a99d1329117890de16f08b5cc15602&imgtype=0&src=http%3A%2F%2Fpic3.58cdn.com.cn%2Fp1%2Fbig%2Fn_v20c0e8f44827e4295b857bcabb4ab1d62.jpg",
+            dogName: "边境牧羊犬3",
+            dogPrice: 3000,
+            dogAddress: "江西南昌",
+            petsName: "中宝"   //宠物名称
+          },
+          {
+            dogImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805063570&di=b9a99d1329117890de16f08b5cc15602&imgtype=0&src=http%3A%2F%2Fpic3.58cdn.com.cn%2Fp1%2Fbig%2Fn_v20c0e8f44827e4295b857bcabb4ab1d62.jpg",
+            dogName: "边境牧羊犬4",
+            dogPrice: 3000,
+            dogAddress: "江西南昌",
+            petsName: "中宝"   //宠物名称
+          },
+          {
+            dogImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805063570&di=b9a99d1329117890de16f08b5cc15602&imgtype=0&src=http%3A%2F%2Fpic3.58cdn.com.cn%2Fp1%2Fbig%2Fn_v20c0e8f44827e4295b857bcabb4ab1d62.jpg",
+            dogName: "边境牧羊犬5",
+            dogPrice: 3000,
+            dogAddress: "江西南昌",
+            petsName: "中宝"   //宠物名称
+          },
+          {
+            dogImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805063570&di=b9a99d1329117890de16f08b5cc15602&imgtype=0&src=http%3A%2F%2Fpic3.58cdn.com.cn%2Fp1%2Fbig%2Fn_v20c0e8f44827e4295b857bcabb4ab1d62.jpg",
+            dogName: "边境牧羊犬6",
+            dogPrice: 3000,
+            dogAddress: "江西南昌",
+            petsName: "中宝"   //宠物名称
+          },
+          {
+            dogImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805063570&di=b9a99d1329117890de16f08b5cc15602&imgtype=0&src=http%3A%2F%2Fpic3.58cdn.com.cn%2Fp1%2Fbig%2Fn_v20c0e8f44827e4295b857bcabb4ab1d62.jpg",
+            dogName: "边境牧羊犬7",
+            dogPrice: 3000,
+            dogAddress: "江西南昌",
+            petsName: "中宝"   //宠物名称
+          }
+        ]
       },
       {
-        recommendeImageUrl: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571659615888&di=f8421b4c5a3e10e77581f072cdc2fbd1&imgtype=0&src=http%3A%2F%2Fpic.qjimage.com%2Feast027%2Fhigh%2Feast-ep-a21-9717711.jpg",
-        recommendeName: "阿宝精",
+        merchantImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805063570&di=e00823c082ab5f764b74fcb5ddee3b3b&imgtype=0&src=http%3A%2F%2Fimg1.juimg.com%2F171214%2F330841-1G21421502628.jpg",
+        merchantName: "阿宝精品",
+        merchantAddress: "江西省南昌市南昌县666号",
+        merchantOnSale: "在售574只，担保交易量505只",
         merchantStars: 3,
-        merchantAddress: "江西南昌东湖区666号",
-        merchantIntroduction: "家养泰迪",
-        petsImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571659615888&di=c28964589a162ad2e7d23f914e3121a8&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201802%2F12%2F20180212000014_5jSev.jpeg",
-        tradingVolume: 7,   //担保交易量
-        petsName: "大宝",   //宠物名称
-        petsPrice: 1200   
-      },
-      {
-        recommendeImageUrl: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571659641057&di=ace4c59f3a567531dab294b0166e5ccf&imgtype=jpg&src=http%3A%2F%2Fimg2.imgtn.bdimg.com%2Fit%2Fu%3D1799409112%2C785386547%26fm%3D214%26gp%3D0.jpg",
-        recommendeName: "终身售后",
-        merchantStars: 4,
-        merchantAddress: "江西南昌东湖区666号",
-        merchantIntroduction: "家养泰迪",
-        petsImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571659615888&di=c28964589a162ad2e7d23f914e3121a8&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201802%2F12%2F20180212000014_5jSev.jpeg",
         tradingVolume: 5,   //担保交易量
-        petsName: "大宝",   //宠物名称
-        petsPrice: 1200   
+        merchantIntroduction: "最帅宝宝",
+        dogInforMation: [
+          {
+            dogImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805063570&di=baa38330196796a72dbe7a13725bc906&imgtype=0&src=http%3A%2F%2Fpic2.58cdn.com.cn%2Fmobile%2Fbig%2Fn_v29a7ff73d703e4979b7d51358c65fd996.jpg",
+            dogName: "边境牧羊犬8",
+            dogPrice: 3000,
+            dogAddress: "江西南昌",
+            petsName: "大宝"   //宠物名称
+          },
+          {
+            dogImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805063570&di=102e44086b4fca60be6530368f832759&imgtype=0&src=http%3A%2F%2Fimg.juimg.com%2Ftuku%2Fyulantu%2F121005%2F219049-12100519111038.jpg",
+            dogName: "边境牧羊犬9",
+            dogPrice: 3000,
+            dogAddress: "江西南昌",
+            petsName: "小宝"   //宠物名称
+          },
+          {
+            dogImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805063569&di=2749abcd4743034fcf345e86794e139e&imgtype=0&src=http%3A%2F%2Fimg1.gtimg.com%2Fln%2Fpics%2Fhv1%2F157%2F92%2F2216%2F144119017.jpg",
+            dogName: "边境牧羊犬10",
+            dogPrice: 3000,
+            dogAddress: "江西南昌",
+            petsName: "中宝"   //宠物名称
+          }
+        ]
       },
       {
-        recommendeImageUrl: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571659615886&di=3447ec5d60504cfbc492af5688394782&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201708%2F30%2F20170830102345_LXUSz.thumb.700_0.jpeg",
-        recommendeName: "宠先生",
-        merchantStars: 5,
-        merchantAddress: "江西南昌东湖区666号",
-        merchantIntroduction: "家养泰迪",
-        petsImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571659615888&di=c28964589a162ad2e7d23f914e3121a8&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201802%2F12%2F20180212000014_5jSev.jpeg",
-        tradingVolume: 1,   //担保交易量
-        petsName: "大宝",   //宠物名称
-        petsPrice: 1200   
-      },
-      {
-        recommendeImageUrl: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571659615885&di=3a797e0890dc4602684f7d225d56febc&imgtype=0&src=http%3A%2F%2Fimg02.tooopen.com%2FDowns%2Fimages%2F2010%2F8%2F1%2Fsy_20100801110936765065.jpg",
-        recommendeName: "大宝先生",
-        merchantStars: 2,
-        merchantAddress: "江西南昌东湖区666号",
-        merchantIntroduction: "家养泰迪",
-        petsImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571659615888&di=c28964589a162ad2e7d23f914e3121a8&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201802%2F12%2F20180212000014_5jSev.jpeg",
-        tradingVolume: 4,   //担保交易量
-        petsName: "大宝",   //宠物名称
-        petsPrice: 1200   
-      },
-      {
-        recommendeImageUrl: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571659615883&di=f8c406a57e3ba2c997aad313a03c0db4&imgtype=0&src=http%3A%2F%2Fimage.biaobaiju.com%2Fuploads%2F20180801%2F00%2F1533055090-cfEqDAVYsC.jpg",
-        recommendeName: "小包先生",
-        merchantStars: 1,
-        merchantAddress: "江西南昌东湖区666号",
-        merchantIntroduction: "家养泰迪",
-        petsImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571659615888&di=c28964589a162ad2e7d23f914e3121a8&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201802%2F12%2F20180212000014_5jSev.jpeg",
-        tradingVolume: 3,   //担保交易量
-        petsName: "大宝",   //宠物名称
-        petsPrice: 1200   
-      },
-      {
-        recommendeImageUrl: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571659615883&di=94c885120ed5aae2eb9877f75af93a53&imgtype=0&src=http%3A%2F%2Fimages.liqucn.com%2Fimg%2Fh1%2Fh969%2Fimg201709201023420_info300X300.jpg",
-        recommendeName: "宠宝",
+        merchantImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805063569&di=1a731c062c4d1cf2b4416a4848bed7ef&imgtype=0&src=http%3A%2F%2Fimg.pconline.com.cn%2Fimages%2Fupload%2Fupc%2Ftx%2Fitbbs%2F1402%2F14%2Fc10%2F31249913_1392366826778_mthumb.jpg",
+        merchantName: "阿宝精品",
+        merchantAddress: "江西省南昌市南昌县666号",
+        merchantOnSale: "在售574只，担保交易量505只",
         merchantStars: 3,
-        merchantAddress: "江西南昌东湖区666号",
-        merchantIntroduction: "家养泰迪",
-        petsImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571659615888&di=c28964589a162ad2e7d23f914e3121a8&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201802%2F12%2F20180212000014_5jSev.jpeg",
         tradingVolume: 5,   //担保交易量
-        petsName: "大宝",   //宠物名称
-        petsPrice: 1200   
+        merchantIntroduction: "最帅宝宝",
+        dogInforMation: [
+          {
+            dogImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805063568&di=5434a33e5a58aca67d92137ef6ae6fd9&imgtype=0&src=http%3A%2F%2Fpic2.58cdn.com.cn%2Fmobile%2Fbig%2Fn_v1bkuyfvpaquovrkvembya_22e4e0b640348b34.jpg",
+            dogName: "边境牧羊犬11",
+            dogPrice: 3000,
+            dogAddress: "江西南昌",
+            petsName: "大宝"   //宠物名称
+          },
+          {
+            dogImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805063568&di=9e7daf936caf375469c3d0168a680bbc&imgtype=0&src=http%3A%2F%2Fimg006.hc360.cn%2Fm1%2FM02%2F9E%2F68%2FwKhQcFQ-Cz6EaOX8AAAAABJm3-g293.jpg",
+            dogName: "边境牧羊犬12",
+            dogPrice: 3000,
+            dogAddress: "江西南昌",
+            petsName: "小宝"   //宠物名称
+          },
+          {
+            dogImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805063567&di=eb6b9e6a8b8d8d869750425e0e14d62a&imgtype=0&src=http%3A%2F%2Ftct.ganjistatic1.com%2Fgjfsqq%2F65067eb0a18e4550acd61a0d03c37722_600-0_6-0.jpg",
+            dogName: "边境牧羊犬13",
+            dogPrice: 3000,
+            dogAddress: "江西南昌",
+            petsName: "中宝"   //宠物名称
+          }
+        ]
       },
+      {
+        merchantImage: "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2905796729,1432118608&fm=26&gp=0.jpg",
+        merchantName: "阿宝精品",
+        merchantAddress: "江西省南昌市南昌县666号",
+        merchantOnSale: "在售574只，担保交易量505只",
+        merchantStars: 3,
+        tradingVolume: 5,   //担保交易量
+        merchantIntroduction: "最帅宝宝",
+        dogInforMation: [
+          {
+            dogImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805063567&di=756203da759e7ec9961f851968e7af4c&imgtype=0&src=http%3A%2F%2Fimg3.duitang.com%2Fuploads%2Fitem%2F201601%2F26%2F20160126200901_PBz2A.thumb.700_0.jpeg",
+            dogName: "边境牧羊犬14",
+            dogPrice: 3000,
+            dogAddress: "江西南昌",
+            petsName: "大宝"   //宠物名称
+          },
+          {
+            dogImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805063566&di=40bdf89bb6171a2f3ae9f7a3407ad417&imgtype=0&src=http%3A%2F%2Fpic5.58cdn.com.cn%2Fmobile%2Fbig%2Fn_v1bl2lwtpa35yvrq3iaiha_4b902c3d9f8abab8.jpg",
+            dogName: "边境牧羊犬15",
+            dogPrice: 3000,
+            dogAddress: "江西南昌",
+            petsName: "小宝"   //宠物名称
+          },
+          {
+            dogImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805063566&di=9355fca1027d6935548eccce9620e869&imgtype=0&src=http%3A%2F%2Fimg011.hc360.cn%2Fy5%2FM05%2FC9%2FE3%2FwKhQUVYrUPKEBVMNAAAAAI1QT_U470.jpg",
+            dogName: "边境牧羊犬16",
+            dogPrice: 3000,
+            dogAddress: "江西南昌",
+            petsName: "中宝"   //宠物名称
+          }
+        ]
+      },
+      {
+        merchantImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805063565&di=6430433c351af1a2116ea0fb9221b0c7&imgtype=0&src=http%3A%2F%2Ftct.ganjistatic1.com%2Fgjfsqq%2F38f312f6c3624dadb2b747110918929d_600-0_6-0.png",
+        merchantName: "阿宝精品",
+        merchantAddress: "江西省南昌市南昌县666号",
+        merchantOnSale: "在售574只，担保交易量505只",
+        merchantStars: 3,
+        tradingVolume: 5,   //担保交易量
+        merchantIntroduction: "最帅宝宝",
+        dogInforMation: [
+          {
+            dogImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805063564&di=7acb0a58f5e8db118d68e56b0ed7dd48&imgtype=0&src=http%3A%2F%2Fimg.juimg.com%2Ftuku%2Fyulantu%2F110915%2F8880-11091500191087.jpg",
+            dogName: "边境牧羊犬17",
+            dogPrice: 3000,
+            dogAddress: "江西南昌",
+            petsName: "大宝"   //宠物名称
+          },
+          {
+            dogImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805063564&di=5efb12dce24c1f3c8e1eaec426d02bc1&imgtype=0&src=http%3A%2F%2Ftct.ganjistatic1.com%2Fgjfsqq%2Fb3d7b6faadd94c5491fd85ef5d78880d_600-0_6-0.png",
+            dogName: "边境牧羊犬18",
+            dogPrice: 3000,
+            dogAddress: "江西南昌",
+            petsName: "小宝"   //宠物名称
+          },
+          {
+            dogImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805063563&di=687bb2e28307037e4c8c8b4e16789e80&imgtype=0&src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2Fb%2F53e85bc3bb3d0.jpg",
+            dogName: "边境牧羊犬19",
+            dogPrice: 3000,
+            dogAddress: "江西南昌",
+            petsName: "中宝"   //宠物名称
+          }
+        ]
+      },
+      {
+        merchantImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805162393&di=45bb433dfc41ece1ef28baa698d4b48e&imgtype=0&src=http%3A%2F%2Fimg010.hc360.cn%2Fhb%2FMTQ1OTM5MzYwNTAzMjM5ODY2NTg4OQ%3D%3D.jpg",
+        merchantName: "阿宝精品",
+        merchantAddress: "江西省南昌市南昌县666号",
+        merchantOnSale: "在售574只，担保交易量505只",
+        merchantStars: 3,
+        tradingVolume: 5,   //担保交易量
+        merchantIntroduction: "最帅宝宝",
+        dogInforMation: [
+          {
+            dogImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805162393&di=45bb433dfc41ece1ef28baa698d4b48e&imgtype=0&src=http%3A%2F%2Fimg010.hc360.cn%2Fhb%2FMTQ1OTM5MzYwNTAzMjM5ODY2NTg4OQ%3D%3D.jpg",
+            dogName: "边境牧羊犬20",
+            dogPrice: 3000,
+            dogAddress: "江西南昌",
+            petsName: "大宝"   //宠物名称
+          },
+          {
+            dogImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805162393&di=d04400c4529f6f5ed8623fb2d046a100&imgtype=0&src=http%3A%2F%2Ftct.ganjistatic1.com%2Fgjfsqq%2Fb1428b52e20e4eb0aab30708d699dc3d_600-0_6-0.jpg",
+            dogName: "边境牧羊犬21",
+            dogPrice: 3000,
+            dogAddress: "江西南昌",
+            petsName: "小宝"   //宠物名称
+          },
+          {
+            dogImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805162392&di=9cbbfd16b4ffb005c6ead65f199aa329&imgtype=0&src=http%3A%2F%2Fimg.lelezone.com%2Fthumb%2Fp%2Fimgs%2F10%2F10461%2F10461_6.jpg",
+            dogName: "边境牧羊犬22",
+            dogPrice: 3000,
+            dogAddress: "江西南昌",
+            petsName: "中宝"   //宠物名称
+          }
+        ]
+      },
+      {
+        merchantImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805162392&di=8cc6f45c734232e9ff17829657d564e7&imgtype=0&src=http%3A%2F%2Ftct.ganjistatic1.com%2Fgjfsqq%2F51d7ba36ffb647358b581ffac2998404_600-0_6-0.jpg",
+        merchantName: "阿宝精品",
+        merchantAddress: "江西省南昌市南昌县666号",
+        merchantOnSale: "在售574只，担保交易量505只",
+        merchantStars: 3,
+        tradingVolume: 5,   //担保交易量
+        merchantIntroduction: "最帅宝宝",
+        dogInforMation: [
+          {
+            dogImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805162392&di=bacc587e3272b53405876e2c327c185b&imgtype=0&src=http%3A%2F%2Fpic24.nipic.com%2F20120907%2F8259641_151152245183_2.jpg",
+            dogName: "边境牧羊犬23",
+            dogPrice: 3000,
+            dogAddress: "江西南昌",
+            petsName: "大宝"   //宠物名称
+          },
+          {
+            dogImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805162392&di=192be818f757e93e9ea6a92ac7591d14&imgtype=0&src=http%3A%2F%2Fpic4.58cdn.com.cn%2Fmobile%2Fbig%2Fn_v1bkujjdz3lvevs2lxpnma.jpg",
+            dogName: "边境牧羊犬24",
+            dogPrice: 3000,
+            dogAddress: "江西南昌",
+            petsName: "小宝"   //宠物名称
+          },
+          {
+            dogImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805162392&di=066f50be2363659851ad07ec67f4faed&imgtype=0&src=http%3A%2F%2Fpic8.nipic.com%2F20100723%2F4943220_075234451520_2.jpg",
+            dogName: "边境牧羊犬25",
+            dogPrice: 3000,
+            dogAddress: "江西南昌",
+            petsName: "中宝"   //宠物名称
+          }
+        ]
+      }
       
     ], //推荐商家
 
     merchantInformationList:[  //商家信息
         {
-          merchantImage:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571659615883&di=94c885120ed5aae2eb9877f75af93a53&imgtype=0&src=http%3A%2F%2Fimages.liqucn.com%2Fimg%2Fh1%2Fh969%2Fimg201709201023420_info300X300.jpg",
+        merchantImage:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805162391&di=e89f1a5722ddd218653f641845b9eee2&imgtype=0&src=http%3A%2F%2Fpic36.nipic.com%2F20131127%2F4184180_154351633000_2.jpg",
           merchantName:"阿宝精品宠物",
           merchantAddress:"江西省南昌市南昌县666号",
           merchantOnSale:"在售574只，担保交易量505只",
           merchantStars:3,
-          merchantPraise:296,
+          tradingVolume: 5,   //担保交易量
+          merchantIntroduction: "最帅宝宝",
           dogInforMation:[
             {
-              dogImage:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571659615883&di=94c885120ed5aae2eb9877f75af93a53&imgtype=0&src=http%3A%2F%2Fimages.liqucn.com%2Fimg%2Fh1%2Fh969%2Fimg201709201023420_info300X300.jpg",
-              dogName:"边境牧羊犬",
+              dogImage:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805162391&di=7b7ca067e920f0f6fc00ee4d070178dc&imgtype=0&src=http%3A%2F%2Fpic42.huitu.com%2Fres%2F20151205%2F347437_20151205224646401500_1.jpg",
+              dogName:"边境牧羊犬1",
               dogPrice:3000,
-              dogAddress:"江西南昌"
+              dogAddress:"江西南昌",
+              petsName: "大宝"   //宠物名称
             },
             {
-              dogImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571659615883&di=94c885120ed5aae2eb9877f75af93a53&imgtype=0&src=http%3A%2F%2Fimages.liqucn.com%2Fimg%2Fh1%2Fh969%2Fimg201709201023420_info300X300.jpg",
-              dogName: "边境牧羊犬",
+              dogImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805162390&di=437a085b4ba485ad8ca82842b9165d72&imgtype=0&src=http%3A%2F%2Fimg006.hc360.cn%2Fhb%2FMTQ2ODA4NTAxMDkyMC05NDkxMDA4Mg%3D%3D.jpg",
+              dogName: "边境牧羊犬2",
               dogPrice: 3000,
-              dogAddress: "江西南昌"
+              dogAddress: "江西南昌",
+              petsName: "小宝"   //宠物名称
             },
             {
-              dogImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571659615883&di=94c885120ed5aae2eb9877f75af93a53&imgtype=0&src=http%3A%2F%2Fimages.liqucn.com%2Fimg%2Fh1%2Fh969%2Fimg201709201023420_info300X300.jpg",
-              dogName: "边境牧羊犬",
+              dogImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805162390&di=55f6dd9fa559e5a2e77d8dc633c77141&imgtype=0&src=http%3A%2F%2Fimg.11665.com%2Fimg_p4%2Fi1%2FTB1xRQXMVXXXXa.aXXXXXXXXXXX_%2521%25210-item_pic.jpg",
+              dogName: "边境牧羊犬3",
               dogPrice: 3000,
-              dogAddress: "江西南昌"
+              dogAddress: "江西南昌",
+              petsName: "中宝"   //宠物名称
             }
           ]
         },
 
       {
-        merchantImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571659615883&di=94c885120ed5aae2eb9877f75af93a53&imgtype=0&src=http%3A%2F%2Fimages.liqucn.com%2Fimg%2Fh1%2Fh969%2Fimg201709201023420_info300X300.jpg",
+        merchantImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805162389&di=13a0e0daede591bb461e397af7e95117&imgtype=0&src=http%3A%2F%2Fpic3.58cdn.com.cn%2Fmobile%2Fbig%2Fn_v21c7ff824cbd84baf831ab590e14f6fb1.jpg",
         merchantName: "阿宝精品宠物",
         merchantAddress: "江西省南昌市南昌县666号",
         merchantOnSale: "在售574只，担保交易量505只",
-        merchantStars: 4,
-        merchantPraise: 296,
+        merchantStars: 3,
+        tradingVolume: 5,   //担保交易量
+        merchantIntroduction: "最帅宝宝",
         dogInforMation: [
           {
-            dogImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571659615883&di=94c885120ed5aae2eb9877f75af93a53&imgtype=0&src=http%3A%2F%2Fimages.liqucn.com%2Fimg%2Fh1%2Fh969%2Fimg201709201023420_info300X300.jpg",
-            dogName: "边境牧羊犬",
+            dogImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805162386&di=147d2711916337f3293d8658352ce1aa&imgtype=0&src=http%3A%2F%2Fimg2.pclady.com.cn%2Fpclady%2F1012%2F08%2F630870_05.jpg",
+            dogName: "边境牧羊犬4",
             dogPrice: 3000,
-            dogAddress: "江西南昌"
-          },
-           {
-            dogImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571659615883&di=94c885120ed5aae2eb9877f75af93a53&imgtype=0&src=http%3A%2F%2Fimages.liqucn.com%2Fimg%2Fh1%2Fh969%2Fimg201709201023420_info300X300.jpg",
-            dogName: "边境牧羊犬",
-            dogPrice: 3000,
-            dogAddress: "江西南昌"
+            dogAddress: "江西南昌",
+            petsName: "大宝"   //宠物名称
           },
           {
-            dogImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571659615883&di=94c885120ed5aae2eb9877f75af93a53&imgtype=0&src=http%3A%2F%2Fimages.liqucn.com%2Fimg%2Fh1%2Fh969%2Fimg201709201023420_info300X300.jpg",
-            dogName: "边境牧羊犬",
+            dogImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805162385&di=6001eb1695a40e126e5f807af6daf716&imgtype=0&src=http%3A%2F%2Fimg1.doubanio.com%2Fview%2Fcommodity_story%2Fmlarge%2Fpublic%2Fp7438439.jpg",
+            dogName: "边境牧羊犬5",
             dogPrice: 3000,
-            dogAddress: "江西南昌"
+            dogAddress: "江西南昌",
+            petsName: "小宝"   //宠物名称
+          },
+          {
+            dogImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805162384&di=1836371083f015d1f1d6f29c63521f08&imgtype=0&src=http%3A%2F%2Fcdn.duitang.com%2Fuploads%2Fblog%2F201505%2F14%2F20150514180916_B2hPM.jpeg",
+            dogName: "边境牧羊犬6",
+            dogPrice: 3000,
+            dogAddress: "江西南昌",
+            petsName: "中宝"   //宠物名称
           }
         ]
       },
 
       {
-        merchantImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571659615883&di=94c885120ed5aae2eb9877f75af93a53&imgtype=0&src=http%3A%2F%2Fimages.liqucn.com%2Fimg%2Fh1%2Fh969%2Fimg201709201023420_info300X300.jpg",
+        merchantImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805162384&di=119655e69e8922bbc0b0db597df78328&imgtype=0&src=http%3A%2F%2Fpic3.58cdn.com.cn%2Fp1%2Fbig%2Fn_v1bkujjd4qljtvopwulu4q_f27ea18ea2fdc0fc.png",
         merchantName: "阿宝精品宠物",
         merchantAddress: "江西省南昌市南昌县666号",
         merchantOnSale: "在售574只，担保交易量505只",
-        merchantStars: 5,
-        merchantPraise: 296,
+        merchantStars: 3,
+        tradingVolume: 5,   //担保交易量
+        merchantIntroduction: "最帅宝宝",
         dogInforMation: [
           {
-            dogImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571659615883&di=94c885120ed5aae2eb9877f75af93a53&imgtype=0&src=http%3A%2F%2Fimages.liqucn.com%2Fimg%2Fh1%2Fh969%2Fimg201709201023420_info300X300.jpg",
-            dogName: "边境牧羊犬",
+            dogImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805162384&di=fcdb6be0280d84aabc0faffbeb7a8ea5&imgtype=0&src=http%3A%2F%2Fuimg.liecdn.cn%2Fimage%2Fpost%2Fdb%2F19%2Fde%2Ffd%2Fdb19defd5de849bd4db43a8e17b4cfdb.jpg",
+            dogName: "边境牧羊犬7",
             dogPrice: 3000,
-            dogAddress: "江西南昌"
+            dogAddress: "江西南昌",
+            petsName: "大宝"   //宠物名称
           },
           {
-            dogImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571659615883&di=94c885120ed5aae2eb9877f75af93a53&imgtype=0&src=http%3A%2F%2Fimages.liqucn.com%2Fimg%2Fh1%2Fh969%2Fimg201709201023420_info300X300.jpg",
-            dogName: "边境牧羊犬",
+            dogImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805162384&di=e66584dd4eac8f1925f41e91a7d9fd44&imgtype=0&src=http%3A%2F%2Fpic34.nipic.com%2F20131028%2F2455348_174456891000_2.jpg",
+            dogName: "边境牧羊犬8",
             dogPrice: 3000,
-            dogAddress: "江西南昌"
+            dogAddress: "江西南昌",
+            petsName: "小宝"   //宠物名称
           },
           {
-            dogImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571659615883&di=94c885120ed5aae2eb9877f75af93a53&imgtype=0&src=http%3A%2F%2Fimages.liqucn.com%2Fimg%2Fh1%2Fh969%2Fimg201709201023420_info300X300.jpg",
-            dogName: "边境牧羊犬",
+            dogImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805162384&di=b29711c3ff3e31454774a50683b10ae9&imgtype=0&src=http%3A%2F%2Fpic3.58cdn.com.cn%2Fp1%2Fbig%2Fn_v1bl2lwtinvztvo3fogbaq_4b902c3d9f8abab8.jpg",
+            dogName: "边境牧羊犬9",
             dogPrice: 3000,
-            dogAddress: "江西南昌"
-          },
+            dogAddress: "江西南昌",
+            petsName: "中宝"   //宠物名称
+          }
         ]
       }
     ],
@@ -464,6 +651,17 @@ Page({
       url: Page_path.Page_Store_StoreInforMation + '?resinfo=' + actionRes
     })
 
-  }
+  },
   
+  /**
+   * 点击宠物图片查看详情  Page_Store_PetsInforMation
+   */
+  petsInforTap:function(res){
+    let actionIndex = encodeURIComponent(JSON.stringify(res.currentTarget.dataset.index));
+    let actionItem = encodeURIComponent(JSON.stringify(res.currentTarget.dataset.item));
+    wx.navigateTo({
+      url: Page_path.Page_Store_PetsInforMation + '?petsindex=' + actionIndex + "&petsitem=" + actionItem
+    })
+  }
+
 })

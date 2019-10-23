@@ -56,9 +56,8 @@
 
 .business-pets-page{
   width: 100%;
-  height: 500rpx;
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
 }
 
 .business-pets-information{
@@ -69,6 +68,7 @@
    flex-direction: column;
    align-items: center;
    margin-top:2%;
+   
 }
 
 .business-pets-image{
@@ -88,8 +88,9 @@
   width: 200rpx;
   display: flex;
   align-items: center;
-  justify-content: center;
   flex-direction: column;
+  margin-top:25%;
+  margin-left: 38%;
 }
 
 .noevaluation-image-page{
@@ -101,13 +102,6 @@
   width: 200rpx;
   height: 40rpx;
   align-items: center;
-}
-
-.business-evaluate-page{
-  margin-top:25%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .business-introduction-page{
@@ -129,4 +123,38 @@
 .page-icon-sly{
   display: flex;
   flex-direction: column;
+}
+
+.scrollview-page{
+  width: 100%;
+}
+
+.userevaluate-content-page{
+   width: 100%;
+   display: flex;
+   align-items: center;
+   flex-direction: column; 
+
+}
+
+.userevaluate-content-tables-page{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin-top:2%;
+}
+
+.userevaluate-content-head{
+  display: flex;
+  flex-wrap: nowrap;
+  width: 100%;
+  align-items: center;
+}
+
+.image-sty{
+  width: 50rpx;
+  height: 50rpx;
+  border: 1rpx solid #ccc;
+  border-radius: 50% 50%;
 }

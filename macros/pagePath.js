@@ -3,6 +3,7 @@ const Page_Home = "/pages/index/index"; // 首页
 
 const Page_Store_Index = "/pages/store/index"; // 商家 首页
 const Page_Store_StoreInforMation ="/pages/store/storeinformation/index";  //商家信息
+const Page_Store_PetsInforMation ="/pages/store/petsinformation/index"; //宠物信息
 
 const Page_Mall_Index = "/pages/mall/index"; // 商城 首页
 const Page_Mall_Sstaplefood = "/pages/mall/staplefood/index";  //商城更多
@@ -45,6 +46,7 @@ module.exports={
   
   Page_Store_Index, // 商家首页
   Page_Store_StoreInforMation, //商家信息
+  Page_Store_PetsInforMation,  //宠物信息
   
   Page_Mall_Index, // 商城首页
   Page_Mall_Sstaplefood, //商城更多
