@@ -13,6 +13,9 @@
            bindfocus="searchInputFocus"
            placeholder="搜宠物、商家、品牌">
     </input>
+    <view class="search-content-mask"
+          catchtap="tapSearch">
+    </view>
   </view>
 </view>
 

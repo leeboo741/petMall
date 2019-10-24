@@ -3,6 +3,7 @@
 const app = getApp();
 const LoadFootItemState = require("../../lee-components/leeLoadingFootItem/loadFootObj.js");
 const PageSize = 20;
+const PagePath = require("../../macros/pagePath.js");
 Page({
   /**
    * 生命周期函数--监听页面加载
@@ -79,6 +80,15 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+
+  /**
+   * 点击搜索框
+   */
+  tapSearch: function() {
+    wx.navigateTo({
+      url: PagePath.Page_Search_Index,
+    })
   },
 
   /**

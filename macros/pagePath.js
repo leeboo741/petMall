@@ -1,6 +1,8 @@
 
 const Page_Home = "/pages/index/index"; // 首页
 
+const Page_Search_Index = "/pages/search/index"; // 搜索页
+
 const Page_Store_Index = "/pages/store/index"; // 商家 首页
 const Page_Store_StoreInforMation ="/pages/store/storeinformation/index";  //商家信息
 const Page_Store_PetsInforMation ="/pages/store/petsinformation/index"; //宠物信息
@@ -43,6 +45,8 @@ const Page_Order_Detail = "/pages/order/orderDetail/index"; // 订单详情
 
 module.exports={
   Page_Home, // 首页
+
+  Page_Search_Index, // 搜索页
   
   Page_Store_Index, // 商家首页
   Page_Store_StoreInforMation, //商家信息

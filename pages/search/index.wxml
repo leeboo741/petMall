@@ -1,0 +1,170 @@
+<!--pages/search/index.wxml-->
+<i-navigation-bar title='搜索页'
+                  showBackButton>
+</i-navigation-bar>
+
+<!-- 搜索框 -->
+<view class="search-box"
+      style="top: {{naviHeight}}px">
+  <view class="search-content">
+    <i-icon type="search"
+            size="35">
+    </i-icon>
+    <input class="search-input normal-text"
+           value='{{searchKeyword}}'
+           placeholder-class="placeholder-text"
+           bindconfirm="searchAction"
+           placeholder="搜宠物、商家、品牌">
+    </input>
+  </view>
+</view>
+
+<scroll-view scroll-y
+             class="scroll-content"
+             style="height: {{pageHeight-50}}px;"
+             enable-flex>
+  <i-panel i-class='panel'
+           wx:if='{{parse.showHistory(searchHistory)}}'>
+    <view class="panel-title-box">
+      <view class="panel-title">
+      搜索历史
+      </view>
+      <view class="panel-detail"
+            bindtap="tapDeleteHistory">
+        <i-icon type='delete'
+                size="36">
+        </i-icon>
+      </view>
+    </view>
+    <i-cell>
+      <view class="search-history-box"
+            slot='header'>
+        <view wx:for="{{searchHistory}}"
+              wx:for-item='searchHistoryItem'
+              wx:for-index='searchHistoryIndex'
+              wx:key='{{searchHistoryIndex}}'
+              class="search-history-item"
+              bindtap="tapSearchHistoryItem"
+              data-index='{{searchHistoryIndex}}'>
+        {{searchHistoryItem}}
+        </view>
+      </view>
+    </i-cell>
+  </i-panel>
+  <i-panel i-class='panel'
+           wx:if='{{parse.showSearchBrand(searchBrandResult)}}'>
+    <view class="panel-title-box">
+      <view class="panel-title">
+      品牌
+      </view>
+    </view>
+    <i-cell-group>
+      <i-cell wx:for='{{searchBrandResult}}'
+              wx:for-item='brandItem'
+              wx:for-index='brandIndex'
+              wx:key='{{brandIndex}}'>
+        <view class="result-item"
+              slot='header'>
+          <view class="result-item-image-box">
+            <i-image i-class='result-item-image'
+                     imageSrc='{{brandItem.imagePath}}'
+                     placeholderSrc='../../resource/placeholder.jpg'>
+            </i-image>
+          </view>
+          <view class="result-item-info-box">
+            <view class="result-item-name">
+            {{brandItem.name}}
+            </view>
+          </view>
+        </view>
+      </i-cell>
+    </i-cell-group>
+  </i-panel>
+  <i-panel i-class='panel'
+           wx:if='{{parse.showSearchBreed(searchBreedResult)}}'>
+    <view class="panel-title-box">
+      <view class="panel-title">
+      品种
+      </view>
+    </view>
+    <i-cell-group>
+      <i-cell wx:for='{{searchBreedResult}}'
+              wx:for-item='breedItem'
+              wx:for-index='breedIndex'
+              wx:key='{{breedIndex}}'>
+        <view class="result-item"
+              slot='header'>
+          <view class="result-item-image-box">
+            <i-image i-class='result-item-image'
+                     imageSrc='{{breedItem.imagePath}}'
+                     placeholderSrc='../../resource/placeholder.jpg'>
+            </i-image>
+          </view>
+          <view class="result-item-info-box">
+            <view class="result-item-name">
+            {{breedItem.name}}
+            </view>
+          </view>
+        </view>
+      </i-cell>
+    </i-cell-group>
+  </i-panel>
+  <i-panel i-class='panel'
+           wx:if='{{parse.showSearchStore(searchStoreResult)}}'>
+    <view class="panel-title-box">
+      <view class="panel-title">
+      推荐商家
+      </view>
+    </view>
+    <i-cell-group>
+      <i-cell wx:for='{{searchStoreResult}}'
+              wx:for-item='storeItem'
+              wx:for-index='storeIndex'
+              wx:key='{{storeIndex}}'>
+        <view class="result-item"
+              slot='header'>
+          <view class="result-item-image-box">
+            <i-image i-class='result-item-image'
+                     imageSrc='{{storeItem.imagePath}}'
+                     placeholderSrc='../../resource/placeholder.jpg'>
+            </i-image>
+          </view>
+          <view class="result-item-info-box">
+            <view class="result-item-name">
+            {{storeItem.name}}
+            </view>
+          </view>
+        </view>
+      </i-cell>
+    </i-cell-group>
+  </i-panel>
+</scroll-view>
+
+<wxs module="parse">
+  module.exports={
+    showHistory: function(searchHistory) {
+      if (searchHistory == null || searchHistory.length <=0) {
+        return false;
+      }
+      return true;
+    },
+    showSearchBrand: function(brandResult) {
+      if (brandResult == null || brandResult.length <=0) {
+        return false;
+      }
+      return true;
+    },
+    showSearchBreed: function(breedResult) {
+      if (breedResult == null || breedResult.length <=0) {
+        return false;
+      }
+      return true;
+    },
+    showSearchStore: function(stroeResult) {
+      if (stroeResult == null || stroeResult.length <=0) {
+        return false;
+      }
+      return true;
+    }
+  }
+</wxs>

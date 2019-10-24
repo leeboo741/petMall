@@ -4,7 +4,6 @@
     "pages/store/index",
     "pages/store/storeinformation/index",
     "pages/store/petsinformation/index",
-
     "pages/me/index",
     "pages/me/addressManager/index",
     "pages/me/addressManager/addNewAddress",
@@ -23,23 +22,21 @@
     "pages/me/recharge/index",
     "pages/me/withdrawal/index",
     "pages/me/setting/sellerSetting",
-
     "pages/mall/setmeal/index",
     "pages/mall/evaluate/index",
     "pages/mall/commodityInformation/index",
     "pages/mall/index",
     "pages/mall/staplefood/index",
     "pages/mall/shoppingpayment/index",
-    
     "pages/login/index",
     "pages/login/register/index",
-
     "pages/order/unpayOrderList/index",
     "pages/order/unsendOrderList/index",
     "pages/order/sendOrderList/index",
     "pages/order/unevaluateOrderList/index",
     "pages/order/refundOrderList/index",
-    "pages/order/orderDetail/index"
+    "pages/order/orderDetail/index",
+    "pages/search/index"
   ],
   "tabBar": {
     "color": "#80848f",
