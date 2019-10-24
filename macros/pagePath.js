@@ -1,5 +1,8 @@
 
 const Page_Home = "/pages/index/index"; // 首页
+const Page_Home_Preferential ="/pages/index/preferential/index";  //特惠抢购详情
+const Page_Home_Nearby ="/pages/index/nearby/index"; // 附近
+const Pate_Home_PetsType ="/pages/index/petstype/index";  //宠物分类
 
 const Page_Search_Index = "/pages/search/index"; // 搜索页
 
@@ -47,7 +50,13 @@ const Page_Order_Evaluate_Index = '/pages/order/unevaluateOrderList/evaluate/ind
 module.exports={
   Page_Home, // 首页
 
+  Page_Home_Preferential,//特惠抢购详情
+  Page_Home_Nearby,  //附近
+  Pate_Home_PetsType, //宠物分类
+
+
   Page_Search_Index, // 搜索页
+
   
   Page_Store_Index, // 商家首页
   Page_Store_StoreInforMation, //商家信息
@@ -89,5 +98,6 @@ module.exports={
   Page_Order_RefundList_Index, // 退货|退款订单列表
   Page_Order_Detail, // 订单详情
   Page_Order_Evaluate_Index, // 评价页面
+
 }
 

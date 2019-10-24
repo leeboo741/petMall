@@ -1,0 +1,22 @@
+<!--pages/index/petstype/index.wxml-->
+<i-navigation-bar title='宠物分类'
+                  showBackButton='{{true}}'>
+</i-navigation-bar>
+
+<view class="context-page">
+    <view class="image-context-page"
+          wx:for='{{petsTypeData}}'
+          wx:for-item="petsItem"
+          wx:for-index="petsIndex"
+          wx:key='{{petsIndex}}'
+          bindtap="petsTap">
+          <image src="{{petsItem.petsImageUrl}}" class="image-context-head"/>
+          <view class="image-context-bottom">
+              {{petsItem.petsName}}
+          </view>
+    </view>
+</view>
+
+    <!-- 加载块 -->
+<i-load-foot-item loadState='{{loadState}}'>
+</i-load-foot-item>

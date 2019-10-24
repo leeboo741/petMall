@@ -1,6 +1,9 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/index/preferential/index",
+    "pages/index/nearby/index",
+    "pages/index/petstype/index",
     "pages/store/index",
     "pages/store/storeinformation/index",
     "pages/store/petsinformation/index",

@@ -197,5 +197,13 @@ Page({
     wx.navigateTo({
       url: Page_path.Page_Mall_Evaluate
     })
+  },
+
+  /**
+   * 担保购买
+   */
+  goShopTap: function (res) {
+   
+      console.log("点击担保购买！");
   }
 })

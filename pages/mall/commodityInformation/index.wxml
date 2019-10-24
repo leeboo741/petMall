@@ -25,9 +25,9 @@
          <view class="foodgrain-page-formation-down-member">
             会员价
          </view>
-         <text style="color:#ccc;padding-left:55%;text-decoration:line-through;">
+         <view style="color:#ccc;padding-left:55%;text-decoration:line-through;">
             ￥{{originalPrice}}
-         </text>
+         </view>
     </view>
 </view>
 
@@ -135,26 +135,33 @@
 
 <!--商品购买、分享、收藏固定框-->
 <view class="goshopbottom">
-    <view class="bottom-icon-page">
-        <view class="bottom-button-type-one">
-            <i-icon type="share" size="25"/>
-        </view>
-        <view style="font-size:25rpx;">
-          分享
-        </view>
-      </view>
-    
-    <view class="bottom-icon-page" bindtap="">
-      <view class="bottom-button-type-one"><i-icon type="collection" size="25"/></view>
-        <view style="font-size:25rpx;">
-          收藏
-        </view>
-      </view>
 
-      <view class="bottom-button-type-two" bindtap="goShopTap">
-          担保购买
-      </view>
- </view>
+      <view class="bottom-showinfor">
+            <view class="bottom-icon-page">
+                  <view class="bottom-button-type-one">
+                      <i-icon type="share" size="25"/>
+                  </view>
+                  <view style="font-size:25rpx;padding-right:8rpx;">
+                    分 享
+                  </view>
+            </view>
+          
+            <view class="bottom-icon-page" bindtap="">
+                <view class="bottom-button-type-one">
+                  <i-icon type="collection" size="25"/>
+                </view>
+                <view style="font-size:25rpx;padding-right:10rpx;">
+                  收 藏  
+                </view>
+            </view>
+        </view>
+
+        <view class="bottom-showinfor">
+            <view class="bottom-button-type-two" bindtap="goShopTap">
+              担保购买
+            </view>
+        </view>
+</view>
 
 <wxs module='parse'>                                                                        
    module.exports={

@@ -83,6 +83,7 @@
             </view>
       </view>
     </view>
+    <view style="width:100%;height:100rpx;"></view>
   </scroll-view>
 </view>
 
@@ -145,6 +146,7 @@
                   </view>  
               </view>
           </view>
+          <view style="width:100%;height:100rpx;"></view>
         </scroll-view>  
     </view>
 </view>
@@ -157,18 +159,18 @@
 </view>
 
 <view class="page-bottom-icon">
-      <view class="page-icon-sly" 
-            style="margin-left:20%;">
-            <i-icon type="send" size="35"/>
-            <view style="font-size:27rpx;margin-left:10%;">分享</view> 
+      <view class="page-icon-sly">
+            <i-icon type="send" size="27"/>
+            <view style="font-size:25rpx;">分 享</view> 
       </view>
       
       <view class="page-icon-sly" 
-            style="margin-left:41%;">
-            <i-icon type="customerservice_fill" size="35"/>
-            <view style="font-size:27rpx;margin-left:10%;">电话</view>
+            style="margin-left:30%;">
+            <i-icon type="customerservice_fill" size="27"/>
+            <view style="font-size:25rpx;">电 话</view>
       </view>
 </view>
+
 
 <wxs module='parse'>                                                                        
    module.exports={

@@ -55,7 +55,7 @@ page {
 /*数值*/
 .stepper input {
   width: 40px;
-  height: 26px;
+  height: 30px;
   float: left;
   margin: 0 auto;
   text-align: center;
@@ -94,6 +94,7 @@ page {
 }
 
 .goshopbottom{
+  border-top:3rpx solid #ccc;
   position: fixed; 
   width: 100%;
   height: 100rpx;
@@ -107,10 +108,11 @@ page {
 
 .bottom-icon-page{
   height: 90%;
-  width: 100rpx;
+  width: 250rpx;
   display: flex;
-  flex-direction: column;
-  margin-left: 5%;
+  margin-left: 15%;
+  justify-content: center;
+  align-items: center;
 }
 
 .bottom-button-type-two{
@@ -130,6 +132,7 @@ page {
   display: flex;
   flex-direction: column;
   font-weight: bold;
+  margin-left: 5%;
 }
 
 .mask-page{

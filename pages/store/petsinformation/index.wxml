@@ -190,25 +190,32 @@
 
 <view style="height:100rpx;width:100%;"></view>
 
-       <!--商品购买、分享、收藏固定框-->
-  <view class="goshopbottom">
-      <view class="bottom-icon-page">
-          <view class="bottom-button-type-one">
-              <i-icon type="share" size="25"/>
-          </view>
-          <view style="font-size:25rpx;">
-            分享
-          </view>
-        </view>
-      
-      <view class="bottom-icon-page" bindtap="">
-        <view class="bottom-button-type-one"><i-icon type="collection" size="25"/></view>
-          <view style="font-size:25rpx;">
-            收藏
-          </view>
+<!--商品购买、分享、收藏固定框-->
+<view class="goshopbottom">
+      <view class="bottom-showinfor">
+            <view class="bottom-icon-page">
+                  <view class="bottom-button-type-one">
+                      <i-icon type="share" size="25"/>
+                  </view>
+                  <view style="font-size:25rpx;padding-right:8rpx;">
+                    分 享
+                  </view>
+            </view>
+          
+            <view class="bottom-icon-page" bindtap="">
+                <view class="bottom-button-type-one">
+                  <i-icon type="collection" size="25"/>
+                </view>
+                <view style="font-size:25rpx;padding-right:10rpx;">
+                  收 藏  
+                </view>
+            </view>
         </view>
 
-        <view class="bottom-button-type-two" bindtap="goShopTap">
-            担保购买
+        <view class="bottom-showinfor">
+            <view class="bottom-button-type-two" 
+                  bindtap="goShopTap">
+                   担保购买
+            </view>
         </view>
-  </view>
+</view>

@@ -67,7 +67,7 @@
    justify-content: center;
    flex-direction: column;
    align-items: center;
-   margin-top:2%;
+   margin-top:3%;
    
 }
 
@@ -118,6 +118,9 @@
   z-index: 2;
   display: flex;
   flex-wrap: wrap;
+  border-top: 2rpx solid #ccc;
+  justify-content: center;
+  align-items: center;
 }
 
 .page-icon-sly{

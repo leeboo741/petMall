@@ -2,6 +2,7 @@
 //获取应用实例
 const app = getApp();
 const LoadFootItemState = require("../../lee-components/leeLoadingFootItem/loadFootObj.js");
+const Page_path = require("../../macros/pagePath.js");
 const PageSize = 20;
 const PagePath = require("../../macros/pagePath.js");
 Page({
@@ -73,6 +74,44 @@ Page({
         })
       }
     },1000)
+  },
+
+  /**
+   * 点击特惠抢购更多
+   */
+  preferentialTap:function(){
+    wx.navigateTo({
+      url: Page_path.Page_Home_Preferential
+    })
+  },
+
+  /**
+   * 点击(附近、狗狗、猫猫、小宠、水族)
+   */
+  fastActionTap:function(res){
+    var actionIndex = res.currentTarget.dataset.index;
+    console.log(actionIndex);
+    if (actionIndex==0){
+        wx.navigateTo({
+          url: Page_path.Page_Home_Nearby
+        })
+    } else if (actionIndex==1){
+        wx.navigateTo({
+          url: Page_path.Pate_Home_PetsType + "?type=" + actionIndex
+        })
+    } else if (actionIndex == 2){
+        wx.navigateTo({
+          url: Page_path.Pate_Home_PetsType + "?type=" + actionIndex
+        })
+    } else if (actionIndex == 3) {
+        wx.navigateTo({
+          url: Page_path.Pate_Home_PetsType + "?type=" + actionIndex
+        })
+    }else{
+        wx.navigateTo({
+          url: Page_path.Pate_Home_PetsType + "?type=" + actionIndex
+        })
+    }
   },
 
   /**

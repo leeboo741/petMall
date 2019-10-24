@@ -40,10 +40,11 @@
         class="fast-action-item">
     <image class="fast-action-icon"
            src='{{fastActionItem.iconPath}}'
-            bindtap="fastActionTap" data-key="{{fastActionItem.actionName}}">
+           bindtap="fastActionTap" 
+           data-key="{{fastActionItem.actionName}}">
     </image>
     <view class="fast-action-title">
-    {{fastActionItem.actionName}}
+       {{fastActionItem.actionName}}
     </view>
   </view>
 </view>
@@ -134,13 +135,16 @@
           wx:key='{{foodGrainIndex}}'
           bindtap="commodityInforMationTap"
           data-key="{{foodGrainItem}}">
-    <image class="foodgrain-page-formation-head" src="{{foodGrainItem.imageUrl}}"></image>
-    <view class="foodgrain-page-formation-middle">{{foodGrainItem.commodity}}</view>
-    <view class="foodgrain-page-formation-introduce">{{foodGrainItem.introduce}}</view>
-    <view class="foodgrain-page-formation-down">￥{{foodGrainItem.price}}                  <view class="foodgrain-page-formation-down-member">
-            会员价
-         </view>
-         <text style="color:#ccc;padding-left:18%;text-decoration:line-through;">￥{{foodGrainItem.originalPrice}}</text>
+          <image class="foodgrain-page-formation-head" src="{{foodGrainItem.imageUrl}}"></image>
+          <view class="foodgrain-page-formation-middle">{{foodGrainItem.commodity}}</view>
+          <view class="foodgrain-page-formation-introduce">{{foodGrainItem.introduce}}</view>
+          <view class="foodgrain-page-formation-down">￥{{foodGrainItem.price}}               
+          <view class="foodgrain-page-formation-down-member">
+              会员价
+          </view>
+          <view style="color:#ccc;padding-left:18%;text-decoration:line-through;">
+              ￥{{foodGrainItem.originalPrice}}
+          </view>
     </view>
   </view>
 </view>

@@ -1,0 +1,30 @@
+/* pages/index/petstype/index.wxss */
+.context-page{
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.image-context-page{
+  width: 31%;
+  height: 300rpx;
+  margin: 1%;
+}
+
+.image-context-head{
+  height: 220rpx;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.image-context-bottom{
+  height: 80rpx;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+}

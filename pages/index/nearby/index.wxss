@@ -1,8 +1,4 @@
-/* pages/store/index.wxss */
-
-.scrollview-page{
-  width: 100%;
-}
+/* pages/index/nearby/index.wxss */
 
 .foodgrainmore-head{
   width: 100%;
@@ -23,6 +19,26 @@
   flex-direction: row;
 }
 
+.dropdownbox-infomation{
+  position: fixed; 
+  display: flex;
+  flex-direction:column;
+  width: 100%;
+  top:15%;
+  background-color:white;
+  z-index: 4;
+}
+
+.dropdownbox-infomation-table{
+  height: 80rpx;
+  display: flex;
+  justify-content: center;
+  flex-direction:column;
+  border-bottom: 1rpx solid #ccc;
+  padding-left: 5%;
+  
+}
+
 .mask-page{
   position: fixed; 
   top:244rpx;
@@ -33,126 +49,6 @@
   opacity:0.7;
 }
 
-.scroll-view-page{
-  width: 100%;
-  height: 200rpx;
-  
-}
-
-.recommended-page{
-  height:200rpx;
-  width: 150rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  margin-left: 3%;
-}
-
-.recommended-head-page{
-  height: 100rpx;
-  width: 100rpx;
-  border-radius: 50% 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.recommended-bottom-page{
-  height:80rpx;
-  width:150rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 28rpx;
-  font-weight: bold;
-}
-
-.merchant-information-page{
-  width: 100%;
-  height: 450rpx;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: 2%;
-}
-
-.merchant-information-head-page{
-  width: 100%;
-  height: 150rpx;
-  display: flex;
-  flex-wrap: nowrap;
-}
-
-.merchant-information-head-left{
-  width: 20%;
-  height: 150rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.merchant-information-head-leftimage{
-  width: 100rpx;
-  height: 100rpx;
-  border-radius: 50% 50%;
-}
-
-
-.merchant-information-head-middle{
-  width: 60%;
-  height: 150rpx;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.merchant-information-head-right{
-  width: 20%;
-  height: 150rpx;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.merchant-information-bottom-page{
-  width: 100%;
-  height: 300rpx;
-  display: flex;
-  flex-wrap: nowrap;
-}
-
-
-.merchant-information-bottom-doginformation{
-  width: 33.33%;
-  height:300rpx;
-  display: flex; 
-  flex-direction: column;
-  align-items: center;
-}
-
-.merchant-information-bottom-dogimage{
-  width: 230rpx;
-  height: 230rpx;
-  border-radius: 20rpx;
-}
-
-
-.stars-page{
-  display: flex;
-  flex-wrap: nowrap;
-}
-
-.select-address-page{
-  position: fixed; 
-  top:230rpx;
-  width: 100%;
-  height: 85vh;
-  z-index: 2;
-  background-color: white;
-  overflow: hidden;
-}
 
 .searchLetter {
   position: fixed;
@@ -249,6 +145,17 @@
   margin: 0 !important;
 }
 
+
+.select-address-page{
+  position: fixed; 
+  top:230rpx;
+  width: 100%;
+  height: 85vh;
+  z-index: 2;
+  background-color: white;
+  overflow: hidden;
+}
+
 .slectCity {
   border-color: #2ab4ff !important;
 }
@@ -278,22 +185,47 @@
   overflow: hidden;
 }
 
-.dropdownbox-infomation{
-  position: fixed; 
-  display: flex;
-  flex-direction:column;
+.business-pets-page{
   width: 100%;
-  top:16%;
-  background-color:white;
-  z-index: 4;
+  display: flex;
+  flex-wrap: wrap;
 }
 
-.dropdownbox-infomation-table{
+.business-pets-information{
+   width: 50%;
+   height: 420rpx;
+   display:flex;
+   justify-content: center;
+   flex-direction: column;
+   align-items: center;
+   margin-top:3%;
+   
+}
+
+.business-pets-image{
+  height: 420rpx;
+  width: 340rpx;
+  border-radius: 20rpx;
+}
+
+.business-pets-bottom{
+  width:100%;
   height: 80rpx;
-  display: flex;
-  justify-content: center;
-  flex-direction:column;
-  border-bottom: 1rpx solid #ccc;
-  padding-left: 5%;
-  
+  display:flex;
+  flex-direction: column;
+}
+
+.body-list-one{
+  margin-left:6%;
+  font-weight:bold;
+  display:flex;
+  flex-wrap:nowrap;
+}
+
+.body-list-two{
+  margin-left:5%;
+  display:flex;
+  flex-wrap:nowrap;
+  font-size:27rpx;
+  color:#ccc;
 }

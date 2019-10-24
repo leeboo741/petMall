@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+        "i-navigation-bar": "/lee-components/leeNavigationBar/index",
+        "i-icon": "/lee-components/leeIcon/index",
+        "i-load-foot-item": "/lee-components/leeLoadingFootItem/index"
+  }
+}

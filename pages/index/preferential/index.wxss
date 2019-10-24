@@ -1,0 +1,46 @@
+/* pages/index/preferential/index.wxss */
+
+.business-pets-page{
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.business-pets-information{
+   width: 50%;
+   height: 420rpx;
+   display:flex;
+   justify-content: center;
+   flex-direction: column;
+   align-items: center;
+   margin-top:3%;
+   
+}
+
+.business-pets-image{
+  height: 420rpx;
+  width: 340rpx;
+  border-radius: 20rpx;
+}
+
+.business-pets-bottom{
+  width:100%;
+  height: 80rpx;
+  display:flex;
+  flex-direction: column;
+}
+
+.body-list-one{
+  margin-left:6%;
+  font-weight:bold;
+  display:flex;
+  flex-wrap:nowrap;
+}
+
+.body-list-two{
+  margin-left:5%;
+  display:flex;
+  flex-wrap:nowrap;
+  font-size:27rpx;
+  color:#ccc;
+}

@@ -55,7 +55,9 @@
         wx:for-item='fastActionItem'
         wx:for-index='fastActionIndex'
         wx:key='{{fastActionIndex}}'
-        class="fast-action-item">
+        class="fast-action-item"
+        bindtap="fastActionTap"
+        data-index="{{fastActionIndex}}">
     <image class="fast-action-icon"
            src='{{fastActionItem.iconPath}}'>
     </image>
@@ -77,7 +79,8 @@
     </view>
     <view class="section-info">
     </view>
-    <view class="section-more">
+    <view class="section-more"
+          bindtap="preferentialTap">
     更多
     </view>
     <i-icon type="right-arrow"
