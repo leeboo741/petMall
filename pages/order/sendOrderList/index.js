@@ -3,6 +3,7 @@
 const LoadFootItemState = require("../../../lee-components/leeLoadingFootItem/loadFootObj.js");
 const PageSize = 20;
 const UserService = require("../../../services/userService.js");
+const PagePath = require("../../../macros/pagePath.js");
 
 Page({
 
@@ -495,5 +496,14 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+
+  /**
+   * 点击单据
+   */
+  tapToOrderDetail: function (e) {
+    wx.navigateTo({
+      url: PagePath.Page_Order_Detail,
+    })
   }
 })

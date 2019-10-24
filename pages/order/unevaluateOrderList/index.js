@@ -498,6 +498,15 @@ Page({
   },
 
   /**
+   * 点击单据
+   */
+  tapToOrderDetail: function (e) {
+    wx.navigateTo({
+      url: PagePath.Page_Order_Detail,
+    })
+  },
+
+  /**
    * 点击评价
    */
   tapToEvaluate: function(e) {

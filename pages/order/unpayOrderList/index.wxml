@@ -12,7 +12,9 @@
         wx:key='{{orderIndex}}'
         class="order-item">
     <!-- 订单信息 -->
-    <view class="order-info-box">
+    <view class="order-info-box"
+          bindtap="tapToOrderDetail"
+          data-index='{{orderIndex}}'>
       <view class="order-info-number">
       {{orderItem.orderNo}}
       </view>
@@ -21,7 +23,9 @@
       </view>
     </view>
     <!-- 订单商品 -->
-    <view class="order-goods-box">
+    <view class="order-goods-box"
+          bindtap="tapToOrderDetail"
+          data-index='{{orderIndex}}'>
       <!-- 商品Item -->
       <view class="order-goods-item"
             wx:for='{{orderItem.goods}}'
@@ -120,7 +124,9 @@
         wx:key='{{orderIndex}}'
         class="order-item">
     <!-- 订单信息 -->
-    <view class="order-info-box">
+    <view class="order-info-box"
+          bindtap="tapToOrderDetail"
+          data-index='{{orderIndex}}'>
       <view class="order-info-number">
       {{orderItem.orderNo}}
       </view>
@@ -129,7 +135,9 @@
       </view>
     </view>
     <!-- 订单商品 -->
-    <view class="order-goods-box">
+    <view class="order-goods-box"
+          bindtap="tapToOrderDetail"
+          data-index='{{orderIndex}}'>
       <!-- 商品Item -->
       <view class="order-goods-item"
             wx:for='{{orderItem.goods}}'

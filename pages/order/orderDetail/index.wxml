@@ -1,2 +1,12 @@
 <!--pages/order/orderDetail/index.wxml-->
-<text>pages/order/orderDetail/index.wxml</text>
+<i-navigation-bar title='订单详情'
+                  showBackButton>
+</i-navigation-bar>
+
+<i-panel i-class='panel'>
+  <i-cell-group>
+    <i-cell>
+
+    </i-cell>
+  </i-cell-group>
+</i-panel>
