@@ -1,0 +1,147 @@
+/* pages/order/unevaluateOrderList/evaluate/index.wxss */
+
+.order-item{
+  display: flex;
+  flex-direction: column;
+}
+
+.order-info-box{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10rpx;
+}
+
+.order-number{
+  font-size: 35rpx;
+  font-weight: bold;
+  color: #778899;
+}
+
+.order-date{
+  font-size: 26rpx;
+  color: gray;
+}
+
+.store-info-box{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 10rpx;
+}
+
+.store-image-box{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50rpx;
+  height: 50rpx;
+}
+
+.store-image{
+  width: 50rpx;
+  height: 50rpx;
+}
+
+.store-name{
+  font-size: 24rpx;
+  color: gray;
+  margin-left: 10rpx;
+}
+
+.goods-info-box{
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 10rpx;
+}
+
+.goods-image-box{
+  width: 120rpx;
+  height: 120rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.goods-image{
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 8rpx;
+}
+
+.goods-info{
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  margin-left: 15rpx;
+}
+
+.goods-info-line{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 10rpx;
+}
+
+.goods-name{
+  color: #778899;
+  font-size: 35rpx;
+  font-weight: bold;
+}
+
+.goods-sexy{
+  padding: 8rpx 10rpx;
+  font-size: 30rpx;
+  color: white;
+  background: linear-gradient(to right, rgb(255,147,87) , rgb(255, 51, 59));
+  border-radius: 8rpx;
+  margin-left: 20rpx;
+}
+
+.goods-count{
+  font-size: 30rpx;
+  color: orange;
+}
+
+.goods-price{
+  font-size: 27rpx;
+  color: gray;
+}
+
+.goods-amount{
+  font-size: 32rpx;
+  color: #ee2c2c;
+  font-weight: bold;
+}
+
+.star-box{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 300rpx;
+}
+
+.evaluate-input{
+  background: rgb(245, 245, 245);
+  padding: 8rpx;
+  text-align: left;
+}
+
+.empty-zone{
+  height: 90rpx;
+  width: 100%;
+}
+
+.submit-button{
+  width: 100%;
+  color: white;
+  height: 90rpx;
+  line-height: 90rpx;
+  text-align: center;
+  background:  linear-gradient(to right, rgb(255,147,87) , rgb(255, 51, 59));
+  position: fixed;
+  bottom: 0rpx;
+  left: 0rpx;
+}

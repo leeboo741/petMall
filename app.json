@@ -36,7 +36,8 @@
     "pages/order/unevaluateOrderList/index",
     "pages/order/refundOrderList/index",
     "pages/order/orderDetail/index",
-    "pages/search/index"
+    "pages/search/index",
+    "pages/order/unevaluateOrderList/evaluate/index"
   ],
   "tabBar": {
     "color": "#80848f",

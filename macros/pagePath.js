@@ -42,6 +42,7 @@ const Page_Order_SendList_Index = "/pages/order/sendOrderList/index"; // 已发�
 const Page_Order_UnevaluateList_Index = "/pages/order/unevaluateOrderList/index"; // 未评价订单列表
 const Page_Order_RefundList_Index = "/pages/order/refundOrderList/index"; // 退货|退款订单列表
 const Page_Order_Detail = "/pages/order/orderDetail/index"; // 订单详情
+const Page_Order_Evaluate_Index = '/pages/order/unevaluateOrderList/evaluate/index'; // 评价页面
 
 module.exports={
   Page_Home, // 首页
@@ -87,5 +88,6 @@ module.exports={
   Page_Order_UnevaluateList_Index, // 未评价订单列表
   Page_Order_RefundList_Index, // 退货|退款订单列表
   Page_Order_Detail, // 订单详情
+  Page_Order_Evaluate_Index, // 评价页面
 }
 

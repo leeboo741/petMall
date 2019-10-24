@@ -3,6 +3,7 @@
 const LoadFootItemState = require("../../../lee-components/leeLoadingFootItem/loadFootObj.js");
 const PageSize = 20;
 const UserService = require("../../../services/userService.js");
+const PagePath = require("../../../macros/pagePath.js");
 
 Page({
 
@@ -12,7 +13,6 @@ Page({
   data: {
     pageIndex: 0, // 页码
     loadState: LoadFootItemState.Loading_State_Empty, // 底部状态
-    currentRole: null,
 
     dataSource: [
       {
@@ -495,5 +495,14 @@ Page({
    */
   onShareAppMessage: function () {
 
-  }
+  },
+
+  /**
+   * 点击评价
+   */
+  tapToEvaluate: function(e) {
+    wx.navigateTo({
+      url: PagePath.Page_Order_Evaluate_Index,
+    })
+  },
 })

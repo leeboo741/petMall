@@ -1,0 +1,244 @@
+<!--pages/order/unevaluateOrderList/evaluate/index.wxml-->
+<i-navigation-bar title='评价'
+                  showBackButton>
+</i-navigation-bar>
+
+<!-- 买家版 -->
+<block wx:if='{{currentRole == 0}}'>
+  <i-panel i-class='panel'>
+    <i-cell-group>
+      <i-cell>
+        <view class="order-item"
+              slot='header'>
+          <view class="order-info-box">
+            <view class="order-number">
+            {{order.orderNumber}}
+            </view>
+            <view class="order-date">
+            {{order.orderDate}} {{order.orderTime}}
+            </view>
+          </view>
+          <view class="store-info-box">
+            <view class="store-image-box">
+              <i-image i-class='store-image'
+                       imageSrc='{{order.store.imagePath}}'
+                       placeholderSrc='../../resource/avatar_placeholder.jpg'>
+              </i-image>
+            </view>
+            <view class="store-name">
+            {{order.store.name}}
+            </view>
+          </view>
+          <view class="goods-info-box">
+            <view class="goods-image-box">
+              <i-image i-class='goods-image'
+                       imageSrc='{{order.goods.imagePath}}'
+                       placeholderSrc='../../resource/avatar_placeholder.jpg'>
+              </i-image>
+            </view>
+            <view class="goods-info">
+              <view class="goods-info-line">
+                <view class="goods-name">
+                {{order.goods.name}}
+                </view>
+                <view class="goods-sexy"
+                      wx:if='{{parse.showSexy(order.goods)}}'>
+                {{order.goods.sexy}}
+                </view>
+              </view>
+              <view class="goods-info-line"
+                    style="justify-content: space-between; align-items: flex-end;">
+                <view class="goods-count">
+                x{{order.goods.count}}{{order.goods.unit}}
+                </view>
+                <view class="goods-price">
+                {{order.goods.price}}/{{order.goods.unit}}
+                </view>
+              </view>
+            </view>
+          </view>
+          <!-- 订单金额 -->
+          <view class="goods-info-line"
+                style="justify-content: flex-end;">
+            <view class="goods-amount">
+            总计：{{order.orderAmount}}元
+            </view>
+          </view>
+        </view>
+      </i-cell>
+      <i-cell title='星级'>
+        <view class="star-box"
+              slot='footer'>
+          <i-icon type='star'
+                  size="35"
+                  color="{{starLevel>=0?'#FFA500':'#778899'}}"
+                  bindtap="tapStar"
+                  data-starlevel="1"> 
+          </i-icon>   
+          <i-icon type='star'
+                  size="35"
+                  color="{{starLevel>=2?'#FFA500':'#778899'}}"
+                  bindtap="tapStar"
+                  data-starlevel="2"> 
+          </i-icon>  
+          <i-icon type='star'
+                  size="35"
+                  color="{{starLevel>=3?'#FFA500':'#778899'}}"
+                  bindtap="tapStar"
+                  data-starlevel="3"> 
+          </i-icon>  
+          <i-icon type='star'
+                  size="35"
+                  color="{{starLevel>=4?'#FFA500':'#778899'}}"
+                  bindtap="tapStar"
+                  data-starlevel="4"> 
+          </i-icon>  
+          <i-icon type='star'
+                  size="35"
+                  color="{{starLevel>=5?'#FFA500':'#778899'}}"
+                  bindtap="tapStar"
+                  data-starlevel="5"> 
+          </i-icon>    
+        </view>
+      </i-cell>
+      <i-cell title='评价'>
+        <textarea slot='footer'
+                  class="evaluate-input normal-text"
+                  auto-height
+                  placeholder-class='placeholder-text'
+                  placeholder='输入评价内容'
+                  bindinput="inputEvaluate">
+        </textarea>
+      </i-cell>
+    </i-cell-group>
+  </i-panel>
+</block>
+
+<!-- 卖家版 -->
+
+<block wx:if='{{currentRole == 1}}'>
+  <i-panel i-class='panel'>
+    <i-cell-group>
+      <i-cell>
+        <view class="order-item"
+              slot='header'>
+          <view class="order-info-box">
+            <view class="order-number">
+            {{sellerOrder.orderNumber}}
+            </view>
+            <view class="order-date">
+            {{sellerOrder.orderDate}} {{sellerOrder.orderTime}}
+            </view>
+          </view>
+          <view class="store-info-box">
+            <view class="store-image-box">
+              <i-image i-class='store-image'
+                       imageSrc='{{sellerOrder.customer.customerAvatarPath}}'
+                       placeholderSrc='../../resource/avatar_placeholder.jpg'>
+              </i-image>
+            </view>
+            <view class="store-name">
+            {{sellerOrder.customer.customerName}}
+            </view>
+          </view>
+          <view class="goods-info-box">
+            <view class="goods-image-box">
+              <i-image i-class='goods-image'
+                       imageSrc='{{sellerOrder.goods.imagePath}}'
+                       placeholderSrc='../../resource/avatar_placeholder.jpg'>
+              </i-image>
+            </view>
+            <view class="goods-info">
+              <view class="goods-info-line">
+                <view class="goods-name">
+                {{sellerOrder.goods.name}}
+                </view>
+                <view class="goods-sexy"
+                      wx:if='{{parse.showSexy(sellerOrder.goods)}}'>
+                {{sellerOrder.goods.sexy}}
+                </view>
+              </view>
+              <view class="goods-info-line"
+                    style="justify-content: space-between; align-items: flex-end;">
+                <view class="goods-count">
+                x{{sellerOrder.goods.count}}{{sellerOrder.goods.unit}}
+                </view>
+                <view class="goods-price">
+                {{sellerOrder.goods.price}}/{{sellerOrder.goods.unit}}
+                </view>
+              </view>
+            </view>
+          </view>
+          <!-- 订单金额 -->
+          <view class="goods-info-line"
+                style="justify-content: flex-end;">
+            <view class="goods-amount">
+            总计：{{sellerOrder.orderAmount}}元
+            </view>
+          </view>
+        </view>
+      </i-cell>
+      <i-cell title='星级'>
+        <view class="star-box"
+              slot='footer'>
+          <i-icon type='star'
+                  size="35"
+                  color="{{starLevel>=0?'#FFA500':'#778899'}}"
+                  bindtap="tapStar"
+                  data-starlevel="1"> 
+          </i-icon>   
+          <i-icon type='star'
+                  size="35"
+                  color="{{starLevel>=2?'#FFA500':'#778899'}}"
+                  bindtap="tapStar"
+                  data-starlevel="2"> 
+          </i-icon>  
+          <i-icon type='star'
+                  size="35"
+                  color="{{starLevel>=3?'#FFA500':'#778899'}}"
+                  bindtap="tapStar"
+                  data-starlevel="3"> 
+          </i-icon>  
+          <i-icon type='star'
+                  size="35"
+                  color="{{starLevel>=4?'#FFA500':'#778899'}}"
+                  bindtap="tapStar"
+                  data-starlevel="4"> 
+          </i-icon>  
+          <i-icon type='star'
+                  size="35"
+                  color="{{starLevel>=5?'#FFA500':'#778899'}}"
+                  bindtap="tapStar"
+                  data-starlevel="5"> 
+          </i-icon>    
+        </view>
+      </i-cell>
+      <i-cell title='评价'>
+        <textarea slot='footer'
+                  class="evaluate-input normal-text"
+                  auto-height
+                  placeholder-class='placeholder-text'
+                  placeholder='输入评价内容'
+                  bindinput="inputEvaluate">
+        </textarea>
+      </i-cell>
+    </i-cell-group>
+  </i-panel>
+</block>
+
+<view class="empty-zone">
+</view>
+<view class="submit-button">
+提交评价
+</view>
+
+<wxs module='parse'>
+  module.exports={
+    showSexy: function(goodsItem) {
+      if (goodsItem.sexy == null || goodsItem.sexy.length <= 0) {
+        return false;
+      }
+      return true;
+    }
+  }
+</wxs>

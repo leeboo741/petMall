@@ -81,7 +81,9 @@
               hidden>
         联系商家
         </view>
-        <view class="order-operate-button">
+        <view class="order-operate-button"
+              bindtap="tapToEvaluate"
+              data-index='{{orderIndex}}'>
         去评价
         </view>
       </view>
@@ -170,7 +172,9 @@
               hidden>
         联系买家
         </view>
-        <view class="order-operate-button">
+        <view class="order-operate-button"
+              bindtap="tapToEvaluate"
+              data-index='{{orderIndex}}'>
         去评价
         </view>
       </view>
