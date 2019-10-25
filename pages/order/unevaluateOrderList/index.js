@@ -514,4 +514,20 @@ Page({
       url: PagePath.Page_Order_Evaluate_Index,
     })
   },
+
+  /**
+   * 点击 买家更多
+   */
+  tapBuyerMore: function (e) {
+    wx.showActionSheet({
+      itemList: ["申请退款"],
+      success(res) {
+        if (res.tapIndex == 0) {
+          wx.navigateTo({
+            url: PagePath.Page_Order_Refund_Index,
+          })
+        }
+      },
+    })
+  }
 })

@@ -1,0 +1,25 @@
+<!--pages/order/refundOrderList/refund/approve/index.wxml-->
+<i-navigation-bar title='确定退款'
+                  showBackButton>
+</i-navigation-bar>
+
+<view class="page-box"
+      style="height: {{pageHeight}}px">
+  <view class="recharge-content">
+    <view class="recharge-input-box">
+      <view class="recharge-unit">
+      ￥
+      </view>
+      <input class="recharge-input"
+             type="digit"
+             placeholder="退款金额"
+             placeholder-class="recharge-input-placeholder"
+             bindinput="inputAmount">
+      </input>
+    </view>
+    <view class="pay-button"
+          bindtap="tapRefund">
+    退款
+    </view>
+  </view>
+</view>

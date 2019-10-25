@@ -1,0 +1,60 @@
+/* pages/order/refundOrderList/refund/approve/index.wxss */
+.page-box{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.recharge-content{
+  width: 90%;
+  height: 250rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 200rpx;
+}
+
+.balance{
+  font-size: 38rpx;
+  color: lightgray;
+}
+
+.recharge-input-box{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10rpx 25rpx;
+  border-bottom: 1rpx solid gray;
+  width: 70%;
+}
+
+.recharge-unit{
+  font-size: 60rpx;
+  font-weight: bold;
+  color: black;
+}
+
+.recharge-input{
+  margin-left: 8rpx;
+  flex-grow: 1;
+  font-size: 50rpx;
+  font-weight: bold;
+}
+
+.recharge-input-placeholder{
+  color: lightgray;
+  font-size: 45rpx;
+}
+
+.pay-button{
+  width: 80%;
+  height: 90rpx;
+  line-height: 90rpx;
+  border-radius: 10rpx;
+  background:  linear-gradient(to right, rgb(255,147,87) , rgb(255, 51, 59));
+  color: white;
+  font-size: 36rpx;
+  text-align: center;
+}

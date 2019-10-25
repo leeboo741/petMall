@@ -1,0 +1,58 @@
+/* pages/order/refundOrderList/refund/reject/index.wxss */
+.reason-input{
+  width: 500rpx;
+  background: rgb(245, 245, 245);
+  padding: 10rpx;
+}
+
+.normal-text{
+  color: #778899;
+}
+
+.placeholder-text{
+  color: gray;
+}
+
+.upload-image-box{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.upload-image-item{
+  width: 33.3333333%;
+  height: 200rpx;
+}
+
+.upload-image-item-image{
+  background: rgb(235, 235, 235);
+  width: 95%;
+  height: 97%;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.upload-image-item-center{
+  width: 120rpx;
+  height: 120rpx;
+}
+
+.empty-zone{
+  height: 90rpx;
+  width: 100%;
+}
+
+.submit-button{
+  width: 100%;
+  color: white;
+  height: 90rpx;
+  line-height: 90rpx;
+  text-align: center;
+  background:  linear-gradient(to right, rgb(255,147,87) , rgb(255, 51, 59));
+  position: fixed;
+  bottom: 0rpx;
+  left: 0rpx;
+}

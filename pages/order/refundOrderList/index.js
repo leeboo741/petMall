@@ -23,6 +23,7 @@ Page({
         payTime: "2019-10-11 12:11:11", // 最后付款时间
         orderClose: false,
         orderAmount: 123,
+        refundState: "商家审核中",
         goods: [
           {
             goodsName: "英国短毛猫",
@@ -47,6 +48,7 @@ Page({
         payTime: "2019-10-11 12:11:11", // 最后付款时间
         orderClose: true,
         orderAmount: 123,
+        refundState: "商家已驳回",
         goods: [
           {
             goodsName: "猫粮",
@@ -71,6 +73,7 @@ Page({
         payTime: "2019-10-11 12:11:11", // 最后付款时间
         orderClose: false,
         orderAmount: 123,
+        refundState: "等待到账",
         goods: [
           {
             goodsName: "英国短毛猫",
@@ -95,6 +98,7 @@ Page({
         payTime: "2019-10-11 12:11:11", // 最后付款时间
         orderClose: true,
         orderAmount: 123,
+        refundState: "等待到账",
         goods: [
           {
             goodsName: "猫粮",
@@ -119,6 +123,7 @@ Page({
         payTime: "2019-10-11 12:11:11", // 最后付款时间
         orderClose: false,
         orderAmount: 123,
+        refundState: "等待到账",
         goods: [
           {
             goodsName: "英国短毛猫",
@@ -143,6 +148,7 @@ Page({
         payTime: "2019-10-11 12:11:11", // 最后付款时间
         orderClose: true,
         orderAmount: 123,
+        refundState: "等待到账",
         goods: [
           {
             goodsName: "猫粮",
@@ -318,6 +324,7 @@ Page({
         payTime: "2019-10-11 12:11:11", // 最后付款时间
         orderClose: false,
         orderAmount: 123,
+        refundState: "等待到账",
         goods: [
           {
             goodsName: "英国短毛猫",
@@ -342,6 +349,7 @@ Page({
         payTime: "2019-10-11 12:11:11", // 最后付款时间
         orderClose: true,
         orderAmount: 123,
+        refundState: "商家审核中",
         goods: [
           {
             goodsName: "猫粮",
@@ -368,6 +376,7 @@ Page({
         payTime: "2019-10-11 12:11:11", // 最后付款时间
         orderClose: false,
         orderAmount: 123,
+        refundState: "商家已驳回",
         goods: [
           {
             goodsName: "英国短毛猫",
@@ -392,6 +401,7 @@ Page({
         payTime: "2019-10-11 12:11:11", // 最后付款时间
         orderClose: true,
         orderAmount: 123,
+        refundState: "商家已驳回",
         goods: [
           {
             goodsName: "猫粮",
@@ -504,6 +514,15 @@ Page({
   tapToOrderDetail: function (e) {
     wx.navigateTo({
       url: PagePath.Page_Order_Detail,
+    })
+  },
+
+  /**
+   * 点击审核退款
+   */
+  tapReview: function (e) {
+    wx.navigateTo({
+      url: PagePath.Page_Order_Refund_Review,
     })
   }
 })

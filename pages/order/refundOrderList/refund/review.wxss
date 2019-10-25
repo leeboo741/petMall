@@ -1,5 +1,6 @@
-/* pages/order/refundOrderList/index.wxss */
-.order-item{
+/* pages/order/refundOrderList/refund/review.wxss */
+
+.goods-box{
   display: flex;
   flex-direction: column;
 }
@@ -82,65 +83,88 @@
   color: gray;
 }
 
-.refund-state{
-  font-size: 32rpx;
-  color: #ee2c2c;
-}
-
 .order-goods-amount{
   font-size: 32rpx;
   color: #ee2c2c;
   font-weight: bold;
 }
 
-.order-goods-pay-time{
-  font-size: 26rpx;
-  color: gray;
-  margin-left: 10rpx;
+.reason-input{
+  width: 500rpx;
+  background: rgb(245, 245, 245);
+  padding: 10rpx;
 }
 
-.order-operate-box{
+.normal-text{
+  color: #778899;
+}
+
+.placeholder-text{
+  color: gray;
+}
+
+.upload-image-box{
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
-  padding: 10rpx 20rpx;
+  flex-wrap: wrap;
 }
 
-.order-store-box{
+.upload-image-item{
+  width: 33.3333333%;
+  height: 200rpx;
+}
+
+.upload-image-item-image{
+  background: rgb(235, 235, 235);
+  width: 95%;
+  height: 97%;
+  margin: auto;
   display: flex;
-  flex-direction: row;
   align-items: center;
+  justify-content: center;
 }
 
-.order-store-image{
-  width: 50rpx;
-  height: 50rpx;
-  border-radius: 8rpx;
-}
-
-.order-store-name{
-  font-size: 24rpx;
-  color: gray;
-  margin-left: 10rpx;
-}
-
-.order-operate-button-box{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-
-.order-operate-button{
-  padding: 15rpx;
+.upload-image-item-center{
   width: 120rpx;
-  text-align: center;
-  font-size: 28rpx;
-  border-radius: 8rpx;
-  border: 1rpx solid #778899;
-  margin-left: 15rpx;
+  height: 120rpx;
 }
 
-.order-splice-line{
-  border-bottom: 8rpx solid rgb(240, 240, 240);
+.empty-zone{
+  height: 90rpx;
+  width: 100%;
 }
+
+.button-area{
+  width: 100%;
+  position: fixed;
+  bottom: 0rpx;
+  left: 0rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  height: 90rpx;
+}
+
+.reject-button{
+  width: 45%;
+  color: rgb(255,147,87);
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
+  border-radius: 8rpx;
+  border: 1rpx solid rgb(255,147,87);
+}
+
+.approve-button{
+  width: 45%;
+  color: white;
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
+  border-radius: 8rpx;
+  background:  linear-gradient(to right, rgb(255,147,87) , rgb(255, 51, 59));
+}
+
+

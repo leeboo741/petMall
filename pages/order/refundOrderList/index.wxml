@@ -59,7 +59,10 @@
       </view>
       <!-- 订单金额 -->
       <view class="order-goods-item-line"
-            style="justify-content: flex-end;">
+            style="justify-content: space-between;">
+        <view class="refund-state">
+        退款状态：{{orderItem.refundState}}
+        </view>
         <view class="order-goods-amount">
         总计：{{orderItem.orderAmount}}元
         </view>
@@ -83,9 +86,6 @@
         <view class="order-operate-button"
               hidden>
         联系商家
-        </view>
-        <view class="order-operate-button">
-        查看退款
         </view>
       </view>
     </view>
@@ -177,8 +177,10 @@
               hidden>
         联系买家
         </view>
-        <view class="order-operate-button">
-        确认退款
+        <view class="order-operate-button"
+              bindtap="tapReview"
+              data-index='{{orderIndex}}'>
+        审核退款
         </view>
       </view>
     </view>

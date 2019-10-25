@@ -46,6 +46,10 @@ const Page_Order_UnevaluateList_Index = "/pages/order/unevaluateOrderList/index"
 const Page_Order_RefundList_Index = "/pages/order/refundOrderList/index"; // 退货|退款订单列表
 const Page_Order_Detail = "/pages/order/orderDetail/index"; // 订单详情
 const Page_Order_Evaluate_Index = '/pages/order/unevaluateOrderList/evaluate/index'; // 评价页面
+const Page_Order_Refund_Index = "/pages/order/refundOrderList/refund/index"; // 提交退款
+const Page_Order_Refund_Review = "/pages/order/refundOrderList/refund/review"; // 审核退款
+const Page_Order_Refund_Review_Reject = '/pages/order/refundOrderList/refund/reject/index'; // 退款驳回
+const Page_Order_Refund_Review_Approve = '/pages/order/refundOrderList/refund/approve/index'; // 退款批准
 
 module.exports={
   Page_Home, // 首页
@@ -54,9 +58,7 @@ module.exports={
   Page_Home_Nearby,  //附近
   Pate_Home_PetsType, //宠物分类
 
-
   Page_Search_Index, // 搜索页
-
   
   Page_Store_Index, // 商家首页
   Page_Store_StoreInforMation, //商家信息
@@ -98,6 +100,10 @@ module.exports={
   Page_Order_RefundList_Index, // 退货|退款订单列表
   Page_Order_Detail, // 订单详情
   Page_Order_Evaluate_Index, // 评价页面
+  Page_Order_Refund_Index, // 提交退款
+  Page_Order_Refund_Review, // 审核退款
+  Page_Order_Refund_Review_Reject, // 退款驳回
+  Page_Order_Refund_Review_Approve, // 退款批准
 
 }
 
