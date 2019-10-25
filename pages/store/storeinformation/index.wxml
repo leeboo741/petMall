@@ -8,9 +8,18 @@
         <image src="{{businessDataSource.merchantImage}}" class="business-image"/>
     </view>
     <view class="business-head-inright">
-        <view style="font-weight:bold;">
+        <view class="business-name-label">
           {{businessDataSource.merchantName}}
+           <view wx:for="{{label}}"
+                 wx:for-item='labelItem'
+                 wx:for-index='labelIndex'
+                 wx:key='{{labelIndex}}'>
+                <view class="label-pagecs">
+                  {{labelItem}}
+                </view>
+           </view>
         </view>
+ 
         <view style="display: flex;flex-wrap: nowrap;">
                 <view wx:for="{{businessDataSource.merchantStars}}"
                       wx:for-item='StarsItem'
@@ -65,10 +74,13 @@
             wx:for='{{businessDataSource.dogInforMation}}'
             wx:for-item="buisnessItem"
             wx:for-index="buisnessIndex"
-            wx:key='{{buisnessIndex}}'>
+            wx:key='{{buisnessIndex}}'
+            bindtap="petsInforTap"
+            data-item="{{businessDataSource}}"
+            data-index="{{buisnessIndex}}">
             <view class="business-pets-information">
                 <image src="{{buisnessItem.dogImage}}" 
-                      class="business-pets-image" />
+                       class="business-pets-image"/>
             </view>
             <view class="business-pets-bottom">
               <view style="margin-left:6%;font-weight:bold;">

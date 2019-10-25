@@ -8,6 +8,9 @@ Page({
   data: {
       dataSourceInforMation:[],
       showPetsInfo:[],
+      label: [
+        "平台认证", "实名认证", "已纳押金", "商家认证"
+      ],
       petsInforDataSource:[
         {
             petsName:"边境牧羊犬",
@@ -60,6 +63,60 @@ Page({
               "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571827141231&di=02b08fb9594c0c17fa702cfa2856afe8&imgtype=0&src=http%3A%2F%2Ftct.ganjistatic1.com%2Fgjfsqq%2F65067eb0a18e4550acd61a0d03c37722_600-0_6-0.jpg", 
               "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571827141228&di=b6fbdac85624019e3d073b2f22434a4d&imgtype=0&src=http%3A%2F%2Fimg011.hc360.cn%2Fy5%2FM05%2FC9%2FE3%2FwKhQUVYrUPKEBVMNAAAAAI1QT_U470.jpg"
             ]
+
+        },
+
+        {
+          petsName: "边境牧羊犬",
+          petsBirthday: "2019-10-23",
+          petsSex: "母",
+          releaseTime: "1小时前",
+          sterilization: "否",
+          grade: "宠物级",
+          introduce: "售出不是终止，服务才是我们的终止！",
+          petsPrice: 1688,
+          originalPrice: 3888,
+          petsImages: [
+            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571827141233&di=1f3896fb62d490d24706f4ee121b34a9&imgtype=0&src=http%3A%2F%2Fimg1.juimg.com%2F171214%2F330841-1G21421502628.jpg",
+            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571827141232&di=d4315a74250a957a799de7d2dee2b2fc&imgtype=0&src=http%3A%2F%2Fimg.juimg.com%2Ftuku%2Fyulantu%2F121005%2F219049-12100519111038.jpg",
+            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571827141232&di=9acf9b4ae07ad17abb234371af1ec266&imgtype=0&src=http%3A%2F%2Fimg.pconline.com.cn%2Fimages%2Fupload%2Fupc%2Ftx%2Fitbbs%2F1402%2F14%2Fc10%2F31249913_1392366826778_mthumb.jpg"
+          ]
+
+        },
+
+        {
+          petsName: "边境牧羊犬",
+          petsBirthday: "2019-10-23",
+          petsSex: "母",
+          releaseTime: "1小时前",
+          sterilization: "否",
+          grade: "宠物级",
+          introduce: "售出不是终止，服务才是我们的终止！",
+          petsPrice: 1688,
+          originalPrice: 3888,
+          petsImages: [
+            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571827141233&di=1f3896fb62d490d24706f4ee121b34a9&imgtype=0&src=http%3A%2F%2Fimg1.juimg.com%2F171214%2F330841-1G21421502628.jpg",
+            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571827141232&di=d4315a74250a957a799de7d2dee2b2fc&imgtype=0&src=http%3A%2F%2Fimg.juimg.com%2Ftuku%2Fyulantu%2F121005%2F219049-12100519111038.jpg",
+            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571827141232&di=9acf9b4ae07ad17abb234371af1ec266&imgtype=0&src=http%3A%2F%2Fimg.pconline.com.cn%2Fimages%2Fupload%2Fupc%2Ftx%2Fitbbs%2F1402%2F14%2Fc10%2F31249913_1392366826778_mthumb.jpg"
+          ]
+
+        },
+
+        {
+          petsName: "边境牧羊犬",
+          petsBirthday: "2019-10-23",
+          petsSex: "母",
+          releaseTime: "1小时前",
+          sterilization: "否",
+          grade: "宠物级",
+          introduce: "售出不是终止，服务才是我们的终止！",
+          petsPrice: 1688,
+          originalPrice: 3888,
+          petsImages: [
+            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571827141233&di=1f3896fb62d490d24706f4ee121b34a9&imgtype=0&src=http%3A%2F%2Fimg1.juimg.com%2F171214%2F330841-1G21421502628.jpg",
+            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571827141232&di=d4315a74250a957a799de7d2dee2b2fc&imgtype=0&src=http%3A%2F%2Fimg.juimg.com%2Ftuku%2Fyulantu%2F121005%2F219049-12100519111038.jpg",
+            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571827141232&di=9acf9b4ae07ad17abb234371af1ec266&imgtype=0&src=http%3A%2F%2Fimg.pconline.com.cn%2Fimages%2Fupload%2Fupc%2Ftx%2Fitbbs%2F1402%2F14%2Fc10%2F31249913_1392366826778_mthumb.jpg"
+          ]
 
         }
 
@@ -120,9 +177,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    let requestIndex = JSON.parse(decodeURIComponent(options.petsindex));
-    let requestItem = JSON.parse(decodeURIComponent(options.petsitem));
-    console.log(requestItem);
+      let requestIndex = JSON.parse(decodeURIComponent(options.petsindex));
+      let requestItem = JSON.parse(decodeURIComponent(options.petsitem));
+      console.log(requestItem);
       let that=this;
       that.setData({
         showPetsInfo: that.data.petsInforDataSource[requestIndex],

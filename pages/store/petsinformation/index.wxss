@@ -63,7 +63,7 @@
  background: #E0E3DA;
  width: 87%;
  height: 2rpx;
- margin-top:3%;
+ margin-top:2%;
  margin-left:13%;
 }
 
@@ -75,7 +75,6 @@
   align-items: center;
   flex-wrap: nowrap;
   border-top: 3rpx solid #ccc;
-  border-bottom: 3rpx solid #ccc;
   margin-top:3%;
 }
 
@@ -99,6 +98,7 @@
   display: flex;
   flex-direction: column;
   justify-content:center;
+  font-size: 28rpx;
 }
 
 .business-head-right-button-page{
@@ -159,6 +159,8 @@
   display: flex;
   align-items: center;
   flex-direction: row;
+  border-top: 3rpx solid #ccc;
+  margin-top: 2%;
 }
 
 .goshopbottom{
@@ -207,4 +209,16 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.label-pagecs{
+  display: flex;
+  align-items: center;
+  justify-content:center;
+  font-size: 16rpx;
+  color:white;
+  background-color: #C7AB56;
+  margin-left: 16rpx;
+  width: 80rpx;
+  height: 30rpx;
 }

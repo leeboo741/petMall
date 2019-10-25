@@ -1,5 +1,6 @@
 // pages/index/petstype/index.js
 const LoadFootItemState = require("../../../lee-components/leeLoadingFootItem/loadFootObj.js");
+const Page_path = require("../../../macros/pagePath.js");
 Page({
 
   /**
@@ -284,6 +285,15 @@ Page({
         })
       }
     }, 1000)
+  },
+
+    /**   
+     * 点击图片
+     */
+  petsTap: function (e) {
+    wx.navigateTo({
+      url: Page_path.Page_Home_Nearby
+    })
   },
 
   /**

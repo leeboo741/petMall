@@ -32,6 +32,8 @@ Page({
         merchantStars: 3,                                       //评价星星数
         tradingVolume: 5,                                       //担保交易量
         merchantIntroduction:"最帅宝宝",                         //宠物介绍
+        merchantPraise:296,                                     //好评数
+        label:0,                                                //标签（0实名认证  1平台认证  2商家认证）
         dogInforMation: [
           {
             dogImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805063571&di=927a863a0899b6e8e2562efee970caa1&imgtype=0&src=http%3A%2F%2Fwww.pig66.com%2Fuploadfile%2F2017%2F1223%2F20171223041006689.png",                                                            //宠物图片
@@ -92,6 +94,8 @@ Page({
         merchantStars: 3,
         tradingVolume: 5,   //担保交易量
         merchantIntroduction: "最帅宝宝",
+        merchantPraise: 296,                                     //好评数
+        label:2,                                                //标签（0实名认证  1平台认证  2商家认证）
         dogInforMation: [
           {
             dogImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805063570&di=baa38330196796a72dbe7a13725bc906&imgtype=0&src=http%3A%2F%2Fpic2.58cdn.com.cn%2Fmobile%2Fbig%2Fn_v29a7ff73d703e4979b7d51358c65fd996.jpg",
@@ -124,6 +128,8 @@ Page({
         merchantStars: 3,
         tradingVolume: 5,   //担保交易量
         merchantIntroduction: "最帅宝宝",
+        merchantPraise: 296,                                     //好评数
+        label: 0,                                                //标签（0实名认证  1平台认证  2商家认证）
         dogInforMation: [
           {
             dogImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805063568&di=5434a33e5a58aca67d92137ef6ae6fd9&imgtype=0&src=http%3A%2F%2Fpic2.58cdn.com.cn%2Fmobile%2Fbig%2Fn_v1bkuyfvpaquovrkvembya_22e4e0b640348b34.jpg",
@@ -156,6 +162,8 @@ Page({
         merchantStars: 3,
         tradingVolume: 5,   //担保交易量
         merchantIntroduction: "最帅宝宝",
+        merchantPraise: 296,                                     //好评数
+        label: 2,                                                //标签（0实名认证  1平台认证  2商家认证）
         dogInforMation: [
           {
             dogImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805063567&di=756203da759e7ec9961f851968e7af4c&imgtype=0&src=http%3A%2F%2Fimg3.duitang.com%2Fuploads%2Fitem%2F201601%2F26%2F20160126200901_PBz2A.thumb.700_0.jpeg",
@@ -188,6 +196,8 @@ Page({
         merchantStars: 3,
         tradingVolume: 5,   //担保交易量
         merchantIntroduction: "最帅宝宝",
+        merchantPraise: 296,                                     //好评数
+        label: 1,                                                //标签（0实名认证  1平台认证  2商家认证）
         dogInforMation: [
           {
             dogImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805063564&di=7acb0a58f5e8db118d68e56b0ed7dd48&imgtype=0&src=http%3A%2F%2Fimg.juimg.com%2Ftuku%2Fyulantu%2F110915%2F8880-11091500191087.jpg",
@@ -220,6 +230,8 @@ Page({
         merchantStars: 3,
         tradingVolume: 5,   //担保交易量
         merchantIntroduction: "最帅宝宝",
+        merchantPraise: 296,                                     //好评数
+        label: 0,                                                //标签（0实名认证  1平台认证  2商家认证）
         dogInforMation: [
           {
             dogImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805162393&di=45bb433dfc41ece1ef28baa698d4b48e&imgtype=0&src=http%3A%2F%2Fimg010.hc360.cn%2Fhb%2FMTQ1OTM5MzYwNTAzMjM5ODY2NTg4OQ%3D%3D.jpg",
@@ -252,6 +264,8 @@ Page({
         merchantStars: 3,
         tradingVolume: 5,   //担保交易量
         merchantIntroduction: "最帅宝宝",
+        merchantPraise: 296,                                     //好评数
+        label: 1,                                                //标签（0实名认证  1平台认证  2商家认证）
         dogInforMation: [
           {
             dogImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805162392&di=bacc587e3272b53405876e2c327c185b&imgtype=0&src=http%3A%2F%2Fpic24.nipic.com%2F20120907%2F8259641_151152245183_2.jpg",
@@ -288,6 +302,8 @@ Page({
           merchantStars:3,
           tradingVolume: 5,   //担保交易量
           merchantIntroduction: "最帅宝宝",
+          merchantPraise: 296,                                     //好评数
+          label: 0,                                                //标签（0平台认证  1商家认证  2实名认证）
           dogInforMation:[
             {
               dogImage:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805162391&di=7b7ca067e920f0f6fc00ee4d070178dc&imgtype=0&src=http%3A%2F%2Fpic42.huitu.com%2Fres%2F20151205%2F347437_20151205224646401500_1.jpg",
@@ -321,6 +337,8 @@ Page({
         merchantStars: 3,
         tradingVolume: 5,   //担保交易量
         merchantIntroduction: "最帅宝宝",
+        merchantPraise: 296,                                     //好评数
+        label: 2,                                                //标签（0平台认证  1商家  2实名认证）
         dogInforMation: [
           {
             dogImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805162386&di=147d2711916337f3293d8658352ce1aa&imgtype=0&src=http%3A%2F%2Fimg2.pclady.com.cn%2Fpclady%2F1012%2F08%2F630870_05.jpg",
@@ -354,6 +372,8 @@ Page({
         merchantStars: 3,
         tradingVolume: 5,   //担保交易量
         merchantIntroduction: "最帅宝宝",
+        merchantPraise: 296,                                     //好评数
+        label: 1,                                                //标签（0实名认证  1平台认证  2商家认证）
         dogInforMation: [
           {
             dogImage: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571805162384&di=fcdb6be0280d84aabc0faffbeb7a8ea5&imgtype=0&src=http%3A%2F%2Fuimg.liecdn.cn%2Fimage%2Fpost%2Fdb%2F19%2Fde%2Ffd%2Fdb19defd5de849bd4db43a8e17b4cfdb.jpg",

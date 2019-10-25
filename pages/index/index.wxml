@@ -94,7 +94,10 @@
             wx:for-item="preferentialItem"
             wx:for-index="preferentialIndex"
             wx:key='{{preferentialIndex}}'
-            class="goods-item">
+            class="goods-item"
+            bindtap="petsInforTap"
+            data-index="{{preferentialIndex}}"
+            data-item="{{preferentialItem}}">
         <view class="goods-image-box">
           <i-image i-class="goods-image"
                    imageSrc='{{preferentialItem.imagePath}}'
@@ -133,12 +136,13 @@
             color="#ff6600">
     </i-icon>
     <view class="section-title" style="color: #ff6600">
-    最新上架
+          最新上架
     </view>
     <view class="section-info">
     </view>
-    <view class="section-more">
-    更多
+    <view class="section-more"
+          bindtap="newestTap">
+           更多
     </view>
     <i-icon type="right-arrow"
             size="32">
@@ -191,7 +195,8 @@
     </view>
     <view class="section-info">
     </view>
-    <view class="section-more">
+    <view class="section-more" 
+          bindtap="boutiqueTap">
     平台审核，精品保证
     </view>
     <i-icon type="right-arrow"
@@ -232,7 +237,8 @@
   <view class="section-foot-area">
     <view class="section-foot-button"
           style="color: #ff6600;">
-      <view class="section-foot-title">
+      <view class="section-foot-title"
+            bindtap="boutiqueTap">
       进入精品馆
       </view>
       <i-icon type="right-arrow-circle"
@@ -254,7 +260,8 @@
     </view>
     <view class="section-info">
     </view>
-    <view class="section-more">
+    <view class="section-more"
+          bindtap="highEndTap">
     一宠一芯 纯种保证 健康保障
     </view>
     <i-icon type="right-arrow"
@@ -295,7 +302,8 @@
   <view class="section-foot-area">
     <view class="section-foot-button"
           style="color: #ff6600;">
-      <view class="section-foot-title">
+      <view class="section-foot-title"
+            bindtap="highEndTap">
       进入高端馆
       </view>
       <i-icon type="right-arrow-circle"
@@ -323,7 +331,9 @@
           wx:for-item="setMenuItem"
           wx:for-index="setMenuIndex"
           wx:key='{{setMenuIndex}}'
-          class="setmenu-item">
+          class="setmenu-item"
+          bindtap="setMenuTap"
+          data-index="{{setMenuIndex}}">
       <view class="setmenu-item-content">
         <view class="setmenu-item-info">
           <view class="text-name">
@@ -385,7 +395,9 @@
           wx:for-item="hotTypeItem"
           wx:for-index="hotTypeIndex"
           wx:key='{{hotTypeIndex}}'
-          class="hot-type-item">
+          class="hot-type-item"
+          bindtap="hotTypeTap"
+          data-index="{{hotTypeIndex}}">
       <i-image i-class="hot-type-icon"
                 imageSrc="{{hotTypeItem.iconPath}}"
                 placeholderSrc='../../resource/placeholder.jpg'

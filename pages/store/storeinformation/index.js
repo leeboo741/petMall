@@ -1,5 +1,6 @@
 // pages/store/storeinformation/index.js
 const app = getApp();
+const Page_path = require("../../../macros/pagePath.js");
 Page({
 
   /**
@@ -28,6 +29,10 @@ Page({
         title: "简介",
         showLine: false
       }
+    ],
+
+    label:[
+      "平台认证","实名认证","已纳押金","商家认证"
     ],
 
     dataSource:[],
@@ -225,6 +230,19 @@ Page({
       })
     }
 
+  },
+
+  /**
+   * 点击宠物图片跳转
+   */
+
+  petsInforTap:function(res){
+    let actionIndex = encodeURIComponent(JSON.stringify(res.currentTarget.dataset.index));
+    let actionItem = encodeURIComponent(JSON.stringify(res.currentTarget.dataset.item));
+    wx.navigateTo({
+      url: Page_path.Page_Store_PetsInforMation + '?petsindex=' + actionIndex + "&petsitem=" + actionItem
+    })
+    console.log(actionItem);
   }
 
 })

@@ -4,7 +4,6 @@ const app = getApp();
 const LoadFootItemState = require("../../lee-components/leeLoadingFootItem/loadFootObj.js");
 const Page_path = require("../../macros/pagePath.js");
 const PageSize = 20;
-const PagePath = require("../../macros/pagePath.js");
 Page({
   /**
    * 生命周期函数--监听页面加载
@@ -113,6 +112,65 @@ Page({
         })
     }
   },
+
+  /**
+   * 点击最新上架更多
+   */
+  newestTap:function(){
+    wx.navigateTo({
+      url: Page_path.Page_Home_Nearby
+    })
+  },
+
+  /**
+   * 点击进入精品馆
+   */
+  boutiqueTap:function(){
+    wx.navigateTo({
+      url: Page_path.Page_Home_Nearby
+    })
+  },
+
+  /**
+   * 点击进入高端馆
+   */
+  highEndTap:function(){
+    wx.navigateTo({
+      url: Page_path.Page_Home_Nearby
+    })
+  },
+
+  /**
+   * 点击套餐中犬类
+   */
+  setMenuTap: function (res) {
+    var actionIndex = res.currentTarget.dataset.index
+
+    wx.navigateTo({
+      url: Page_path.Page_Mall_SetMeal + '?setMealType=' + actionIndex
+    })
+
+  },
+
+  /**
+   * 点击热门分类
+   */
+  hotTypeTap:function(){
+    wx.navigateTo({
+      url: Page_path.Page_Home_Nearby
+    })
+  },
+  
+  /**
+   * 点击宠物图片查看详情  Page_Store_PetsInforMation
+   */
+  petsInforTap: function (res) {
+        let actionIndex = encodeURIComponent(JSON.stringify(res.currentTarget.dataset.index));
+        let actionItem = encodeURIComponent(JSON.stringify(res.currentTarget.dataset.item));
+        wx.navigateTo({
+          url: Page_path.Page_Store_PetsInforMation + '?petsindex=' + actionIndex + "&petsitem=" + actionItem
+        })
+    },
 
   /**
    * 用户点击右上角分享
