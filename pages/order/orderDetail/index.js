@@ -8,7 +8,8 @@ Page({
     order: {
       store: {
         name: "萌宠宠物店",
-        imagePath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571138693420&di=fee3aa2a043f375cdb1cbb90f9380c2a&imgtype=0&src=http%3A%2F%2Fd5.file.680.com%2FItem%2F2018-6%2F20%2F10596211_201862011416.jpg"
+        imagePath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571138693420&di=fee3aa2a043f375cdb1cbb90f9380c2a&imgtype=0&src=http%3A%2F%2Fd5.file.680.com%2FItem%2F2018-6%2F20%2F10596211_201862011416.jpg",
+        phone: "0793-3222112",
       },
       goods: {
         name: "英国短毛猫",
@@ -34,7 +35,8 @@ Page({
       },
       orderNumber: "DSA1221231211123",
       orderDate: "2019-10-11",
-      orderTime: "10:11:12"
+      orderTime: "10:11:12",
+      orderAmount: 1500,
     }
   },
 

@@ -6,7 +6,172 @@
 <i-panel i-class='panel'>
   <i-cell-group>
     <i-cell>
+      <view class="store-box"
+            slot='header'>
+        <view class="store-info">
+          <view class="store-logo-box">
+            <i-image i-class="store-logo"
+                     imageSrc='{{order.store.imagePath}}'
+                     placeholderSrc='../../resource/avatar_placeholder.jpg'>
+            </i-image>
+          </view>
+          <view class="store-name">
+          {{order.store.name}}
+          </view>
+        </view>      
+        <view class="store-line-v"></view>
+        <view class="store-call-box"
+              data-phone='{{store.store.phone}}'
+              bindtap="callStorePhone">
+          <i-icon type='phone'
+                  size="36">
+          </i-icon>
+          <view class="store-call-title">
+          联系商家
+          </view>
+        </view>
+      </view>
+    </i-cell>
 
+    <i-cell>
+      <view class="goods-box"
+            slot='header'>
+        <view class="goods-image-box">
+          <i-image i-class="goods-image"
+                   imageSrc='{{order.goods.imagePath}}'
+                   placeholderSrc='../../resource/avatar_placeholder.jpg'>
+          </i-image>
+        </view>
+        <view class="goods-info-box">
+          <view class="goods-info-line">
+            <view class="goods-info-name">
+            {{order.goods.name}}
+            </view>
+            <view class="goods-info-sexy"
+                  wx:if='{{parse.showSexy(order.goods.sexy)}}'>
+            {{order.goods.sexy}}
+            </view>
+            <view class="goods-info-count">
+            x{{order.goods.count}}{{order.goods.unit}}
+            </view>
+          </view>
+          <view class="goods-info-line">
+            <view class="goods-info-price">
+            ￥{{order.orderAmount}}
+            </view>
+          </view>
+        </view>      
+      </view>
+    </i-cell>
+
+    <i-cell>
+      <view class="price-box"
+            slot='header'>
+        <view class="price-title-box">
+          <view class="price-title">
+          价格明细
+          </view>
+        </view>
+        <view class='price-content-box'>
+          <view class="price-content-item">
+            <view class="price-content-item-title">
+            价格
+            </view>
+            <view class="price-content-item-value">
+            {{order.price.goodsPrice}}
+            </view>
+          </view>
+          <view class="price-content-item">
+            <view class="price-content-item-title">
+            运费
+            </view>
+            <view class="price-content-item-value">
+            {{order.price.freight}}
+            </view>
+          </view>
+          <view class="price-content-item">
+            <view class="price-content-item-title">
+            优惠券抵扣
+            </view>
+            <view class="price-content-item-value">
+            -{{order.price.couponOffset}}
+            </view>
+          </view>
+          <view class="price-content-item">
+            <view class="price-content-item-title">
+            积分抵扣
+            </view>
+            <view class="price-content-item-value">
+            -{{order.price.pointOffset}}
+            </view>
+          </view>
+        </view>
+      </view>
+    </i-cell>
+
+    <i-cell>
+      <view class="detail-box"
+            slot='header'>
+        <view class="detail-item">
+          <view class="detail-title">
+          联系人
+          </view>
+          <view class="detail-value">
+          {{order.customer.name}}
+          </view>
+        </view>
+        <view class="detail-item">
+          <view class="detail-title">
+          联系电话
+          </view>
+          <view class="detail-value">
+          {{order.customer.phone}}
+          </view>
+        </view>
+        <view class="detail-item">
+          <view class="detail-title">
+          收货地址
+          </view>
+          <view class="detail-value">
+          {{order.customer.province}}{{order.customer.city}}{{order.customer.district}}{{order.customer.detailAddress}}
+          </view>
+        </view>
+        <view class="detail-item">
+          <view class="detail-title">
+          卖家名称
+          </view>
+          <view class="detail-value">
+          {{order.store.name}}
+          </view>
+        </view>
+        <view class="detail-item">
+          <view class="detail-title">
+          订单编号
+          </view>
+          <view class="detail-value">
+          {{order.orderNumber}}
+          </view>
+        </view>
+        <view class="detail-item">
+          <view class="detail-title">
+          下单时间
+          </view>
+          <view class="detail-value">
+          {{order.orderDate}} {{order.orderTime}}
+          </view>
+        </view>
+      </view>
     </i-cell>
   </i-cell-group>
 </i-panel>
+
+<wxs module='parse'>
+  module.exports={
+    showSexy: function(sexy) {
+      if (sexy == null || sexy.length <= 0) {
+        return false;
+      }
+      return true;
+    }
+  }
+</wxs>
