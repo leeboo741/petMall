@@ -1,8 +1,8 @@
 /* pages/order/refundOrderList/refund/reject/index.wxss */
 .reason-input{
-  width: 500rpx;
   background: rgb(245, 245, 245);
   padding: 10rpx;
+  width: 100%;
 }
 
 .normal-text{

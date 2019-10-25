@@ -64,7 +64,7 @@ Page({
   onShareAppMessage: function () {
 
   },
-  
+
   /**
    * 点击添加新上传图片
    */
@@ -74,7 +74,7 @@ Page({
       count: 8,
       success: function (res) {
         that.setData({
-          refundEvidence: res.tempFilePaths
+          rejectEvidence: res.tempFilePaths
         })
       },
     })

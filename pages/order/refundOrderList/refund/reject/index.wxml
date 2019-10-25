@@ -6,7 +6,7 @@
 <i-panel i-class='panel'
          title='驳回原因'>
   <i-cell>
-    <textarea slot='footer'
+    <textarea slot='header'
               class="reason-input normal-text"
               auto-height
               placeholder-class='placeholder-text'
@@ -34,7 +34,7 @@
         <view class='upload-image-item-image'
               bindtap="tapAddNewUploadImage">
           <image class="upload-image-item-center"
-                 src='../../../../resource/add_new.png'>
+                 src='../../../../../resource/add_new.png'>
           </image>
         </view>
       </view>

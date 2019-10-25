@@ -1,5 +1,5 @@
 <!--pages/order/refundOrderList/index.wxml-->
-<i-navigation-bar title='退货|退款'
+<i-navigation-bar title='退款'
                   showBackButton>
 </i-navigation-bar>
 
