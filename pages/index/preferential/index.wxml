@@ -3,7 +3,7 @@
                   showBackButton='{{true}}'>
 </i-navigation-bar>
 
-
+  <!-- 图片展示信息 -->
   <view class="business-pets-page">
       <view class="business-pets-information"
             wx:for='{{petsInforMation}}'
@@ -16,16 +16,16 @@
             </view>
             <view class="business-pets-bottom">
                 <view class="body-list-one">
-                    {{petsItem.petsName}}
-                    <view style="color:#ccc;margin-left:30%;color:red;">
-                        ￥{{petsItem.petsPrice}} 
-                    </view>
+                      {{petsItem.petsName}}
+                      <view style="color:#ccc;margin-left:30%;color:red;">
+                          ￥{{petsItem.petsPrice}} 
+                      </view>
                 </view>
                 <view class="body-list-two">
-                     {{petsItem.petsAddress}} 
-                    <view style="margin-left:30%;text-decoration:line-through">
-                        ￥{{petsItem.originalPrice}} 
-                    </view>
+                          {{petsItem.petsAddress}} 
+                      <view style="margin-left:30%;text-decoration:line-through">
+                          ￥{{petsItem.originalPrice}} 
+                      </view>
                 </view>
             </view>
       </view>

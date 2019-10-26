@@ -3,6 +3,7 @@
                   showBackButton='{{true}}'>
 </i-navigation-bar>
 
+<!-- 宠物分类 -->
 <view class="context-page">
     <view class="image-context-page"
           wx:for='{{petsTypeData}}'
@@ -11,9 +12,9 @@
           wx:key='{{petsIndex}}'
           bindtap="petsTap">
           <image src="{{petsItem.petsImageUrl}}"
-                 class="image-context-head"/>
+                 class="image-context-head" />
           <view class="image-context-bottom">
-              {{petsItem.petsName}}
+                {{petsItem.petsName}}
           </view>
     </view>
 </view>

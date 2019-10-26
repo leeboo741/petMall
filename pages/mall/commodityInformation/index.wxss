@@ -23,7 +23,7 @@
 }
 
 .image-page-bottom{
-  width: 100%;
+  width: 95%;
   height: 80rpx;
   display: flex;
   align-items: center;
@@ -46,7 +46,7 @@
 }
 
 .page-lower-info-table{
-  width: 100%;
+  width: 95%;
   height: 10%;
   display: flex;
   align-items: center;
@@ -92,8 +92,9 @@
 .userevaluate-content-head{
   display: flex;
   flex-wrap: nowrap;
-  width: 100%;
+  width: 96%;
   align-items: center;
+  margin: 0 auto;
 }
   
 .image-sty{

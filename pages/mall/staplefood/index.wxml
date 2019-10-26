@@ -3,72 +3,93 @@
                   showBackButton='{{true}}'>
 </i-navigation-bar>
 
+<!-- 头部信息 -->
 <view class="foodgrainmore-head"
       style="height:50px">
-  <view class="foodgrainmore-head-titleselect" wx:for='{{titleSelectList}}'
-          wx:for-item="titleSelectItem"
-          wx:for-index="titleSelectIndex"
-          wx:key='{{titleSelectIndex}}' bindtap="titleSelectTap" data-index="{{titleSelectIndex}}" data-key="{{titleSelectItem.selectInfo}}" style="color:{{parse.textShowColor(titleSelectItem.showSelect)}}">
-          {{titleSelectItem.selectInfo}}
-           <i-icon type="{{titleSelectItem.showSelect?'unfold':'packup'}}" size="20"/>      
-  </view>
-
+      <view class="foodgrainmore-head-titleselect" 
+            wx:for='{{titleSelectList}}'
+            wx:for-item="titleSelectItem"
+            wx:for-index="titleSelectIndex"
+            wx:key='{{titleSelectIndex}}' 
+            bindtap="titleSelectTap" 
+            data-index="{{titleSelectIndex}}"
+            data-key="{{titleSelectItem.selectInfo}}" 
+            style="color:{{parse.textShowColor(titleSelectItem.showSelect)}}">
+              {{titleSelectItem.selectInfo}}
+            <i-icon type="{{titleSelectItem.showSelect?'unfold':'packup'}}"
+                    size="20"/>      
+      </view>
 </view>
 
+<!-- 图片展示信息 -->
 <scroll-view scroll-y
              class="scroll-view-page"
              style="height: {{pageHeight-50}}px"
              bindscrolltolower="loadiongtap">
   <view class="foodgrain-page">
-    <view class="foodgrain-page-formation"
-          wx:for='{{dataSource}}'
-          wx:for-item="dataSourceItem"
-          wx:for-index="dataSourceIndex"
-          wx:key='{{dataSourceIndex}}'
-          bindtap="commodityInforMationTap"
-           data-key="{{dataSourceItem}}">
-      <image class="foodgrain-page-formation-head"
-              src="{{dataSourceItem.imageUrl}}"></image>
-      <view class="foodgrain-page-formation-middle">
-      {{dataSourceItem.commodity}}
-      </view>
-      <view class="foodgrain-page-formation-introduce">
-      {{dataSourceItem.introduce}}
-      </view>
-      <view class="foodgrain-page-formation-down">
-        <view class="foodgrain-page-formation-down-left">       
-          <view class="foodgrain-page-formation-down-price">
-          ￥{{dataSourceItem.price}} 
-          </view>
-          <view class="foodgrain-page-formation-down-member">
-          会员价
-          </view>
+        <view class="foodgrain-page-formation"
+              wx:for='{{dataSource}}'
+              wx:for-item="dataSourceItem"
+              wx:for-index="dataSourceIndex"
+              wx:key='{{dataSourceIndex}}'
+              bindtap="commodityInforMationTap"
+              data-key="{{dataSourceItem}}">
+              <image class="foodgrain-page-formation-head"
+                      src="{{dataSourceItem.imageUrl}}">
+              </image>
+              <view class="foodgrain-page-formation-middle">
+                   {{dataSourceItem.commodity}}
+              </view>
+              <view class="foodgrain-page-formation-introduce">
+                   {{dataSourceItem.introduce}}
+              </view>
+              <view class="foodgrain-page-formation-down">
+                  <view class="foodgrain-page-formation-down-left">       
+                        <view class="foodgrain-page-formation-down-price">
+                        ￥{{dataSourceItem.price}} 
+                        </view>
+                        <view class="foodgrain-page-formation-down-member">
+                        会员价
+                        </view>
+                  </view>
+                  <view class="foodgrain-page-formation-down-originalPrice">
+                        ￥{{dataSourceItem.originalPrice}}
+                  </view>
+              </view>
         </view>
-        <view class="foodgrain-page-formation-down-originalPrice">
-        ￥{{dataSourceItem.originalPrice}}
-        </view>
-      </view>
-    </view>
   </view>
+
   <i-load-foot-item loadState='{{loadState}}'>
   </i-load-foot-item>
 </scroll-view>
+
 <!--下拉信息-->
-<view class="dropdownbox-infomation" hidden="{{showDropDownMessage}}">
-    <view class="dropdownbox-infomation-table" 
-          wx:for='{{dataSourceType}}'
-          wx:for-item="dataSourceTypeItem"
-          wx:for-index="dataSourceTypeIndex"
-          wx:key='{{dataSourceTypeIndex}}'
-          bindtap="selectDataSourceTypeTap" data-key="{{dataSourceTypeItem.name}}">
-              {{dataSourceTypeItem.name}}
-          </view>
+<view class="dropdownbox-infomation" 
+      hidden="{{showDropDownMessage}}">
+      <view class="dropdownbox-infomation-table" 
+            wx:for='{{dataSourceType}}'
+            wx:for-item="dataSourceTypeItem"
+            wx:for-index="dataSourceTypeIndex"
+            wx:key='{{dataSourceTypeIndex}}'
+            bindtap="selectDataSourceTypeTap" 
+            data-key="{{dataSourceTypeItem.name}}">
+                {{dataSourceTypeItem.name}}
+      </view>
 </view>
 
 <!--蒙版-->
-<view class="mask-page" hidden="{{maskVarietiesShow}}" bindtap="maskVarietiesTap"></view>
-<view class="mask-page" hidden="{{maskFavoritegrainShow}}" bindtap="maskFavoritegrainTap"></view>
-<view class="mask-page" hidden="{{maskbrandShow}}" bindtap="maskbrandTap"></view>
+<view class="mask-page" 
+      hidden="{{maskVarietiesShow}}" 
+      bindtap="maskVarietiesTap">
+</view>
+<view class="mask-page"
+      hidden="{{maskFavoritegrainShow}}"
+      bindtap="maskFavoritegrainTap">
+</view>
+<view class="mask-page" 
+      hidden="{{maskbrandShow}}" 
+      bindtap="maskbrandTap">
+</view>
  
 <wxs module='parse'>                                                                        
    module.exports={

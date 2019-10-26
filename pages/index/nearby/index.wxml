@@ -3,53 +3,55 @@
                   showBackButton='{{true}}'>
 </i-navigation-bar>
 
+<!--头部-->
 <view class="foodgrainmore-head"
       style="height:50px">
-  <view class="foodgrainmore-head-titleselect"
-          wx:for='{{titleSelectList}}'
-          wx:for-item="titleSelectItem"
-          wx:for-index="titleSelectIndex"
-          wx:key='{{titleSelectIndex}}'
-          bindtap="titleSelectTap" 
-          data-index="{{titleSelectIndex}}" f
-          data-key="{{titleSelectItem.selectInfo}}" 
-          style="color:{{parse.textShowColor(titleSelectItem.showSelect)}}">
-          {{titleSelectItem.selectInfo}}
-          <i-icon type="{{titleSelectItem.showSelect?'unfold':'packup'}}" size="20"/>      
-  </view>
+      <view class="foodgrainmore-head-titleselect"
+              wx:for='{{titleSelectList}}'
+              wx:for-item="titleSelectItem"
+              wx:for-index="titleSelectIndex"
+              wx:key='{{titleSelectIndex}}'
+              bindtap="titleSelectTap" 
+              data-index="{{titleSelectIndex}}" f
+              data-key="{{titleSelectItem.selectInfo}}" 
+              style="color:{{parse.textShowColor(titleSelectItem.showSelect)}}">
+              {{titleSelectItem.selectInfo}}
+              <i-icon type="{{titleSelectItem.showSelect?'unfold':'packup'}}" size="20"/>      
+      </view>
 </view>
 
-<scroll-view
- scroll-y
- style="height: {{pageHeight-50}}px;width: 100%;"
- class="scrollview-page">
+<!-- 信息框 -->
+<scroll-view scroll-y
+             style="height: {{pageHeight-50}}px;width: 100%;"
+             class="scrollview-page">
 
-  <view class="business-pets-page">
-      <view class="business-pets-information"
-            wx:for='{{petsInforMation}}'
-            wx:for-item="petsItem"
-            wx:for-index="petsIndex"
-            wx:key='{{petsIndex}}'>
-            <view class="business-pets-information">
-                <image src="{{petsItem.petsImage}}" 
-                       class="business-pets-image" />
-            </view>
-            <view class="business-pets-bottom">
-                <view class="body-list-one">
-                    {{petsItem.petsName}}
-                </view>
-                <view class="body-list-two" style="color:red;font-weight:bold;">
-                      ￥{{petsItem.petsPrice}} 
-                    <view style="margin-left:30%;color:#ccc;">
-                        {{petsItem.petsAddress}} 
-                    </view>
-                </view>
-            </view>
-      </view>
-  </view>
+    <view class="business-pets-page">
+        <view class="business-pets-information"
+              wx:for='{{petsInforMation}}'
+              wx:for-item="petsItem"
+              wx:for-index="petsIndex"
+              wx:key='{{petsIndex}}'>
+              <view class="business-pets-information">
+                  <image src="{{petsItem.petsImage}}" 
+                        class="business-pets-image" />
+              </view>
+              <view class="business-pets-bottom">
+                  <view class="body-list-one">
+                      {{petsItem.petsName}}
+                  </view>
+                  <view class="body-list-two" style="color:red;font-weight:bold;">
+                        ￥{{petsItem.petsPrice}} 
+                      <view style="margin-left:30%;color:#ccc;">
+                          {{petsItem.petsAddress}} 
+                      </view>
+                  </view>
+              </view>
+        </view>
+    </view>
         <!-- 加载块 -->
   <i-load-foot-item loadState='{{loadState}}'>
   </i-load-foot-item>
+
 </scroll-view>
 
 
@@ -70,15 +72,15 @@
 <view class="dropdownbox-infomation" 
       hidden="{{showDropDownMessage}}"
       style="top: {{winHeight-pageHeight+50}}px">
-    <view class="dropdownbox-infomation-table" 
-          wx:for='{{dataSourceType}}'
-          wx:for-item="dataSourceTypeItem"
-          wx:for-index="dataSourceTypeIndex"
-          wx:key='{{dataSourceTypeIndex}}'
-          bindtap="selectDataSourceTypeTap"
-          data-index="{{dataSourceTypeIndex}}">
-          {{dataSourceTypeItem}}
-    </view>
+      <view class="dropdownbox-infomation-table" 
+            wx:for='{{dataSourceType}}'
+            wx:for-item="dataSourceTypeItem"
+            wx:for-index="dataSourceTypeIndex"
+            wx:key='{{dataSourceTypeIndex}}'
+            bindtap="selectDataSourceTypeTap"
+            data-index="{{dataSourceTypeIndex}}">
+            {{dataSourceTypeItem}}
+      </view>
 </view>
 
   

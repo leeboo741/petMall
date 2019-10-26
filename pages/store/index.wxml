@@ -12,7 +12,7 @@
           wx:for-index="titleSelectIndex"
           wx:key='{{titleSelectIndex}}'
           bindtap="titleSelectTap" 
-          data-index="{{titleSelectIndex}}" f
+          data-index="{{titleSelectIndex}}" 
           data-key="{{titleSelectItem.selectInfo}}" 
           style="color:{{parse.textShowColor(titleSelectItem.showSelect)}}">
           {{titleSelectItem.selectInfo}}

@@ -2,6 +2,7 @@
                   showBackButton='{{true}}'>
 </i-navigation-bar>
 
+ <!-- 图片预览 -->
 <swiper class='banner'
         circular="{{true}}"
         indicator-dots="{{true}}"
@@ -13,127 +14,130 @@
                wx:for-item="bannerItem"
                wx:for-index="bannerIndex"
                wx:key="bannerIndex">
-    <view class='banner-item'
-          data-index="{{bannerIndex}}"
-          data-imageurl="{{bannerItem}}"
-          bindtap='tapBanner'>
-      <i-image i-class='banner-item-image'  
-               mode='scaleToFill'
-               lazy-load='{{true}}'
-               imageSrc='{{bannerItem}}'
-               placeholderSrc='../../resource/placeholder.jpg'
-               failSrc='../../resource/fail.png'>
-      </i-image>
-    </view>
+        <view class='banner-item'
+              data-index="{{bannerIndex}}"
+              data-imageurl="{{bannerItem}}"
+              bindtap='tapBanner'>
+              <i-image i-class='banner-item-image'  
+                      mode='scaleToFill'
+                      lazy-load='{{true}}'
+                      imageSrc='{{bannerItem}}'
+                      placeholderSrc='../../resource/placeholder.jpg'
+                      failSrc='../../resource/fail.png'>
+              </i-image>
+        </view>
   </swiper-item>
 </swiper>
 
+<!-- 状态介绍 -->
 <view class="pets-informaction-page">
-   <view class="pets-informaction-tabs" style="font-size:30rpx;">
-      <view style="font-weight:bold;">
-        {{showPetsInfo.petsName}}
+      <view class="pets-informaction-tabs"
+            style="font-size:30rpx;">
+            <view style="font-weight:bold;">
+                  {{showPetsInfo.petsName}}
+            </view>
+            <view>
+                <view wx:if="{{showPetsInfo.petsSex=='母'}}">
+                      <view class="pets-sexmu">
+                          {{showPetsInfo.petsSex}}
+                      </view>
+                </view>
+                <view wx:else>
+                      <view class="pets-sexgong">
+                          {{showPetsInfo.petsSex}}
+                      </view>
+                </view>
+            </view>
+            <view style="margin-left:50%;font-weight:bold;color:red;">
+                  ￥{{showPetsInfo.petsPrice}}
+            </view>
       </view>
-      <view>
-        <view wx:if="{{showPetsInfo.petsSex=='母'}}">
-          <view class="pets-sexmu">
-               {{showPetsInfo.petsSex}}
-          </view>
-        </view>
-        <view wx:else>
-          <view class="pets-sexgong">
-               {{showPetsInfo.petsSex}}
-          </view>
-        </view>
+      <view class="pets-informaction-tabs">
+            <view style="color:#ccc;">生日： </view>
+            <view>{{showPetsInfo.petsBirthday}}</view>
+            <view style="color:#ccc;margin-left:40%;">
+                  原价： ￥{{showPetsInfo.originalPrice}}
+            </view>
       </view>
-      <view style="margin-left:50%;font-weight:bold;color:red;">
-        ￥{{showPetsInfo.petsPrice}}
+      <view class="pets-informaction-tabs">
+            <view style="color:#ccc;">发布： </view>
+            <view>{{showPetsInfo.releaseTime}}</view>
       </view>
-   </view>
-   <view class="pets-informaction-tabs">
-      <view style="color:#ccc;">生日： </view>
-      <view>{{showPetsInfo.petsBirthday}}</view>
-      <view style="color:#ccc;margin-left:40%;">
-         原价： ￥{{showPetsInfo.originalPrice}}
+      <view class="pets-informaction-tabs">
+            <view style="color:#ccc;">绝育： </view>
+            <view>{{showPetsInfo.sterilization}}</view>
       </view>
-   </view>
-   <view class="pets-informaction-tabs">
-      <view style="color:#ccc;">发布： </view>
-      <view>{{showPetsInfo.releaseTime}}</view>
-   </view>
-   <view class="pets-informaction-tabs">
-      <view style="color:#ccc;">绝育： </view>
-      <view>{{showPetsInfo.sterilization}}</view>
-   </view>
-   <view class="pets-informaction-tabs">
-       <view style="color:#ccc;">品级： </view>
-      <view>{{showPetsInfo.grade}}</view>
-   </view>
-   <view class="pets-informaction-tabs">
-       <view style="color:#ccc;">简介： </view>
-      <view>{{showPetsInfo.introduce}}</view>
-   </view>
+      <view class="pets-informaction-tabs">
+            <view style="color:#ccc;">品级： </view>
+            <view>{{showPetsInfo.grade}}</view>
+      </view>
+      <view class="pets-informaction-tabs">
+            <view style="color:#ccc;">简介： </view>
+            <view>{{showPetsInfo.introduce}}</view>
+      </view>
 </view>
 
-    <view class="divLine"/>
+   <view class="divLine"/>
 
    <view class="pets-informaction-tabs">
-      <view style="color:#ccc;">配送： </view>
-      <view wx:for="{{delivery}}"
-            wx:for-item='deliveryItem'
-            wx:for-index='deliveryIndex'
-            wx:key='{{deliveryIndex}}'
-            style="margin-left:3%;disply:flex;">   
-            <i-icon type="service_fill" color="#F9A513" />
-            {{deliveryItem.type}}
-            {{deliveryItem.price}}
-            元  
-      </view>
+         <view style="color:#ccc;">配送： </view>
+         <view wx:for="{{delivery}}"
+               wx:for-item='deliveryItem'
+               wx:for-index='deliveryIndex'
+               wx:key='{{deliveryIndex}}'
+               style="margin-left:3%;disply:flex;">   
+               <i-icon type="service_fill" color="#F9A513" />
+               {{deliveryItem.type}}
+               {{deliveryItem.price}}
+               元  
+         </view>
    </view>
    
    <view class="divLine"/>
 
    <view class="pets-informaction-tabs">
-      <view style="color:#ccc;">服务： </view>
-      <view wx:for="{{service}}"
-            wx:for-item='serviceItem'
-            wx:for-index='serviceIndex'
-            wx:key='{{serviceIndex}}'
-            style="margin-left:3%;disply:flex;color:#F9A513;">   
-            <i-icon type="success_fill" color="#F9A513" />
-            {{serviceItem}}
-      </view>
+         <view style="color:#ccc;">服务： </view>
+         <view wx:for="{{service}}"
+               wx:for-item='serviceItem'
+               wx:for-index='serviceIndex'
+               wx:key='{{serviceIndex}}'
+               style="margin-left:3%;disply:flex;color:#F9A513;">   
+               <i-icon type="success_fill" color="#F9A513" />
+               {{serviceItem}}
+         </view>
    </view>
 
    <view class="business-head-page" >
-      <view class="business-head-inleft"
-            bindtap="recommendedTap"
-            data-item="{{dataSourceInforMation}}">
-          <image src="{{dataSourceInforMation.merchantImage}}" class="business-image"/>
-      </view>
-      <view class="business-head-inright">
-          <view style="font-weight:bold;">
-            {{dataSourceInforMation.merchantName}}
-          </view>
-          <view style="display: flex;flex-wrap: nowrap;">
-                  <view wx:for="{{dataSourceInforMation.merchantStars}}"
-                        wx:for-item='StarsItem'
-                        wx:for-index='StarsIndex'
-                        wx:key='{{StarsIndex}}'>
-                        <i-icon type="collection_fill" color="#EFCC83"/>
-                  </view>
-          </view>
-          <view style="color:#ccc;">
-            {{dataSourceInforMation.merchantAddress}}
-          </view>
-      </view>
+         <view class="business-head-inleft"
+               bindtap="recommendedTap"
+               data-item="{{dataSourceInforMation}}">
+               <image src="{{dataSourceInforMation.merchantImage}}"
+                      class="business-image"/>
+         </view>
+         <view class="business-head-inright">
+              <view style="font-weight:bold;">
+                {{dataSourceInforMation.merchantName}}
+              </view>
+              <view style="display: flex;flex-wrap: nowrap;">
+                      <view wx:for="{{dataSourceInforMation.merchantStars}}"
+                            wx:for-item='StarsItem'
+                            wx:for-index='StarsIndex'
+                            wx:key='{{StarsIndex}}'>
+                            <i-icon type="collection_fill" color="#EFCC83"/>
+                      </view>
+              </view>
+              <view style="color:#ccc;">
+                {{dataSourceInforMation.merchantAddress}}
+              </view>
+         </view>
 
-      <view class="business-head-right-button-page"
-            bindtap="recommendedTap"
-            data-item="{{dataSourceInforMation}}">
-        <view class="right-button">
-            进入店铺
-        </view>
-      </view>
+         <view class="business-head-right-button-page"
+               bindtap="recommendedTap"
+               data-item="{{dataSourceInforMation}}">
+               <view class="right-button">
+                      进入店铺
+               </view>
+         </view>
    </view>
 
   <view class="divLine"/>
@@ -150,53 +154,52 @@
       </view>
    </view>
 
-   
-      <view class="userevaluate-head-page"
-            bindtap="evaluateTap">
-            <view style="margin-left:5%;color:#8E8E8E;">
+      <!-- 用户评价 -->
+   <view class="userevaluate-head-page"
+         bindtap="evaluateTap">
+         <view style="margin-left:5%;color:#8E8E8E;">
                 用户评价
-            </view>
+         </view>
 
-            <view style="margin-left:55%;color:blue;font-weight:bold;font-size:26rpx;">
+         <view style="margin-left:55%;color:blue;font-weight:bold;font-size:26rpx;">
                 更多评价
-                <i-icon type="enter" size="20" color="black"/>
-            </view>
-      </view>
+               <i-icon type="enter" size="20" color="black"/>
+         </view>
+   </view>
 
-      <view class="userevaluate-content-page">
-            <view  class="userevaluate-content-tables-page"
-                  wx:for="{{evaluationInformation}}"
-                  wx:for-item="evaluationInformationItem"
-                  wx:for-index="evaluationInformationIndex"
-                  wx:key="evaluationInformationIndex">
-                    <view class="userevaluate-content-head" 
-                          style="margin-left:2%">
-                          <image src="{{evaluationInformationItem.userImageUrl}}" 
-                                  class="image-sty">
-                          </image>
-                          <view style="margin-left:2%;font-weight:bold;font-size:32rpx;">
-                              {{evaluationInformationItem.userName}}
-                          </view>
-                          <view style="margin-left:50%;font-size:28rpx;color:#ccc;">
-                                {{evaluationInformationItem.evaluationTime}}
-                          </view>
-                    </view>
+   <view class="userevaluate-content-page">
+         <view class="userevaluate-content-tables-page"
+               wx:for="{{evaluationInformation}}"
+               wx:for-item="evaluationInformationItem"
+               wx:for-index="evaluationInformationIndex"
+               wx:key="evaluationInformationIndex">
+               <view class="userevaluate-content-head">
+                     <image src="{{evaluationInformationItem.userImageUrl}}" 
+                            class="image-sty">
+                     </image>
+                     <view style="margin-left:2%;font-weight:bold;font-size:32rpx;">
+                           {{evaluationInformationItem.userName}}
+                     </view>
+                     <view style="margin-left:50%;font-size:28rpx;color:#ccc;">
+                           {{evaluationInformationItem.evaluationTime}}
+                     </view>
+               </view>
 
                 <view style="margin-left:10%; display: flex;flex-wrap: nowrap;">
-                <!-- 遍历星星-->
-                    <view wx:for="{{evaluationInformationItem.starsNumber}}"
-                          wx:for-item="starsNumberItem"
-                          wx:for-index="starsNumberIndex"
-                          wx:key="starsNumberIndex">
-                          <i-icon type="collection_fill" color="#EFCC83"/>
-                    </view>
+                      <!-- 遍历星星-->
+                      <view wx:for="{{evaluationInformationItem.starsNumber}}"
+                            wx:for-item="starsNumberItem"
+                            wx:for-index="starsNumberIndex"
+                            wx:key="starsNumberIndex">
+                            <i-icon type="collection_fill" color="#EFCC83"/>
+                      </view>
                 </view>
 
                 <view style="margin-left:8%;font-size:28rpx;">
                       {{evaluationInformationItem.information}}
                 </view>
-            </view>
-      </view>
+         </view>
+   </view>
  
 
 <view style="height:100rpx;width:100%;"></view>
@@ -206,20 +209,21 @@
       <view class="bottom-showinfor">
             <view class="bottom-icon-page">
                   <view class="bottom-button-type-one">
-                      <i-icon type="share" size="25"/>
+                        <i-icon type="share" size="25"/>
                   </view>
                   <view style="font-size:25rpx;padding-right:8rpx;">
                     分 享
                   </view>
             </view>
           
-            <view class="bottom-icon-page" bindtap="">
-                <view class="bottom-button-type-one">
-                  <i-icon type="collection" size="25"/>
-                </view>
-                <view style="font-size:25rpx;padding-right:10rpx;">
-                  收 藏  
-                </view>
+            <view class="bottom-icon-page"
+                  bindtap="">
+                  <view class="bottom-button-type-one">
+                    <i-icon type="collection" size="25"/>
+                  </view>
+                  <view style="font-size:25rpx;padding-right:10rpx;">
+                    收 藏  
+                  </view>
             </view>
         </view>
 

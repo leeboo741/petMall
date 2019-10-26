@@ -3,6 +3,7 @@
                   showBackButton='{{false}}'>
 </i-navigation-bar>
 
+<!-- 图片轮播 -->
 <swiper class='banner'
         circular="{{true}}"
         indicator-dots="{{true}}"
@@ -32,26 +33,27 @@
   </swiper-item>
 </swiper>
 
+<!-- 主粮、零食、用品、保健 -->
 <view class="fast-action-area">
   <view wx:for="{{fastActionList}}"
         wx:for-item='fastActionItem'
         wx:for-index='fastActionIndex'
         wx:key='{{fastActionIndex}}'
         class="fast-action-item">
-    <image class="fast-action-icon"
-           src='{{fastActionItem.iconPath}}'
-           bindtap="fastActionTap" 
-           data-key="{{fastActionItem.actionName}}">
-    </image>
-    <view class="fast-action-title">
-       {{fastActionItem.actionName}}
-    </view>
+        <image class="fast-action-icon"
+              src='{{fastActionItem.iconPath}}'
+              bindtap="fastActionTap" 
+              data-key="{{fastActionItem.actionName}}">
+        </image>
+        <view class="fast-action-title">
+          {{fastActionItem.actionName}}
+        </view>
   </view>
 </view>
 
 <view class="divLine"/>
 
-<!-- 养宠套餐 -->
+<!-- 套餐 -->
 <i-panel>
   <view class="section-title-area">
     <view class="section-title" style="color:black;font-weight: bold;">
@@ -89,7 +91,7 @@
 
 <view class="divLine"/>
 
-<!-- 品牌 -->
+  <!-- 品牌 -->
   <view class="section-title-area">
     <view class="section-title" style="color:black;font-weight: bold;">
       品牌
@@ -98,30 +100,38 @@
     </view>
   </view>
 
+<!--图片展示-->
 <view class="brand-page">
-    <view class="brand-body-content" wx:for='{{brandList}}'
+    <view class="brand-body-content"
+          wx:for='{{brandList}}'
           wx:for-item="brandItem"
           wx:for-index="brandIndex"
           wx:key='{{brandIndex}}'
           bindtap="brandTap"
           data-index="brandIndex">
-      <image class="brand-body-content-image" src="{{brandItem.imageUrl}}"></image>
-      <view class="brand-body-content-text">{{brandItem.information}}</view>
+         <image class="brand-body-content-image" 
+                src="{{brandItem.imageUrl}}">
+         </image>
+         <view class="brand-body-content-text">
+              {{brandItem.information}}
+         </view>
     </view>
 </view>
 
 <view class="divLine"/>
 
-<!-- 主粮 -->
+  <!-- 主粮 -->
   <view class="section-title-area">
 
-    <view class="section-title" style="color: black;font-weight: bold;">
-    主粮
+    <view class="section-title" 
+          style="color: black;font-weight: bold;">
+        主粮
     </view>
     <view class="section-info">
     </view>
-    <view class="section-more" bindtap="foodgrainMoreTap">
-    更多
+    <view class="section-more"
+          bindtap="foodgrainMoreTap">
+      更多
     </view>
     <i-icon type="right-arrow"
             size="32">
@@ -129,24 +139,32 @@
   </view>
 
 <view class="foodgrain-page">
-  <view class="foodgrain-page-formation" wx:for='{{foodGrainList}}'
+    <view class="foodgrain-page-formation"
+          wx:for='{{foodGrainList}}'
           wx:for-item="foodGrainItem"
           wx:for-index="foodGrainIndex"
           wx:key='{{foodGrainIndex}}'
           bindtap="commodityInforMationTap"
           data-key="{{foodGrainItem}}">
-          <image class="foodgrain-page-formation-head" src="{{foodGrainItem.imageUrl}}"></image>
-          <view class="foodgrain-page-formation-middle">{{foodGrainItem.commodity}}</view>
-          <view class="foodgrain-page-formation-introduce">{{foodGrainItem.introduce}}</view>
-          <view class="foodgrain-page-formation-down">￥{{foodGrainItem.price}}               
-          <view class="foodgrain-page-formation-down-member">
-              会员价
+          <image class="foodgrain-page-formation-head" 
+                 src="{{foodGrainItem.imageUrl}}">
+          </image>
+          <view class="foodgrain-page-formation-middle">
+                {{foodGrainItem.commodity}}
           </view>
-          <view style="color:#ccc;padding-left:18%;text-decoration:line-through;">
-              ￥{{foodGrainItem.originalPrice}}
+          <view class="foodgrain-page-formation-introduce">
+                {{foodGrainItem.introduce}}
+          </view>
+          <view class="foodgrain-page-formation-down">
+                ￥{{foodGrainItem.price}}               
+                <view class="foodgrain-page-formation-down-member">
+                      会员价
+                </view>
+                <view style="color:#ccc;padding-left:18%;text-decoration:line-through;">
+                      ￥{{foodGrainItem.originalPrice}}
+                </view>
           </view>
     </view>
-  </view>
 </view>
 
 
@@ -156,35 +174,48 @@
 <!-- 零食 -->
   <view class="section-title-area">
 
-    <view class="section-title" style="color: black;font-weight: bold;">
-      零食
+    <view class="section-title" 
+          style="color: black;font-weight: bold;">
+           零食
     </view>
     <view class="section-info">
     </view>
-    <view class="section-more" bindtap="snacksMore">
-    更多
+    <view class="section-more" 
+          bindtap="snacksMore">
+           更多
     </view>
     <i-icon type="right-arrow"
             size="32">
     </i-icon>
   </view>
 
+  <!-- 图片展示信息 -->
 <view class="foodgrain-page">
   <view  class="foodgrain-page-formation"
-          wx:for='{{snacksList}}'
-          wx:for-item="snacksItem"
-          wx:for-index="snacksIndex"
-          wx:key='{{snacksIndex}}'
-          bindtap="commodityInforMationTap"
-          data-key="{{snacksItem}}">
-    <image class="foodgrain-page-formation-head" src="{{snacksItem.imageUrl}}"></image>
-    <view class="foodgrain-page-formation-middle">{{snacksItem.commodity}}</view>
-    <view class="foodgrain-page-formation-introduce">{{snacksItem.introduce}}</view>
-    <view class="foodgrain-page-formation-down">￥{{snacksItem.price}}                     <view class="foodgrain-page-formation-down-member">
-            会员价
-         </view>
-         <text style="color:#ccc;padding-left:18%;text-decoration:line-through;">￥{{snacksItem.originalPrice}}</text>
-    </view>
+         wx:for='{{snacksList}}'
+         wx:for-item="snacksItem"
+         wx:for-index="snacksIndex"
+         wx:key='{{snacksIndex}}'
+         bindtap="commodityInforMationTap"
+         data-key="{{snacksItem}}">
+          <image class="foodgrain-page-formation-head" 
+                 src="{{snacksItem.imageUrl}}">
+          </image>
+          <view class="foodgrain-page-formation-middle">
+                {{snacksItem.commodity}}
+          </view>
+          <view class="foodgrain-page-formation-introduce">
+                {{snacksItem.introduce}}
+          </view>
+          <view class="foodgrain-page-formation-down">
+                ￥{{snacksItem.price}}
+                <view class="foodgrain-page-formation-down-member">
+                    会员价
+                </view>
+                <view style="color:#ccc;padding-left:18%;text-decoration:line-through;">
+                ￥{{snacksItem.originalPrice}}
+                </view>
+          </view>
   </view>
 </view>
 
@@ -196,12 +227,14 @@
 
   <view class="section-title-area">
 
-    <view class="section-title" style="color: black;font-weight: bold;">
+    <view class="section-title"
+          style="color: black;font-weight: bold;">
     保健品
     </view>
     <view class="section-info">
     </view>
-    <view class="section-more" bindtap="healthProductsMore">
+    <view class="section-more" 
+          bindtap="healthProductsMore">
     更多
     </view>
     <i-icon type="right-arrow"
@@ -210,21 +243,32 @@
   </view>
 
 <view class="foodgrain-page">
-  <view class="foodgrain-page-formation" wx:for='{{healthProductsList}}'
-          wx:for-item="healthProductsItem"
-          wx:for-index="healthProductsIndex"
-          wx:key='{{healthProductsIndex}}'
-          bindtap="commodityInforMationTap"
-          data-key="{{healthProductsItem}}">
-    <image class="foodgrain-page-formation-head" src="{{healthProductsItem.imageUrl}}"></image>
-    <view class="foodgrain-page-formation-middle">{{healthProductsItem.commodity}}</view>
-    <view class="foodgrain-page-formation-introduce">{{healthProductsItem.introduce}}</view>
-    <view class="foodgrain-page-formation-down">￥{{healthProductsItem.price}}                  <view class="foodgrain-page-formation-down-member">
-            会员价
-         </view>
-         <text style="color:#ccc;padding-left:18%;text-decoration:line-through;">￥{{healthProductsItem.originalPrice}}</text>
-    </view>
-  </view>
+      <view class="foodgrain-page-formation" 
+            wx:for='{{healthProductsList}}'
+            wx:for-item="healthProductsItem"
+            wx:for-index="healthProductsIndex"
+            wx:key='{{healthProductsIndex}}'
+            bindtap="commodityInforMationTap"
+            data-key="{{healthProductsItem}}">
+            <image class="foodgrain-page-formation-head"
+                   src="{{healthProductsItem.imageUrl}}">
+            </image>
+            <view class="foodgrain-page-formation-middle">
+                  {{healthProductsItem.commodity}}
+            </view>
+            <view class="foodgrain-page-formation-introduce">
+                  {{healthProductsItem.introduce}}
+            </view>
+            <view class="foodgrain-page-formation-down">
+                  ￥{{healthProductsItem.price}}            
+                  <view class="foodgrain-page-formation-down-member">
+                  会员价
+                  </view>
+                  <view style="color:#ccc;padding-left:18%;text-decoration:line-through;">
+                    ￥{{healthProductsItem.originalPrice}}
+                  </view>
+            </view>
+      </view>
 </view>
 
 
@@ -234,34 +278,47 @@
 <!-- 用品 -->
   <view class="section-title-area">
 
-    <view class="section-title" style="color: black;font-weight: bold;">
-    用品
-    </view>
-    <view class="section-info">
-    </view>
-    <view class="section-more" bindtap="aiclesMore">
-    更多
-    </view>
-    <i-icon type="right-arrow"
-            size="32">
-    </i-icon>
+        <view class="section-title"
+              style="color: black;font-weight: bold;">
+              用品
+        </view>
+        <view class="section-info">
+        </view>
+        <view class="section-more" 
+              bindtap="aiclesMore">
+              更多
+        </view>
+        <i-icon type="right-arrow"
+                size="32">
+        </i-icon>
   </view>
 
 <view class="foodgrain-page">
-  <view class="foodgrain-page-formation" wx:for='{{articlesList}}'
-          wx:for-item="articlesItem"
-          wx:for-index="articlesIndex"
-          wx:key='{{articlesIndex}}'
-          bindtap="commodityInforMationTap"
-          data-key="{{articlesItem}}">
-    <image class="foodgrain-page-formation-head" src="{{articlesItem.imageUrl}}"></image>
-    <view class="foodgrain-page-formation-middle">{{articlesItem.commodity}}</view>
-    <view class="foodgrain-page-formation-introduce">{{articlesItem.introduce}}</view>
-    <view class="foodgrain-page-formation-down">￥{{articlesItem.price}}                  <view class="foodgrain-page-formation-down-member">
-            会员价
-         </view>
-         <text style="color:#ccc;padding-left:18%;text-decoration:line-through;">￥{{articlesItem.originalPrice}}</text>
-    </view>
+  <view class="foodgrain-page-formation" 
+        wx:for='{{articlesList}}'
+        wx:for-item="articlesItem"
+        wx:for-index="articlesIndex"
+        wx:key='{{articlesIndex}}'
+        bindtap="commodityInforMationTap"
+        data-key="{{articlesItem}}">
+        <image class="foodgrain-page-formation-head"
+               src="{{articlesItem.imageUrl}}">
+        </image>
+        <view class="foodgrain-page-formation-middle">
+              {{articlesItem.commodity}}
+        </view>
+        <view class="foodgrain-page-formation-introduce">
+              {{articlesItem.introduce}}
+        </view>
+        <view class="foodgrain-page-formation-down">
+              ￥{{articlesItem.price}}                 
+              <view class="foodgrain-page-formation-down-member">
+                  会员价
+              </view>
+              <view style="color:#ccc;padding-left:18%;text-decoration:line-through;">
+              ￥{{articlesItem.originalPrice}}
+              </view>
+        </view>
   </view>
 </view>
 

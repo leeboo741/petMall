@@ -3,58 +3,61 @@
                   showBackButton='{{true}}'>
 </i-navigation-bar>
 
+<!-- 头部选择收货地址 -->
 <view class="shoopingpay-head-page" 
       bindtap="receivingAddressTap">
-  <view style="margin-left:5%;">
-      请选择收货地址
-  </view>
-  <view style="margin-left:55%;">
-      <i-icon type="enter" size="23"/>
-  </view>
+      <view style="margin-left:5%;">
+          请选择收货地址
+      </view>
+      <view style="margin-left:55%;">
+          <i-icon type="enter" size="23"/>
+      </view>
 </view>
 
+<!-- 商品信息、加减框 -->
 <view class="shoopingpay-head-showinfo">
-  <image src="{{shopDataSource.imageUrl}}" 
-         class="showinfo-image"> 
-  </image>
-  <view>
-      <view class="shoopingpay-head-showtext">
-            {{shopDataSource.commodity}}
+      <image src="{{shopDataSource.imageUrl}}" 
+             class="showinfo-image"> 
+      </image>
+      <view>
+            <view class="shoopingpay-head-showtext">
+                  {{shopDataSource.commodity}}
+            </view>
+            <view class="shoopingpay-head-showtext">
+                <view style="color:#DC512C;">
+                      ￥{{shopDataSource.price}}
+                </view>
+                <view>
+                    <view class='stepper sum' 
+                          style="margin-left:280rpx;">
+                    <text class='{{minusStatus}}' 
+                          type='number' 
+                          bindtap='bindMinus'>-</text>
+                    <input bindinput='bindManual' 
+                           type="number" 
+                           value='{{num}}'>
+                    </input>
+                    <text bindtap='bindPlus'>+</text>
+                    </view>
+                </view>
+            </view>
       </view>
-      <view class="shoopingpay-head-showtext">
-          <view style="color:#DC512C;">
-                ￥{{shopDataSource.price}}
-          </view>
-          <view>
-              <view class='stepper sum' 
-                    style="margin-left:280rpx;">
-              <text class='{{minusStatus}}' 
-                    type='number' 
-                    bindtap='bindMinus'>-</text>
-              <input bindinput='bindManual' 
-                     type="number" 
-                     value='{{num}}'>
-              </input>
-              <text bindtap='bindPlus'>+</text>
-              </view>
-          </view>
-      </view>
-  </view>
 </view>
 
+<!-- 卖家名称、地址 -->
 <view class="show-selleraddress-name">
-    <view style="display: flex;flex-wrap: nowrap;">
-          卖家名称 
-          <view style="color:black;padding-left:10%;">
-              {{shopDataSource.sellerName}}
-          </view>
-    </view>
-    <view style="display: flex;flex-wrap: nowrap;">
-               卖家地址
-          <view style="color:black;padding-left:10%;">
-              {{shopDataSource.sellerAddress}}
-          </view>
-    </view>
+      <view style="display: flex;flex-wrap: nowrap;">
+            卖家名称 
+            <view style="color:black;padding-left:10%;">
+                {{shopDataSource.sellerName}}
+            </view>
+      </view>
+      <view style="display: flex;flex-wrap: nowrap;">
+                卖家地址
+            <view style="color:black;padding-left:10%;">
+                {{shopDataSource.sellerAddress}}
+            </view>
+      </view>
 </view>
 
 <view class="page-text">
@@ -63,104 +66,114 @@
 
 <view class="page-text">
       配送费
-    <view style="padding-left:10%;color:#DC512C;">
-      {{freight}}
-    </view>
+      <view style="padding-left:10%;color:#DC512C;">
+        {{freight}}
+      </view>
       元
 </view>
 
 <view class="page-text">
-    选择积分优惠券
+      选择积分优惠券
 </view>
 
 <view class="page-text" 
       bindtap="clipCouponsTap">
       优惠券
-    <view style="padding-left:10%;">
-        {{couponList.length}}
-    </view>
+      <view style="padding-left:10%;">
+          {{couponList.length}}
+      </view>
         张可用
-    <i-icon style="padding-left:50%;" type="enter" size="23"/>
+      <i-icon style="padding-left:50%;" type="enter" size="23"/>
 </view>
 
 <i-cell-group>
     <i-cell title="积分  可用{{integral}}积分，抵用{{integral}}元">
-        <i-switch value="{{switch1}}" 
-                  size="large" 
-                  bind:change="onChange" 
-                  slot="footer">
-            <view slot="open">开启</view>
-            <view slot="close">关闭</view>
-        </i-switch>
+            <i-switch value="{{switch1}}" 
+                      size="large" 
+                      bind:change="onChange" 
+                      slot="footer">
+                <view slot="open">开启</view>
+                <view slot="close">关闭</view>
+            </i-switch>
     </i-cell>
 </i-cell-group>
 
 <!--商品购买、分享、收藏固定框-->
 <view class="goshopbottom">
-        <view class="goshopbottom-price">
-            <view style="display:flex;flex-wrap: nowrap;">
-                 合计
-              <view style="color:#DC512C;">
-                {{numPrice}}
+      <view class="goshopbottom-price">
+              <view style="display:flex;flex-wrap: nowrap;">
+                      合计
+                    <view style="color:#DC512C;">
+                      {{numPrice}}
+                    </view>
               </view>
+              <view style="display:flex;flex-wrap: nowrap;font-size:27rpx;">
+                        运费
+                    <view style="color:#DC512C;">
+                        {{freight}} 
+                    </view>
+                        抵扣
+                    <view style="color:#DC512C;">
+                        {{showIntegral}}
+                    </view>
+              </view>
+      </view>
+      <view class="bottom-icon-page">
+            <view class="bottom-button-type-two"
+                  bindtap="shopPayTap">
+                  担保支付
             </view>
-            <view style="display:flex;flex-wrap: nowrap;font-size:27rpx;">
-              运费
-              <view style="color:#DC512C;">
-                  {{freight}} 
-              </view>
-              抵扣
-              <view style="color:#DC512C;">
-                  {{showIntegral}}
-              </view>
-            </view>
-        </view>
-    <view class="bottom-icon-page">
-        <view class="bottom-button-type-two" bindtap="shopPayTap">
-            担保支付
-        </view>
-    </view>
+      </view>
 </view>
 
 <!--蒙版-->
-<view class="mask-page" hidden="{{showMask}}" bindtap="maskTap">
+<view class="mask-page" 
+      hidden="{{showMask}}"
+      bindtap="maskTap">
 </view>
 
 <!--显示优惠券列表-->
-<view class="couponList-page" hidden="{{showCouponList}}">
-    <view class="couponList-page-head">
-        <view style="font-weight:bold;">请选择优惠券</view>
-        <view style="color:#ccc;">领券后可在下单页面选择并使用</view>
-    </view>
-
-    <scroll-view class="scroll-view-page" scroll-y>
-        <view class="couponList-info-page"
-              wx:for="{{couponList}}"
-              wx:for-item="couponListItem"
-              wx:for-index="couponListIndex"
-              wx:key="couponListIndex"
-              bindtap="couponListTap"
-              data-index="{{couponListIndex}}">
-            <view class="couponList-info-left-page"> 
-                <view style="height:100rpx;width:100%;border-right:1rpx solid #ccc;display:flex;align-items:center;justify-content:center;color:red;font-size:36rpx;">
-                      {{couponListItem.couponPrice}}
-                  <view style="color:black;font-size:27rpx;">元</view>
-                </view>
+<view class="couponList-page" 
+      hidden="{{showCouponList}}">
+      <view class="couponList-page-head">
+            <view style="font-weight:bold;">
+                  请选择优惠券
             </view>
-            <view class="couponList-info-right-page">
-                <view style="font-weight:bold;">
-                  {{couponListItem.couponIntroduce}}
-                </view>
-
-                <view style="color:#ccc;">
-                {{couponListItem.couponMethod}}
-                </view>
-
-                <view style="color:#ccc;">
-                {{couponListItem.effectiveTime}}
-                </view>
-
+            <view style="color:#ccc;">
+                  领券后可在下单页面选择并使用
             </view>
-        </view>
-    </scroll-view>
+      </view>
+
+      <scroll-view class="scroll-view-page" 
+                   scroll-y>
+              <view class="couponList-info-page"
+                    wx:for="{{couponList}}"
+                    wx:for-item="couponListItem"
+                    wx:for-index="couponListIndex"
+                    wx:key="couponListIndex"
+                    bindtap="couponListTap"
+                    data-index="{{couponListIndex}}">
+                    <view class="couponList-info-left-page"> 
+                          <view class="couponList-left-price-page">
+                                {{couponListItem.couponPrice}}
+                                <view style="color:black;font-size:27rpx;">
+                                    元
+                                </view>
+                          </view>
+                    </view>
+                    <view class="couponList-info-right-page">
+                          <view style="font-weight:bold;">
+                            {{couponListItem.couponIntroduce}}
+                          </view>
+
+                          <view style="color:#ccc;">
+                          {{couponListItem.couponMethod}}
+                          </view>
+
+                          <view style="color:#ccc;">
+                          {{couponListItem.effectiveTime}}
+                          </view>
+                    </view>
+              </view>
+      </scroll-view>
 </view>

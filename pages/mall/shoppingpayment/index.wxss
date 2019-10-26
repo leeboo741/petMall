@@ -73,18 +73,19 @@ page {
 }
 
 .show-selleraddress-name{
-  border: 2rpx solid #ccc;
+  border-top: 2rpx solid #ccc;
+  border-bottom: 2rpx solid #ccc;
   display: flex;
   flex-direction: column;
   justify-content: center;
   height: 130rpx;
-  width: 100%;
+  width: 95%;
   padding-left: 5%;
   color: #ccc;
 }
 
 .page-text{
-  width: 100%;
+  width: 95%;
   height: 100rpx;
   font-weight: bold;
   display: flex;
@@ -190,6 +191,16 @@ page {
   flex-wrap: nowrap;
 }
 
+.couponList-left-price-page{
+  height:100rpx;
+  width:100%;
+  border-right:1rpx solid #ccc;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:red;
+  font-size:36rpx;
+}
 .couponList-info-right-page{
   height: 150rpx;
   width: 80%;

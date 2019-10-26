@@ -141,8 +141,9 @@
 .userevaluate-content-head{
   display: flex;
   flex-wrap: nowrap;
-  width: 100%;
+  width: 96%;
   align-items: center;
+  margin: 0 auto;
 }
 
 .image-sty{
