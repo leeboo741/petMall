@@ -41,12 +41,12 @@
             wx:key='{{fastActionIndex}}'
             class="fast-action-item">
             <image class="fast-action-icon"
-                   src='{{fastActionItem.iconPath}}'
+                   src='../../resource/dogfood.png'
                    bindtap="fastActionTap" 
-                   data-key="{{fastActionItem.actionName}}">
+                   data-key="{{fastActionItem.itemTypeName}}">
             </image>
             <view class="fast-action-title">
-              {{fastActionItem.actionName}}
+              {{fastActionItem.itemTypeName}}
             </view>
       </view>
     </view>

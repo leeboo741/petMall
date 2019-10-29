@@ -2,7 +2,7 @@
 const Key_UserInfo = "userInfo";
 const Key_CurrentRole = "currentRole";
 
-const ResponseHandler = require("../services/handle/ResponseCodeEnum.js");
+const ResponseHandler = require("../services/handle/responseHandle.js");
 
 /**
  * 存储当前角色 买家 0 卖家 1

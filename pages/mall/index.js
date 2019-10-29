@@ -1,5 +1,6 @@
 // pages/mall/index.js
 const Page_path=require("../../macros/pagePath.js");
+const MallService=require("../../services/mallService.js");
 Page({
 
   /**
@@ -21,26 +22,7 @@ Page({
       }
     ],
     fastActionList: [
-      {
-        actionName: "主粮",
-        iconPath: "../../resource/dogfood.png",
-        link: ""
-      },
-      {
-        actionName: "零食",
-        iconPath: "../../resource/snacks.png",
-        link: ""
-      },
-      {
-        actionName: "用品",
-        iconPath: "../../resource/articles.png",
-        link: ""
-      },
-      {
-        actionName: "保健",
-        iconPath: "../../resource/healthcare.png",
-        link: ""
-      }
+
     ], // 高端宠物
     setMenuList: [
       {
@@ -260,7 +242,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-  
+    this.getPetsTypeInfo();
   },
 
   /**
@@ -398,6 +380,18 @@ Page({
     wx.navigateTo({
       url: Page_path.Page_Mall_Sstaplefood + '?resinfo=' + actionIndex
     })
+  },
+
+  /**
+   * 获得宠物类型（主粮、零食、用品）
+   */
+  getPetsTypeInfo:function(){
+    let that=this;
+    MallService.getMailPetType(2, 4, function returnData(data) {
+        that.setData({
+          fastActionList: data
+        })
+    });
   }
 
 })

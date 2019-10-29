@@ -7,6 +7,7 @@ const ResponseCodeEnum = require("../handle/ResponseCodeEnum.js");
  * @param handleFailCallback 处理后 失败时 回调
  */
 function handleResponse(resource, handleSuccessCallback, handleFailCallback) {
+  console.log("handleResponse resource:\n" + JSON.stringify(resource));
   /**
    * SUCCESS(10000L, "操作成功"),
      LOGIN_TIMEOUT(20001L, "登录超时"),
@@ -15,14 +16,18 @@ function handleResponse(resource, handleSuccessCallback, handleFailCallback) {
      USER_SAME_PASSWORD(20004L, "旧密码不能与新密码相同"),
      UNKNOW_EXCEPTION(90001L, "未知异常");
    */
-  if (resource.code == ResponseCodeEnum.Res_Code.SUCCESS) {
-    handleSuccessCallback(resource.root, resource.total);
+  if (resource.data.code == ResponseCodeEnum.Res_Code.SUCCESS) {
+    if (handleSuccessCallback != null && typeof handleSuccessCallback == "function") {
+      handleSuccessCallback(resource.data.root, resource.data.total);
+    }
   } else {
     wx.showToast({
-      title: resource.errmsg,
+      title: resource.data.errMsg,
       icon: 'none'
     })
-    handleFailCallback(resource.code)
+    if (handleFailCallback != null && typeof handleFailCallback == "function") {
+      handleFailCallback(resource.data.code)
+    }
   }
 }
 
