@@ -2,14 +2,16 @@
 //获取应用实例
 const app = getApp();
 const LoadFootItemState = require("../../lee-components/leeLoadingFootItem/loadFootObj.js");
-const Page_path = require("../../macros/pagePath.js");
+const PagePath = require("../../macros/pagePath.js");
 const PageSize = 20;
+const ShareService = require("../../services/shareService.js");
+
 Page({
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    
   },
 
   /**
@@ -80,7 +82,7 @@ Page({
    */
   preferentialTap:function(){
     wx.navigateTo({
-      url: Page_path.Page_Home_Preferential
+      url: PagePath.Page_Home_Preferential
     })
   },
 
@@ -92,23 +94,23 @@ Page({
     console.log(actionIndex);
     if (actionIndex==0){
         wx.navigateTo({
-          url: Page_path.Page_Home_Nearby
+          url: PagePath.Page_Home_Nearby
         })
     } else if (actionIndex==1){
         wx.navigateTo({
-          url: Page_path.Pate_Home_PetsType + "?type=" + actionIndex
+          url: PagePath.Pate_Home_PetsType + "?type=" + actionIndex
         })
     } else if (actionIndex == 2){
         wx.navigateTo({
-          url: Page_path.Pate_Home_PetsType + "?type=" + actionIndex
+          url: PagePath.Pate_Home_PetsType + "?type=" + actionIndex
         })
     } else if (actionIndex == 3) {
         wx.navigateTo({
-          url: Page_path.Pate_Home_PetsType + "?type=" + actionIndex
+          url: PagePath.Pate_Home_PetsType + "?type=" + actionIndex
         })
     }else{
         wx.navigateTo({
-          url: Page_path.Pate_Home_PetsType + "?type=" + actionIndex
+          url: PagePath.Pate_Home_PetsType + "?type=" + actionIndex
         })
     }
   },
@@ -118,7 +120,7 @@ Page({
    */
   newestTap:function(){
     wx.navigateTo({
-      url: Page_path.Page_Home_Nearby
+      url: PagePath.Page_Home_Nearby
     })
   },
 
@@ -127,7 +129,7 @@ Page({
    */
   boutiqueTap:function(){
     wx.navigateTo({
-      url: Page_path.Page_Home_Nearby
+      url: PagePath.Page_Home_Nearby
     })
   },
 
@@ -136,7 +138,7 @@ Page({
    */
   highEndTap:function(){
     wx.navigateTo({
-      url: Page_path.Page_Home_Nearby
+      url: PagePath.Page_Home_Nearby
     })
   },
 
@@ -147,7 +149,7 @@ Page({
     var actionIndex = res.currentTarget.dataset.index
 
     wx.navigateTo({
-      url: Page_path.Page_Mall_SetMeal + '?setMealType=' + actionIndex
+      url: PagePath.Page_Mall_SetMeal + '?setMealType=' + actionIndex
     })
 
   },
@@ -157,7 +159,7 @@ Page({
    */
   hotTypeTap:function(){
     wx.navigateTo({
-      url: Page_path.Page_Home_Nearby
+      url: PagePath.Page_Home_Nearby
     })
   },
   
@@ -168,7 +170,7 @@ Page({
         let actionIndex = encodeURIComponent(JSON.stringify(res.currentTarget.dataset.index));
         let actionItem = encodeURIComponent(JSON.stringify(res.currentTarget.dataset.item));
         wx.navigateTo({
-          url: Page_path.Page_Store_PetsInforMation + '?petsindex=' + actionIndex + "&petsitem=" + actionItem
+          url: PagePath.Page_Store_PetsInforMation + '?petsindex=' + actionIndex + "&petsitem=" + actionItem
         })
     },
 
