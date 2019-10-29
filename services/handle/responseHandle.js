@@ -8,14 +8,13 @@ const ResponseCodeEnum = require("../handle/ResponseCodeEnum.js");
  */
 function handleResponse(resource, handleSuccessCallback, handleFailCallback) {
   console.log("handleResponse resource:\n" + JSON.stringify(resource));
-  /**
-   * SUCCESS(10000L, "操作成功"),
-     LOGIN_TIMEOUT(20001L, "登录超时"),
-     LOGIN_FAILURE(20002L, "账号密码不正确"),
-     USER_NOTEXISTS(20003L, "账号不存在"),
-     USER_SAME_PASSWORD(20004L, "旧密码不能与新密码相同"),
-     UNKNOW_EXCEPTION(90001L, "未知异常");
-   */
+  if (resource.statusCode != 200) {
+    wx.showToast({
+      title: '请求失败：' + resource.statusCode,
+      icon: 'none'
+    })
+    return;
+  }
   if (resource.data.code == ResponseCodeEnum.Res_Code.SUCCESS) {
     if (handleSuccessCallback != null && typeof handleSuccessCallback == "function") {
       handleSuccessCallback(resource.data.root, resource.data.total);

@@ -1,10 +1,10 @@
 var Res_Code = {
-  SUCCESS: 10000,
-  TIME_OUT: 20001,
-  FAILURE: 20002,
+  SUCCESS: 10000, // 成功
+  TIME_OUT: 20001, // 登陆超时
+  FAILURE: 20002, // 登陆失败
   NOT_EXIST: 20003, // 用户不存在
-  SAME_PASSWORD: 20004,
-  UNKOWN_EXCEPTION: 90001,
+  SAME_PASSWORD: 20004, // 账号密码不同
+  UNKOWN_EXCEPTION: 90001, // 未知错误
 }
 
 module.exports ={

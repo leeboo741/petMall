@@ -2,7 +2,8 @@
 const Key_UserInfo = "userInfo";
 const Key_CurrentRole = "currentRole";
 
-const ResponseHandler = require("../services/handle/responseHandle.js");
+const ResponseHandler = require("../services/handle/ResponseCodeEnum.js");
+const RequestUtil = require("../utils/requestUtil.js");
 
 /**
  * 存储当前角色 买家 0 卖家 1
@@ -128,12 +129,12 @@ function startLogin() {
  * @param 登陆 回调 （@param state 成功失败 @param data 返回数据）
  */
 function requestLogin(wxCode, loginCallback) {
-  wx.request({
+  RequestUtil.RequestGET({
     url: url,
     data: {
-      wxCode: wxCode,
+      wxCode: wxCode
     },
-    success(res) {
+    success: function(res){
       ResponseHandler.handleResponse(res,
         function handleSuccessCallback(root, total) {
           if (typeof loginCallback == "function" && loginCallback) {
@@ -142,19 +143,11 @@ function requestLogin(wxCode, loginCallback) {
           if (typeof loginCallback == "function" && loginCallback) {
             loginCallback(false, code);
           }
-        }  
+        }
       )
-    },
-    fail(res) {
-      ResponseHandler.handleRequestFail();
-    },
-    complete(res) {
-
     }
   })
 }
-
-
 
 module.exports = {
   saveCurrentRole: saveCurrentRole,
