@@ -34,22 +34,22 @@
 </swiper>
 
 <!-- 主粮、零食、用品、保健 -->
-<view class="fast-action-area">
-  <view wx:for="{{fastActionList}}"
-        wx:for-item='fastActionItem'
-        wx:for-index='fastActionIndex'
-        wx:key='{{fastActionIndex}}'
-        class="fast-action-item">
-        <image class="fast-action-icon"
-              src='{{fastActionItem.iconPath}}'
-              bindtap="fastActionTap" 
-              data-key="{{fastActionItem.actionName}}">
-        </image>
-        <view class="fast-action-title">
-          {{fastActionItem.actionName}}
-        </view>
-  </view>
-</view>
+    <view class="fast-action-area">
+      <view wx:for="{{fastActionList}}"
+            wx:for-item='fastActionItem'
+            wx:for-index='fastActionIndex'
+            wx:key='{{fastActionIndex}}'
+            class="fast-action-item">
+            <image class="fast-action-icon"
+                   src='{{fastActionItem.iconPath}}'
+                   bindtap="fastActionTap" 
+                   data-key="{{fastActionItem.actionName}}">
+            </image>
+            <view class="fast-action-title">
+              {{fastActionItem.actionName}}
+            </view>
+      </view>
+    </view>
 
 <view class="divLine"/>
 

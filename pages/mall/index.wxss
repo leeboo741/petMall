@@ -24,6 +24,11 @@
   /* box-shadow: 0rpx 0rpx 40rpx 5rpx #b9b9b9; */
 }
 
+.scroll-view-page{
+  width: 100%;
+  height: 180rpx;
+}
+
 .fast-action-area{
   display: flex;
   flex-direction: row;

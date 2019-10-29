@@ -12,7 +12,7 @@ Page({
     pageHeight: null,
     petcurrent:0,
     dataSource:[],
-    petType:[
+    petType:[     
 
       {
         petName: "小型犬",
@@ -330,7 +330,7 @@ Page({
   petTypeTap:function(res){
     let that=this;
     var actionIndex = res.currentTarget.dataset.index;
-    var showOneLine = "petType[" + 0 + "].showLine"; 
+    var showOneLine = "petType[" + 0 + "].showLine";       //值替换
     var showtwoLine = "petType[" + 1 + "].showLine"; 
     var showThreeLine = "petType[" + 2 + "].showLine"; 
     var showFourLine = "petType[" + 3 + "].showLine"; 
