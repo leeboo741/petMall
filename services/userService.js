@@ -6,9 +6,15 @@ const ResponseEnum = require("../services/handle/ResponseCodeEnum.js");
 const RequestUtil = require("../utils/requestUtil.js");
 const {RequestParamObj} = require("../utils/requestParamObj.js");
 const UrlPath = require("../macros/urlPath.js");
+const Util = require("../utils/util.js");
+
+const Login_Success = 0;
+const Login_Fail = 1;
+const Login_Register = 2;
 
 /**
- * 存储当前角色 买家 0 卖家 1
+ * 存储当前角色
+ * @param role 角色 买家 0 卖家 1
  */
 function saveCurrentRole(role) {
   try {
@@ -34,7 +40,8 @@ function getCurrentRole() {
 }
 
 /**
- * 获取用户
+ * 存储用户
+ * @param userInfo 用户信息
  */
 function saveLocalUserInfo(userInfo) {
   let userInfoStr = JSON.stringify(userInfo);
@@ -113,8 +120,8 @@ function isLogin() {
 
 /**
  * 开始登陆
- * 
  * 先微信登陆 --》 成功后 调用 自有服务器登陆方法
+ * @param loginCallback 登陆回调
  */
 function startLogin(loginCallback) {
   let that = this;
@@ -145,7 +152,7 @@ function startLogin(loginCallback) {
                 }
                 // 向服务器请求登陆，返回 本微信 在服务器状态，注册|未注册，
                 _requestLogin(wxCode, 
-                  function loginCallback(loginSuccess, data){
+                  function loginRequestCallback(loginSuccess, data){
                     if (loginSuccess) {
                       let tempUserInfo = JSON.parse(data.root);
                       userInfo.customerNo = tempUserInfo.customerNo
@@ -161,9 +168,14 @@ function startLogin(loginCallback) {
                         userInfo.stationNo = tempUserInfo.staff.station.stationNo
                       }
                       saveUserInfo(userInfo);
+                      if (Util.checkIsFunction(loginCallback)) {
+                        loginCallback(Login_Success);
+                      }
                     } else {
                       if (data.code == ResponseEnum.Res_Code.NOT_EXIST) {
-
+                        loginCallback(Login_Register);
+                      }else {
+                        loginCallback(Login_Fail);
                       }
                     }
                   }
@@ -205,7 +217,7 @@ function startLogin(loginCallback) {
 /**
  * 自有服务器 登陆 请求
  * @param wxCode 微信登陆成功后拿到的code
- * @param 登陆 回调 （@param state 成功失败 @param data 返回数据）
+ * @param loginCallback 登陆 回调 （@param state 成功失败 @param data 返回数据）
  */
 function _requestLogin(wxCode, loginCallback) {
   let requestParam = new RequestParamObj({
@@ -224,6 +236,47 @@ function _requestLogin(wxCode, loginCallback) {
       }
     }
   });
+  RequestUtil.RequestPOST(requestParam);
+}
+
+/**
+ * 注册
+ * @param registerData 注册信息
+ * @param registerCallback 注册结果回调
+ */
+function register(registerData, registerCallback){
+  let requestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + Url.Url_Register,
+    data: {
+
+    },
+    header: registerData.header,
+    success: function (res) {
+      if (typeof registerCallback == "function" && registerCallback) {
+        registerCallback(res)
+      }
+    },
+  });
+  RequestUtil.RequestPOST(requestParam);
+}
+
+/**
+ * 获取短信验证码
+ * @param phone 手机号
+ * @param getCodeCallback
+ */
+function getCode(phone, getCodeCallback) {
+  let requestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_GetCode,
+    data: {
+      phoneNumber: phone
+    },
+    success(res) {
+      if (typeof getCodeCallback == "function" && getCodeCallback) {
+        getCodeCallback(res)
+      }
+    }
+  })
   RequestUtil.RequestGET(requestParam);
 }
 
@@ -237,4 +290,9 @@ module.exports = {
   getOpenId: getOpenId,
   isLogin: isLogin,
   startLogin: startLogin,
+  register: register,
+  getCode: getCode,
+  Login_Success,
+  Login_Fail,
+  Login_Register
 }

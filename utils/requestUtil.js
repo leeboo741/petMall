@@ -24,15 +24,25 @@ function RequestGET(requestParam) {
     header: requestParam.header,
     success(res) {
       ResponseHandler.handleResponse(res,
-        function handleSuccessCallback(root, total) {
+        function handleSuccessCallback(root, total, header, cookies) {
           if (typeof requestParam.success == "function" && requestParam.success) {
-            let requestSuccessObj = new RequestSuccessObj({ "root": root, "total": total})
+            let requestSuccessObj = new RequestSuccessObj(
+              { "root": root, 
+                "total": total, 
+                "header": header, 
+                "cookies": cookies
+              }
+            )
             requestParam.success(requestSuccessObj);
           }
         },
-        function handleFailCallback(code) {
+        function handleFailCallback(code, header, cookies) {
           if (typeof requestParam.fail == "function" && requestParam.fail) {
-            let requestFailObj = new RequestFailObj({"code": code})
+            let requestFailObj = new RequestFailObj({
+              "code": code,
+              "header": header,
+              "cookies": cookies
+            })
             requestParam.fail(requestFailObj);
           }
         },
@@ -73,15 +83,26 @@ function RequestPUT(requestParam) {
     method: "PUT",
     success(res) {
       ResponseHandler.handleResponse(res,
-        function handleSuccessCallback(root, total) {
+        function handleSuccessCallback(root, total, header, cookies) {
           if (typeof requestParam.success == "function" && requestParam.success) {
-            let requestSuccessObj = new RequestSuccessObj({ "root": root, "total": total })
+            let requestSuccessObj = new RequestSuccessObj(
+              {
+                "root": root,
+                "total": total,
+                "header": header,
+                "cookies": cookies
+              }
+            )
             requestParam.success(requestSuccessObj);
           }
         },
-        function handleFailCallback(code) {
+        function handleFailCallback(code, header, cookies) {
           if (typeof requestParam.fail == "function" && requestParam.fail) {
-            let requestFailObj = new RequestFailObj({ "code": code })
+            let requestFailObj = new RequestFailObj({
+              "code": code,
+              "header": header,
+              "cookies": cookies
+            })
             requestParam.fail(requestFailObj);
           }
         },
@@ -122,15 +143,86 @@ function RequestPOST(requestParam) {
     header: requestParam.header,
     success(res) {
       ResponseHandler.handleResponse(res,
-        function handleSuccessCallback(root, total) {
+        function handleSuccessCallback(root, total, header, cookies) {
           if (typeof requestParam.success == "function" && requestParam.success) {
-            let requestSuccessObj = new RequestSuccessObj({ "root": root, "total": total })
+            let requestSuccessObj = new RequestSuccessObj(
+              {
+                "root": root,
+                "total": total,
+                "header": header,
+                "cookies": cookies
+              }
+            )
             requestParam.success(requestSuccessObj);
           }
         },
-        function handleFailCallback(code) {
+        function handleFailCallback(code, header, cookies) {
           if (typeof requestParam.fail == "function" && requestParam.fail) {
-            let requestFailObj = new RequestFailObj({ "code": code })
+            let requestFailObj = new RequestFailObj({
+              "code": code,
+              "header": header,
+              "cookies": cookies
+            })
+            requestParam.fail(requestFailObj);
+          }
+        },
+      )
+    },
+    fail(res) {
+      if (requestParam.fail != null && typeof requestParam.fail == "function") {
+        let requestFailObj = new RequestFailObj()
+        requestParam.fail(requestFailObj);
+      }
+      ResponseHandler.handleRequestFail();
+    },
+    complete(res) {
+      if (requestParam.complete != null && typeof requestParam.complete == "function") {
+        requestParam.complete(res);
+      }
+    }
+  })
+}
+
+/**
+ * DELETE 请求
+ * @param requestParamObj 对象 请求数据
+ */
+function RequestDELETE(requestParam) {
+  if (requestParam == null) {
+    throw new Error("requestParam 不能为空");
+    return;
+  }
+  if (!(requestParam instanceof RequestParamObj)) {
+    throw new Error("请使用 RequestParamObj");
+    return;
+  }
+  wx.request({
+    url: requestParam.url,
+    data: requestParam.data,
+    method: "DELETE",
+    header: requestParam.header,
+    success(res) {
+      ResponseHandler.handleResponse(res,
+        function handleSuccessCallback(root, total, header, cookies) {
+          if (typeof requestParam.success == "function" && requestParam.success) {
+            let requestSuccessObj = new RequestSuccessObj(
+              {
+                "root": root,
+                "total": total,
+                "header": header,
+                "cookies": cookies
+              }
+            )
+            requestParam.success(requestSuccessObj);
+          }
+        },
+        function handleFailCallback(code, header, cookies) {
+          if (typeof requestParam.fail == "function" && requestParam.fail) {
+            let requestFailObj = new RequestFailObj({
+              "code": code,
+              "header": header,
+              "cookies": cookies
+            })
             requestParam.fail(requestFailObj);
           }
         },
@@ -155,4 +247,5 @@ module.exports={
   RequestGET: RequestGET,
   RequestPUT: RequestPUT,
   RequestPOST: RequestPOST,
+  RequestDELETE: RequestDELETE,
 }

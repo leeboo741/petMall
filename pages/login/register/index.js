@@ -2,6 +2,7 @@
 
 const intervalDuration = 60;
 const Util = require("../../../utils/util.js");
+const UserService = require("../../../services/userService.js");
 
 Page({
 
@@ -107,7 +108,15 @@ Page({
       }
       console.log("开始倒计时");
       this.interval();
-      // this.requestCode(this.data.phoneNumber)
+      let that = this;
+      UserService.getCode(this.data.phoneNumber,
+        function getCodeCallback(res) {
+          let tempCookie = res.header["Set-Cookie"];
+          that.setData({
+            cookie: tempCookie
+          })
+        }
+      )
     }
     console.log("正在倒计时");
   },
@@ -146,6 +155,37 @@ Page({
    * 点击注册
    */
   registerAccount: function () {
-    console.log("点击注册");
+    // 确认 手机号 输入
+    if (this.data.phoneNumber == null ||
+      this.data.phoneNumber.length <= 0 ||
+      !this.isPoneAvailable(this.data.phoneNumber)) {
+      wx.showToast({
+        title: '请输入正确手机号码！',
+        icon: 'none',
+      })
+      return;
+    }
+    if (this.data.code == null || this.data.code.length <= 0) {
+      wx.showToast({
+        title: '请输入验证码',
+        icon: 'none'
+      })
+      return;
+    }
+    // 请求注册
+    wx.showLoading({
+      title: '注册中...',
+    })
+    
+    UserService.register(
+      {
+        header: {
+          "cookie": this.data.cookie
+        },
+      },
+      function registerCallback(res) {
+        wx.hideLoading();
+      }
+    )
   }
 })

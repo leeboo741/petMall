@@ -7,6 +7,11 @@ var Res_Code = {
   UNKOWN_EXCEPTION: 90001, // 未知错误
 }
 
+var Status_Code = {
+  OK: 200, // 请求成功
+}
+
 module.exports ={
-  Res_Code
+  Res_Code,
+  Status_Code,
 }
