@@ -1,6 +1,7 @@
 // pages/store/index.js
 var city = require('../../utils/city.js');
 const Page_path = require("../../macros/pagePath.js");
+const StoreService = require("../../services/storeService.js");
 const app = getApp();
 Page({
 
@@ -428,6 +429,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    this.getStoreInformation(0,5);
     let that=this;
     that.setData({
       pageHeight: app.globalData.pageHeight
@@ -681,6 +683,18 @@ Page({
     let actionItem = encodeURIComponent(JSON.stringify(res.currentTarget.dataset.item));
     wx.navigateTo({
       url: Page_path.Page_Store_PetsInforMation + '?petsindex=' + actionIndex + "&petsitem=" + actionItem
+    })
+  },
+
+  /**
+   * 获得上商家数据
+   */
+  getStoreInformation: function (start, end){
+    let that =this;
+    StoreService.getStoreInfomation("", "", "", "", start , end ,function callBackDataSource(data){
+      that.setData({
+            merchantInformationList: data 
+          })
     })
   }
 

@@ -15,7 +15,7 @@
     <button class="login-button"
             open-type="getUserInfo"
             bindtap="tapLoginOrRegister">
-    登陆|注册
+     登陆|注册
     </button>
   </view>
 </view>

@@ -197,6 +197,7 @@ Page({
       },
     ],  //保健品
 
+    petsInforDrouce:[],  //页面数据
     articlesList: [
       {
         imageUrl: "https://pop.nosdn.127.net/8e98103a-a971-4ab0-8e56-bafafa290929?imageView&thumbnail=262x262&quality=90",
@@ -243,6 +244,13 @@ Page({
    */
   onLoad: function (options) {
     this.getPetsTypeInfo();
+    var allDataSource = [];
+    allDataSource.push(this.data.foodGrainList);
+    allDataSource.push(this.data.snacksList);
+    allDataSource.push(this.data.healthProductsList);
+    this.setData({
+      petsInforDrouce: allDataSource
+    })
   },
 
   /**
@@ -387,9 +395,21 @@ Page({
    */
   getPetsTypeInfo:function(){
     let that=this;
-    MallService.getMailPetType(2, 4, function returnData(data) {
+    MallService.getMallPetType(2, 4, function returnData(data) {
         that.setData({
           fastActionList: data
+        })
+    });
+  },
+
+  /**
+   * 页面显示宠物（主粮、零食、用品）信息
+   */
+  showPageInfor:function(){
+    let that = this;
+    MallService.getMallPetTypeShowInfor(function returnData(data) {
+        that.setData({
+            
         })
     });
   }

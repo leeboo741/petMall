@@ -5,7 +5,13 @@ const ResponseEnum = require("../services/handle/ResponseCodeEnum.js");
 const RequestUtil = require("../utils/requestUtil.js");
 const { RequestParamObj } = require("../utils/requestParamObj.js");
 
-function getMailPetType(grade,limit,getDataCallback){
+/**
+ * 商城分类
+ * @param getDataCallback 获取数据回调
+ *        grade 宠粮类型
+ *        limit 显示数量
+ */
+function getMallPetType(grade,limit,getDataCallback){
   let requestParam = new RequestParamObj({
     url: UrlService.Url_Base + UrlService.Url_ItemType,
     data: {
@@ -21,6 +27,26 @@ function getMailPetType(grade,limit,getDataCallback){
   RequestUtil.RequestGET(requestParam)
 }
 
+/**
+ * 商城(页面数据显示--主粮、零食、、、)
+ * @param getDataCallback 获取数据回调
+ */
+function getMallPetTypeShowInfor(getDataCallback){
+  let requestParam = new RequestParamObj({
+    url: UrlService.Url_Base + UrlService.Url_ItemShowTypeInfo,
+    data: {
+
+    },
+    success(res) {
+      if (typeof getDataCallback == "function" && getDataCallback) {
+        getDataCallback(res.root);
+      }
+    },
+  })
+  RequestUtil.RequestGET(requestParam)
+}
+
 module.exports = {
-  getMailPetType: getMailPetType
+  getMallPetType: getMallPetType,
+  getMallPetTypeShowInfor: getMallPetTypeShowInfor
 }

@@ -55,27 +55,34 @@
           <view class="merchant-information-head-left" 
                 bindtap="recommendedTap"
                 data-item="{{merchantInformationItem}}">
-                <image src="{{merchantInformationItem.merchantImage}}"
-                       class="merchant-information-head-leftimage" />
+                <!--头像-->
+                <view wx:if="{{merchantInformationItem.headerImg==''}}">
+                    <image src="{{merchantInformationItem.headerImg}}"
+                          class="merchant-information-head-leftimage" />
+                </view>
+                <view wx:else>
+                          <image src="../../resource/dogerror.png"
+                          class="merchant-information-head-leftimage" />
+                </view>
                 <view class="label-csty"
-                      style="{{parse.showLabelSty(merchantInformationItem.label)}}">
-                      {{parse.showLabelText(merchantInformationItem.label)}}
+                      style="{{parse.showLabelSty(merchantInformationItem.auth.businessAuthType)}}">
+                      {{parse.showLabelText(merchantInformationItem.auth.businessAuthType)}}
                 </view>
           </view>
           <view class="merchant-information-head-middle">
               <view style="font-weight:bold;">
-                  {{merchantInformationItem.merchantName}}
+                  {{merchantInformationItem.businessName}}
               </view>
               <view style="font-size:27rpx;color:#ccc;">
-                  {{merchantInformationItem.merchantAddress}}
+                  {{merchantInformationItem.detailAddress}}
               </view>
               <view style="font-size:27rpx;color:#ccc;">
-                  {{merchantInformationItem.merchantOnSale}}
+                  {{merchantInformationItem.describes}}
               </view>
           </view>
           <view class="merchant-information-head-right">  <!--星星遍历-->
               <view class="stars-page">                
-                  <view wx:for="{{merchantInformationItem.merchantStars}}"
+                  <view wx:for="{{merchantInformationItem.businessState}}"
                         wx:for-item='StarsItem'
                         wx:for-index='StarsIndex'
                         wx:key='{{StarsIndex}}'>
@@ -83,7 +90,7 @@
                   </view>
               </view>
               <view style="color:red;">
-                  {{merchantInformationItem.merchantPraise}}
+                  {{merchantInformationItem.praiseCount}}
               </view>
               <view style="font-size:27rpx;color:#ccc;">
                   好评数
@@ -93,26 +100,33 @@
         <!-- 商家商品 -->
         <view class="merchant-information-bottom-page">
           <view class="merchant-information-bottom-doginformation"
-                wx:for="{{merchantInformationItem.dogInforMation}}"
+                wx:for="{{merchantInformationItem.petList}}"
                 wx:for-item='dogInforMationItem'
                 wx:for-index='dogInforMationIndex'
                 wx:key='{{dogInforMationIndex}}'
                 bindtap="petsInforTap"
                 data-index="{{dogInforMationIndex}}"
-                data-item="{{merchantInformationItem}}">        
-              <image src="{{dogInforMationItem.dogImage}}"
+                data-item="{{merchantInformationItem}}">   
+              <view wx:if="{{dogInforMationItem.coverImg==''}}">
+                 <image src="{{dogInforMationItem.coverImg}}"
                     class="merchant-information-bottom-dogimage"/>
+              </view>
+               <view wx:else>
+                 <image src="../../resource/dog.png"
+                    class="merchant-information-bottom-dogimage"/>
+              </view>
+             
               <view style="font-weight:bold;">
-                  {{dogInforMationItem.dogName}}
+                  {{dogInforMationItem.petName}}
               </view>
 
               <view style="display:flex;flex-wrap:nowrap;">
                   <view style="font-size:27rpx;color:red;font-weight:bold;">
-                  ￥{{dogInforMationItem.dogPrice}}
+                  ￥{{dogInforMationItem.marketPrice}}
                   </view>
 
                   <view style="font-size:27rpx;color:#ccc;">
-                      {{dogInforMationItem.dogAddress}}
+                      {{merchantInformationItem.city}}
                   </view>
               </view>
           </view>
