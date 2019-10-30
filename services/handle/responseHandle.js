@@ -13,6 +13,7 @@ function handleResponse(resource, handleSuccessCallback, handleFailCallback) {
       title: '请求失败：' + resource.statusCode,
       icon: 'none'
     })
+    handleFailCallback(resource.statusCode)
     return;
   }
   if (resource.data.code == ResponseCodeEnum.Res_Code.SUCCESS) {

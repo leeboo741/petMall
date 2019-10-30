@@ -5,13 +5,14 @@ const LoadFootItemState = require("../../lee-components/leeLoadingFootItem/loadF
 const PagePath = require("../../macros/pagePath.js");
 const PageSize = 20;
 const ShareService = require("../../services/shareService.js");
+const UserService = require("../../services/userService.js");
 
 Page({
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    
+    UserService.startLogin();
   },
 
   /**

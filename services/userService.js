@@ -2,8 +2,10 @@
 const Key_UserInfo = "userInfo";
 const Key_CurrentRole = "currentRole";
 
-const ResponseHandler = require("../services/handle/ResponseCodeEnum.js");
+const ResponseEnum = require("../services/handle/ResponseCodeEnum.js");
 const RequestUtil = require("../utils/requestUtil.js");
+const {RequestParamObj} = require("../utils/requestParamObj.js");
+const UrlPath = require("../macros/urlPath.js");
 
 /**
  * 存储当前角色 买家 0 卖家 1
@@ -114,12 +116,89 @@ function isLogin() {
  * 
  * 先微信登陆 --》 成功后 调用 自有服务器登陆方法
  */
-function startLogin() {
-  let that =this;
+function startLogin(loginCallback) {
+  let that = this;
+  wx.showLoading({
+    title: '登陆中...',
+  })
   wx.login({
     success(res) {
-      that.requestLogin(wxCode);
-    }    
+      console.log("微信login success => " + res.code);
+      // 发送 res.code 到后台换取 openId, sessionKey, unionId
+      let wxCode = res.code;
+      // 查看是否授权
+      wx.getSetting({
+        success(res) {
+          console.log("获取授权成功")
+          if (res.authSetting['scope.userInfo']) {
+            console.log("获取 scope.userInfo 授权成功")
+            // 已经授权，可以直接调用 getUserInfo 获取头像昵称
+            wx.getUserInfo({
+              success(res) {
+                console.log("微信登陆 => \n" + JSON.stringify(res));
+                // 微信用户基本信息
+                let userInfo = res.userInfo;
+                if (userInfo.gender != null && userInfo.gender == "1") {
+                  userInfo.gender = "男";
+                } else {
+                  userInfo.gender = "女";
+                }
+                // 向服务器请求登陆，返回 本微信 在服务器状态，注册|未注册，
+                _requestLogin(wxCode, 
+                  function loginCallback(loginSuccess, data){
+                    if (loginSuccess) {
+                      let tempUserInfo = JSON.parse(data.root);
+                      userInfo.customerNo = tempUserInfo.customerNo
+                      userInfo.openId = tempUserInfo.openId
+                      userInfo.phone = tempUserInfo.phone
+                      userInfo.nickName = tempUserInfo.customerName
+                      userInfo.avatarUrl = tempUserInfo.headerImage
+                      userInfo.gender = tempUserInfo.sex
+                      userInfo.role = tempUserInfo.role
+                      userInfo.balance = tempUserInfo.balance
+                      if (tempUserInfo.staff != null) {
+                        userInfo.staffNo = tempUserInfo.staff.staffNo
+                        userInfo.stationNo = tempUserInfo.staff.station.stationNo
+                      }
+                      saveUserInfo(userInfo);
+                    } else {
+                      if (data.code == ResponseEnum.Res_Code.NOT_EXIST) {
+
+                      }
+                    }
+                  }
+                )
+              },
+              fail(res) {
+                wx.showToast({
+                  title: '获取基础信息失败',
+                  icon: 'none'
+                })
+              }
+            })
+          } else {
+            wx.showToast({
+              title: '请先授权',
+              icon: 'none'
+            })
+          }
+        },
+        fail(res) {
+          console.log("获取授权失败");
+          wx.showToast({
+            title: '获取授权失败',
+            icon: 'none'
+          })
+        },
+      })
+    },
+    fail(res) {
+      console.log("微信login fail => " + JSON.stringify(res));
+      wx.showToast({
+        title: '微信登陆失败',
+        icon: 'none'
+      })
+    },   
   })
 }
 
@@ -128,25 +207,24 @@ function startLogin() {
  * @param wxCode 微信登陆成功后拿到的code
  * @param 登陆 回调 （@param state 成功失败 @param data 返回数据）
  */
-function requestLogin(wxCode, loginCallback) {
-  RequestUtil.RequestGET({
-    url: url,
+function _requestLogin(wxCode, loginCallback) {
+  let requestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_Login,
     data: {
-      wxCode: wxCode
+      "code": wxCode
     },
-    success: function(res){
-      ResponseHandler.handleResponse(res,
-        function handleSuccessCallback(root, total) {
-          if (typeof loginCallback == "function" && loginCallback) {
-            loginCax
-          }
-          if (typeof loginCallback == "function" && loginCallback) {
-            loginCallback(false, code);
-          }
-        }
-      )
+    success: function (res) {
+      if (typeof loginCallback == "function" && loginCallback) {
+        loginCallback(true, res)
+      }
+    },
+    fail: function (res) {
+      if (typeof loginCallback == "function" && loginCallback) {
+        loginCallback(false, res)
+      }
     }
-  })
+  });
+  RequestUtil.RequestGET(requestParam);
 }
 
 module.exports = {
@@ -157,5 +235,6 @@ module.exports = {
   getLocalUserInfo: getLocalUserInfo,
   getPhone: getPhone,
   getOpenId: getOpenId,
-  isLogin: isLogin
+  isLogin: isLogin,
+  startLogin: startLogin,
 }
