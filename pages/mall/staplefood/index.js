@@ -4,6 +4,7 @@ const LoadFootItemState = require("../../../lee-components/leeLoadingFootItem/lo
 const app = getApp();
 
 const Page_path = require("../../../macros/pagePath.js");
+const MallService = require("../../../services/mallService.js");
 Page({
 
   /**
@@ -349,6 +350,7 @@ Page({
       }
 
     ],  //保健品
+
     articlesList: [
       {
         imageUrl: "https://pop.nosdn.127.net/8e98103a-a971-4ab0-8e56-bafafa290929?imageView&thumbnail=262x262&quality=90",
@@ -446,67 +448,16 @@ Page({
         sellerName: "官方养宠顾问"
       }
     ] , //用品
+
+
     varieties:[
-      {
-        name: '全部'
-      },
-      {
-        name:'狗狗'
-      },
-      {
-        name: '猫猫'
-      }
     ],  //品种下拉信息
 
     favoriteGrain:[
-      {
-        name: '全部'
-      },
-      {
-        name: '宠粮'
-      },
-      {
-        name: '零食'
-      },
-      {
-        name: '营养品'
-      },
-      {
-        name: '玩具用品'
-      },
-      {
-        name: '服务'
-      },
-      {
-        name: '套餐'
-      }
+
     ] ,  //宠粮下拉信息
 
     brand:[
-      {
-        name: '全部'
-      },
-      {
-        name: '皇家'
-      },
-      {
-        name: '伯纳天纯'
-      },
-      {
-        name: '巴西淘淘'
-      },
-      {
-        name: '巅峰'
-      },
-      {
-        name: '卫仕'
-      },
-      {
-        name: '红狗'
-      },
-      {
-        name: 'MAG'
-      }
     ] ,//品牌
     showDropDownMessage:true   //是隐藏下拉框信息
   },
@@ -515,39 +466,16 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    this.getVarietiesInfo();
+    this.getPesBrandInfo();
+    this.getPetsTypeInfo();
     var biographyInfo = options.resinfo;  //连接传参进来的值
-    var showSecondSelectInfo = "titleSelectList[" + 1 + "].selectInfo"; //下拉框信息[1]字符串拼接
+
+    var showSecondSelectInfo = "titleSelectList[" + 1 + "].sel  ectInfo"; //下拉框信息[1]字符串拼接
     let that=this;
     that.setData({
       pageHeight: app.globalData.pageHeight
     })
-    if (biographyInfo=='主粮'){
-      that.setData({
-        dataSource: that.data.foodGrainList,
-        [showSecondSelectInfo] : '宠粮'
-      })
-    }
-
-    if (biographyInfo == '零食') {
-      that.setData({
-        dataSource: that.data.snacksList,
-        [showSecondSelectInfo]: '零食'
-      })
-    }
-
-    if (biographyInfo == '保健') {
-      that.setData({
-        dataSource: that.data.healthProductsList,
-        [showSecondSelectInfo]: '营养品'
-      })
-    }
-
-    if (biographyInfo == '用品') {
-      that.setData({
-        dataSource: that.data.articlesList,
-        [showSecondSelectInfo]: '玩具用品'
-      })
-    }
  
   },
 
@@ -719,9 +647,9 @@ Page({
    * 点击下拉框选择信息
    */
     selectDataSourceTypeTap:function(e){
-      var selectKey = e.currentTarget.dataset.key
 
-      console.log(selectKey)
+      var selectIndex=e.currentTarget.dataset.index;
+      console.log("---" + selectIndex)
     },
 
     /**
@@ -739,5 +667,44 @@ Page({
       url: Page_path.Page_Mall_CommodityInformation + '?resinfo=' + encodeURIComponent(information)
     })
 
-  }
+  },
+
+  /**
+   * 宠粮下拉信息
+   */
+   getPetsTypeInfo: function () {
+    let that = this;
+    MallService.getMallPetType("", "", function returnData(data) {
+      console.log(data);
+      that.setData({
+        favoriteGrain: data
+      })
+    });
+  },
+
+    /**
+     * 品牌下拉信息
+     */
+    getPesBrandInfo:function(){
+      let that = this;
+      MallService.getBrandInfo(function returnData(data) {
+        console.log(data);
+        that.setData({
+          brand: data
+        })
+      });
+    },
+
+    /**
+     * 品种下拉信息
+     */
+    getVarietiesInfo:function(){
+      let that = this;
+      MallService.getVarieties(function returnData(data) {
+        console.log(data);
+        that.setData({
+          varieties: data
+        })
+      });
+    }
 })

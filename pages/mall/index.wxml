@@ -43,7 +43,7 @@
             <image class="fast-action-icon"
                    src='../../resource/dogfood.png'
                    bindtap="fastActionTap" 
-                   data-key="{{fastActionItem.itemTypeName}}">
+                   data-key="{{fastActionItem.itemTypeNo}}">
             </image>
             <view class="fast-action-title">
               {{fastActionItem.itemTypeName}}
@@ -131,12 +131,13 @@
 
         <view class="section-title" 
               style="color: black;font-weight: bold;">
-              主粮
+               {{petsInforItem.itemTypeName}} 
         </view>
         <view class="section-info">
         </view>
         <view class="section-more"
-              bindtap="foodgrainMoreTap">
+              bindtap="foodgrainMoreTap"
+              data-key="{{petsInforItem.itemTypeNo}}">
               更多
         </view>
         <i-icon type="right-arrow"
@@ -146,28 +147,27 @@
 
     <view class="foodgrain-page">
         <view class="foodgrain-page-formation"
-              wx:for='{{petsInforItem}}'
+              wx:for='{{petsInforItem.items}}'
               wx:for-item="Item"
               wx:for-index="Index"
-              wx:key='{{Index}}'
-              bindtap="commodityInforMationTap"
-              data-key="{{Item}}">
+              wx:key='{{Item.itemNo}}'
+              bindtap="commodityInforMationTap">
               <image class="foodgrain-page-formation-head" 
-                    src="{{Item.imageUrl}}">
+                    src="{{Item.coverImg}}"> 
               </image>
               <view class="foodgrain-page-formation-middle">
-                    {{Item.commodity}}
+                    {{Item.itemName}}
               </view>
               <view class="foodgrain-page-formation-introduce">
-                    {{Item.introduce}}
+                    {{Item.itemStage}}
               </view>
               <view class="foodgrain-page-formation-down">
-                    ￥{{Item.price}}               
+                    ￥{{Item.retailPrice}}               
                     <view class="foodgrain-page-formation-down-member">
                           会员价
                     </view>
                     <view style="color:#ccc;padding-left:18%;text-decoration:line-through;">
-                          ￥{{Item.originalPrice}}
+                          ￥{{Item.marketPrice}}
                     </view>
               </view>
         </view>

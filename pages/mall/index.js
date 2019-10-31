@@ -82,175 +82,16 @@ Page({
       },
     ] ,  //品牌
 
-    foodGrainList:[
-      {
-        imageUrl:"http://img.boqiicdn.com/Data/Shop/1/190/19082/shoppicpath11455790231_y.jpg",
-        commodity:'信元发育宝冻干成猫粮8kg',
-        introduce:"吉纯三拼肉宴冻干猫粮食",
-        price:499,
-        originalPrice:638,
-        sellerAddress:"江西南昌666888123号",
-        sellerName:"官方养宠顾问"
-      },
-      {
-        imageUrl: "http://img.boqiicdn.com/Data/Shop/2/221/22191/shoppicpath11478759881_y.jpg",
-        commodity: '发育宝-s三拼肉宴冻干幼猫粮8kg',
-        introduce: "冻干技术 打造出色口感",
-        price: 499,
-        originalPrice: 638,
-        sellerAddress: "江西南昌666888123号",
-        sellerName: "官方养宠顾问"
-      },
-      {
-        imageUrl: "http://img005.hc360.cn/m6/M09/94/6B/wKhQolb07DuEFsI8AAAAAEyvm8c183.jpg",
-        commodity: '五谷九种肉全猫粮加拿大进口GO！',
-        introduce: "【全球购】80%肉含量 天然五谷",
-        price: 309,
-        originalPrice: 359,
-        sellerAddress: "江西南昌666888123号",
-        sellerName: "官方养宠顾问"
-      },
-      {
-        imageUrl: "http://pic4.58cdn.com.cn/zhuanzh/n_v2bbebe75ef9264afda39b5b5b482144ee.jpg?w=750&h=0",
-        commodity: '健康无限系列五谷九种肉猫粮16磅',
-        introduce: "【全球购】80%肉含量 天然五谷",
-        price: 529,
-        originalPrice: 629,
-        sellerAddress: "江西南昌666888123号",
-        sellerName: "官方养宠顾问"
-      },
-    ],  //主粮
-
-    snacksList: [
-      {
-        imageUrl: "http://pic1.womai.com/upload/601/603/608/362805/362808/362822/362547/630292/630292_1_pic1080_4539.jpg",
-        commodity: '信元发育宝冻干成猫粮8kg',
-        introduce: "吉纯三拼肉宴冻干猫粮食",
-        price: 499,
-        originalPrice: 638,
-        sellerAddress: "江西南昌666888123号",
-        sellerName: "官方养宠顾问"
-      },
-      {
-        imageUrl: "http://img.boqiicdn.com/Data/Shop/1/176/17672/shoppicpath21440569048_y.jpg",
-        commodity: '发育宝-s三拼肉宴冻干幼猫粮8kg',
-        introduce: "冻干技术 打造出色口感",
-        price: 499,
-        originalPrice: 638,
-        sellerAddress: "江西南昌666888123号",
-        sellerName: "官方养宠顾问"
-      },
-      {
-        imageUrl: "http://d6.yihaodianimg.com/N04/M06/57/56/CgQDrVPQbjaAG9n1AAFVTwVLhdU24800.jpg",
-        commodity: '五谷九种肉全猫粮加拿大进口GO！',
-        introduce: "【全球购】80%肉含量 天然五谷",
-        price: 309,
-        originalPrice: 359,
-        sellerAddress: "江西南昌666888123号",
-        sellerName: "官方养宠顾问"
-      },
-      {
-        imageUrl: "http://www.tbw-hufu.com/tuhfJDEwLmFsaWNkbi5jb20vaTMvMTk4MTYxNTUzMy9PMUNOMDExcWs5dGRPRDRzaXZpcFJfISExOTgxNjE1NTMzJDk.jpg",
-        commodity: '健康无限系列五谷九种肉猫粮16磅',
-        introduce: "【全球购】80%肉含量 天然五谷",
-        price: 529,
-        originalPrice: 629,
-        sellerAddress: "江西南昌666888123号",
-        sellerName: "官方养宠顾问"
-      },
-    ],  //零食
-
-    healthProductsList: [
-      {
-        imageUrl: "http://www.whnews.cn/dszx/2019/0918/xxfl/hk91/customer/23419/0FWbddtge61UVJwwFjeXvmyfnoqifGQeCw6VBoXV.jpeg",
-        commodity: '信元发育宝冻干成猫粮8kg',
-        introduce: "吉纯三拼肉宴冻干猫粮食",
-        price: 499,
-        originalPrice: 638,
-        sellerAddress: "江西南昌666888123号",
-        sellerName: "官方养宠顾问"
-      },
-      {
-        imageUrl: "http://www.whnews.cn/dszx/2019/0917/xxfl/hk91/customer/23419/OdmUKR5hbejrYTLAfBanJXfRcZsUJ0nMiovFIURv.jpeg",
-        commodity: '发育宝-s三拼肉宴冻干幼猫粮8kg',
-        introduce: "冻干技术 打造出色口感",
-        price: 499,
-        originalPrice: 638
-      },
-      {
-        imageUrl: "http://img1.doubanio.com/view/commodity_story/medium/public/p10623659.jpg",
-        commodity: '五谷九种肉全猫粮加拿大进口GO！',
-        introduce: "【全球购】80%肉含量 天然五谷",
-        price: 309,
-        originalPrice: 359,
-        sellerAddress: "江西南昌666888123号",
-        sellerName: "官方养宠顾问"
-      },
-      {
-        imageUrl: "https://pop.nosdn.127.net/cd699185-97ba-4dc7-9165-6d19d347a9c5?imageView&thumbnail=262x262&quality=90",
-        commodity: '健康无限系列五谷九种肉猫粮16磅',
-        introduce: "【全球购】80%肉含量 天然五谷",
-        price: 529,
-        originalPrice: 629,
-        sellerAddress: "江西南昌666888123号",
-        sellerName: "官方养宠顾问"
-      },
-    ],  //保健品
-
     petsInforDrouce:[],  //页面数据
-    articlesList: [
-      {
-        imageUrl: "https://pop.nosdn.127.net/8e98103a-a971-4ab0-8e56-bafafa290929?imageView&thumbnail=262x262&quality=90",
-        commodity: '信元发育宝冻干成猫粮8kg',
-        introduce: "吉纯三拼肉宴冻干猫粮食",
-        price: 499,
-        originalPrice: 638,
-        sellerAddress: "江西南昌666888123号",
-        sellerName: "官方养宠顾问"
-      },
-      {
-        imageUrl: "https://pop.nosdn.127.net/75e934b9-0d4b-4a93-bdec-4dc7b48432e0?imageView&thumbnail=262x262&quality=90",
-        commodity: '发育宝-s三拼肉宴冻干幼猫粮8kg',
-        introduce: "冻干技术 打造出色口感",
-        price: 499,
-        originalPrice: 638,
-        sellerAddress: "江西南昌666888123号",
-        sellerName: "官方养宠顾问"
-      },
-      {
-        imageUrl: "https://pop.nosdn.127.net/b72ffd4e-ca7e-466d-8f9c-b6547910883e?imageView&thumbnail=262x262&quality=90",
-        commodity: '五谷九种肉全猫粮加拿大进口GO！',
-        introduce: "【全球购】80%肉含量 天然五谷",
-        price: 309,
-        originalPrice: 359,
-        sellerAddress: "江西南昌666888123号",
-        sellerName: "官方养宠顾问"
-      },
-      {
-        imageUrl: "https://pop.nosdn.127.net/a8d246c8-db44-414b-b449-645495372682?imageView&thumbnail=262x262&quality=90",
-        commodity: '健康无限系列五谷九种肉猫粮16磅',
-        introduce: "【全球购】80%肉含量 天然五谷",
-        price: 529,
-        originalPrice: 629,
-        sellerAddress: "江西南昌666888123号",
-        sellerName: "官方养宠顾问"
-      },
-    ]  //用品
-
+ 
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    this.showPageInfor();
     this.getPetsTypeInfo();
-    var allDataSource = [];
-    allDataSource.push(this.data.foodGrainList);
-    allDataSource.push(this.data.snacksList);
-    allDataSource.push(this.data.healthProductsList);
-    this.setData({
-      petsInforDrouce: allDataSource
-    })
   },
 
   /**
@@ -303,34 +144,7 @@ Page({
   },
 
   /**
-   * 点击粮食更多
-   */
-  foodgrainMoreTap:function(){
-    wx.navigateTo({
-      url: Page_path.Page_Mall_Sstaplefood+'?resinfo='+'主粮'
-    })
-  },
-
-  /**
-   * 点击零食更多
-   */
-  snacksMore:function(){
-    wx.navigateTo({
-      url: Page_path.Page_Mall_Sstaplefood + '?resinfo=' + '零食'
-    })
-  },
-
-  /**
-   * 点击保健品更多
-   */
-  healthProductsMore:function(){
-    wx.navigateTo({
-      url: Page_path.Page_Mall_Sstaplefood + '?resinfo=' + '保健'
-    })
-  },
-
-  /**
-   * 点击用品更多
+   * 点击更多
    */
   aiclesMore:function(){
     wx.navigateTo({
@@ -408,10 +222,21 @@ Page({
   showPageInfor:function(){
     let that = this;
     MallService.getMallPetTypeShowInfor(function returnData(data) {
+        console.log(data);
         that.setData({
-            
+          petsInforDrouce:data
         })
     });
-  }
+  },
 
+  /**
+   * 类型更多
+   */
+  foodgrainMoreTap:function(res){
+    var actionKey = res.currentTarget.dataset.key;  //获得类型No
+    console.log(actionKey);
+    wx.navigateTo({
+      url: Page_path.Page_Mall_Sstaplefood + '?resinfo=' + actionKey
+    })
+  }
 })

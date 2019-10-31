@@ -1,7 +1,7 @@
 
 // const Url_Base = "http://192.168.3.111:5050"; // Base Url ----- 刘
-// const Url_Base = "http://192.168.3.200:8080"; // Base Url ---商城 卢
-const Url_Base ="http://192.168.3.103:5050";    //---商家 罗
+const Url_Base = "http://192.168.3.200:8080"; // Base Url ---商城 卢
+// const Url_Base ="http://192.168.3.103:5050";    //---商家 罗
 
 const Url_Login = "/login"; // 登陆
 const Url_Register = "/register"; // 注册
@@ -11,7 +11,9 @@ const Url_GetCode = "/business/VerificationCode"; // 获取短信验证码
  * ----商城
  */
 const Url_ItemType = "/item/type";  //宠粮类型查询
-const Url_ItemShowTypeInfo ="/item/vo/cs"; //商城页面数据显示（主粮..）
+const Url_ItemShowTypeInfo ="/item/vo/cs"; //商城页面数据显示（主粮零食等..）
+const Url_Item_Brand ="/item/Brand"; //粮宠品牌
+const Url_Item_Classify ="/item/Classify"; //宠粮分类
 
 
 /**
@@ -43,6 +45,8 @@ module.exports={
 
   Url_ItemShowTypeInfo, //商城显示数据
   Url_BusinessInfo,    //商家显示数据
+  Url_Item_Brand,       //粮宠品牌
+  Url_Item_Classify,   //宠粮分类
 
   Url_GetAddressList, // 获取收货地址列表
   Url_AddNewAddress, // 添加新收货地址

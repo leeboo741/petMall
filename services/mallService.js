@@ -35,9 +35,7 @@ function getMallPetType(grade, limit, getDataCallback) {
 function getMallPetTypeShowInfor(getDataCallback) {
   let requestParam = new RequestParamObj({
     url: UrlService.Url_Base + UrlService.Url_ItemShowTypeInfo,
-    data: {
-
-    },
+    data: {},
     success(res) {
       if (typeof getDataCallback == "function" && getDataCallback) {
         getDataCallback(res.root);
@@ -47,7 +45,46 @@ function getMallPetTypeShowInfor(getDataCallback) {
   RequestUtil.RequestGET(requestParam)
 }
 
+/**
+ * 商城(获得品牌下拉信息、)
+ * @param getDataCallback 获取数据回调
+ */
+
+function getBrandInfo(getDataCallback){
+  let requestParam = new RequestParamObj({
+    url: UrlService.Url_Base + UrlService.Url_Item_Brand,
+    data: {},
+    success(res) {
+      if (typeof getDataCallback == "function" && getDataCallback) {
+        getDataCallback(res.root);
+      }
+    },
+  })
+  RequestUtil.RequestGET(requestParam)
+}
+
+
+/**
+ * 商城(获得品种下拉信息、)
+ * @param getDataCallback 获取数据回调
+ */
+function getVarieties(getDataCallback){
+  let requestParam = new RequestParamObj({
+    url: UrlService.Url_Base + UrlService.Url_Item_Classify,
+    data: {},
+    success(res) {
+      if (typeof getDataCallback == "function" && getDataCallback) {
+        getDataCallback(res.root);
+      }
+    },
+  })
+  RequestUtil.RequestGET(requestParam)
+}
+
+
 module.exports = {
   getMallPetType: getMallPetType,
-  getMallPetTypeShowInfor: getMallPetTypeShowInfor
+  getMallPetTypeShowInfor: getMallPetTypeShowInfor,
+  getBrandInfo: getBrandInfo,
+  getVarieties: getVarieties
 }

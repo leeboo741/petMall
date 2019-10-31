@@ -64,18 +64,20 @@
 </scroll-view>
 
 <!--下拉信息-->
-<view class="dropdownbox-infomation" 
-      hidden="{{showDropDownMessage}}">
-      <view class="dropdownbox-infomation-table" 
-            wx:for='{{dataSourceType}}'
-            wx:for-item="dataSourceTypeItem"
-            wx:for-index="dataSourceTypeIndex"
-            wx:key='{{dataSourceTypeIndex}}'
-            bindtap="selectDataSourceTypeTap" 
-            data-key="{{dataSourceTypeItem.name}}">
-                {{dataSourceTypeItem.name}}
-      </view>
-</view>
+  <view class="dropdownbox-infomation" 
+        hidden="{{showDropDownMessage}}">
+        <view class="dropdownbox-infomation-table" 
+              wx:for='{{dataSourceType}}'
+              wx:for-item="dataSourceTypeItem"
+              wx:for-index="dataSourceTypeIndex"
+              wx:key='{{dataSourceTypeIndex}}'
+              bindtap="selectDataSourceTypeTap" 
+              data-index="{{dataSourceTypeIndex}}">
+              {{parse.showTitleInfor(dataSourceTypeItem,titleSelectIndex)}}
+        </view>
+  </view>
+
+
 
 <!--蒙版-->
 <view class="mask-page" 
@@ -99,7 +101,16 @@
             }else{
                 return "#ED630A"
             }
+        },
+
+        showTitleInfor:function(res,resIndex){
+            if(resIndex==0){
+              return  res.itemClassifyName
+            }else if(resIndex==1){
+              return  res.itemTypeName
+            }else{
+              return res.itemBrandName
+            }
         }
    }
-
 </wxs>
