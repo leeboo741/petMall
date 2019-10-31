@@ -112,6 +112,31 @@
       </i-cell>
     </i-cell-group>
   </i-panel>
+  <i-panel i-class='panel'
+           title='上传图片（最多6张）'>
+    <i-cell>
+      <view class="upload-image-box"
+            slot='header'>
+        <view class="upload-image-item"
+              wx:for='{{uploadImageList}}'
+              wx:for-item='uploadImageItem'
+              wx:for-index='uploadImageIndex'
+              wx:key='{{uploadImageIndex}}'>
+          <image src='{{uploadImageItem}}'
+                class='upload-image-item-image'>
+          </image>
+        </view>
+        <view class="upload-image-item">
+          <view class='upload-image-item-image'
+                bindtap="tapAddNewUploadImage">
+            <image class="upload-image-item-center"
+                  src='../../../../resource/add_new.png'>
+            </image>
+          </view>
+        </view>
+      </view>
+    </i-cell>
+  </i-panel>
 </block>
 
 <!-- 卖家版 -->
@@ -223,6 +248,31 @@
         </textarea>
       </i-cell>
     </i-cell-group>
+  </i-panel>
+  <i-panel i-class='panel'
+           title='上传图片（最多6张）'>
+    <i-cell>
+      <view class="upload-image-box"
+            slot='header'>
+        <view class="upload-image-item"
+              wx:for='{{uploadImageList}}'
+              wx:for-item='uploadImageItem'
+              wx:for-index='uploadImageIndex'
+              wx:key='{{uploadImageIndex}}'>
+          <image src='{{uploadImageItem}}'
+                class='upload-image-item-image'>
+          </image>
+        </view>
+        <view class="upload-image-item">
+          <view class='upload-image-item-image'
+                bindtap="tapAddNewUploadImage">
+            <image class="upload-image-item-center"
+                  src='../../../../resource/add_new.png'>
+            </image>
+          </view>
+        </view>
+      </view>
+    </i-cell>
   </i-panel>
 </block>
 

@@ -128,6 +128,33 @@
   padding: 8rpx;
   text-align: left;
 }
+.upload-image-box{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.upload-image-item{
+  width: 33.3333333%;
+  height: 200rpx;
+}
+
+.upload-image-item-image{
+  background: rgb(235, 235, 235);
+  width: 95%;
+  height: 97%;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.upload-image-item-center{
+  width: 120rpx;
+  height: 120rpx;
+}
+
 
 .empty-zone{
   height: 90rpx;
