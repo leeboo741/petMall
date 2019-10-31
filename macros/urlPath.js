@@ -19,11 +19,18 @@ const Url_ItemShowTypeInfo ="/item/vo/cs"; //商城页面数据显示（主粮..
  */
 const Url_BusinessInfo ="/business/list";  //商家页面数据
 
-
+/**
+ * ----地址管理
+ */
 const Url_GetAddressList = "/order/ReceivingAddress"; // 获取收货地址列表
 const Url_AddNewAddress = "/order/ReceivingAddress/insert"; // 添加新收货地址
 const Url_EditAddress = "/order/ReceivingAddress/update"; // 编辑收货地址
 const Url_DeleteAddress = "/order/ReceivingAddress/"; // 删除收货地址
+
+/**
+ * ----评价管理
+ */
+const Url_Evaluate = "/PetAppraise/petAppraise"; // 发布评价
 
 module.exports={
   Url_Base,  // Base Url
@@ -37,10 +44,10 @@ module.exports={
   Url_ItemShowTypeInfo, //商城显示数据
   Url_BusinessInfo,    //商家显示数据
 
-
   Url_GetAddressList, // 获取收货地址列表
   Url_AddNewAddress, // 添加新收货地址
   Url_EditAddress, // 编辑收货地址
   Url_DeleteAddress, // 删除收货地址
 
+  Url_Evaluate, // 发布评价
 }
