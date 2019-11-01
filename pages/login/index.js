@@ -83,6 +83,7 @@ Page({
     //   delta: 1
     // })
     UserService.startLogin(function loginCallback(state){
+      wx.hideLoading();
       if (state == UserService.Login_Success) {
         wx.navigateBack({
           

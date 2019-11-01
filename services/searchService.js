@@ -1,3 +1,10 @@
+
+/**
+ * 
+ * 搜索 结果 服务
+ * 
+ */
+
 const Key_SearchHistory = "searchHistory"
 
 const SearchHistory_Max_Size = 15;

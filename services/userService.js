@@ -1,10 +1,20 @@
 
+/**
+ * 
+ * 用户相关 服务
+ * 
+ */
+
 const Key_UserInfo = "userInfo";
 const Key_CurrentRole = "currentRole";
 
+const app = getApp();
+
 const ResponseEnum = require("../services/handle/ResponseCodeEnum.js");
 const RequestUtil = require("../utils/requestUtil.js");
-const {RequestParamObj} = require("../utils/requestParamObj.js");
+const {
+  RequestParamObj
+} = require("../utils/requestParamObj.js");
 const UrlPath = require("../macros/urlPath.js");
 const Util = require("../utils/util.js");
 
@@ -76,7 +86,7 @@ function deleteLocalUserInfo(deleteCallback) {
 /**
  * 获取本地用户信息
  */
-function getLocalUserInfo(){
+function getLocalUserInfo() {
   try {
     let userInfo = JSON.parse(wx.getStorageSync(Key_UserInfo));
     return userInfo;
@@ -105,6 +115,17 @@ function getOpenId() {
     return null;
   }
   return userInfo.openId;
+}
+
+/**
+ * 获取 customerNo
+ */
+function getCustomerNo() {
+  let userInfo = getLocalUserInfo();
+  if (userInfo == null || userInfo.customerNo == null || userInfo.customerNo.length <= 0) {
+    return null;
+  }
+  return userInfo.customerNo;
 }
 
 /**
@@ -145,36 +166,32 @@ function startLogin(loginCallback) {
                 console.log("微信登陆 => \n" + JSON.stringify(res));
                 // 微信用户基本信息
                 let userInfo = res.userInfo;
-                if (userInfo.gender != null && userInfo.gender == "1") {
-                  userInfo.gender = "男";
-                } else {
-                  userInfo.gender = "女";
-                }
                 // 向服务器请求登陆，返回 本微信 在服务器状态，注册|未注册，
-                _requestLogin(wxCode, 
-                  function loginRequestCallback(loginSuccess, data){
+                _requestLogin(wxCode,
+                  function loginRequestCallback(loginSuccess, data) {
                     if (loginSuccess) {
-                      let tempUserInfo = JSON.parse(data.root);
+                      let tempUserInfo = data.root;
                       userInfo.customerNo = tempUserInfo.customerNo
-                      userInfo.openId = tempUserInfo.openId
+                      userInfo.openId = tempUserInfo.openid
                       userInfo.phone = tempUserInfo.phone
                       userInfo.nickName = tempUserInfo.customerName
                       userInfo.avatarUrl = tempUserInfo.headerImage
                       userInfo.gender = tempUserInfo.sex
-                      userInfo.role = tempUserInfo.role
+                      userInfo.lastLoginTime = tempUserInfo.lastLoginTime
+                      userInfo.registrationDate = tempUserInfo.registrationDate
+                      userInfo.registrationTime = tempUserInfo.registrationTime
+                      userInfo.points = tempUserInfo.points
                       userInfo.balance = tempUserInfo.balance
-                      if (tempUserInfo.staff != null) {
-                        userInfo.staffNo = tempUserInfo.staff.staffNo
-                        userInfo.stationNo = tempUserInfo.staff.station.stationNo
-                      }
-                      saveUserInfo(userInfo);
+                      saveLocalUserInfo(userInfo);
                       if (Util.checkIsFunction(loginCallback)) {
                         loginCallback(Login_Success);
                       }
                     } else {
                       if (data.code == ResponseEnum.Res_Code.NOT_EXIST) {
                         loginCallback(Login_Register);
-                      }else {
+                        app.globalData.tempUserInfo = userInfo;
+                        app.globalData.openId = data.errMsg;
+                      } else {
                         loginCallback(Login_Fail);
                       }
                     }
@@ -210,7 +227,7 @@ function startLogin(loginCallback) {
         title: '微信登陆失败',
         icon: 'none'
       })
-    },   
+    },
   })
 }
 
@@ -223,14 +240,17 @@ function _requestLogin(wxCode, loginCallback) {
   let requestParam = new RequestParamObj({
     url: UrlPath.Url_Base + UrlPath.Url_Login,
     data: {
-      "code": wxCode
+      code: wxCode
     },
-    success: function (res) {
+    header: {
+      'content-type': "application/x-www-form-urlencoded"
+    },
+    success: function(res) {
       if (typeof loginCallback == "function" && loginCallback) {
         loginCallback(true, res)
       }
     },
-    fail: function (res) {
+    fail: function(res) {
       if (typeof loginCallback == "function" && loginCallback) {
         loginCallback(false, res)
       }
@@ -244,14 +264,27 @@ function _requestLogin(wxCode, loginCallback) {
  * @param registerData 注册信息
  * @param registerCallback 注册结果回调
  */
-function register(registerData, registerCallback){
+function register(registerData, registerCallback) {
+  let that = this;
   let requestParam = new RequestParamObj({
-    url: UrlPath.Url_Base + Url.Url_Register,
-    data: {
-
-    },
+    url: UrlPath.Url_Base + UrlPath.Url_Register,
+    data: registerData.data,
     header: registerData.header,
-    success: function (res) {
+    success: function(res) {
+      let userInfo = {};
+      let tempUserInfo = res.root;
+      userInfo.customerNo = tempUserInfo.customerNo
+      userInfo.openId = tempUserInfo.openid
+      userInfo.phone = tempUserInfo.phone
+      userInfo.nickName = tempUserInfo.customerName
+      userInfo.avatarUrl = tempUserInfo.headerImage
+      userInfo.gender = tempUserInfo.sex
+      userInfo.lastLoginTime = tempUserInfo.lastLoginTime
+      userInfo.registrationDate = tempUserInfo.registrationDate
+      userInfo.registrationTime = tempUserInfo.registrationTime
+      userInfo.points = tempUserInfo.points
+      userInfo.balance = tempUserInfo.balance
+      saveLocalUserInfo(userInfo);
       if (typeof registerCallback == "function" && registerCallback) {
         registerCallback(res)
       }
@@ -287,6 +320,7 @@ module.exports = {
   deleteLocalUserInfo: deleteLocalUserInfo,
   getLocalUserInfo: getLocalUserInfo,
   getPhone: getPhone,
+  getCustomerNo: getCustomerNo,
   getOpenId: getOpenId,
   isLogin: isLogin,
   startLogin: startLogin,

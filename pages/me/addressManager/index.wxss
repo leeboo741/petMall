@@ -1,13 +1,20 @@
 /* pages/me/addressManager/index.wxss */
-.list-view{
-  width: 100%;
-}
 
 .addnew-button{
+  position: fixed;
+  width: 100vw;
+  bottom: 0rpx;
+  left: 0rpx;
+  height: 90rpx;
   font-size: 38rpx;
   color: white;
   background: linear-gradient(to right, rgb(255,147,87) , rgb(255, 51, 59));
   text-align: center;
+}
+
+.empty-zone{
+  height: 90rpx;
+  width: 100vw;
 }
 
 .address-item{

@@ -103,7 +103,7 @@ function checkEmpty(obj) {
  * @return true 是 false 不是
  */
 function checkIsFunction(fctObj) {
-  if (fctObj != null && typeof fctobj == "function") {
+  if (fctObj != null && typeof fctObj == "function") {
     return true;
   }
   return false;

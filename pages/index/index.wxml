@@ -100,7 +100,7 @@
             data-item="{{preferentialItem}}">
         <view class="goods-image-box">
           <i-image i-class="goods-image"
-                   imageSrc='{{preferentialItem.imagePath}}'
+                   imageSrc='{{preferentialItem.coverMedia}}'
                    placeholderSrc='../../resource/placeholder.jpg'
                    failSrc='../../resource/fail.png'>
           </i-image>
@@ -109,18 +109,18 @@
         <view class="goods-info-box">
           <view class="goods-info-line">
             <view class="text-name">
-            {{preferentialItem.name}}
+            {{preferentialItem.petName}}
             </view>
             <view class="text-price">
-            ￥{{preferentialItem.preferentialPrice}}
+            ￥{{preferentialItem.retailPrice}}
             </view>
           </view>
           <view class="goods-info-line">
             <view class="text-address">
-            {{preferentialItem.province}} {{preferentialItem.city}}
+            {{preferentialItem.business.province}} {{preferentialItem.business.city}}
             </view>
             <view class="text-original-price">
-            ￥{{preferentialItem.originalPrice}}
+            ￥{{preferentialItem.marketPrice}}
             </view>
           </view>
         </view>
@@ -158,24 +158,25 @@
             class="goods-item">
         <view class="goods-image-box">
           <i-image i-class="goods-image"
-                   imageSrc='{{newestItem.imagePath}}'
+                   imageSrc='{{newestItem.coverMedia}}'
                    placeholderSrc='../../resource/placeholder.jpg'
-                   failSrc='../../resource/fail.png'>
+                   failSrc='../../resource/fail.png'
+                   lazy-load="{{true}}">
           </i-image>
         </view>
         
         <view class="goods-info-box">
           <view class="goods-info-line">
             <view class="text-name">
-            {{newestItem.name}}
+            {{newestItem.petName}}
             </view>
           </view>
           <view class="goods-info-line">
             <view class="text-price">
-            ￥{{newestItem.price}}
+            ￥{{newestItem.marketPrice}}
             </view>
             <view class="text-time">
-            {{parse.getDuringTime(newestItem.releaseDate, newestItem.releaseTime)}}
+            {{parse.getDuringTime(newestItem.createDate, newestItem.createTime)}}
             </view>
           </view>
         </view>
@@ -211,7 +212,7 @@
           class="goods-flex-item">
       <view class="goods-image-box">
         <i-image i-class="goods-flex-image"
-                  imageSrc='{{fineItem.imagePath}}'
+                  imageSrc='{{fineItem.coverMedia}}'
                   placeholderSrc='../../resource/placeholder.jpg'
                   failSrc='../../resource/fail.png'>
         </i-image>
@@ -220,15 +221,15 @@
       <view class="goods-info-box">
         <view class="goods-info-line">
           <view class="text-name">
-          {{fineItem.name}}
+          {{fineItem.petName}}
           </view>
         </view>
         <view class="goods-info-line">
           <view class="text-price">
-          ￥{{fineItem.price}}
+          ￥{{fineItem.retailPrice}}
           </view>
           <view class="text-address">
-          {{fineItem.province}} {{fineItem.city}}
+          {{fineItem.business.province}} {{fineItem.business.city}}
           </view>
         </view>
       </view>  
@@ -276,7 +277,7 @@
           class="goods-flex-item">
       <view class="goods-image-box">
         <i-image i-class="goods-flex-image"
-                  imageSrc='{{upscaleItem.imagePath}}'
+                  imageSrc='{{upscaleItem.coverMedia}}'
                   placeholderSrc='../../resource/placeholder.jpg'
                   failSrc='../../resource/fail.png'>
         </i-image>
@@ -285,15 +286,15 @@
       <view class="goods-info-box">
         <view class="goods-info-line">
           <view class="text-name">
-          {{upscaleItem.name}}
+          {{upscaleItem.petName}}
           </view>
         </view>
         <view class="goods-info-line">
           <view class="text-price">
-          ￥{{upscaleItem.price}}
+          ￥{{upscaleItem.marketPrice}}
           </view>
           <view class="text-address">
-          {{upscaleItem.province}} {{upscaleItem.city}}
+          {{upscaleItem.business.province}} {{upscaleItem.business.city}}
           </view>
         </view>
       </view>  
@@ -368,13 +369,13 @@
           class="recommend-store-item">
       <view class="recommend-store-logo-box">
         <i-image i-class="recommend-store-logo"
-                 imageSrc="{{recommendStoreItem.logoPath}}"
+                 imageSrc="{{recommendStoreItem.iconAddress}}"
                  placeholderSrc='../../resource/placeholder.jpg'
                  failSrc='../../resource/fail.png'>
         </i-image>
       </view>
       <view class="text-name">
-      {{recommendStoreItem.name}}
+      {{recommendStoreItem.businessName}}
       </view>
       <view class="text-address">
       {{recommendStoreItem.province}} {{recommendStoreItem.city}}
@@ -466,7 +467,7 @@
 <wxs module='parse'>
   module.exports={
     getDuringTime: function(date, time) {
-      return "1天前"
+      return date;
     }
   }
 </wxs>

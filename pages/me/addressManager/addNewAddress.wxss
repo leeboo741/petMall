@@ -3,8 +3,24 @@
   width: 100%;
 }
 
+.buttonArea{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+}
+
 .addnew-button{
   font-size: 38rpx;
+  color: white;
+  background: linear-gradient(to right, rgb(255,147,87) , rgb(255, 51, 59));
+  text-align: center;
+}
+
+.edit-button {
+  width: 48%;
+  border-radius: 10rpx;
+  font-size: 34rpx;
   color: white;
   background: linear-gradient(to right, rgb(255,147,87) , rgb(255, 51, 59));
   text-align: center;

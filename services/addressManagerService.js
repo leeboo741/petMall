@@ -1,4 +1,10 @@
 
+/**
+ * 
+ *  收货地址管理 服务
+ * 
+ */
+
 const ResponseEnum = require("../services/handle/ResponseCodeEnum.js");
 const RequestUtil = require("../utils/requestUtil.js");
 const { RequestParamObj } = require("../utils/requestParamObj.js");
@@ -86,10 +92,7 @@ function editAddress(addressObj, editCallback) {
  */
 function deleteAddress(addressNo, deleteCallback) {
   let requestParam = new RequestParamObj({
-    url: UrlPath.Url_Base + UrlPath.Url_DeleteAddress,
-    data: {
-      addressNo: addressNo
-    },
+    url: UrlPath.Url_Base + UrlPath.Url_DeleteAddress + addressNo,
     success(res) {
       if (Util.checkIsFunction(deleteCallback)) {
         deleteCallback(res)

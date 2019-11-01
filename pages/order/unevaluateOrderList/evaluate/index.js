@@ -1,6 +1,7 @@
 // pages/order/unevaluateOrderList/evaluate/index.js
 
 const UserService = require("../../../../services/userService.js");
+const UploadFileService = require("../../../../services/uploadFileService.js");
 
 Page({
 
@@ -10,6 +11,7 @@ Page({
   data: {
     currentRole: null, // 当前角色
     starLevel: 1, // 星级
+    uploadImageList: [], // 待上传图片地址列表
     order: {
       orderNumber: "SDA20123122123121",
       orderDate: "2019-10-11",
@@ -104,5 +106,21 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+
+  /**
+   * 点击选择新图片
+   */
+  tapAddNewUploadImage: function(){
+    let that = this;
+    wx.chooseImage({
+      count: 6,
+      success: function (res) {
+        that.setData({
+          uploadImageList: res.tempFilePaths
+        })
+        UploadFileService.fileUpload(that.data.uploadImageList[0]);
+      },
+    })
   }
 })

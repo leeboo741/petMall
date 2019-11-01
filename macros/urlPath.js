@@ -1,6 +1,6 @@
 
-// const Url_Base = "http://192.168.3.111:5050"; // Base Url ----- 刘
-const Url_Base = "http://192.168.3.200:8080"; // Base Url ---商城 卢
+const Url_Base = "http://192.168.3.111:5050"; // Base Url ----- 刘
+// const Url_Base = "http://192.168.3.200:8080"; // Base Url ---商城 卢
 // const Url_Base ="http://192.168.3.103:5050";    //---商家 罗
 
 const Url_Login = "/login"; // 登陆
@@ -20,6 +20,7 @@ const Url_Item_Classify ="/item/Classify"; //宠粮分类
  * ----商家
  */
 const Url_BusinessInfo ="/business/list";  //商家页面数据
+const Url_Business_Recommend = "/business/recommendedBusiness"; // 推荐商家
 
 /**
  * ----地址管理
@@ -34,6 +35,20 @@ const Url_DeleteAddress = "/order/ReceivingAddress/"; // 删除收货地址
  */
 const Url_Evaluate = "/PetAppraise/petAppraise"; // 发布评价
 
+/**
+ * ----文件上传
+ */
+const Url_UploadFile = "/file/upload"; // 上传文件
+
+/**
+ * ----宠物
+ */
+const Url_Pet_Newest = "/PetFilter/new"; // 最新发布
+const Url_Pet_UpScale = "/PetFilter/high"; // 高端宠物
+const Url_Pet_Preferential = "/PetFilter/discounts"; // 特惠抢购
+const Url_Pet_Fine = "/PetFilter/petAll"; // 精品宠物
+const Url_Pet_Filter = "/PetFilter/petFilter"; // 宠物筛选
+
 module.exports={
   Url_Base,  // Base Url
   
@@ -43,8 +58,10 @@ module.exports={
 
   Url_ItemType, //商城宠物类型
 
-  Url_ItemShowTypeInfo, //商城显示数据
   Url_BusinessInfo,    //商家显示数据
+  Url_Business_Recommend, // 推荐商家
+
+  Url_ItemShowTypeInfo, //商城显示数据
   Url_Item_Brand,       //粮宠品牌
   Url_Item_Classify,   //宠粮分类
 
@@ -54,4 +71,12 @@ module.exports={
   Url_DeleteAddress, // 删除收货地址
 
   Url_Evaluate, // 发布评价
+
+  Url_UploadFile, // 上传文件
+
+  Url_Pet_Newest, // 最新发布
+  Url_Pet_UpScale, // 高端宠物
+  Url_Pet_Preferential, // 特惠抢购
+  Url_Pet_Fine, // 精品宠物
+  Url_Pet_Filter, // 宠物筛选
 }

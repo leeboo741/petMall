@@ -2,51 +2,48 @@
 <i-navigation-bar title='收货地址管理'
                   showBackButton>
 </i-navigation-bar>
+<i-cell-group>
+  <i-cell wx:for="{{addressList}}"
+          wx:for-item='addressItem'
+          wx:for-index='addressIndex'
+          wx:key='{{addressIndex}}'>
+    <view slot="header"
+          class="address-item"
+          bindtap="tapAddress"
+          data-index='{{addressIndex}}'>
+      <view class="address-item-info">
+        <view class="address-item-info-line">
+          <view class="address-item-info-name">
+          {{addressItem.contacts}}
+          </view>
+          <view class="address-item-info-phone">
+          {{addressItem.phone}}
+          </view>
+          <view class="address-item-info-default"
+                wx:if='{{addressItem.isDefault==1}}'>
+          默认      
+          </view>
+        </view>
+        <view class="address-item-info-line">
+          <view class="address-item-info-address">
+          {{addressItem.province}} {{addressItem.city}} {{addressItem.county}} {{addressItem.detailedAddress}}
+          </view>
+        </view>
+      </view>
+      <view class="address-item-line-v">
+      </view>
+      <view class="address-item-button"
+            catchtap="tapToEdit"
+            data-index='{{addressIndex}}'>
+        <view class="address-item-button-title">
+        编辑
+        </view>
+      </view>
+    </view>    
+  </i-cell>
+</i-cell-group>
 
-<scroll-view class="list-view"
-             style="height: {{pageHeight-50}}px"
-             scroll-y>
-  <i-cell-group>
-    <i-cell wx:for="{{addressList}}"
-            wx:for-item='addressItem'
-            wx:for-index='addressIndex'
-            wx:key='{{addressIndex}}'>
-      <view slot="header"
-            class="address-item">
-        <view class="address-item-info">
-          <view class="address-item-info-line">
-            <view class="address-item-info-name">
-            {{addressItem.addressee}}
-            </view>
-            <view class="address-item-info-phone">
-            {{addressItem.phone}}
-            </view>
-            <view class="address-item-info-default"
-                  wx:if='{{addressItem.isDefault}}'>
-            默认      
-            </view>
-          </view>
-          <view class="address-item-info-line">
-            <view class="address-item-info-address">
-            {{addressItem.province}} {{addressItem.city}} {{addressItem.district}} {{addressItem.detailAddress}}
-            </view>
-          </view>
-        </view>
-        <view class="address-item-line-v">
-        </view>
-        <view class="address-item-button"
-              bindtap="tapToEdit"
-              data-index='{{addressIndex}}'>
-          <view class="address-item-button-title">
-          编辑
-          </view>
-        </view>
-      </view>    
-    </i-cell>
-  </i-cell-group>
-        
-</scroll-view>
-
+<view class="empty-zone"></view>
 <view class="addnew-button"
       style="height: 50px; line-height:50px"
       bindtap="tapToAddNew">

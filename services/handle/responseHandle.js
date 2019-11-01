@@ -17,9 +17,20 @@ function handleResponse(resource, handleSuccessCallback, handleFailCallback) {
     handleFailCallback(resource.statusCode)
     return;
   }
+  if (resource.data != null && typeof resource.data == "string") {
+    resource.data = JSON.parse(resource.data);
+  }
   if (resource.data.code == ResponseCodeEnum.Res_Code.SUCCESS) {
     if (handleSuccessCallback != null && typeof handleSuccessCallback == "function") {
       handleSuccessCallback(resource.data.root, resource.data.total, resource.header, resource.cookies);
+    }
+  } else if (resource.data.code == ResponseCodeEnum.Res_Code.NOT_EXIST) {
+    wx.showToast({
+      title: '用户不存在',
+      icon: 'none'
+    })
+    if (handleFailCallback != null && typeof handleFailCallback == "function") {
+      handleFailCallback(resource.data.code, resource.data.errMsg, resource.header, resource.cookies)
     }
   } else {
     wx.showToast({
@@ -27,7 +38,7 @@ function handleResponse(resource, handleSuccessCallback, handleFailCallback) {
       icon: 'none'
     })
     if (handleFailCallback != null && typeof handleFailCallback == "function") {
-      handleFailCallback(resource.data.code, resource.header, resource.cookies)
+      handleFailCallback(resource.data.code, resource.data.errMsg, resource.header, resource.cookies)
     }
   }
 }

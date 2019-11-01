@@ -3,5 +3,6 @@
     "i-navigation-bar": "/lee-components/leeNavigationBar/index",
     "i-cell-group": "/dist/cell-group/index",
     "i-cell": "/dist/cell/index"
-  }
+  },
+  "enablePullDownRefresh": true
 }

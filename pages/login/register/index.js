@@ -3,6 +3,7 @@
 const intervalDuration = 60;
 const Util = require("../../../utils/util.js");
 const UserService = require("../../../services/userService.js");
+const app = getApp();
 
 Page({
 
@@ -158,7 +159,7 @@ Page({
     // 确认 手机号 输入
     if (this.data.phoneNumber == null ||
       this.data.phoneNumber.length <= 0 ||
-      !this.isPoneAvailable(this.data.phoneNumber)) {
+      !Util.isPhoneAvailable(this.data.phoneNumber)) {
       wx.showToast({
         title: '请输入正确手机号码！',
         icon: 'none',
@@ -179,12 +180,23 @@ Page({
     
     UserService.register(
       {
+        data: {
+          customerName: app.globalData.tempUserInfo.nickName,
+          headerImage: app.globalData.tempUserInfo.avatarUrl,
+          sex: app.globalData.tempUserInfo.gender,
+          openid: app.globalData.openId,
+          phone: this.data.phoneNumber,
+          verifyCode: this.data.code,
+        } ,
         header: {
           "cookie": this.data.cookie
         },
       },
       function registerCallback(res) {
         wx.hideLoading();
+        wx.navigateBack({
+          delta: 2
+        })
       }
     )
   }

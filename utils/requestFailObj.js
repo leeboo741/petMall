@@ -6,6 +6,7 @@ var RequestFailObj = function RequestFailObj(obj) {
   this.code = -1; // 错误码
   this.header = null; // 请求头
   this.cookies = null; // cookies
+  this.errMsg = null; // 
   if (obj != null) {
     if (obj.code != null && typeof obj.code == "number") {
       this.code = obj.code;
@@ -15,6 +16,9 @@ var RequestFailObj = function RequestFailObj(obj) {
     }
     if (obj.cookies != null && typeof obj.cookies == "object") {
       this.cookies = obj.cookies;
+    }
+    if (obj.errMsg != null && typeof obj.errMsg == "string") {
+      this.errMsg = obj.errMsg;
     }
   }
 }

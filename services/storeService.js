@@ -37,7 +37,29 @@ function getStoreInfomation(city, authType, orderCount, praiseCount, start, end 
   RequestUtil.RequestGET(requestParam)
 }
 
+/**
+ * 获取推荐商家
+ * @param param 参数 offset limit
+ * @param getRecommendCallback 回调参数
+ */
+function getRecommendBusiness(param, getRecommendCallback){
+  let requestParam = new RequestParamObj({
+    url: UrlService.Url_Base + UrlService.Url_Business_Recommend,
+    data: {
+      offset: param.offset,
+      limit: param.limit,
+    },
+    success(res) {
+      if (typeof getRecommendCallback == "function" && getRecommendCallback) {
+        getRecommendCallback(res);
+      }
+    }
+  })
+  RequestUtil.RequestGET(requestParam)
+}
+
   
 module.exports = {
-  getStoreInfomation: getStoreInfomation
+  getStoreInfomation: getStoreInfomation,
+  getRecommendBusiness: getRecommendBusiness
 }

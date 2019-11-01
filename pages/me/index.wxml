@@ -40,8 +40,8 @@
             bindtap="tapToEdit">
         <view class="avatar-box">
           <i-image i-class="avatar-image"
-                    imageSrc="{{userInfo.avatar}}"
-                    placeholderSrc='../../resource/avatar_placeholder.jpg'>
+                   imageSrc="{{userInfo.avatarUrl}}"
+                   placeholderSrc='../../resource/avatar_placeholder.jpg'>
           </i-image>
           <view class="avatar-detail">
           商城会员
@@ -50,7 +50,7 @@
         <view class="info-box">
           <view class="info-content-box">
             <view class="info-title">
-            {{userInfo.name}}
+            {{userInfo.nickName}}
             </view>
             <view class="info-explain">
             {{userInfo.explain}}
@@ -179,7 +179,7 @@
             bindtap="tapToEditStore">
         <view class="avatar-box">
           <i-image i-class="avatar-image"
-                    imageSrc="{{userInfo.avatar}}"
+                    imageSrc="{{userInfo.avatarUrl}}"
                     placeholderSrc='../../resource/avatar_placeholder.jpg'>
           </i-image>
           <view class="avatar-detail">
@@ -189,7 +189,7 @@
         <view class="info-box">
           <view class="info-content-box">
             <view class="info-title">
-            {{userInfo.name}}
+            {{userInfo.nickName}}
             </view>
             <view class="info-start-box">
               <i-icon type='star'

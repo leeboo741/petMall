@@ -1,3 +1,10 @@
+
+/**
+ * 
+ * 分享 服务
+ * 
+ */
+
 const Util = require("../utils/util.js");
 
 /**

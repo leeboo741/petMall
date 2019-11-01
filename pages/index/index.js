@@ -6,13 +6,98 @@ const PagePath = require("../../macros/pagePath.js");
 const PageSize = 20;
 const ShareService = require("../../services/shareService.js");
 const UserService = require("../../services/userService.js");
+const Config = require("../../macros/config.js");
+const LocationService = require("../../services/locationService.js");
+const PetService = require("../../services/petService.js");
+const StoreService = require("../../services/storeService.js");
+const {PetFilterObj} = require("../../entity/petFilterObj.js");
+
 
 Page({
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    // UserService.startLogin();
+    wx.showLoading({
+      title: '定位中...',
+    })
+    let that = this;
+    LocationService.getCurrentLocationInfo(
+      function callback(res) {
+        console.log(JSON.stringify(res));
+        wx.hideLoading();
+        app.globalData.currentLocationInfo = res;
+
+        let city = res.address_component.city;
+
+        let newestPetFilter = new PetFilterObj({
+          city: city,
+          offset: 0,
+          limit: 6,
+        })
+        PetService.getNewestPet(newestPetFilter,
+          function getResultCallback(result) {
+            console.log("newest pet: \n" + JSON.stringify(result));
+            that.setData({
+              newestList: result.root
+            })
+          }
+        )
+
+        let upScalePetFilter = new PetFilterObj({
+          city: city,
+          offset: 0,
+          limit: 6,
+        })
+        PetService.getUpScalePet(upScalePetFilter,
+          function getResultCallback(result) {
+            console.log("newest pet: \n" + JSON.stringify(result));
+            that.setData({
+              upscaleList: result.root
+            })
+          }
+        )
+
+        let preferentialPetFilter = new PetFilterObj({
+          offset: 0,
+          limit: 6,
+        })
+        PetService.getPreferentialPet(preferentialPetFilter,
+          function getResultCallback(result) {
+            console.log("preferential pet: \n" + JSON.stringify(result));
+            that.setData({
+              preferentialList: result.root
+            })
+          }
+        )
+
+        let finePetFilter = new PetFilterObj({
+          offset: 0,
+          limit: 6,
+        })
+        PetService.getFinePet(finePetFilter,
+          function getResultCallback(result) {
+            console.log("fine pet: \n" + JSON.stringify(result));
+            that.setData({
+              fineList: result.root
+            })
+          }
+        )
+
+        let recommendFilter = {
+          offset: 0,
+          limit: 6
+        }
+        StoreService.getRecommendBusiness(recommendFilter,
+          function getResultCallback(result) {
+            console.log("recommend business: \n" + JSON.stringify(result));
+            that.setData({
+              recommendStoreList: result.root
+            })
+          }
+        )
+      }
+    )
   },
 
   /**

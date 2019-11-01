@@ -14,7 +14,7 @@ var AddressObj = function AddressObj(data) {
   this.detailedAddress = null; // 详细地址
   this.contacts = null; // 联系人名称
   this.phone = null; // 联系人电话
-  this.isDefault = false; // 是否默认地址
+  this.isDefault = 0; // 是否默认地址
   this.latitude = null; // 纬度
   this.longitude = null; // 经度
   this.customer = null; // 地址 所属人
@@ -42,7 +42,11 @@ var AddressObj = function AddressObj(data) {
       this.phone = data.phone
     }
     if (Util.checkIsBoolean(data.isDefault)) {
-      this.isDefault = data.isDefault
+      if (data.isDefault) {
+        this.isDefault = 1;
+      } else {
+        this.isDefault = 0;
+      }
     }
     if (Util.checkIsNumber(data.latitude)) {
       this.latitude = data.latitude

@@ -2,6 +2,8 @@
 
 const app = getApp();
 const PagePath = require("../../../macros/pagePath.js");
+const AddressManagerService = require("../../../services/addressManagerService.js");
+const UserService = require("../../../services/userService.js");
 
 Page({
 
@@ -9,63 +11,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    pageHeight: null, // 页面高度
-    addressList: [
-      {
-        addressee: "刘祥林", // 收件人
-        phone: "15879067924", // 收件人电话
-        province: "江西省", // 省份
-        city: "南昌市", // 市
-        district: "青山湖区", // 区县
-        detailAddress: "北京东路1666号", // 详细地址
-        isDefault: true, // 是否默认
-      },
-      {
-        addressee: "李静波", // 收件人
-        phone: "16607093121", // 收件人电话
-        province: "江西省", // 省份
-        city: "南昌市", // 市
-        district: "青山湖区", // 区县
-        detailAddress: "北京东路1666号北京东路1666号北京东路1666号", // 详细地址
-        isDefault: false, // 是否默认
-      },
-      {
-        addressee: "刘祥林", // 收件人
-        phone: "15879067924", // 收件人电话
-        province: "江西省", // 省份
-        city: "南昌市", // 市
-        district: "青山湖区", // 区县
-        detailAddress: "北京东路1666号", // 详细地址
-        isDefault: false, // 是否默认
-      },
-      {
-        addressee: "李静波", // 收件人
-        phone: "16607093121", // 收件人电话
-        province: "江西省", // 省份
-        city: "南昌市", // 市
-        district: "青山湖区", // 区县
-        detailAddress: "北京东路1666号", // 详细地址
-        isDefault: false, // 是否默认
-      },
-      {
-        addressee: "刘祥林", // 收件人
-        phone: "15879067924", // 收件人电话
-        province: "江西省", // 省份
-        city: "南昌市", // 市
-        district: "青山湖区", // 区县
-        detailAddress: "北京东路1666号", // 详细地址
-        isDefault: false, // 是否默认
-      },
-      {
-        addressee: "李静波", // 收件人
-        phone: "16607093121", // 收件人电话
-        province: "江西省", // 省份
-        city: "南昌市", // 市
-        district: "青山湖区", // 区县
-        detailAddress: "北京东路1666号", // 详细地址
-        isDefault: false, // 是否默认
-      },
-    ], // 地址列表
+    ableSelectAddress: false, // 是否允许选中地址
+    addressList: [], // 地址列表
   },
 
   /**
@@ -73,7 +20,7 @@ Page({
    */
   onLoad: function (options) {
     this.setData({
-      pageHeight: app.globalData.pageHeight
+      ableSelectAddress: options.ableselect == 1? true: false
     })
   },
 
@@ -88,7 +35,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    wx.startPullDownRefresh();
   },
 
   /**
@@ -109,7 +56,16 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+    let that = this;
+    AddressManagerService.getAddressListByCustomerNo(UserService.getCustomerNo(),
+      function getResultCallback(result) {
+        console.log(result);
+        that.setData({
+          addressList: result.root
+        })
+        wx.stopPullDownRefresh();
+      }
+    )
   },
 
   /**
@@ -143,5 +99,17 @@ Page({
     wx.navigateTo({
       url: PagePath.Page_Me_AddressManager_AddNew,
     })
+  },
+
+  /**
+   * 选中地址
+   */
+  tapAddress: function(e) {
+    if (this.data.ableSelectAddress) {
+      app.globalData.selectAddress = this.addressList[e.currentTarget.datase.index];
+      wx.navigateBack({
+        
+      })
+    }
   }
 })
