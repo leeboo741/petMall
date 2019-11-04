@@ -75,6 +75,7 @@
           wx:for-index="dataSourceTypeIndex"
           wx:key='{{dataSourceTypeIndex}}'
           bindtap="selectDataSourceTypeTap"
+          data-value='{{dataSourceTypeItem}}'
           data-index="{{dataSourceTypeIndex}}">
           {{dataSourceTypeItem}}
     </view>
@@ -109,7 +110,7 @@
                scroll-into-view="{{scrollTopId}}" 
                scroll-top="{{scrollTop}}">
     <view class="hotcity-common thisCity">当前定位城市</view>
-    <view class="thisCityName">{{city}}</view>
+    <view class="thisCityName" bindtap="tapCurrentCity" data-city='{{city}}'>{{city}}</view>
     <view>
       <text class="hotcity hotcity-common">热门城市</text>
       <view class="weui-grids">

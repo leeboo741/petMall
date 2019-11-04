@@ -42,8 +42,8 @@
                mode='scaleToFill'
                lazy-load='{{true}}'
                imageSrc='{{bannerItem.imageUrl}}'
-               placeholderSrc='../../resource/placeholder.jpg'
-               failSrc='../../resource/fail.png'>
+               placeholderSrc='/resource/placeholder.jpg'
+               failSrc='/resource/fail.png'>
       </i-image>
     </view>
   </swiper-item>
@@ -101,8 +101,8 @@
         <view class="goods-image-box">
           <i-image i-class="goods-image"
                    imageSrc='{{preferentialItem.coverMedia}}'
-                   placeholderSrc='../../resource/placeholder.jpg'
-                   failSrc='../../resource/fail.png'>
+                   placeholderSrc='/resource/placeholder.jpg'
+                   failSrc='/resource/fail.png'>
           </i-image>
         </view>
         
@@ -159,8 +159,8 @@
         <view class="goods-image-box">
           <i-image i-class="goods-image"
                    imageSrc='{{newestItem.coverMedia}}'
-                   placeholderSrc='../../resource/placeholder.jpg'
-                   failSrc='../../resource/fail.png'
+                   placeholderSrc='/resource/placeholder.jpg'
+                   failSrc='/resource/fail.png'
                    lazy-load="{{true}}">
           </i-image>
         </view>
@@ -211,10 +211,10 @@
           wx:key='{{fineIndex}}'
           class="goods-flex-item">
       <view class="goods-image-box">
-        <i-image i-class="goods-flex-image"
+        <i-image  i-class="goods-flex-image"
                   imageSrc='{{fineItem.coverMedia}}'
-                  placeholderSrc='../../resource/placeholder.jpg'
-                  failSrc='../../resource/fail.png'>
+                  placeholderSrc='/resource/placeholder.jpg'
+                  failSrc='/resource/fail.png'>
         </i-image>
       </view>
         
@@ -276,10 +276,10 @@
           wx:key='{{upscaleIndex}}'
           class="goods-flex-item">
       <view class="goods-image-box">
-        <i-image i-class="goods-flex-image"
+        <i-image  i-class="goods-flex-image"
                   imageSrc='{{upscaleItem.coverMedia}}'
-                  placeholderSrc='../../resource/placeholder.jpg'
-                  failSrc='../../resource/fail.png'>
+                  placeholderSrc='/resource/placeholder.jpg'
+                  failSrc='/resource/fail.png'>
         </i-image>
       </view>
         
@@ -346,8 +346,8 @@
         </view>
         <i-image i-class="setmenu-item-icon"
                 imageSrc='{{setMenuItem.iconPath}}'
-                placeholderSrc='../../resource/placeholder.jpg'
-                failSrc='../../resource/fail.png'>
+                placeholderSrc='/resource/placeholder.jpg'
+                failSrc='/resource/fail.png'>
         </i-image>
       </view>
     </view>
@@ -370,8 +370,8 @@
       <view class="recommend-store-logo-box">
         <i-image i-class="recommend-store-logo"
                  imageSrc="{{recommendStoreItem.iconAddress}}"
-                 placeholderSrc='../../resource/placeholder.jpg'
-                 failSrc='../../resource/fail.png'>
+                 placeholderSrc='/resource/placeholder.jpg'
+                 failSrc='/resource/fail.png'>
         </i-image>
       </view>
       <view class="text-name">
@@ -401,8 +401,8 @@
           data-index="{{hotTypeIndex}}">
       <i-image i-class="hot-type-icon"
                 imageSrc="{{hotTypeItem.iconPath}}"
-                placeholderSrc='../../resource/placeholder.jpg'
-                failSrc='../../resource/fail.png'>
+                placeholderSrc='/resource/placeholder.jpg'
+                failSrc='/resource/fail.png'>
       </i-image>
       <view class="text-name">
       {{hotTypeItem.name}}
@@ -426,26 +426,26 @@
           class="recommend-goods-item">
       <view class="recommend-goods-image-box">
         <i-image i-class="recommend-goods-image"
-                  imageSrc='{{recommendGoodsItem.imagePath}}'
-                  placeholderSrc='../../resource/placeholder.jpg'
-                  failSrc='../../resource/fail.png'>
+                  imageSrc='{{recommendGoodsItem.coverMedia}}'
+                  placeholderSrc='/resource/placeholder.jpg'
+                  failSrc='/resource/fail.png'>
         </i-image>
       </view>
       <view class="recommend-goods-info-box">
         <view class="goods-info-line">
           <view class="text-name">
-          {{recommendGoodsItem.name}}
+          {{recommendGoodsItem.petName}}
           </view>
           <view class="text-price">
-          ￥{{recommendGoodsItem.price}}
+          ￥{{recommendGoodsItem.retailPrice}}
           </view>
         </view>
         <view class="goods-info-line">
           <view class="recomend-goods-store-name-box">
             <i-image i-class="recommend-goods-store-logo"
                   imageSrc='{{recommendGoodsItem.store.logoPath}}'
-                  placeholderSrc='../../resource/placeholder.jpg'
-                  failSrc='../../resource/fail.png'>
+                  placeholderSrc='/resource/placeholder.jpg'
+                  failSrc='/resource/fail.png'>
             </i-image>
             <view class="text-info">
             {{recommendGoodsItem.store.name}}

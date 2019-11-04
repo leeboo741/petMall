@@ -1,7 +1,9 @@
 // pages/index/nearby/index.js
 const app = getApp();
 const LoadFootItemState = require("../../../lee-components/leeLoadingFootItem/loadFootObj.js");
-var city = require('../../../utils/city.js');
+var City = require('../../../utils/city.js');
+const Limit = 20;
+
 Page({
 
   /**
@@ -22,17 +24,14 @@ Page({
 
     showDropDownMessage: true,  //是隐藏下拉框信息
     selectQualificationsDatas: [
-
       "不限", "2000以下", "2000-5000", "5000-10000", "10000以上"
-     
-    ],
+    ], // 价格
     selectReputation: [
-
       "不限", "个人", "商户"
-    ],
+    ], // 来源
     titleSelectList: [
       {
-        selectInfo: "南昌",
+        selectInfo: "全部",
         showSelect: true,     //icon 切换
       },
       {
@@ -101,8 +100,21 @@ Page({
     isShowLetter: false,
     scrollTop: 0,//置顶高度
     scrollTopId: '',//置顶id
-    city: "上海市",
-    hotcityList: [{ cityCode: 110000, city: '北京市' }, { cityCode: 310000, city: '上海市' }, { cityCode: 440100, city: '广州市' }, { cityCode: 440300, city: '深圳市' }, { cityCode: 330100, city: '杭州市' }, { cityCode: 320100, city: '南京市' }, { cityCode: 420100, city: '武汉市' }, { cityCode: 410100, city: '郑州市' }, { cityCode: 120000, city: '天津市' }, { cityCode: 610100, city: '西安市' }, { cityCode: 510100, city: '成都市' }, { cityCode: 500000, city: '重庆市' }]
+    city: "全部",
+    hotcityList: [
+      { cityCode: 110000, city: '北京市' },
+      { cityCode: 310000, city: '上海市' }, 
+      { cityCode: 440100, city: '广州市' }, 
+      { cityCode: 440300, city: '深圳市' }, 
+      { cityCode: 330100, city: '杭州市' }, 
+      { cityCode: 320100, city: '南京市' }, 
+      { cityCode: 420100, city: '武汉市' }, 
+      { cityCode: 410100, city: '郑州市' }, 
+      { cityCode: 120000, city: '天津市' }, 
+      { cityCode: 610100, city: '西安市' }, 
+      { cityCode: 510100, city: '成都市' }, 
+      { cityCode: 500000, city: '重庆市' }
+    ]
   },
 
   /**
@@ -114,8 +126,8 @@ Page({
       pageHeight: app.globalData.pageHeight
     })
 
-    var searchLetter = city.searchLetter;
-    var cityList = city.cityList();
+    var searchLetter = City.searchLetter;
+    var cityList = City.cityList();
     var sysInfo = wx.getSystemInfoSync();
     var winHeight = sysInfo.windowHeight;
     var itemH = winHeight / searchLetter.length;
@@ -146,7 +158,12 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    this.data.titleSelectList[0].selectInfo = app.globalData.currentCity;
+    this.setData({
+      city: app.globalData.currentCity,
+      titleSelectList: this.data.titleSelectList
+    })
+    wx.startPullDownRefresh();
   },
 
   /**
@@ -202,6 +219,10 @@ Page({
   onShareAppMessage: function () {
 
   },
+
+  /**
+   * 城市选择首字母选择
+   */
   clickLetter: function (e) {
     console.log(e.currentTarget.dataset.letter)
     var showLetter = e.currentTarget.dataset.letter;
@@ -217,23 +238,39 @@ Page({
       })
     }, 1000)
   },
+
   //选择城市
   bindCity: function (e) {
-    var selectAddtess = "titleSelectList[" + 0 + "].selectInfo";
+    var selectAddress = "titleSelectList[" + 0 + "].selectInfo";
     var selecticon = "titleSelectList[" + 0 + "].showSelect";
     this.setData({
-      [selectAddtess]: e.currentTarget.dataset.city,
+      [selectAddress]: e.currentTarget.dataset.city,
       [selecticon]: true,
       maskVarietiesShow: true
 
     })
   },
-  //选择热门城市
-  bindHotCity: function (e) {
-    var selectAddtess = "titleSelectList[" + 0 + "].selectInfo";
+
+  /**
+   * 选中当前定位城市
+   */
+  tapCurrentCity: function (e) {
+    var selectAddress = "titleSelectList[" + 0 + "].selectInfo";
     var selecticon = "titleSelectList[" + 0 + "].showSelect";
     this.setData({
-      [selectAddtess]: e.currentTarget.dataset.city,
+      [selectAddress]: e.currentTarget.dataset.city,
+      [selecticon]: true,
+      maskVarietiesShow: true
+    })
+    wx.startPullDownRefresh();
+  },
+
+  //选择热门城市
+  bindHotCity: function (e) {
+    var selectAddress = "titleSelectList[" + 0 + "].selectInfo";
+    var selecticon = "titleSelectList[" + 0 + "].showSelect";
+    this.setData({
+      [selectAddress]: e.currentTarget.dataset.city,
       [selecticon]: true,
       maskVarietiesShow: true,
     })
@@ -245,9 +282,9 @@ Page({
     })
   },
   
-    /**
-     * 头部下拉选择显示
-     */
+  /**
+   * 头部下拉选择显示
+   */
   titleSelectTap: function (e) {
     let that = this;
     var selectType = e.currentTarget.dataset.index;  //下标
@@ -306,6 +343,34 @@ Page({
       })
     }
 
+  },
+
+  /**
+   *  点击下拉信息选中
+   */
+  selectDataSourceTypeTap: function (res) {
+    var actionIndex = res.currentTarget.dataset.index;
+    if (this.data.titleSelectIndex == 1) {
+      let selectAuth = "titleSelectList[" + 1 + "].selectInfo"
+      var selecticon = "titleSelectList[" + 1 + "].showSelect";
+      this.setData({
+        [selectAuth]: res.currentTarget.dataset.value,
+        [selecticon]: true,
+        maskFavoritegrainShow: true,
+        showDropDownMessage: true
+      })
+    } else if (this.data.titleSelectIndex == 2) {
+
+      let selectCredit = "titleSelectList[" + 2 + "].selectInfo"
+      var selecticon = "titleSelectList[" + 2 + "].showSelect";
+      this.setData({
+        [selectCredit]: res.currentTarget.dataset.value,
+        [selecticon]: true,
+        maskbrandShow: true,
+        showDropDownMessage: true
+      })
+    }
+    wx.startPullDownRefresh();
   },
 
   /**

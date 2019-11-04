@@ -11,7 +11,7 @@ const Url_GetCode = "/business/VerificationCode"; // 获取短信验证码
  * ----商城
  */
 const Url_ItemType = "/item/type";  //宠粮类型查询
-const Url_ItemShowTypeInfo ="/item/vo/cs"; //商城页面数据显示（主粮零食等..）
+const Url_ItemShowTypeInfo ="/item/vo"; //商城页面数据显示（主粮零食等..）
 const Url_Item_Brand ="/item/Brand"; //粮宠品牌
 const Url_Item_Classify ="/item/Classify"; //宠粮分类
 

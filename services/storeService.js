@@ -8,15 +8,15 @@ const Util = require("../utils/util.js");
 /**
  * 获得商家信息
  * @param  city  城市
- *         authType 商家认证
- *         orderCount 交易数量
- *         praiseCount 好评数量
- *         start 开始
- *         end   结束
- *         getDataCallback 回调函数
+ * @param  authType 商家认证
+ * @param  orderCount 交易数量
+ * @param  praiseCount 好评数量
+ * @param  offset 偏移量
+ * @param  limit 长度
+ * @param  getDataCallback 回调函数
  */         
 
-function getStoreInfomation(city, authType, orderCount, praiseCount, start, end , getDataCallback){
+function getStoreInfomation(city, authType, orderCount, praiseCount, offset, limit , getDataCallback){
  
   let requestParam = new RequestParamObj({
     url: UrlService.Url_Base + UrlService.Url_BusinessInfo,
@@ -25,8 +25,8 @@ function getStoreInfomation(city, authType, orderCount, praiseCount, start, end 
       authType: authType, 
       orderCount: orderCount,
       praiseCount: praiseCount,
-      start: start,
-      end: end
+      offset: offset,
+      limit: limit
     },
     success(res) {
       if (typeof getDataCallback == "function" && getDataCallback) {

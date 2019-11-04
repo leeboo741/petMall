@@ -127,9 +127,40 @@ function getFinePet(petFilterParam, getResultCallback) {
   RequestUtil.RequestGET(requestParam);
 }
 
+/**
+ * 筛选宠物列表
+ * @param petFilterParam PetFilterObj对象 筛选参数
+ * @param getResultCallback 获取数据回调
+ */
+function getPetList(petFilterParam, getResultCallback) {
+  if (!(petFilterParam instanceof PetFilterObj)) {
+    console.error("请使用 PetFilterObj 对象")
+    return;
+  }
+  let data = {};
+  let requestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_Pet_Filter,
+    data: {
+      city: petFilterParam.city,
+      priceStart: petFilterParam.priceStart,
+      priceEnd: petFilterParam.priceEnd,
+      petSortNo: petFilterParam.petSortNo,
+      offset: petFilterParam.offset,
+      limit: petFilterParam.limit
+    },
+    success(res) {
+      if (Util.checkIsFunction(getResultCallback)) {
+        getResultCallback(res);
+      }
+    }
+  });
+  RequestUtil.RequestGET(requestParam);
+}
+
 module.exports={
   getNewestPet: getNewestPet, // 获取最新上架
   getUpScalePet: getUpScalePet, // 获取高端宠物
   getPreferentialPet: getPreferentialPet, // 获取特惠抢购
   getFinePet: getFinePet, // 获取精品宠物
+  getPetList: getPetList, // 获取筛选宠物
 }
