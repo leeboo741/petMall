@@ -10,11 +10,16 @@
           wx:for-item="petsItem"
           wx:for-index="petsIndex"
           wx:key='{{petsIndex}}'
-          bindtap="petsTap">
-          <image src="{{petsItem.petsImageUrl}}"
-                 class="image-context-head" />
+          bindtap="petsTap"
+          data-index='{{petsIndex}}'
+          data-breedno="{{petsItem.petGenreNo}}">
+          <i-image imageSrc="{{petsItem.petsImageUrl}}"
+                   placeholderSrc='/resource/placeholder.jpg'
+                   failSrc='/resource/fail.png'
+                   i-class="image-context-head">
+          </i-image>
           <view class="image-context-bottom">
-                {{petsItem.petsName}}
+                {{petsItem.petGenreName}}
           </view>
     </view>
 </view>

@@ -3,7 +3,6 @@
 const app = getApp();
 const LoadFootItemState = require("../../lee-components/leeLoadingFootItem/loadFootObj.js");
 const PagePath = require("../../macros/pagePath.js");
-const PageSize = 20;
 const ShareService = require("../../services/shareService.js");
 const UserService = require("../../services/userService.js");
 const Config = require("../../macros/config.js");
@@ -98,6 +97,19 @@ Page({
             console.log("recommend business: \n" + JSON.stringify(result));
             that.setData({
               recommendStoreList: result.root
+            })
+          }
+        )
+
+        let hotTypeFilter = {
+          offset: 0,
+          limit: 8,
+        }
+        PetService.getHotType(hotTypeFilter,
+          function getResultCallback(result) {
+            console.log("hot type: \n" + JSON.stringify(result));
+            that.setData({
+              hotTypeList: result.root
             })
           }
         )
@@ -227,6 +239,7 @@ Page({
    */
   fastActionTap:function(res){
     var actionIndex = res.currentTarget.dataset.index;
+    let fastAction = this.data.fastActionList[actionIndex];
     console.log(actionIndex);
     if (actionIndex==0){
         wx.navigateTo({
@@ -234,19 +247,19 @@ Page({
         })
     } else if (actionIndex==1){
         wx.navigateTo({
-          url: PagePath.Pate_Home_PetsType + "?type=" + actionIndex
+          url: PagePath.Pate_Home_PetsType + "?type=" + fastAction.type
         })
     } else if (actionIndex == 2){
         wx.navigateTo({
-          url: PagePath.Pate_Home_PetsType + "?type=" + actionIndex
+          url: PagePath.Pate_Home_PetsType + "?type=" + fastAction.type
         })
     } else if (actionIndex == 3) {
         wx.navigateTo({
-          url: PagePath.Pate_Home_PetsType + "?type=" + actionIndex
+          url: PagePath.Pate_Home_PetsType + "?type=" + fastAction.type
         })
     }else{
         wx.navigateTo({
-          url: PagePath.Pate_Home_PetsType + "?type=" + actionIndex
+          url: PagePath.Pate_Home_PetsType + "?type=" + fastAction.type
         })
     }
   },
@@ -350,27 +363,32 @@ Page({
       {
         actionName: "附近",
         iconPath: "../../resource/nearby.png",
-        link: ""
+        link: "",
+        type: "",
       },
       {
         actionName: "狗狗",
         iconPath: "../../resource/dog.png",
-        link: ""
+        link: "",
+        type: "02",
       },
       {
         actionName: "猫猫",
         iconPath: "../../resource/cat.png",
-        link: ""
+        link: "",
+        type: "03",
       },
       {
         actionName: "小宠",
         iconPath: "../../resource/minority.png",
-        link: ""
+        link: "",
+        type: "06",
       },
       {
         actionName: "水族",
         iconPath: "../../resource/aquatic.png",
-        link: ""
+        link: "",
+        type: "05",
       },
     ], // 快速入口
     preferentialList: [], // 特惠抢购

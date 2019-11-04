@@ -1,7 +1,7 @@
 
-const Url_Base = "http://192.168.3.111:5050"; // Base Url ----- 刘
+// const Url_Base = "http://192.168.3.111:5050"; // Base Url ----- 刘
 // const Url_Base = "http://192.168.3.200:8080"; // Base Url ---商城 卢
-// const Url_Base ="http://192.168.3.103:5050";    //---商家 罗
+const Url_Base ="http://192.168.3.103:5050";    //---商家 罗
 
 const Url_Login = "/login"; // 登陆
 const Url_Register = "/register"; // 注册
@@ -49,6 +49,9 @@ const Url_Pet_Preferential = "/PetFilter/discounts"; // 特惠抢购
 const Url_Pet_Fine = "/PetFilter/petAll"; // 精品宠物
 const Url_Pet_Filter = "/PetFilter/petFilter"; // 宠物筛选
 
+const Url_Pet_HotSort = "/petSort/hotSort"; // 获取热门分类
+const Url_Pet_Breed = "/petSort/petGenreNO"; // 获取宠物品种
+
 module.exports={
   Url_Base,  // Base Url
   
@@ -79,4 +82,6 @@ module.exports={
   Url_Pet_Preferential, // 特惠抢购
   Url_Pet_Fine, // 精品宠物
   Url_Pet_Filter, // 宠物筛选
+  Url_Pet_HotSort, // 获取热门分类
+  Url_Pet_Breed, // 获取宠物品种
 }

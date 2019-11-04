@@ -137,7 +137,6 @@ function getPetList(petFilterParam, getResultCallback) {
     console.error("请使用 PetFilterObj 对象")
     return;
   }
-  let data = {};
   let requestParam = new RequestParamObj({
     url: UrlPath.Url_Base + UrlPath.Url_Pet_Filter,
     data: {
@@ -157,10 +156,62 @@ function getPetList(petFilterParam, getResultCallback) {
   RequestUtil.RequestGET(requestParam);
 }
 
+/**
+ * 获取热门分类
+ * @param petTypeParam (offset,limit)
+ * @param getResultCallback 回调
+ */
+function getHotType(petTypeParam, getResultCallback){
+  if (!Util.checkIsObject(petTypeParam)) {
+    console.error("请使用petTypeParam对象")
+    return;
+  }
+  let requestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_Pet_HotSort,
+    data: {
+      offset: petTypeParam.offset,
+      limit: petTypeParam.limit
+    },
+    success(res) {
+      if (Util.checkIsFunction(getResultCallback)) {
+        getResultCallback(res);
+      }
+    }
+  });
+  RequestUtil.RequestGET(requestParam);
+}
+
+/**
+ * 获取宠物品种
+ * @param petSortNo 宠物大类Id
+ * @param getResultCallback 结果回调
+ */
+function getBreed(petSortNo, getResultCallback) {
+  if (!Util.checkIsString(petSortNo)) {
+    console.error("请使用 petSortNo String 对象")
+    return;
+  }
+  let requestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_Pet_Breed,
+    data: {
+      petSortNo: petSortNo,
+    },
+    success(res) {
+      if (Util.checkIsFunction(getResultCallback)) {
+        getResultCallback(res);
+      }
+    }
+  });
+  RequestUtil.RequestGET(requestParam);
+}
+
 module.exports={
   getNewestPet: getNewestPet, // 获取最新上架
   getUpScalePet: getUpScalePet, // 获取高端宠物
   getPreferentialPet: getPreferentialPet, // 获取特惠抢购
   getFinePet: getFinePet, // 获取精品宠物
   getPetList: getPetList, // 获取筛选宠物
+
+  getHotType: getHotType, // 获取热门分类
+  getBreed: getBreed, // 获取宠物品种
 }

@@ -305,7 +305,7 @@
 
 .text-price{
   color: #ee2c2c;
-  font-size: 24rpx;
+  font-size: 22rpx;
 }
 
 .text-info{
@@ -315,7 +315,7 @@
 
 .text-address{
   color: #bbbec4;
-  font-size: 22rpx;
+  font-size: 20rpx;
 }
 
 .text-original-price{

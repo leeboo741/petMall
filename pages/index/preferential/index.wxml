@@ -1,36 +1,39 @@
 <!--pages/index/preferential/index.wxml-->
-<i-navigation-bar title='特惠抢购'
-                  showBackButton='{{true}}'>
+<i-navigation-bar title='特惠抢购' showBackButton='{{true}}'>
 </i-navigation-bar>
 
-  <!-- 图片展示信息 -->
-  <view class="business-pets-page">
-      <view class="business-pets-information"
-            wx:for='{{petsInforMation}}'
-            wx:for-item="petsItem"
-            wx:for-index="petsIndex"
-            wx:key='{{petsIndex}}'>
-            <view class="business-pets-information">
-                <image src="{{petsItem.petsImage}}" 
-                       class="business-pets-image" />
-            </view>
-            <view class="business-pets-bottom">
-                <view class="body-list-one">
-                      {{petsItem.petsName}}
-                      <view style="color:#ccc;margin-left:30%;color:red;">
-                          ￥{{petsItem.petsPrice}} 
-                      </view>
-                </view>
-                <view class="body-list-two">
-                          {{petsItem.petsAddress}} 
-                      <view style="margin-left:30%;text-decoration:line-through">
-                          ￥{{petsItem.originalPrice}} 
-                      </view>
-                </view>
-            </view>
-      </view>
-  </view>
+<!-- 图片展示信息 -->
+<view class="business-pets-page">
+  <view class="business-pets-information" 
+        wx:for='{{petsInforMation}}' 
+        wx:for-item="petsItem" 
+        wx:for-index="petsIndex" 
+        wx:key='{{petsIndex}}'>
+    <view class="business-pets-information">
+      <i-image imageSrc="{{petsItem.petsImage}}"
+               placeholderSrc='/resource/placeholder.jpg'
+               failSrc='/resource/fail.png'
+               i-class="business-pets-image">
 
-    <!-- 加载块 -->
+      </i-image>
+    </view>
+    <view class="business-pets-bottom">
+      <view class="body-list-one">
+        {{petsItem.petName}}
+        <view style="color:#ccc;margin-left:30%;color:red;">
+          ￥{{petsItem.retailPrice}}
+        </view>
+      </view>
+      <view class="body-list-two">
+        {{petsItem.petsAddress}}
+        <view style="margin-left:30%;text-decoration:line-through">
+          ￥{{petsItem.marketPrice}}
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<!-- 加载块 -->
 <i-load-foot-item loadState='{{loadState}}'>
 </i-load-foot-item>

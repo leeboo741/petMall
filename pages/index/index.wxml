@@ -405,7 +405,7 @@
                 failSrc='/resource/fail.png'>
       </i-image>
       <view class="text-name">
-      {{hotTypeItem.name}}
+      {{hotTypeItem.petGenreName}}
       </view>
     </view>
   </view>
@@ -443,16 +443,16 @@
         <view class="goods-info-line">
           <view class="recomend-goods-store-name-box">
             <i-image i-class="recommend-goods-store-logo"
-                  imageSrc='{{recommendGoodsItem.store.logoPath}}'
+                  imageSrc='{{recommendGoodsItem.business.iconAddress}}'
                   placeholderSrc='/resource/placeholder.jpg'
                   failSrc='/resource/fail.png'>
             </i-image>
             <view class="text-info">
-            {{recommendGoodsItem.store.name}}
+            {{recommendGoodsItem.business.businessName}}
             </view>
           </view>
           <view class="text-address">
-          {{recommendGoodsItem.province}} {{recommendGoodsItem.city}}
+          {{recommendGoodsItem.business.province}} {{recommendGoodsItem.business.city}}
           </view>
         </view>
       </view>  

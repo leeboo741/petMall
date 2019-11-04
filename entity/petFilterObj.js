@@ -21,6 +21,7 @@ var PetFilterObj = function PetFilterObj(data) {
   this.offset = 0; // 数据开始偏移量
   this.limit = 0; // 数据长度
   this.petSortNo = ""; // 宠物分类
+  
   this.around = ""; // 范围
 
   if (Util.checkIsObject(data)) {
