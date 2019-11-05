@@ -1,5 +1,8 @@
 // pages/mall/commodityInformation/index.js
 const Page_path = require("../../../macros/pagePath.js");
+
+const PetService = require("../../../services/petService.js");
+
 Page({
 
   /**
@@ -70,34 +73,9 @@ Page({
       },
     ],
 
-    evaluationInformation:[
-      {
-       userName:"刘大仙",
-        userImageUrl:"http://img005.hc360.cn/m6/M09/94/6B/wKhQolb07DuEFsI8AAAAAEyvm8c183.jpg",
-       evaluationTime:"两天前",
-       starsNumber:3,
-       information:"（默认好评）通过平台担保交易买到一只皇家幼猫BK34奶糕粮2Kg"
-      },
-      
-      {
-        userName: "杨大仙",
-        userImageUrl: "http://pic4.58cdn.com.cn/zhuanzh/n_v2bbebe75ef9264afda39b5b5b482144ee.jpg?w=750&h=0",
-        evaluationTime: "2019-10-18",
-        starsNumber: 4,
-        information: "（默认好评）通过平台担保交易买到一只皇家幼猫BK34奶糕粮2Kg"
-      },
+    evaluationInformation:[], // 评价列表
 
-      {
-        userName: "李大仙",
-        userImageUrl: "http://pic4.58cdn.com.cn/zhuanzh/n_v2bbebe75ef9264afda39b5b5b482144ee.jpg?w=750&h=0",
-        evaluationTime: "2019-10-15",
-        starsNumber: 5,
-        information: "（默认好评）通过平台担保交易买到一只皇家幼猫BK34奶糕粮2Kg"
-      },
-
-    ],
-
-    guaranteeList:[  //品质服务保障
+    guaranteeList:[  
         {
           guaranteeHead:"七天无理由退货",
           guaranteeInfor: "卖家只要承诺参加“7天无理由退换货”服务，就必须按本规则提供售后服务，并严格遵守；若买家向卖家提出天无理由退换货”，卖家需积极响应，并主动协商，根据淘宝要求提供相关证明，以期双方自愿友好地达成退货退款协议；"
@@ -108,25 +86,9 @@ Page({
           guaranteeInfor: "消费者保障服务是淘宝网推出的旨在保障网络交易中消费者合法权益的服务体系。“商品如实描述”，为加入消费者保障服务的必选项。“7天无理由退换货”、“假一赔三”、“虚拟物品闪电发货”等都是其中的服务之一，由卖家自行选择加入。"
         },
 
-    ],
+    ], //品质服务保障
 
-    imageList:[   //图片
-      {
-        imageUrl:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571390643784&di=5a1655235e2614f7479159c72a157ca9&imgtype=0&src=http%3A%2F%2Fm.360buyimg.com%2Fmobilecms%2Fs750x750_jfs%2Ft688%2F337%2F268905598%2F375082%2Ff19d67de%2F545a417fN2e1a130b.jpg%2521q80.jpg"
-      },
-
-      {
-        imageUrl: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571390643781&di=615b57c2bb4756854516c205aa98e829&imgtype=0&src=http%3A%2F%2Fimage.tupian114.com%2F20180917%2F0055010576.jpg"
-      },
-
-      {
-        imageUrl: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571390643780&di=4cea40f45e76eee59fbb377a8eea6413&imgtype=0&src=http%3A%2F%2Fimg007.hc360.cn%2Fy6%2FM04%2F91%2F8F%2FwKhQtFZDGNyESrJ3AAAAAKMrYUI854.jpg"
-      },
-
-      {
-        imageUrl: "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=420806006,3166260513&fm=15&gp=0.jpg"
-      },
-    ]
+    imageList:[], // 详情
   },
 
   /**
@@ -134,15 +96,8 @@ Page({
    */
   onLoad: function (options) {
     let that=this;
-    let requestOptions = JSON.parse(decodeURIComponent(options.resinfo));
-    console.log(requestOptions.imageUrl);
     that.setData({
-      shopDataSource: options.resinfo,
-      commodityInformation: requestOptions.commodity,
-      imageUrls: requestOptions.imageUrl,
-      commodityintroduce: requestOptions.introduce,
-      price: requestOptions.price,
-      originalPrice: requestOptions.originalPrice
+      
     })
   },
 
@@ -211,5 +166,26 @@ Page({
     wx.navigateTo({
       url: Page_path.Page_Mall_Shoppingpayment+"?requestInfo="+this.data.shopDataSource
     })
-  }
+  },
+
+  /**
+   * 获取详情
+   */
+  getDetail: function() {
+
+  },
+
+  /**
+   * 获取宠物详情
+   */
+  getPetDetail: function () {
+
+  },
+
+  /**
+   * 获取宠物商品详情
+   */
+  getItemDetail: function () {
+
+  },
 })

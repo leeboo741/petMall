@@ -52,6 +52,13 @@ const Url_Pet_Filter = "/PetFilter/petFilter"; // 宠物筛选
 const Url_Pet_HotSort = "/petSort/hotSort"; // 获取热门分类
 const Url_Pet_Breed = "/petSort/petGenreNO"; // 获取宠物品种
 
+const Url_Pet_Detail = "/PetDetail/detail"; // 获取宠物详情
+
+/**
+ * ----宠物商品
+ */
+const Url_Item_Detail = "/item/itemNoAndLimit"; // 获取宠物商品详情
+
 module.exports={
   Url_Base,  // Base Url
   

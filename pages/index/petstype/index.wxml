@@ -1,29 +1,18 @@
 <!--pages/index/petstype/index.wxml-->
-<i-navigation-bar title='宠物分类'
-                  showBackButton='{{true}}'>
+<i-navigation-bar title='宠物分类' showBackButton='{{true}}'>
 </i-navigation-bar>
 
 <!-- 宠物分类 -->
 <view class="context-page">
-    <view class="image-context-page"
-          wx:for='{{petsTypeData}}'
-          wx:for-item="petsItem"
-          wx:for-index="petsIndex"
-          wx:key='{{petsIndex}}'
-          bindtap="petsTap"
-          data-index='{{petsIndex}}'
-          data-breedno="{{petsItem.petGenreNo}}">
-          <i-image imageSrc="{{petsItem.petsImageUrl}}"
-                   placeholderSrc='/resource/placeholder.jpg'
-                   failSrc='/resource/fail.png'
-                   i-class="image-context-head">
-          </i-image>
-          <view class="image-context-bottom">
-                {{petsItem.petGenreName}}
-          </view>
+  <view class="image-context-page" wx:for='{{petsTypeData}}' wx:for-item="petsItem" wx:for-index="petsIndex" wx:key='{{petsIndex}}' bindtap="petsTap" data-index='{{petsIndex}}' data-breedno="{{petsItem.petGenreNo}}" data-name='{{petsItem.petGenreName}}'>
+    <i-image imageSrc="{{petsItem.petsImageUrl}}" placeholderSrc='/resource/placeholder.jpg' failSrc='/resource/fail.png' i-class="image-context-head">
+    </i-image>
+    <view class="image-context-bottom">
+      {{petsItem.petGenreName}}
     </view>
+  </view>
 </view>
 
-    <!-- 加载块 -->
+<!-- 加载块 -->
 <i-load-foot-item loadState='{{loadState}}'>
 </i-load-foot-item>

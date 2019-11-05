@@ -21,6 +21,7 @@ var PetFilterObj = function PetFilterObj(data) {
   this.offset = 0; // 数据开始偏移量
   this.limit = 0; // 数据长度
   this.petSortNo = ""; // 宠物分类
+  this.petGenreNo = ""; // 宠物品种
   
   this.around = ""; // 范围
 
@@ -45,10 +46,10 @@ var PetFilterObj = function PetFilterObj(data) {
     if (Util.checkIsNumber(data.around)) {
       this.around = data.around;
     }
-    if (Util.checkIsNumber(data.priceStart)) {
+    if (Util.checkIsString(data.priceStart)) {
       this.priceStart = data.priceStart;
     }
-    if (Util.checkIsNumber(data.priceEnd)) {
+    if (Util.checkIsString(data.priceEnd)) {
       this.priceEnd = data.priceEnd;
     }
     if (Util.checkIsNumber(data.offset)) {
@@ -56,6 +57,9 @@ var PetFilterObj = function PetFilterObj(data) {
     }
     if (Util.checkIsNumber(data.limit)) {
       this.limit = data.limit;
+    }
+    if (Util.checkIsString(data.petGenreNo)) {
+      this.petGenreNo = data.petGenreNo;
     }
   }
 }

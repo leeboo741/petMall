@@ -39,12 +39,12 @@
     "pages/order/unevaluateOrderList/index",
     "pages/order/refundOrderList/index",
     "pages/order/orderDetail/index",
-    "pages/search/index",
     "pages/order/unevaluateOrderList/evaluate/index",
     "pages/order/refundOrderList/refund/index",
     "pages/order/refundOrderList/refund/review",
     "pages/order/refundOrderList/refund/reject/index",
-    "pages/order/refundOrderList/refund/approve/index"
+    "pages/order/refundOrderList/refund/approve/index",
+    "pages/search/index"
   ],
   "tabBar": {
     "color": "#80848f",

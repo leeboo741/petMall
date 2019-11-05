@@ -3,6 +3,8 @@ const LoadFootItemState = require("../../../lee-components/leeLoadingFootItem/lo
 const Page_path = require("../../../macros/pagePath.js");
 const PetService = require("../../../services/petService.js");
 const Util = require("../../../utils/util.js");
+const Enum = require("../../../utils/enum.js");
+
 Page({
 
   /**
@@ -89,7 +91,7 @@ Page({
      */
   petsTap: function (e) {
     wx.navigateTo({
-      url: Page_path.Page_Home_Nearby
+      url: Page_path.Page_Home_Nearby + "?breedno=" + e.currentTarget.dataset.breedno + "&requesttype=" + Enum.Nearby_RequestType_Enum.All + "&pagetitle=" + e.currentTarget.dataset.name
     })
   },
 

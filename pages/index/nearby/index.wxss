@@ -2,11 +2,14 @@
 
 .foodgrainmore-head{
   width: 100%;
-  height: 100rpx;
+  height: 50px;
   display: flex;
   flex-direction: row;
   align-items: center;
   border-bottom: 2rpx solid #ccc;
+  position: fixed;
+  background: white;
+  z-index: 3;
 }
 
 .foodgrainmore-head-titleselect{
@@ -17,6 +20,12 @@
   justify-content: center;
   font-weight: bold;
   flex-direction: row;
+}
+
+.content-view{
+  display: flex;
+  flex-direction: column;
+  padding: 50px 0px 0px 0px;
 }
 
 .dropdownbox-infomation{
@@ -203,9 +212,9 @@
 }
 
 .business-pets-image{
-  height: 420rpx;
-  width: 340rpx;
-  border-radius: 20rpx;
+  height: 320rpx;
+  width: 320rpx;
+  border-radius: 10rpx;
 }
 
 .business-pets-bottom{

@@ -11,6 +11,7 @@ const PetService = require("../../services/petService.js");
 const StoreService = require("../../services/storeService.js");
 const {PetFilterObj} = require("../../entity/petFilterObj.js");
 const Limit = 10;
+const Enum = require("../../utils/enum.js");
 
 Page({
   /**
@@ -243,7 +244,7 @@ Page({
     console.log(actionIndex);
     if (actionIndex==0){
         wx.navigateTo({
-          url: PagePath.Page_Home_Nearby
+          url: PagePath.Page_Home_Nearby + "?requesttype=" + Enum.Nearby_RequestType_Enum.All + "&pagetitle=附近"
         })
     } else if (actionIndex==1){
         wx.navigateTo({
@@ -269,7 +270,7 @@ Page({
    */
   newestTap:function(){
     wx.navigateTo({
-      url: PagePath.Page_Home_Nearby
+      url: PagePath.Page_Home_Nearby + "?requesttype=" + Enum.Nearby_RequestType_Enum.Newest + "&pagetitle=最新上架"
     })
   },
 
@@ -278,7 +279,7 @@ Page({
    */
   boutiqueTap:function(){
     wx.navigateTo({
-      url: PagePath.Page_Home_Nearby
+      url: PagePath.Page_Home_Nearby + "?requesttype=" + Enum.Nearby_RequestType_Enum.Fine + "&pagetitle=精品馆"
     })
   },
 
@@ -287,7 +288,7 @@ Page({
    */
   highEndTap:function(){
     wx.navigateTo({
-      url: PagePath.Page_Home_Nearby
+      url: PagePath.Page_Home_Nearby + "?requesttype=" + Enum.Nearby_RequestType_Enum.UpScale + "&pagetitle=高端馆"
     })
   },
 
@@ -306,9 +307,9 @@ Page({
   /**
    * 点击热门分类
    */
-  hotTypeTap:function(){
+  hotTypeTap:function(e){
     wx.navigateTo({
-      url: PagePath.Page_Home_Nearby
+      url: PagePath.Page_Home_Nearby + "?breedno=" + e.currentTarget.dataset.breedno + "&requesttype=" + Enum.Nearby_RequestType_Enum.All + "&pagetitle=" + e.currentTarget.dataset.name
     })
   },
   
@@ -370,25 +371,25 @@ Page({
         actionName: "狗狗",
         iconPath: "../../resource/dog.png",
         link: "",
-        type: "02",
+        type: "01",
       },
       {
         actionName: "猫猫",
         iconPath: "../../resource/cat.png",
         link: "",
-        type: "03",
+        type: "02",
       },
       {
         actionName: "小宠",
         iconPath: "../../resource/minority.png",
         link: "",
-        type: "06",
+        type: "04",
       },
       {
         actionName: "水族",
         iconPath: "../../resource/aquatic.png",
         link: "",
-        type: "05",
+        type: "03",
       },
     ], // 快速入口
     preferentialList: [], // 特惠抢购

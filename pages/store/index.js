@@ -182,7 +182,7 @@ Page({
         that.setData({
           merchantInformationList: result
         })
-        that.data.offset++;
+        that.data.offset = that.data.offset + Limit;
         if (result.length >= Limit) {
           that.setData({
             loadState: LoadFootItemState.Loading_State_Normal
@@ -218,7 +218,7 @@ Page({
         that.setData({
           merchantInformationList: tempList
         })
-        that.data.offset ++;
+        that.data.offset = that.data.offset + Limit;
         if (result.length >= Limit) {
           that.setData({
             loadState: LoadFootItemState.Loading_State_Normal
@@ -228,7 +228,6 @@ Page({
             loadState: LoadFootItemState.Loading_State_End
           })
         }
-        wx.stopPullDownRefresh();
       }
     )
   },
