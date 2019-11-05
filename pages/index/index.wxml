@@ -52,7 +52,7 @@
     </i-icon>
   </view>
   <scroll-view class="section-scroll-h" scroll-x enable-flex>
-    <view wx:for='{{preferentialList}}' wx:for-item="preferentialItem" wx:for-index="preferentialIndex" wx:key='{{preferentialIndex}}' class="goods-item" bindtap="petsInforTap" data-index="{{preferentialIndex}}" data-item="{{preferentialItem}}">
+    <view wx:for='{{preferentialList}}' wx:for-item="preferentialItem" wx:for-index="preferentialIndex" wx:key='{{preferentialIndex}}' class="goods-item" bindtap="petsInforTap" data-petno='{{preferentialItem.petNo}}' data-index="{{preferentialIndex}}" data-item="{{preferentialItem}}">
       <view class="goods-image-box">
         <i-image i-class="goods-image" imageSrc='{{preferentialItem.coverMedia}}' placeholderSrc='/resource/placeholder.jpg' failSrc='/resource/fail.png'>
         </i-image>
@@ -97,7 +97,7 @@
     </i-icon>
   </view>
   <scroll-view class="section-scroll-h" scroll-x enable-flex>
-    <view wx:for='{{newestList}}' wx:for-item="newestItem" wx:for-index="newestIndex" wx:key='{{newestIndex}}' class="goods-item">
+    <view wx:for='{{newestList}}' wx:for-item="newestItem" wx:for-index="newestIndex" wx:key='{{newestIndex}}' class="goods-item" bindtap="petsInforTap" data-petno='{{newestItem.petNo}}'>
       <view class="goods-image-box">
         <i-image i-class="goods-image" imageSrc='{{newestItem.coverMedia}}' placeholderSrc='/resource/placeholder.jpg' failSrc='/resource/fail.png' lazy-load="{{true}}">
         </i-image>
@@ -139,7 +139,7 @@
     </i-icon>
   </view>
   <view class="section-content-flex">
-    <view wx:for='{{fineList}}' wx:for-item="fineItem" wx:for-index="fineIndex" wx:key='{{fineIndex}}' class="goods-flex-item">
+    <view wx:for='{{fineList}}' wx:for-item="fineItem" wx:for-index="fineIndex" wx:key='{{fineIndex}}' class="goods-flex-item" bindtap="petsInforTap" data-petno='{{fineItem.petNo}}'>
       <view class="goods-image-box">
         <i-image i-class="goods-flex-image" imageSrc='{{fineItem.coverMedia}}' placeholderSrc='/resource/placeholder.jpg' failSrc='/resource/fail.png'>
         </i-image>
@@ -190,7 +190,7 @@
     </i-icon>
   </view>
   <view class="section-content-flex">
-    <view wx:for='{{upscaleList}}' wx:for-item="upscaleItem" wx:for-index="upscaleIndex" wx:key='{{upscaleIndex}}' class="goods-flex-item">
+    <view wx:for='{{upscaleList}}' wx:for-item="upscaleItem" wx:for-index="upscaleIndex" wx:key='{{upscaleIndex}}' class="goods-flex-item" bindtap="petsInforTap" data-petno='{{upscaleItem.petNo}}'>
       <view class="goods-image-box">
         <i-image i-class="goods-flex-image" imageSrc='{{upscaleItem.coverMedia}}' placeholderSrc='/resource/placeholder.jpg' failSrc='/resource/fail.png'>
         </i-image>
@@ -302,7 +302,7 @@
     </view>
   </view>
   <view class="section-content-flex">
-    <view wx:for='{{recommendGoodsList}}' wx:for-item="recommendGoodsItem" wx:for-index="recommendGoodsIndex" wx:key='{{recommendGoodsIndex}}' class="recommend-goods-item">
+    <view wx:for='{{recommendGoodsList}}' wx:for-item="recommendGoodsItem" wx:for-index="recommendGoodsIndex" wx:key='{{recommendGoodsIndex}}' class="recommend-goods-item" bindtap="petsInforTap" data-petno='{{recommendGoodsItem.petNo}}'>
       <view class="recommend-goods-image-box">
         <i-image i-class="recommend-goods-image" imageSrc='{{recommendGoodsItem.coverMedia}}' placeholderSrc='/resource/placeholder.jpg' failSrc='/resource/fail.png'>
         </i-image>

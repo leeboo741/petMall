@@ -15,7 +15,7 @@
 <!-- 推荐 -->
   <scroll-view class="scroll-view-page" scroll-x>
     <view style="display: flex;align-items:center;flex-wrap: nowrap;margin-top: 2%;">
-      <view class="recommended-page" wx:for="{{recommendedBusinesses}}" wx:for-item='recommendedItem' wx:for-index='recommendedIndex' wx:key='{{recommendedIndex}}' bindtap="recommendedTap" data-item="{{recommendedItem}}">
+      <view class="recommended-page" wx:for="{{recommendedBusinesses}}" wx:for-item='recommendedItem' wx:for-index='recommendedIndex' wx:key='{{recommendedIndex}}' bindtap="recommendedTap" data-storeno='{{merchantInformationItem.businessNo}}' data-item="{{recommendedItem}}">
         <image class="recommended-head-page" src="{{recommendedItem.headerImg}}">
         </image>
         <view class="recommended-bottom-page">
@@ -27,8 +27,8 @@
   <!-- 商家列表 -->
   <view class="merchant-information-page" wx:for="{{merchantInformationList}}" wx:for-item='merchantInformationItem' wx:for-index='merchantInformationIndex' wx:key='{{merchantInformationIndex}}'>
     <!-- 商家头部 -->
-    <view class="merchant-information-head-page">
-      <view class="merchant-information-head-left" bindtap="recommendedTap" data-item="{{merchantInformationItem}}">
+    <view class="merchant-information-head-page" bindtap="recommendedTap" data-storeno='{{merchantInformationItem.businessNo}}'>
+      <view class="merchant-information-head-left">
         <!--头像-->
         <view wx:if="{{merchantInformationItem.headerImg==''}}">
           <image src="{{merchantInformationItem.headerImg}}" class="merchant-information-head-leftimage" />
@@ -74,6 +74,7 @@
             wx:for-index='dogInforMationIndex' 
             wx:key='{{dogInforMationIndex}}' 
             bindtap="petsInforTap" 
+            data-petno='{{dogInforMationItem.petNo}}'
             data-index="{{dogInforMationIndex}}"
             data-item="{{merchantInformationItem}}"
             wx:if='{{dogInforMationIndex<3}}'>

@@ -9,6 +9,8 @@ const {
 } = require("../../../entity/petFilterObj.js");
 const Enum = require("../../../utils/enum.js");
 const Util = require("../../../utils/util.js");
+const PagePath = require("../../../macros/pagePath.js");
+const LocationService = require("../../../services/locationService.js");
 
 Page({
 
@@ -61,7 +63,12 @@ Page({
     scrollTop: 0, //置顶高度
     scrollTopId: '', //置顶id
     city: "全部",
-    hotcityList: [{
+    hotcityList: [
+      {
+        cityCode: 100000,
+        city: '全部'
+      },
+      {
         cityCode: 110000,
         city: '北京市'
       },
@@ -157,12 +164,37 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-    this.data.titleSelectList[0].selectInfo = app.globalData.currentCity;
-    this.setData({
-      city: app.globalData.currentCity,
-      titleSelectList: this.data.titleSelectList
-    })
-    wx.startPullDownRefresh();
+    let that = this;
+    if (app.globalData.currentCity) {
+      wx.showLoading({
+        title: '定位中...',
+      })
+      LocationService.getCurrentLocationInfo(
+        function callback(res) {
+          console.log(JSON.stringify(res));
+          wx.hideLoading();
+
+          app.globalData.currentLocationInfo = res;
+          let city = res.address_component.city;
+          app.globalData.currentCity = city;
+
+
+          that.data.titleSelectList[0].selectInfo = app.globalData.currentCity;
+          that.setData({
+            city: app.globalData.currentCity,
+            titleSelectList: that.data.titleSelectList
+          })
+          wx.startPullDownRefresh();
+        }
+      )
+    } else {
+      that.data.titleSelectList[0].selectInfo = app.globalData.currentCity;
+      that.setData({
+        city: app.globalData.currentCity,
+        titleSelectList: that.data.titleSelectList
+      })
+      wx.startPullDownRefresh();
+    }
   },
 
   /**
@@ -596,5 +628,14 @@ Page({
     })
     console.log("Pet Filter Obj:\n" + JSON.stringify(petFilterObj));
     return petFilterObj;
+  },
+
+  /**
+   * 点击宠物
+   */
+  tapPets: function (e) {
+    wx.navigateTo({
+      url: PagePath.Page_Store_PetsInforMation + '?petno=' + e.currentTarget.dataset.petno
+    })
   }
 })

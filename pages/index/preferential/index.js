@@ -3,6 +3,8 @@ const LoadFootItemState = require("../../../lee-components/leeLoadingFootItem/lo
 const Limit = 10;
 const PetService = require("../../../services/petService.js");
 const { PetFilterObj } = require("../../../entity/petFilterObj.js");
+const PagePath = require("../../../macros/pagePath.js");
+
 Page({
 
   /**
@@ -115,5 +117,14 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+
+  /**
+   * 点击宠物
+   */
+  tapPets: function(e) {
+    wx.navigateTo({
+      url: PagePath.Page_Store_PetsInforMation + '?petno=' + e.currentTarget.dataset.petno
+    })
   }
 })

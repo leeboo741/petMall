@@ -1,20 +1,23 @@
 // pages/store/storeinformation/index.js
 const app = getApp();
 const Page_path = require("../../../macros/pagePath.js");
+const StoreService = require("../../../services/storeService.js");
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+
+    storeNo: null, // 商家编号
+
     pageHeight:null,
     showPetsPage:false,
     showEvaluate: true,
     showIntroduction:true,
     buisnessCurrent:0,
-    businessDataSource:[],
+    storeDetail:[],
     buisnessList: [
-
       {
         title: "宠物",
         showLine: false
@@ -36,84 +39,7 @@ Page({
     ],
 
     dataSource:[],
-    evaluationInformation: [   //商家评价
-      {
-        userName: "刘大仙",
-        userImageUrl: "http://img005.hc360.cn/m6/M09/94/6B/wKhQolb07DuEFsI8AAAAAEyvm8c183.jpg",
-        evaluationTime: "两天前",
-        starsNumber: 3,
-        information: "（默认好评）通过平台担保交易买到一只皇家幼猫BK34奶糕粮2Kg",
-        evaluationImage: //评论图片
-        [
-        "http://img005.hc360.cn/m6/M09/94/6B/wKhQolb07DuEFsI8AAAAAEyvm8c183.jpg",
-        "http://img005.hc360.cn/m6/M09/94/6B/wKhQolb07DuEFsI8AAAAAEyvm8c183.jpg",
-        ]
-      },
-
-      {
-        userName: "杨大仙",
-        userImageUrl: "http://pic4.58cdn.com.cn/zhuanzh/n_v2bbebe75ef9264afda39b5b5b482144ee.jpg?w=750&h=0",
-        evaluationTime: "2019-10-18",
-        starsNumber: 4,
-        information: "（默认好评）通过平台担保交易买到一只皇家幼猫BK34奶糕粮2Kg",
-        evaluationImage: ""
-      },
-
-      {
-        userName: "李大仙",
-        userImageUrl: "http://pic4.58cdn.com.cn/zhuanzh/n_v2bbebe75ef9264afda39b5b5b482144ee.jpg?w=750&h=0",
-        evaluationTime: "2019-10-15",
-        starsNumber: 5,
-        information: "（默认好评）通过平台担保交易买到一只皇家幼猫BK34奶糕粮2Kg",
-        evaluationImage: ""
-      },
-
-      {
-        userName: "俞大仙",
-        userImageUrl: "http://pic4.58cdn.com.cn/zhuanzh/n_v2bbebe75ef9264afda39b5b5b482144ee.jpg?w=750&h=0",
-        evaluationTime: "2019-10-15",
-        starsNumber: 5,
-        information: "（默认好评）通过平台担保交易买到一只皇家幼猫BK34奶糕粮2Kg",
-        evaluationImage: ""
-      },
-
-      {
-        userName: "张大仙",
-        userImageUrl: "http://pic4.58cdn.com.cn/zhuanzh/n_v2bbebe75ef9264afda39b5b5b482144ee.jpg?w=750&h=0",
-        evaluationTime: "2019-10-15",
-        starsNumber: 5,
-        information: "（默认好评）通过平台担保交易买到一只皇家幼猫BK34奶糕粮2Kg",
-        evaluationImage: ""
-      },
-
-      {
-        userName: "幸大仙",
-        userImageUrl: "http://pic4.58cdn.com.cn/zhuanzh/n_v2bbebe75ef9264afda39b5b5b482144ee.jpg?w=750&h=0",
-        evaluationTime: "2019-10-15",
-        starsNumber: 5,
-        information: "（默认好评）通过平台担保交易买到一只皇家幼猫BK34奶糕粮2Kg",
-        evaluationImage: ""
-      },
-
-      {
-        userName: "付大仙",
-        userImageUrl: "http://pic4.58cdn.com.cn/zhuanzh/n_v2bbebe75ef9264afda39b5b5b482144ee.jpg?w=750&h=0",
-        evaluationTime: "2019-10-15",
-        starsNumber: 5,
-        information: "（默认好评）通过平台担保交易买到一只皇家幼猫BK34奶糕粮2Kg",
-        evaluationImage: ""
-      },
-
-      {
-        userName: "牛大仙",
-        userImageUrl: "http://pic4.58cdn.com.cn/zhuanzh/n_v2bbebe75ef9264afda39b5b5b482144ee.jpg?w=750&h=0",
-        evaluationTime: "2019-10-15",
-        starsNumber: 5,
-        information: "（默认好评）通过平台担保交易买到一只皇家幼猫BK34奶糕粮2Kg",
-        evaluationImage: ""
-      },
-
-    ]
+    evaluationInformation: [], // 评价
   },
 
   /**
@@ -122,14 +48,12 @@ Page({
   onLoad: function (options) {
     var showOneLine = "buisnessList[" + 0 + "].showLine";
     let that=this;
-    let requestOptions = JSON.parse(decodeURIComponent(options.resinfo));
-    console.log(requestOptions);
     that.setData({
-      businessDataSource: requestOptions,
       [showOneLine]:true,
-      pageHeight: app.globalData.pageHeight
+      pageHeight: app.globalData.pageHeight,
+      storeNo: options.storeno
     })
-
+    wx.startPullDownRefresh();
   },
 
   /**
@@ -178,7 +102,11 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
+    this.getStoreDetail(this.data.storeNo, 
+      function getStoreDetailCallback(result) {
 
+      }
+    )
   } ,
   
    /**
@@ -235,14 +163,20 @@ Page({
   /**
    * 点击宠物图片跳转
    */
-
   petsInforTap:function(res){
-    let actionIndex = encodeURIComponent(JSON.stringify(res.currentTarget.dataset.index));
-    let actionItem = encodeURIComponent(JSON.stringify(res.currentTarget.dataset.item));
     wx.navigateTo({
-      url: Page_path.Page_Store_PetsInforMation + '?petsindex=' + actionIndex + "&petsitem=" + actionItem
+      url: Page_path.Page_Store_PetsInforMation + '?petno=' + res.currentTarget.dataset.petno
     })
     console.log(actionItem);
+  },
+
+  /**
+   * 获取商家详情
+   * @param storeNo
+   * @param getStoreDetailResultCallback
+   */
+  getStoreDetail: function ( storeNo, getStoreDetailResultCallback) {
+    StoreService
   }
 
 })

@@ -9,7 +9,9 @@ const Config = require("../../macros/config.js");
 const LocationService = require("../../services/locationService.js");
 const PetService = require("../../services/petService.js");
 const StoreService = require("../../services/storeService.js");
-const {PetFilterObj} = require("../../entity/petFilterObj.js");
+const {
+  PetFilterObj
+} = require("../../entity/petFilterObj.js");
 const Limit = 10;
 const Enum = require("../../utils/enum.js");
 
@@ -17,7 +19,7 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
     wx.showLoading({
       title: '定位中...',
     })
@@ -138,35 +140,35 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
+  onReady: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
+  onShow: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
+  onHide: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
+  onUnload: function() {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
     this.data.pageIndex = 0;
     let petFilter = new PetFilterObj({
       offset: this.data.pageIndex,
@@ -191,10 +193,10 @@ Page({
    * 页面上拉触底事件的处理函数
    * 触底 loadmore
    */
-  onReachBottom: function () {
-    
-    if (this.data.loadState == LoadFootItemState.Loading_State_End 
-    || this.data.loadState == LoadFootItemState.Loading_State_Loading) {
+  onReachBottom: function() {
+
+    if (this.data.loadState == LoadFootItemState.Loading_State_End ||
+      this.data.loadState == LoadFootItemState.Loading_State_Loading) {
       return;
     }
     this.setData({
@@ -229,7 +231,7 @@ Page({
   /**
    * 点击特惠抢购更多
    */
-  preferentialTap:function(){
+  preferentialTap: function() {
     wx.navigateTo({
       url: PagePath.Page_Home_Preferential
     })
@@ -238,37 +240,37 @@ Page({
   /**
    * 点击(附近、狗狗、猫猫、小宠、水族)
    */
-  fastActionTap:function(res){
+  fastActionTap: function(res) {
     var actionIndex = res.currentTarget.dataset.index;
     let fastAction = this.data.fastActionList[actionIndex];
     console.log(actionIndex);
-    if (actionIndex==0){
-        wx.navigateTo({
-          url: PagePath.Page_Home_Nearby + "?requesttype=" + Enum.Nearby_RequestType_Enum.All + "&pagetitle=附近"
-        })
-    } else if (actionIndex==1){
-        wx.navigateTo({
-          url: PagePath.Pate_Home_PetsType + "?type=" + fastAction.type
-        })
-    } else if (actionIndex == 2){
-        wx.navigateTo({
-          url: PagePath.Pate_Home_PetsType + "?type=" + fastAction.type
-        })
+    if (actionIndex == 0) {
+      wx.navigateTo({
+        url: PagePath.Page_Home_Nearby + "?requesttype=" + Enum.Nearby_RequestType_Enum.All + "&pagetitle=附近"
+      })
+    } else if (actionIndex == 1) {
+      wx.navigateTo({
+        url: PagePath.Pate_Home_PetsType + "?type=" + fastAction.type
+      })
+    } else if (actionIndex == 2) {
+      wx.navigateTo({
+        url: PagePath.Pate_Home_PetsType + "?type=" + fastAction.type
+      })
     } else if (actionIndex == 3) {
-        wx.navigateTo({
-          url: PagePath.Pate_Home_PetsType + "?type=" + fastAction.type
-        })
-    }else{
-        wx.navigateTo({
-          url: PagePath.Pate_Home_PetsType + "?type=" + fastAction.type
-        })
+      wx.navigateTo({
+        url: PagePath.Pate_Home_PetsType + "?type=" + fastAction.type
+      })
+    } else {
+      wx.navigateTo({
+        url: PagePath.Pate_Home_PetsType + "?type=" + fastAction.type
+      })
     }
   },
 
   /**
    * 点击最新上架更多
    */
-  newestTap:function(){
+  newestTap: function() {
     wx.navigateTo({
       url: PagePath.Page_Home_Nearby + "?requesttype=" + Enum.Nearby_RequestType_Enum.Newest + "&pagetitle=最新上架"
     })
@@ -277,7 +279,7 @@ Page({
   /**
    * 点击进入精品馆
    */
-  boutiqueTap:function(){
+  boutiqueTap: function() {
     wx.navigateTo({
       url: PagePath.Page_Home_Nearby + "?requesttype=" + Enum.Nearby_RequestType_Enum.Fine + "&pagetitle=精品馆"
     })
@@ -286,7 +288,7 @@ Page({
   /**
    * 点击进入高端馆
    */
-  highEndTap:function(){
+  highEndTap: function() {
     wx.navigateTo({
       url: PagePath.Page_Home_Nearby + "?requesttype=" + Enum.Nearby_RequestType_Enum.UpScale + "&pagetitle=高端馆"
     })
@@ -295,7 +297,7 @@ Page({
   /**
    * 点击套餐中犬类
    */
-  setMenuTap: function (res) {
+  setMenuTap: function(res) {
     var actionIndex = res.currentTarget.dataset.index
 
     wx.navigateTo({
@@ -307,27 +309,25 @@ Page({
   /**
    * 点击热门分类
    */
-  hotTypeTap:function(e){
+  hotTypeTap: function(e) {
     wx.navigateTo({
       url: PagePath.Page_Home_Nearby + "?breedno=" + e.currentTarget.dataset.breedno + "&requesttype=" + Enum.Nearby_RequestType_Enum.All + "&pagetitle=" + e.currentTarget.dataset.name
     })
   },
-  
+
   /**
    * 点击宠物图片查看详情  Page_Store_PetsInforMation
    */
-  petsInforTap: function (res) {
-        let actionIndex = encodeURIComponent(JSON.stringify(res.currentTarget.dataset.index));
-        let actionItem = encodeURIComponent(JSON.stringify(res.currentTarget.dataset.item));
-        wx.navigateTo({
-          url: PagePath.Page_Store_PetsInforMation + '?petsindex=' + actionIndex + "&petsitem=" + actionItem
-        })
-    },
+  petsInforTap: function(res) {
+    wx.navigateTo({
+      url: PagePath.Page_Store_PetsInforMation + '?petno=' + res.currentTarget.dataset.petno
+    })
+  },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
 
   },
 
@@ -346,8 +346,7 @@ Page({
   data: {
     pageIndex: 0, // 页码
     loadState: LoadFootItemState.Loading_State_Normal, // 底部状态
-    bannerDataSource: [
-      {
+    bannerDataSource: [{
         imageUrl: "https://petimg.tyferp.com/weapp/banner01.jpg", // 图片地址
         link: "", // 内容地址
       },
@@ -360,8 +359,7 @@ Page({
         link: "",
       }
     ], // banner
-    fastActionList: [
-      {
+    fastActionList: [{
         actionName: "附近",
         iconPath: "../../resource/nearby.png",
         link: "",
@@ -396,8 +394,7 @@ Page({
     newestList: [], // 最新上架
     fineList: [], // 精品
     upscaleList: [], // 高端宠物
-    setMenuList: [
-      {
+    setMenuList: [{
         name: "小体型犬",
         info: "低至99元起",
         iconPath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571133940215&di=713c8e2f8180fe6e01fee05dfdeb04d9&imgtype=0&src=http%3A%2F%2Fimg.mp.itc.cn%2Fupload%2F20160629%2F727e135d01e94ff2ace58fe150c6f5ea.jpg",
@@ -419,40 +416,7 @@ Page({
       },
     ], // 养宠套餐
     recommendStoreList: [], // 推荐商家
-    hotTypeList: [
-      {
-        name: "美国短毛猫",
-        iconPath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571141715309&di=c3c817889f9dd036c5bc025c52be0b17&imgtype=0&src=http%3A%2F%2Fgss0.baidu.com%2F9fo3dSag_xI4khGko9WTAnF6hhy%2Fzhidao%2Fwh%253D450%252C600%2Fsign%3D70d3a6d20824ab18e043e93300cacafb%2F3b292df5e0fe99259e842aa435a85edf8cb171bd.jpg"
-      },
-      {
-        name: "美国短毛猫1",
-        iconPath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571141715309&di=c3c817889f9dd036c5bc025c52be0b17&imgtype=0&src=http%3A%2F%2Fgss0.baidu.com%2F9fo3dSag_xI4khGko9WTAnF6hhy%2Fzhidao%2Fwh%253D450%252C600%2Fsign%3D70d3a6d20824ab18e043e93300cacafb%2F3b292df5e0fe99259e842aa435a85edf8cb171bd.jpg"
-      },
-      {
-        name: "美国短毛猫2",
-        iconPath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571141715309&di=c3c817889f9dd036c5bc025c52be0b17&imgtype=0&src=http%3A%2F%2Fgss0.baidu.com%2F9fo3dSag_xI4khGko9WTAnF6hhy%2Fzhidao%2Fwh%253D450%252C600%2Fsign%3D70d3a6d20824ab18e043e93300cacafb%2F3b292df5e0fe99259e842aa435a85edf8cb171bd.jpg"
-      },
-      {
-        name: "美国短毛猫3",
-        iconPath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571141715309&di=c3c817889f9dd036c5bc025c52be0b17&imgtype=0&src=http%3A%2F%2Fgss0.baidu.com%2F9fo3dSag_xI4khGko9WTAnF6hhy%2Fzhidao%2Fwh%253D450%252C600%2Fsign%3D70d3a6d20824ab18e043e93300cacafb%2F3b292df5e0fe99259e842aa435a85edf8cb171bd.jpg"
-      },
-      {
-        name: "美国短毛猫4",
-        iconPath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571141715309&di=c3c817889f9dd036c5bc025c52be0b17&imgtype=0&src=http%3A%2F%2Fgss0.baidu.com%2F9fo3dSag_xI4khGko9WTAnF6hhy%2Fzhidao%2Fwh%253D450%252C600%2Fsign%3D70d3a6d20824ab18e043e93300cacafb%2F3b292df5e0fe99259e842aa435a85edf8cb171bd.jpg"
-      },
-      {
-        name: "美国短毛猫5",
-        iconPath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571141715309&di=c3c817889f9dd036c5bc025c52be0b17&imgtype=0&src=http%3A%2F%2Fgss0.baidu.com%2F9fo3dSag_xI4khGko9WTAnF6hhy%2Fzhidao%2Fwh%253D450%252C600%2Fsign%3D70d3a6d20824ab18e043e93300cacafb%2F3b292df5e0fe99259e842aa435a85edf8cb171bd.jpg"
-      },
-      {
-        name: "美国短毛猫6",
-        iconPath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571141715309&di=c3c817889f9dd036c5bc025c52be0b17&imgtype=0&src=http%3A%2F%2Fgss0.baidu.com%2F9fo3dSag_xI4khGko9WTAnF6hhy%2Fzhidao%2Fwh%253D450%252C600%2Fsign%3D70d3a6d20824ab18e043e93300cacafb%2F3b292df5e0fe99259e842aa435a85edf8cb171bd.jpg"
-      },
-      {
-        name: "美国短毛猫7",
-        iconPath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571141715309&di=c3c817889f9dd036c5bc025c52be0b17&imgtype=0&src=http%3A%2F%2Fgss0.baidu.com%2F9fo3dSag_xI4khGko9WTAnF6hhy%2Fzhidao%2Fwh%253D450%252C600%2Fsign%3D70d3a6d20824ab18e043e93300cacafb%2F3b292df5e0fe99259e842aa435a85edf8cb171bd.jpg"
-      },
-    ], // 热门分类
+    hotTypeList: [], // 热门分类
     recommendGoodsList: [], // 为您推荐
   },
 })

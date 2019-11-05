@@ -33,7 +33,7 @@ function getNewestPet(petFilterParam, getResultCallback) {
       priceStart: petFilterParam.priceStart,
       priceEnd: petFilterParam.priceEnd,
       authType: petFilterParam.authType,
-      offset : petFilterParam.offset,
+      offset: petFilterParam.offset,
       limit: petFilterParam.limit
     },
     success(res) {
@@ -161,7 +161,7 @@ function getPetList(petFilterParam, getResultCallback) {
  * @param petTypeParam (offset,limit)
  * @param getResultCallback 回调
  */
-function getHotType(petTypeParam, getResultCallback){
+function getHotType(petTypeParam, getResultCallback) {
   if (!Util.checkIsObject(petTypeParam)) {
     console.error("请使用petTypeParam对象")
     return;
@@ -205,7 +205,48 @@ function getBreed(petSortNo, getResultCallback) {
   RequestUtil.RequestGET(requestParam);
 }
 
-module.exports={
+/**
+ * 获取宠物详情
+ * @param petNo
+ * @param getResultCallback 结果回调
+ */
+function getPetDetail(petNo, getResultCallback) {
+  let requestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_Pet_Detail,
+    data: {
+      petNo: petNo
+    },
+    success(res) {
+      if (Util.checkIsFunction(getResultCallback)) {
+        getResultCallback(res);
+      }
+    }
+  })
+  RequestUtil.RequestGET(requestParam);
+}
+
+/**
+ * 新增宠物收藏
+ * @param param (petNo, customerNo)
+ * @param addResultCallback
+ */
+function addNewPetCollection(param, addResultCallback) {
+  let requestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_AddNew_Pet_Collection,
+    data: {
+      petNo: param.petNo,
+      customerNo: param.customerNo
+    },
+    success(res) {
+      if (Util.checkIsFunction(addResultCallback)) {
+        addResultCallback(res);
+      }
+    }
+  })
+  RequestUtil.RequestPOST(requestParam);
+}
+
+module.exports = {
   getNewestPet: getNewestPet, // 获取最新上架
   getUpScalePet: getUpScalePet, // 获取高端宠物
   getPreferentialPet: getPreferentialPet, // 获取特惠抢购
@@ -214,4 +255,8 @@ module.exports={
 
   getHotType: getHotType, // 获取热门分类
   getBreed: getBreed, // 获取宠物品种
+
+  getPetDetail: getPetDetail, // 获取宠物详情
+
+  addNewPetCollection: addNewPetCollection, // 新增宠物收藏
 }

@@ -1,6 +1,5 @@
 // pages/mall/commodityInformation/index.js
 const Page_path = require("../../../macros/pagePath.js");
-
 const PetService = require("../../../services/petService.js");
 
 Page({
@@ -97,7 +96,7 @@ Page({
   onLoad: function (options) {
     let that=this;
     that.setData({
-      
+
     })
   },
 

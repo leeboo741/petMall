@@ -13,6 +13,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+
     loadState: LoadFootItemState.Loading_State_Normal, // 底部状态
     offset: 0,
     pageHeight: null,
@@ -54,7 +55,12 @@ Page({
     scrollTop: 0, //置顶高度
     scrollTopId: '', //置顶id
     city: "全部",
-    hotcityList: [{
+    hotcityList: [
+      {
+        cityCode: 100000,
+        city: '全部'
+      },
+      {
         cityCode: 110000,
         city: '北京市'
       },
@@ -149,12 +155,38 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-    this.data.titleSelectList[0].selectInfo = app.globalData.currentCity;
-    this.setData({
-      city: app.globalData.currentCity,
-      titleSelectList: this.data.titleSelectList
-    })
-    wx.startPullDownRefresh();
+
+    let that = this;
+    if (app.globalData.currentCity) {
+      wx.showLoading({
+        title: '定位中...',
+      })
+      LocationService.getCurrentLocationInfo(
+        function callback(res) {
+          console.log(JSON.stringify(res));
+          wx.hideLoading();
+
+          app.globalData.currentLocationInfo = res;
+          let city = res.address_component.city;
+          app.globalData.currentCity = city;
+
+          that.data.titleSelectList[0].selectInfo = app.globalData.currentCity;
+          that.setData({
+            city: app.globalData.currentCity,
+            titleSelectList: that.data.titleSelectList
+          })
+          wx.startPullDownRefresh();
+        }
+      )
+    } else {
+      that.data.titleSelectList[0].selectInfo = app.globalData.currentCity;
+      that.setData({
+        city: app.globalData.currentCity,
+        titleSelectList: that.data.titleSelectList
+      })
+      wx.startPullDownRefresh();
+    }
+
   },
 
   /**
@@ -433,9 +465,8 @@ Page({
    * 点击头像查看商家信息
    */
   recommendedTap: function(res) {
-    let actionRes = encodeURIComponent(JSON.stringify(res.currentTarget.dataset.item));
     wx.navigateTo({
-      url: Page_path.Page_Store_StoreInforMation + '?resinfo=' + actionRes
+      url: Page_path.Page_Store_StoreInforMation + '?storeno=' + res.currentTarget.dataset.storeno
     })
 
   },
@@ -444,10 +475,8 @@ Page({
    * 点击宠物图片查看详情  Page_Store_PetsInforMation
    */
   petsInforTap: function(res) {
-    let actionIndex = encodeURIComponent(JSON.stringify(res.currentTarget.dataset.index));
-    let actionItem = encodeURIComponent(JSON.stringify(res.currentTarget.dataset.item));
     wx.navigateTo({
-      url: Page_path.Page_Store_PetsInforMation + '?petsindex=' + actionIndex + "&petsitem=" + actionItem
+      url: Page_path.Page_Store_PetsInforMation + '?petno=' + res.currentTarget.dataset.petno
     })
   },
 

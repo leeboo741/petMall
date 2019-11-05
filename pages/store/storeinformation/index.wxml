@@ -77,7 +77,8 @@
             wx:key='{{buisnessIndex}}'
             bindtap="petsInforTap"
             data-item="{{businessDataSource}}"
-            data-index="{{buisnessIndex}}">
+            data-index="{{buisnessIndex}}"
+            data-petno='{{buisnessItem.petNo}}'>
             <view class="business-pets-information">
                 <image src="{{buisnessItem.dogImage}}" 
                        class="business-pets-image"/>

@@ -58,8 +58,52 @@ function getRecommendBusiness(param, getRecommendCallback){
   RequestUtil.RequestGET(requestParam)
 }
 
+/**
+ * 获取商家详情
+ * @param storeNo 商家编号
+ * @param getResultCallback 获取详情回调
+ */
+function getStoreDetail(storeNo, getResultCallback) {
+  let requestParam = new RequestParamObj({
+    url: UrlService.Url_Base + UrlService.Url_Business_Detail,
+    data: {
+      business: storeNo
+    },
+    success(res) {
+      if (Util.checkIsFunction(getResultCallback)) {
+        getResultCallback(res);
+      }
+    }
+  })
+  RequestUtil.RequestGET(requestParam)
+}
+
+/**
+ * 获取商家评价列表
+ * @param param (storeNo, offset, limit)
+ * @param getResultCallback
+ */
+function getStoreEvaluateList(param, getResultCallback) {
+  let requestParam = new RequestParamObj({
+    url: UrlService.Url_Base + UrlService.Url_Business_EvaluateList,
+    data: {
+      businessNo: param.storeNo,
+      offset: param.offset,
+      limit: param.limit
+    },
+    success(res) {
+      if (Util.checkIsFunction(getResultCallback)) {
+        getResultCallback(res);
+      }
+    }
+  })
+  RequestUtil.RequestGET(requestParam)
+}
+
   
 module.exports = {
   getStoreInfomation: getStoreInfomation,
-  getRecommendBusiness: getRecommendBusiness
+  getRecommendBusiness: getRecommendBusiness,
+  getStoreDetail: getStoreDetail,
+  getStoreEvaluateList: getStoreEvaluateList,
 }
