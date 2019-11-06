@@ -3,6 +3,9 @@
 const LoadFootItemState = require("../../../lee-components/leeLoadingFootItem/loadFootObj.js");
 const PageSize = 20;
 const PagePath = require("../../../macros/pagePath.js");
+const Util =  require("../../../utils/util.js");
+const PetService = require("../../../services/petService.js");
+const UserService = require("../../../services/userService.js");
 
 Page({
 
@@ -12,151 +15,14 @@ Page({
   data: {
     pageIndex: 0, // 页码
     loadState: LoadFootItemState.Loading_State_Empty, // 底部状态
-    collectionList: [
-      {
-        collectionDate: '2019-10-11',
-        collectionTime: "11:10:11",
-        goods:{
-          name: "二哈",
-          price: 2000,
-          province: "江西",
-          city: "南昌",
-          imagePath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571142592265&di=7a06c842ea2fd44ed79c0819544ef6df&imgtype=0&src=http%3A%2F%2F5b0988e595225.cdn.sohucs.com%2Fimages%2F20180119%2Fd006418460834892a15ff56878abef36.jpeg",
-        },
-      },
-      {
-        collectionDate: '2019-10-11',
-        collectionTime: "11:10:11",
-        goods: {
-          name: "二哈",
-          price: 2000,
-          province: "江西",
-          city: "南昌",
-          imagePath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571142592265&di=7a06c842ea2fd44ed79c0819544ef6df&imgtype=0&src=http%3A%2F%2F5b0988e595225.cdn.sohucs.com%2Fimages%2F20180119%2Fd006418460834892a15ff56878abef36.jpeg",
-        },
-      },
-      {
-        collectionDate: '2019-10-11',
-        collectionTime: "11:10:11",
-        goods: {
-          name: "二哈",
-          price: 2000,
-          province: "江西",
-          city: "南昌",
-          imagePath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571142592265&di=7a06c842ea2fd44ed79c0819544ef6df&imgtype=0&src=http%3A%2F%2F5b0988e595225.cdn.sohucs.com%2Fimages%2F20180119%2Fd006418460834892a15ff56878abef36.jpeg",
-        },
-      },
-      {
-        collectionDate: '2019-10-11',
-        collectionTime: "11:10:11",
-        goods: {
-          name: "二哈",
-          price: 2000,
-          province: "江西",
-          city: "南昌",
-          imagePath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571142592265&di=7a06c842ea2fd44ed79c0819544ef6df&imgtype=0&src=http%3A%2F%2F5b0988e595225.cdn.sohucs.com%2Fimages%2F20180119%2Fd006418460834892a15ff56878abef36.jpeg",
-        },
-      },
-      {
-        collectionDate: '2019-10-11',
-        collectionTime: "11:10:11",
-        goods: {
-          name: "二哈",
-          price: 2000,
-          province: "江西",
-          city: "南昌",
-          imagePath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571142592265&di=7a06c842ea2fd44ed79c0819544ef6df&imgtype=0&src=http%3A%2F%2F5b0988e595225.cdn.sohucs.com%2Fimages%2F20180119%2Fd006418460834892a15ff56878abef36.jpeg",
-        },
-      },
-      {
-        collectionDate: '2019-10-11',
-        collectionTime: "11:10:11",
-        goods: {
-          name: "二哈",
-          price: 2000,
-          province: "江西",
-          city: "南昌",
-          imagePath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571142592265&di=7a06c842ea2fd44ed79c0819544ef6df&imgtype=0&src=http%3A%2F%2F5b0988e595225.cdn.sohucs.com%2Fimages%2F20180119%2Fd006418460834892a15ff56878abef36.jpeg",
-        },
-      },
-    ], // 收藏列表
-
-    tempCollectionList: [
-      {
-        collectionDate: '2019-10-11',
-        collectionTime: "11:10:11",
-        goods: {
-          name: "二哈",
-          price: 2000,
-          province: "江西",
-          city: "南昌",
-          imagePath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571142592265&di=7a06c842ea2fd44ed79c0819544ef6df&imgtype=0&src=http%3A%2F%2F5b0988e595225.cdn.sohucs.com%2Fimages%2F20180119%2Fd006418460834892a15ff56878abef36.jpeg",
-        },
-      },
-      {
-        collectionDate: '2019-10-11',
-        collectionTime: "11:10:11",
-        goods: {
-          name: "二哈",
-          price: 2000,
-          province: "江西",
-          city: "南昌",
-          imagePath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571142592265&di=7a06c842ea2fd44ed79c0819544ef6df&imgtype=0&src=http%3A%2F%2F5b0988e595225.cdn.sohucs.com%2Fimages%2F20180119%2Fd006418460834892a15ff56878abef36.jpeg",
-        },
-      },
-      {
-        collectionDate: '2019-10-11',
-        collectionTime: "11:10:11",
-        goods: {
-          name: "二哈",
-          price: 2000,
-          province: "江西",
-          city: "南昌",
-          imagePath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571142592265&di=7a06c842ea2fd44ed79c0819544ef6df&imgtype=0&src=http%3A%2F%2F5b0988e595225.cdn.sohucs.com%2Fimages%2F20180119%2Fd006418460834892a15ff56878abef36.jpeg",
-        },
-      },
-      {
-        collectionDate: '2019-10-11',
-        collectionTime: "11:10:11",
-        goods: {
-          name: "二哈",
-          price: 2000,
-          province: "江西",
-          city: "南昌",
-          imagePath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571142592265&di=7a06c842ea2fd44ed79c0819544ef6df&imgtype=0&src=http%3A%2F%2F5b0988e595225.cdn.sohucs.com%2Fimages%2F20180119%2Fd006418460834892a15ff56878abef36.jpeg",
-        },
-      },
-      {
-        collectionDate: '2019-10-11',
-        collectionTime: "11:10:11",
-        goods: {
-          name: "二哈",
-          price: 2000,
-          province: "江西",
-          city: "南昌",
-          imagePath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571142592265&di=7a06c842ea2fd44ed79c0819544ef6df&imgtype=0&src=http%3A%2F%2F5b0988e595225.cdn.sohucs.com%2Fimages%2F20180119%2Fd006418460834892a15ff56878abef36.jpeg",
-        },
-      },
-      {
-        collectionDate: '2019-10-11',
-        collectionTime: "11:10:11",
-        goods: {
-          name: "二哈",
-          price: 2000,
-          province: "江西",
-          city: "南昌",
-          imagePath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571142592265&di=7a06c842ea2fd44ed79c0819544ef6df&imgtype=0&src=http%3A%2F%2F5b0988e595225.cdn.sohucs.com%2Fimages%2F20180119%2Fd006418460834892a15ff56878abef36.jpeg",
-        },
-      },
-    ], // 收藏列表
-    tempTimeInterval: null,
+    collectionList: [],
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    wx.startPullDownRefresh();
   },
 
   /**
@@ -184,15 +50,30 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-    clearTimeout(this.data.tempTimeInterval);
-    this.data.tempTimeInterval = null;
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+    let that = this;
+    this.requestGetPetCollectionList(UserService.getCustomerNo(),
+      function getPetCollectionCallback(data) {
+        that.setData({
+          collectionList: data,
+        })
+        if (data.length > 0) {
+          that.setData({
+            loadState: LoadFootItemState.Loading_State_End
+          })
+        } else {
+          that.setData({
+            loadState: LoadFootItemState.Loading_State_Empty
+          })
+        }
+        wx.stopPullDownRefresh();
+      }
+    )
   },
 
   /**
@@ -226,5 +107,64 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+
+  /**
+   * 点击宠物收藏卡片
+   */
+  tapPetCollection: function (e) {
+    wx.navigateTo({
+      url: PagePath.Page_Store_PetsInforMation + '?petno=' + e.currentTarget.dataset.petno,
+    })
+  },
+
+  /**
+   * 点击宠物取消收藏
+   */
+  cancelPetCollection: function(e) {
+    this.requestDeletePetCollection(e.currentTarget.dataset.petno, UserService.getCustomerNo(),
+      function deletePetCollectionCallback(result) {
+        console.log("Delete collection :\n" + JSON.stringify(result));
+        wx.showToast({
+          title: result,
+        })
+        wx.startPullDownRefresh();
+      }
+    )
+  },
+
+  /**
+   * 获取宠物收藏列表
+   * @param customerNo
+   * @param getPetCollectionCallback
+   */
+  requestGetPetCollectionList: function (customerNo, getPetCollectionCallback) {
+    PetService.getPetCollection(customerNo,
+      function getResultCallback(result) {
+        if (Util.checkIsFunction(getPetCollectionCallback)) {
+          getPetCollectionCallback(result.root)
+        }
+      }
+    )
+  },
+
+  /**
+   * 删除宠物收藏
+   * @param petNo 
+   * @param customerNo
+   * @param deletePetCollectionCallback
+   */
+  requestDeletePetCollection: function (petNo, customerNo, deletePetCollectionCallback) {
+    PetService.deletePetCollection(
+      {
+        customerNo: customerNo,
+        petNo: petNo
+      },
+      function deleteResultCallback(result) {
+        if (Util.checkIsFunction(deletePetCollectionCallback)) {
+          deletePetCollectionCallback(result.root)
+        }
+      }
+    )
   }
 })

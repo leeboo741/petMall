@@ -1,200 +1,149 @@
 <!--pages/store/storeinformation/index.wxml-->
-<i-navigation-bar title='{{businessDataSource.merchantName}}'
-                  showBackButton='{{true}}'>
+<i-navigation-bar title='{{storeDetail.businessName}}' showBackButton='{{true}}'>
 </i-navigation-bar>
 
 <view class="business-head-page">
-    <view class="business-head-inleft">
-        <image src="{{businessDataSource.merchantImage}}" class="business-image"/>
+  <view class="business-head-inleft">
+    <i-image imageSrc="{{storeDetail.iconAddress}}" i-class="business-image" placeholderSrc='../../resource/placeholder.jpg' failSrc='../../resource/fail.png'>
+    </i-image>
+  </view>
+  <view class="business-head-inright">
+    <view class="business-name-label">
+      {{storeDetail.businessName}}
+      <view wx:for="{{label}}" wx:for-item='labelItem' wx:for-index='labelIndex' wx:key='{{labelIndex}}'>
+        <view class="label-pagecs">
+          {{labelItem}}
+        </view>
+      </view>
     </view>
-    <view class="business-head-inright">
-        <view class="business-name-label">
-          {{businessDataSource.merchantName}}
-           <view wx:for="{{label}}"
-                 wx:for-item='labelItem'
-                 wx:for-index='labelIndex'
-                 wx:key='{{labelIndex}}'>
-                <view class="label-pagecs">
-                  {{labelItem}}
-                </view>
-           </view>
-        </view>
- 
-        <view style="display: flex;flex-wrap: nowrap;">
-                <view wx:for="{{businessDataSource.merchantStars}}"
-                      wx:for-item='StarsItem'
-                      wx:for-index='StarsIndex'
-                      wx:key='{{StarsIndex}}'>
-                      <i-icon type="collection_fill" color="#EFCC83"/>
-                </view>
-        </view>
-        <view style="color:#ccc;">
-          {{businessDataSource.merchantAddress}}
-        </view>
+
+    <view style="display: flex;flex-wrap: nowrap;">
+      <view wx:for="{{storeDetail.businessDegree}}" wx:for-item='StarsItem' wx:for-index='StarsIndex' wx:key='{{StarsIndex}}'>
+        <i-icon type="collection_fill" color="#EFCC83" />
+      </view>
     </view>
+    <view style="color:#ccc;">
+      {{storeDetail.province}} {{storeDetail.city}} {{storeDetail.detailAddress}}
+    </view>
+  </view>
 </view>
 
-<view class="divLine"/>
+<view class="divLine" />
 
 <view class="business-select-head">
-   <view  style="height:50px"
-          class="business-selectinfo" 
-          wx:for='{{buisnessList}}'
-          wx:for-item="buisnessItem"
-          wx:for-index="buisnessIndex"
-          wx:key='{{buisnessIndex}}'
-          bindtap="buisnessTap"
-          data-index="{{buisnessIndex}}">
+  <view style="height:50px" class="business-selectinfo" wx:for='{{buisnessList}}' wx:for-item="buisnessItem" wx:for-index="buisnessIndex" wx:key='{{buisnessIndex}}' bindtap="buisnessTap" data-index="{{buisnessIndex}}">
 
-         <view style="{{parse.showStyle(buisnessItem.showLine)}}">
-             {{buisnessItem.title}}
-         </view>       
-   </view>
+    <view style="{{parse.showStyle(buisnessItem.showLine)}}">
+      {{buisnessItem.title}}
+    </view>
+  </view>
 </view>
 
 
 
-<view class="business-pets-page"
-      hidden="{{showPetsPage}}"> 
-      <view style="color:#ccc;font-size:27rpx;margin-left:3%;">
-        担保交易量{{businessDataSource.tradingVolume}}
-      </view>
-      <view style="color:blue;margin-left:45%;font-size:27rpx;">
-        什么是担保交易量？
-      </view>
-  <view style="display:flex;flex-wrap:nowrap;">
- 
+<view class="business-pets-page" hidden="{{showPetsPage}}">
+  <view style="display: flex; flex-direction: row; align-item: center; justify-content: space-between; width: 100%;">
+    <view style="color:#ccc;font-size:27rpx;margin-left:3%;">
+      担保交易量{{storeDetail.bondAmount}}
+    </view>
+    <view style="color:blue;margin-right:3%;font-size:27rpx;">
+      什么是担保交易量？
+    </view>
   </view>
-  <scroll-view
-          scroll-y
-          style="height: {{pageHeight-200}}px"
-          class="scrollview-page">
-    <view class="business-pets-page">
-      <view class="business-pets-information"
-            wx:for='{{businessDataSource.dogInforMation}}'
-            wx:for-item="buisnessItem"
-            wx:for-index="buisnessIndex"
-            wx:key='{{buisnessIndex}}'
-            bindtap="petsInforTap"
-            data-item="{{businessDataSource}}"
-            data-index="{{buisnessIndex}}"
-            data-petno='{{buisnessItem.petNo}}'>
-            <view class="business-pets-information">
-                <image src="{{buisnessItem.dogImage}}" 
-                       class="business-pets-image"/>
-            </view>
-            <view class="business-pets-bottom">
-              <view style="margin-left:6%;font-weight:bold;">
-                {{buisnessItem.petsName}}
-              </view>
-                <view style="color:red;margin-left:5%;font-weight:bold;display:flex;flex-wrap:nowrap;">
-                  ￥{{buisnessItem.dogPrice}}  
-                    <view style="color:#ccc;margin-left:30%;">
-                      {{buisnessItem.dogAddress}}
-                    </view>
-                </view>
-            </view>
+
+  <view style="display:flex;flex-wrap:nowrap;">
+
+  </view>
+  <view class="business-pets-page">
+    <view class="business-pets-information" wx:for='{{petList}}' wx:for-item="petItem" wx:for-index="petIndex" wx:key='{{petIndex}}' bindtap="petsInforTap" data-item="{{petItem}}" data-index="{{petIndex}}" data-petno='{{petItem.petNo}}'>
+      <view class="business-pets-information">
+        <i-image imageSrc="{{petItem.coverMedia}}" i-class="business-pets-image" placeholderSrc='../../resource/placeholder.jpg' failSrc='../../resource/fail.png'>
+        </i-image>
+      </view>
+      <view class="business-pets-bottom">
+        <view style="margin-left:6%;font-weight:bold; font-size:26rpx;">
+          {{petItem.petName}}
+        </view>
+        <view style="color:red;margin-left:5%;font-weight:bold;display:flex;flex-wrap:nowrap; font-size:22rpx;">
+          ￥{{petItem.retailPrice}}
+          <view style="color:#ccc;margin-left:30%; font-size:22rpx;">
+            {{storeDetail.province}} {{storeDetail.city}}
+          </view>
+        </view>
       </view>
     </view>
-    <view style="width:100%;height:100rpx;"></view>
-  </scroll-view>
+  </view>
+  <view style="width:100%;height:100rpx;"></view>
 </view>
 
 <view hidden="{{showEvaluate}}">
-    <view wx:if="{{evaluationInformation.length==0}}" 
-          class="noevaluation-page">
-          <image 
-          class="noevaluation-image-page"
-          src="../../../resource/dogerror.png"/>
-          <view style="color:#949494;">
-                暂无评价哟！
-          </view>
-    </view>  
+  <view class="userevaluate-content-page">
+    <view class="userevaluate-content-tables-page" wx:for="{{evaluateList}}" wx:for-item="evaluationInformationItem" wx:for-index="evaluationInformationIndex" wx:key="evaluationInformationIndex">
+      <view class="userevaluate-content-head">
+        <i-image imageSrc="{{evaluationInformationItem.userImageUrl}}" i-class="image-sty" placeholderSrc='../../resource/placeholder.jpg' failSrc='../../resource/fail.png'>
+        </i-image>
+        <view style="font-weight:bold;font-size:26rpx;">
+          {{evaluationInformationItem.customer.customerName}}
+        </view>
+        <view style="font-size:22rpx;color:#ccc;flex-grow:1; text-align: right; margin-right: 20rpx;">
+          {{evaluationInformationItem.appraiseDate}} {{evaluationInformationItem.appraiseTime}}
+        </view>
+      </view>
 
-    <view wx:else>
-        <scroll-view
-          scroll-y
-          style="height: {{pageHeight-200}}px">
-          <view class="userevaluate-content-page">
-              <view class="userevaluate-content-tables-page"
-                    wx:for="{{evaluationInformation}}"
-                    wx:for-item="evaluationInformationItem"
-                    wx:for-index="evaluationInformationIndex"
-                    wx:key="evaluationInformationIndex">
-                      <view class="userevaluate-content-head"
-                            style="margin-left:2%">
-                          <image src="{{evaluationInformationItem.userImageUrl}}"
-                                 class="image-sty">
-                          </image>
-                          <view style="margin-left:2%;font-weight:bold;font-size:32rpx;">
-                            {{evaluationInformationItem.userName}}
-                          </view>
-                          <view style="margin-left:50%;font-size:28rpx;color:#ccc;">
-                            {{evaluationInformationItem.evaluationTime}}
-                          </view>
-                      </view>
-
-                   <!-- 遍历星星-->
-                  <view style="margin-left:10%; display: flex;flex-wrap: nowrap;">
-                      <view wx:for="{{evaluationInformationItem.starsNumber}}"
-                            wx:for-item="starsNumberItem"
-                            wx:for-index="starsNumberIndex"
-                            wx:key="starsNumberIndex">
-                            <i-icon type="collection_fill" color="#EFCC83"/>
-                      </view>
-                  </view>
-                  <view style="margin-left:8%;font-size:28rpx;">
-                    {{evaluationInformationItem.information}}
-                  </view>
-                  <view wx:if="{{evaluationInformationItem.evaluationImage.length!=0}}">
-                    <view style="display:flex;flex-wrap:wrap;width:100%;">
-                      <view wx:for="{{evaluationInformationItem.evaluationImage}}"
-                            wx:for-item="ImageItem"
-                            wx:for-index="ImageIndex"
-                            wx:key="evaluationImageIndex">
-                            <image src="{{ImageItem}}"
-                                   style="width:150rpx;height:150rpx;border-radius:16rpx;margin-left:15%;"/>
-                      </view>
-                    </view>
-                  </view>  
-              </view>
+      <!-- 遍历星星-->
+      <view style="margin-left:10%; display: flex;flex-wrap: nowrap;">
+        <view wx:for="{{evaluationInformationItem.praiseDegree}}" wx:for-item="starsNumberItem" wx:for-index="starsNumberIndex" wx:key="starsNumberIndex">
+          <i-icon type="collection_fill" color="#EFCC83" />
+        </view>
+      </view>
+      <view style="margin-left:8%;font-size:28rpx;">
+        {{evaluationInformationItem.content}}
+      </view>
+      <block wx:if="{{evaluationInformationItem.evaluationImage.length!=0}}">
+        <view style="display:flex;flex-wrap:wrap;width:100%;">
+          <view wx:for="{{evaluationInformationItem.appraiseImgs}}" wx:for-item="ImageItem" wx:for-index="ImageIndex" wx:key="evaluationImageIndex" class='evaluate-image-box'>
+            <i-image imageSrc="{{ImageItem}}" style="width:80%;height:190rpx;border-radius:16rpx;" placeholderSrc='../../resource/placeholder.jpg' failSrc='../../resource/fail.png'>
+            </i-image>
           </view>
-          <view style="width:100%;height:100rpx;"></view>
-        </scroll-view>  
+        </view>
+      </block>
     </view>
+  </view>
+  <!-- 加载块 -->
+  <i-load-foot-item loadState='{{loadState}}'>
+  </i-load-foot-item>
+  <view style="width:100%;height:100rpx;"></view>
 </view>
 
-<view class="business-introduction-page"
-      hidden="{{showIntroduction}}"
-      style="margin-left:3%;">
-      <view>地址：{{businessDataSource.merchantAddress}}</view>
-      <view>简介：{{businessDataSource.merchantIntroduction}}</view>
+<view class="business-introduction-page" hidden="{{showIntroduction}}" style="margin-left:3%;">
+  <view>地址：{{storeDetail.province}} {{storeDetail.city}} {{storeDetail.detailAddress}}</view>
+  <view>简介：{{storeDetail.describes}}</view>
 </view>
+
+<view style='height: 100rpx; width: 100%'></view>
 
 <view class="page-bottom-icon">
-      <view class="page-icon-sly">
-            <i-icon type="send" size="27"/>
-            <view style="font-size:25rpx;">分 享</view> 
-      </view>
-      
-      <view class="page-icon-sly" 
-            style="margin-left:30%;">
-            <i-icon type="customerservice_fill" size="27"/>
-            <view style="font-size:25rpx;">电 话</view>
-      </view>
+  <view class="page-icon-sly">
+    <i-icon type="send" size="27" />
+    <view style="font-size:25rpx;">分 享</view>
+  </view>
+
+  <view class="page-icon-sly" style="margin-left:30%;" bindtap="tapCall" data-phone='{{storeDetail.phoneNumber}}'>
+    <i-icon type="customerservice_fill" size="27" />
+    <view style="font-size:25rpx;">电 话</view>
+  </view>
 </view>
 
 
-<wxs module='parse'>                                                                        
-   module.exports={
-      showStyle:function(res){
-          if(res==true){
-             return "border-bottom:3px solid #ED630A;color:black;"
-          }else{
-             return "border-bottom:0px solid #ED630A;color:#949494;"
-          }
+<wxs module='parse'>
+  module.exports = {
+    showStyle: function(res) {
+      if (res == true) {
+        return "border-bottom:3px solid #ED630A;color:black;"
+      } else {
+        return "border-bottom:0px solid #ED630A;color:#949494;"
       }
-        
-   }
+    }
 
+  }
 </wxs>

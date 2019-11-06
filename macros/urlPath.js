@@ -24,6 +24,7 @@ const Url_BusinessInfo ="/business/list";  //商家页面数据
 const Url_Business_Recommend = "/business/recommendedBusiness"; // 推荐商家
 const Url_Business_Detail = "/business/businessDetail"; // 获取商家详情
 const Url_Business_EvaluateList = "/businessDetail/petAppraise"; // 获取商家评价列表
+const Url_Business_PetList = "/business/businessPet"; // 获取商家宠物列表
 
 /**
  * ----地址管理
@@ -88,7 +89,8 @@ module.exports={
   Url_BusinessInfo,    //商家显示数据
   Url_Business_Recommend, // 推荐商家
   Url_Business_Detail, // 获取商家详情
-  Url_Business_EvaluateList, // 获取商家评价列表
+  Url_Business_EvaluateList, // 获取商家评价列表，
+  Url_Business_PetList, // 获取商家宠物列表
 
   Url_GetAddressList, // 获取收货地址列表
   Url_AddNewAddress, // 添加新收货地址

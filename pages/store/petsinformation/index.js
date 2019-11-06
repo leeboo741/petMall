@@ -161,16 +161,38 @@ Page({
     wx.showLoading({
       title: '请稍等...',
     })
-    PetService.addNewPetCollection(
-      {
-        petNo: this.data.petDetailData.petNo,
-        customerNo: UserService.getCustomerNo()
-      },
-      function addResultCallback(result) {
-        wx.hideLoading();
-        console.log(result);
-      }
-    )
+    if (this.data.petDetailData.petFavorite.customer == null) {
+      PetService.addNewPetCollection(
+        {
+          petNo: this.data.petDetailData.petNo,
+          customerNo: UserService.getCustomerNo()
+        },
+        function addResultCallback(result) {
+          wx.hideLoading();
+          console.log(result);
+          wx.showToast({
+            title: '收藏成功',
+          })
+          wx.startPullDownRefresh();
+        }
+      )
+    } else {
+      PetService.deletePetCollection(
+        {
+          petNo: this.data.petDetailData.petNo,
+          customerNo: UserService.getCustomerNo()
+        },
+        function addResultCallback(result) {
+          wx.hideLoading();
+          console.log(result);
+          wx.showToast({
+            title: result.root,
+          })
+          wx.startPullDownRefresh();
+        }
+      )
+    }
+    
   },
 
   /**
@@ -179,7 +201,11 @@ Page({
    * @param getDetailCallback
    */
   requestPetDetail: function(petNo, getDetailCallback) {
-    PetService.getPetDetail(petNo,
+    PetService.getPetDetail(
+      {
+        petNo: petNo,
+        customerNo: UserService.getCustomerNo()
+      },
       function getResultCallback(result) {
         if (Util.checkIsFunction(getDetailCallback)){
           getDetailCallback(result.root)

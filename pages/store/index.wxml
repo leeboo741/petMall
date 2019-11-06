@@ -15,9 +15,9 @@
 <!-- 推荐 -->
   <scroll-view class="scroll-view-page" scroll-x>
     <view style="display: flex;align-items:center;flex-wrap: nowrap;margin-top: 2%;">
-      <view class="recommended-page" wx:for="{{recommendedBusinesses}}" wx:for-item='recommendedItem' wx:for-index='recommendedIndex' wx:key='{{recommendedIndex}}' bindtap="recommendedTap" data-storeno='{{merchantInformationItem.businessNo}}' data-item="{{recommendedItem}}">
-        <image class="recommended-head-page" src="{{recommendedItem.headerImg}}">
-        </image>
+      <view class="recommended-page" wx:for="{{recommendedBusinesses}}" wx:for-item='recommendedItem' wx:for-index='recommendedIndex' wx:key='{{recommendedIndex}}' bindtap="recommendedTap" data-storeno='{{recommendedItem.businessNo}}' data-item="{{recommendedItem}}">
+        <i-image i-class="recommended-head-page" imageSrc="{{recommendedItem.headerImg}}" placeholderSrc='../../resource/placeholder.jpg' failSrc='../../resource/fail.png'>
+        </i-image>
         <view class="recommended-bottom-page">
           {{recommendedItem.businessName}}
         </view>
@@ -30,11 +30,9 @@
     <view class="merchant-information-head-page" bindtap="recommendedTap" data-storeno='{{merchantInformationItem.businessNo}}'>
       <view class="merchant-information-head-left">
         <!--头像-->
-        <view wx:if="{{merchantInformationItem.headerImg==''}}">
-          <image src="{{merchantInformationItem.headerImg}}" class="merchant-information-head-leftimage" />
-        </view>
-        <view wx:else>
-          <image src="../../resource/dogerror.png" class="merchant-information-head-leftimage" />
+        <view>
+          <i-image imageSrc="{{merchantInformationItem.headerImg}}" i-class="merchant-information-head-leftimage" placeholderSrc='../../resource/placeholder.jpg' failSrc='../../resource/fail.png'>
+          </i-image>
         </view>
         <view class="label-csty" style="{{parse.showLabelSty(merchantInformationItem.auth.businessAuthType)}}">
           {{parse.showLabelText(merchantInformationItem.auth.businessAuthType)}}
@@ -67,7 +65,8 @@
       </view>
     </view>
     <!-- 商家商品 -->
-    <view class="merchant-information-bottom-page">
+    <view class="merchant-information-bottom-page"
+          wx:if='{{merchantInformationItem.petList!=null&&merchantInformationItem.petList.length>0}}'>
       <view class="merchant-information-bottom-doginformation"
             wx:for="{{merchantInformationItem.petList}}"
             wx:for-item='dogInforMationItem' 
@@ -78,11 +77,9 @@
             data-index="{{dogInforMationIndex}}"
             data-item="{{merchantInformationItem}}"
             wx:if='{{dogInforMationIndex<3}}'>
-        <view wx:if="{{dogInforMationItem.coverImg==''}}">
-          <image src="{{dogInforMationItem.coverImg}}" class="merchant-information-bottom-dogimage" />
-        </view>
-        <view wx:else>
-          <image src="../../resource/dog.png" class="merchant-information-bottom-dogimage" />
+        <view>
+          <i-image imageSrc="{{dogInforMationItem.coverImg}}" i-class="merchant-information-bottom-dogimage"  placeholderSrc='../../resource/placeholder.jpg' failSrc='../../resource/fail.png'>
+          </i-image>
         </view>
 
         <view style="font-weight:bold;">

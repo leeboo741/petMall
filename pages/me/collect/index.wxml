@@ -8,10 +8,12 @@
         wx:for-item='collectionItem'
         wx:for-index='collectionIndex'
         wx:key='{{collectionIndex}}'
-        class="collection-item">
+        class="collection-item"
+        bindtap="tapPetCollection"
+        data-petno='{{collectionItem.pet.petNo}}'>
     <view class="collection-item-image-box">
       <i-image i-class="collection-item-image"
-               imageSrc="{{collectionItem.goods.imagePath}}"
+               imageSrc="{{collectionItem.pet.coverMedia}}"
                placeholderSrc='../../resource/avatar_placeholder.jpg'
                mode='scaleToFit'>
       </i-image>
@@ -19,7 +21,7 @@
     <view class="collection-item-info-box">
       <view class="collection-item-info-line">
         <view class="collection-item-info-name">
-        {{collectionItem.goods.name}}
+        {{collectionItem.pet.petName}}
         </view>
       </view>
       <view class="collection-item-info-line">
@@ -30,7 +32,9 @@
         ￥{{collectionItem.goods.price}}
         </view>
       </view>
-      <view class="cancel-collection-button">
+      <view class="cancel-collection-button"
+            catchtap="cancelPetCollection"
+            data-petno='{{collectionItem.pet.petNo}}'>
       取消收藏
       </view>
     </view> 

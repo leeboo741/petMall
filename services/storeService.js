@@ -100,10 +100,29 @@ function getStoreEvaluateList(param, getResultCallback) {
   RequestUtil.RequestGET(requestParam)
 }
 
+/**
+ * 获取商家宠物信息
+ */
+function getStorePetList(storeNo, getResultCallback) {
+  let requestParam = new RequestParamObj({
+    url: UrlService.Url_Base + UrlService.Url_Business_PetList,
+    data: {
+      businessNo: storeNo,
+    },
+    success(res) {
+      if (Util.checkIsFunction(getResultCallback)) {
+        getResultCallback(res);
+      }
+    }
+  })
+  RequestUtil.RequestGET(requestParam)
+}
+
   
 module.exports = {
   getStoreInfomation: getStoreInfomation,
   getRecommendBusiness: getRecommendBusiness,
   getStoreDetail: getStoreDetail,
   getStoreEvaluateList: getStoreEvaluateList,
+  getStorePetList: getStorePetList,
 }

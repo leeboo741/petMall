@@ -207,14 +207,15 @@ function getBreed(petSortNo, getResultCallback) {
 
 /**
  * 获取宠物详情
- * @param petNo
+ * @param param
  * @param getResultCallback 结果回调
  */
-function getPetDetail(petNo, getResultCallback) {
+function getPetDetail(param, getResultCallback) {
   let requestParam = new RequestParamObj({
     url: UrlPath.Url_Base + UrlPath.Url_Pet_Detail,
     data: {
-      petNo: petNo
+      petNo: param.petNo,
+      customerNo: param.customerNo
     },
     success(res) {
       if (Util.checkIsFunction(getResultCallback)) {
@@ -237,6 +238,9 @@ function addNewPetCollection(param, addResultCallback) {
       petNo: param.petNo,
       customerNo: param.customerNo
     },
+    header: {
+      'content-type': "application/x-www-form-urlencoded"
+    },
     success(res) {
       if (Util.checkIsFunction(addResultCallback)) {
         addResultCallback(res);
@@ -244,6 +248,43 @@ function addNewPetCollection(param, addResultCallback) {
     }
   })
   RequestUtil.RequestPOST(requestParam);
+}
+
+/**
+ * 查询宠物收藏
+ * @param customerNo
+ * @param getResultCallback
+ */
+function getPetCollection(customerNo, getResultCallback) {
+  let requestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_Get_Pet_Collection,
+    data: {
+      customerNo: customerNo
+    },
+    success(res) {
+      if (Util.checkIsFunction(getResultCallback)) {
+        getResultCallback(res);
+      }
+    }
+  })
+  RequestUtil.RequestGET(requestParam);
+}
+
+/**
+ * 删除宠物收藏
+ * @param param (customerNo, petNo)
+ * @param getResultCallback
+ */
+function deletePetCollection(param, deleteResultCallback) {
+  let requestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_Delete_Pet_Collection + param.petNo + "/" + param.customerNo,
+    success(res) {
+      if (Util.checkIsFunction(deleteResultCallback)) {
+        deleteResultCallback(res);
+      }
+    }
+  })
+  RequestUtil.RequestDELETE(requestParam);
 }
 
 module.exports = {
@@ -259,4 +300,6 @@ module.exports = {
   getPetDetail: getPetDetail, // 获取宠物详情
 
   addNewPetCollection: addNewPetCollection, // 新增宠物收藏
+  getPetCollection: getPetCollection, // 获取宠物收藏列表
+  deletePetCollection: deletePetCollection, // 删除宠物收藏
 }

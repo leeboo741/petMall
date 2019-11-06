@@ -91,8 +91,8 @@
 }
 
 .business-pets-image{
-  height: 420rpx;
-  width: 340rpx;
+  height: 320rpx;
+  width: 320rpx;
   border-radius: 20rpx;
 }
 
@@ -164,7 +164,8 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
-  margin-top:2%;
+  margin-top:20rpx;
+  margin-bottom: 20rpx;
 }
 
 .userevaluate-content-head{
@@ -172,6 +173,7 @@
   flex-wrap: nowrap;
   width: 100%;
   align-items: center;
+  flex-direction: row;
 }
 
 .image-sty{
@@ -179,4 +181,16 @@
   height: 50rpx;
   border: 1rpx solid #ccc;
   border-radius: 50% 50%;
+  margin-left: 20rpx;
+  margin-right: 20rpx;
+ 
+}
+
+.evaluate-image-box{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 33.3333333%;
+  height: 200rpx;
 }

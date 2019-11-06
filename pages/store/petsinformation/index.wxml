@@ -177,7 +177,7 @@
       </view>
     </view>
 
-    <view class="bottom-icon-page" bindtap="tapCollection">
+    <view class="bottom-icon-page" bindtap="tapCollection" style="color: {{petDetailData.petFavorite.customer!=null?'red':''}}">
       <view class="bottom-button-type-one">
         <i-icon type="collection" size="25" />
       </view>

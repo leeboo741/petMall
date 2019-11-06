@@ -2,6 +2,11 @@
 const app = getApp();
 const Page_path = require("../../../macros/pagePath.js");
 const StoreService = require("../../../services/storeService.js");
+const Util = require("../../../utils/util.js");
+const LoadFootItemState = require("../../../lee-components/leeLoadingFootItem/loadFootObj.js");
+
+const Limit = 20;
+
 Page({
 
   /**
@@ -9,14 +14,18 @@ Page({
    */
   data: {
 
+    loadState: LoadFootItemState.Loading_State_Empty, // 底部状态
     storeNo: null, // 商家编号
+    offset: 0,
+    storeDetail: null,
+    petList: null,
+    evaluateList: null,
 
     pageHeight:null,
     showPetsPage:false,
     showEvaluate: true,
     showIntroduction:true,
     buisnessCurrent:0,
-    storeDetail:[],
     buisnessList: [
       {
         title: "宠物",
@@ -37,9 +46,6 @@ Page({
     label:[
       "平台认证","实名认证","已纳押金","商家认证"
     ],
-
-    dataSource:[],
-    evaluationInformation: [], // 评价
   },
 
   /**
@@ -88,25 +94,87 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+    let that = this;
+    this.getStoreDetail(this.data.storeNo,
+      function getStoreDetailCallback(storeDetail) {
+        console.log("store detail : \n" + JSON.stringify(storeDetail));
+        that.setData({
+          storeDetail: storeDetail
+        })
+        that.getStorePetList(that.data.storeNo,
+          function getPetListCallback(petListData) {
+            console.log("store pet : \n" + JSON.stringify(petListData));
+            that.setData({
+              petList: petListData
+            })
+            that.data.offset = 0;
+            that.getEvaluateList(that.data.storeNo, that.data.offset,
+              function getEvaluateListCallback(evaluateListData) {
+                console.log("store evaluate : \n" + JSON.stringify(evaluateListData));
+                that.setData({
+                  evaluateList: evaluateListData,
+                })
+                that.data.offset = that.data.offset + Limit;
+                if (evaluateListData.length >= Limit) {
+                  that.setData({
+                    loadState: LoadFootItemState.Loading_State_Normal
+                  })
+                } else if (evaluateListData.length < Limit && evaluateListData.length > 0) {
+                  that.setData({
+                    loadState: LoadFootItemState.Loading_State_End
+                  })
+                } else {
+                  that.setData({
+                    loadState: LoadFootItemState.Loading_State_Empty
+                  })
+                }
+                wx.stopPullDownRefresh();
+              }
+            )
+          }
+        )
+      }
+    )
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-
+    if (this.data.buisnessCurrent == 1) {
+      if (this.data.loadState == LoadFootItemState.Loading_State_End
+        || this.data.loadState == LoadFootItemState.Loading_State_Loading) {
+        return;
+      }
+      this.setData({
+        loadState: LoadFootItemState.Loading_State_Loading,
+      })
+      let that = this;
+      this.getEvaluateList(this.data.storeNo, this.data.offset,
+        function getEvaluateListCallback(evaluateListData) {
+          let tempList = that.data.evaluateList.concat(evaluateListData);
+          that.setData({
+            evaluateList: tempList
+          })
+          that.data.offset = that.data.offset + Limit;
+          if (evaluateListData.length >= Limit) {
+            that.setData({
+              loadState: LoadFootItemState.Loading_State_Normal
+            })
+          } else {
+            that.setData({
+              loadState: LoadFootItemState.Loading_State_End
+            })
+          }
+        }
+      )
+    }
   },
 
   /**
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-    this.getStoreDetail(this.data.storeNo, 
-      function getStoreDetailCallback(result) {
-
-      }
-    )
   } ,
   
    /**
@@ -127,7 +195,6 @@ Page({
         [showOneLine]: true,    //宠物选择框
         [showtwoLine]: false,   //评价选择框
         [showThreeLine]: false, //简介选择框
-        dataSource:1,           //数据替换
         showPetsPage: false,    //宠物显示
         showEvaluate: true,     //评价显示
         showIntroduction: true  //简介显示
@@ -139,7 +206,6 @@ Page({
         [showOneLine]: false,
         [showtwoLine]: true,
         [showThreeLine]: false,
-        dataSource: 2,
         showPetsPage: true,
         showEvaluate: false,
         showIntroduction: true
@@ -151,7 +217,6 @@ Page({
         [showOneLine]: false,
         [showtwoLine]: false,
         [showThreeLine]: true,
-        dataSource:3,
         showPetsPage: true,
         showEvaluate: true,
         showIntroduction: false
@@ -176,7 +241,58 @@ Page({
    * @param getStoreDetailResultCallback
    */
   getStoreDetail: function ( storeNo, getStoreDetailResultCallback) {
-    StoreService
+    StoreService.getStoreDetail(storeNo,
+      function getResultCallback(result) {
+        if (Util.checkIsFunction(getStoreDetailResultCallback)) {
+          getStoreDetailResultCallback(result.root)
+        }
+      }
+    )
+  },
+
+  /**
+   * 获取商家评价详情
+   * @param storeNo
+   * @param offset 
+   * @param getEvaluateListCallback
+   */
+  getEvaluateList: function (storeNo, offset, getEvaluateListCallback) {
+    StoreService.getStoreEvaluateList(
+      {
+        storeNo: this.data.storeNo,
+        offset: offset,
+        limit: Limit
+      },
+      function getResultCallback(result) {
+        if (Util.checkIsFunction(getEvaluateListCallback)) {
+          getEvaluateListCallback(result.root)
+        }
+      }
+    )
+  },
+
+  /**
+   * 获取商家宠物列表
+   * @param storeNo
+   * @param getPetListCallback
+   */
+  getStorePetList: function (storeNo, getPetListCallback) {
+    StoreService.getStorePetList(storeNo, 
+      function getResultCallback(result) {
+        if (Util.checkIsFunction(getPetListCallback)) {
+          getPetListCallback(result.root)
+        }
+      }
+    )
+  },
+
+  /**
+   * 点击拨打
+   */
+  tapCall: function(e) {
+    wx.makePhoneCall({
+      phoneNumber: e.currentTarget.dataset.phone,
+    })
   }
 
 })
