@@ -1,57 +1,29 @@
 <!--pages/mall/index.wxml-->
-<i-navigation-bar title='商城'
-                  showBackButton='{{false}}'>
+<i-navigation-bar title='商城' showBackButton='{{false}}'>
 </i-navigation-bar>
 
 <!-- 图片轮播 -->
-<swiper class='banner'
-        circular="{{true}}"
-        indicator-dots="{{true}}"
-        autoplay="{{true}}"
-        interval="5000"
-        duration="300"
-        vertical="{{false}}"
-        indicator-active-color="#7bbfea"
-        indicator-color="#cccccc">
-  <swiper-item wx:for="{{bannerDataSource}}"
-               wx:for-item="bannerItem"
-               wx:for-index="bannerIndex"
-               wx:key="bannerIndex">
-    <view class='banner-item'
-          data-index="{{bannerIndex}}"
-          data-link="{{bannerItem.link}}"
-          data-imageurl="{{bannerItem.imageUrl}}"
-          bindtap='tapBanner'>
-      <i-image i-class='banner-item-image'
-               mode='scaleToFill'
-               lazy-load='{{true}}'
-               imageSrc='{{bannerItem.imageUrl}}'
-               placeholderSrc='../../resource/placeholder.jpg'
-               failSrc='../../resource/fail.png'>
+<swiper class='banner' circular="{{true}}" indicator-dots="{{true}}" autoplay="{{true}}" interval="5000" duration="300" vertical="{{false}}" indicator-active-color="#7bbfea" indicator-color="#cccccc">
+  <swiper-item wx:for="{{bannerDataSource}}" wx:for-item="bannerItem" wx:for-index="bannerIndex" wx:key="bannerIndex">
+    <view class='banner-item' data-index="{{bannerIndex}}" data-link="{{bannerItem.link}}" data-imageurl="{{bannerItem.imageUrl}}" bindtap='tapBanner'>
+      <i-image i-class='banner-item-image' mode='scaleToFill' lazy-load='{{true}}' imageSrc='{{bannerItem.imageUrl}}' placeholderSrc='../../resource/placeholder.jpg' failSrc='../../resource/fail.png'>
       </i-image>
     </view>
   </swiper-item>
 </swiper>
 
 <!-- 主粮、零食、用品、保健 -->
-    <view class="fast-action-area">
-      <view wx:for="{{fastActionList}}"
-            wx:for-item='fastActionItem'
-            wx:for-index='fastActionIndex'
-            wx:key='{{fastActionIndex}}'
-            class="fast-action-item">
-            <image class="fast-action-icon"
-                   src='../../resource/dogfood.png'
-                   bindtap="fastActionTap" 
-                   data-key="{{fastActionItem.itemTypeNo}}">
-            </image>
-            <view class="fast-action-title">
-              {{fastActionItem.itemTypeName}}
-            </view>
-      </view>
+<view class="fast-action-area">
+  <view wx:for="{{fastActionList}}" wx:for-item='fastActionItem' wx:for-index='fastActionIndex' wx:key='{{fastActionIndex}}' class="fast-action-item">
+    <image class="fast-action-icon" src='../../resource/dogfood.png' bindtap="fastActionTap" data-key="{{fastActionItem.itemTypeNo}}">
+    </image>
+    <view class="fast-action-title">
+      {{fastActionItem.itemTypeName}}
     </view>
+  </view>
+</view>
 
-<view class="divLine"/>
+<view class="divLine" />
 
 <!-- 套餐 -->
 <i-panel>
@@ -63,116 +35,87 @@
     </view>
   </view>
   <view class="section-content-flex">
-    <view wx:for='{{setMenuList}}'
-          wx:for-item="setMenuItem"
-          wx:for-index="setMenuIndex"
-          wx:key='{{setMenuIndex}}'
-          class="setmenu-item"
-          bindtap="setMenuTap"
-          data-index="{{setMenuIndex}}">
+    <view wx:for='{{setMenuList}}' wx:for-item="setMenuItem" wx:for-index="setMenuIndex" wx:key='{{setMenuIndex}}' class="setmenu-item" bindtap="setMenuTap" data-index="{{setMenuIndex}}">
       <view class="setmenu-item-content">
         <view class="setmenu-item-info">
           <view class="text-name">
-          {{setMenuItem.name}}
+            {{setMenuItem.name}}
           </view>
           <view class="text-info">
-          {{setMenuItem.info}}
+            {{setMenuItem.info}}
           </view>
         </view>
-        <i-image i-class="setmenu-item-icon"
-                imageSrc='{{setMenuItem.iconPath}}'
-                placeholderSrc='../../resource/placeholder.jpg'
-                failSrc='../../resource/fail.png'>
+        <i-image i-class="setmenu-item-icon" imageSrc='{{setMenuItem.iconPath}}' placeholderSrc='../../resource/placeholder.jpg' failSrc='../../resource/fail.png'>
         </i-image>
       </view>
     </view>
   </view>
 </i-panel>
 
-<view class="divLine"/>
+<view class="divLine" />
 
-  <!-- 品牌 -->
-  <view class="section-title-area">
-    <view class="section-title" style="color:black;font-weight: bold;">
-      品牌
-    </view>
-    <view class="section-info">
-    </view>
+<!-- 品牌 -->
+<view class="section-title-area">
+  <view class="section-title" style="color:black;font-weight: bold;">
+    品牌
   </view>
+  <view class="section-info">
+  </view>
+</view>
 
 <!--图片展示-->
 <view class="brand-page">
-    <view class="brand-body-content"
-          wx:for='{{brandList}}'
-          wx:for-item="brandItem"
-          wx:for-index="brandIndex"
-          wx:key='{{brandIndex}}'
-          bindtap="brandTap"
-          data-index="brandIndex">
-         <image class="brand-body-content-image" 
-                src="{{brandItem.imageUrl}}">
-         </image>
-         <view class="brand-body-content-text">
-              {{brandItem.information}}
-         </view>
+  <view class="brand-body-content" wx:for='{{brandList}}' wx:for-item="brandItem" wx:for-index="brandIndex" wx:key='{{brandIndex}}' bindtap="brandTap" data-index="brandIndex" data-brandno='{{brandItem.itemBrandNo}}'>
+    <i-image i-class="brand-body-content-image" imageSrc="{{brandItem.itemBrandImg}}" placeholderSrc='../../resource/placeholder.jpg' failSrc='../../resource/fail.png'>
+    </i-image>
+    <view class="brand-body-content-text">
+      {{brandItem.itemBrandName}}
     </view>
+  </view>
 </view>
 
-<view class="divLine"/>
+<view class="divLine" />
 
-  <!-- 主粮 -->
+<!-- 主粮 -->
 
-  
-<view wx:for='{{petsInforDrouce}}'
-      wx:for-item="petsInforItem"
-      wx:for-index="petsInforIndex"
-      wx:key='{{petsInforIndex}}'>
-      <view class="section-title-area">
 
-        <view class="section-title" 
-              style="color: black;font-weight: bold;">
-               {{petsInforItem.itemTypeName}} 
-        </view>
-        <view class="section-info">
-        </view>
-        <view class="section-more"
-              bindtap="foodgrainMoreTap"
-              data-key="{{petsInforItem.itemTypeNo}}">
-              更多
-        </view>
-        <i-icon type="right-arrow"
-                size="32">
-        </i-icon>
-      </view>
+<view wx:for='{{petsInforDrouce}}' wx:for-item="petsInforItem" wx:for-index="petsInforIndex" wx:key='{{petsInforIndex}}'>
+  <view class="section-title-area">
 
-    <view class="foodgrain-page">
-        <view class="foodgrain-page-formation"
-              wx:for='{{petsInforItem.items}}'
-              wx:for-item="Item"
-              wx:for-index="Index"
-              wx:key='{{Item.itemNo}}'
-              bindtap="commodityInforMationTap">
-              <image class="foodgrain-page-formation-head" 
-                    src="{{Item.coverImg}}"> 
-              </image>
-              <view class="foodgrain-page-formation-middle">
-                    {{Item.itemName}}
-              </view>
-              <view class="foodgrain-page-formation-introduce">
-                    {{Item.itemStage}}
-              </view>
-              <view class="foodgrain-page-formation-down">
-                    ￥{{Item.retailPrice}}               
-                    <view class="foodgrain-page-formation-down-member">
-                          会员价
-                    </view>
-                    <view style="color:#ccc;padding-left:18%;text-decoration:line-through;">
-                          ￥{{Item.marketPrice}}
-                    </view>
-              </view>
-        </view>
+    <view class="section-title" style="color: black;font-weight: bold;">
+      {{petsInforItem.itemTypeName}}
     </view>
+    <view class="section-info">
+    </view>
+    <view class="section-more" bindtap="foodgrainMoreTap" data-key="{{petsInforItem.itemTypeNo}}">
+      更多
+    </view>
+    <i-icon type="right-arrow" size="32">
+    </i-icon>
+  </view>
 
-    <view class="divLine"/>
+  <view class="foodgrain-page">
+    <view class="foodgrain-page-formation" wx:for='{{petsInforItem.items}}' wx:for-item="Item" wx:for-index="Index" wx:key='{{Item.itemNo}}' bindtap="commodityInforMationTap">
+      <i-image i-class="foodgrain-page-formation-head" imageSrc="{{Item.coverImg}}" placeholderSrc='../../resource/placeholder.jpg' failSrc='../../resource/fail.png'>
+      </i-image>
+      <view class="foodgrain-page-formation-middle">
+        {{Item.itemName}}
+      </view>
+      <view class="foodgrain-page-formation-introduce">
+        {{Item.itemStage}}
+      </view>
+      <view class="foodgrain-page-formation-down">
+        ￥{{Item.retailPrice}}
+        <view class="foodgrain-page-formation-down-member">
+          会员价
+        </view>
+        <view style="color:#ccc;padding-left:18%;text-decoration:line-through;">
+          ￥{{Item.marketPrice}}
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="divLine" />
 
 </view>

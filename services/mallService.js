@@ -9,8 +9,8 @@ const {
 /**
  * 商城分类
  * @param getDataCallback 获取数据回调
- *        grade 宠粮类型
- *        limit 显示数量
+ * @param grade 宠粮类型
+ * @param limit 显示数量
  */
 function getMallPetType(grade, limit, getDataCallback) {
   let requestParam = new RequestParamObj({

@@ -186,7 +186,7 @@ Page({
           wx.hideLoading();
           console.log(result);
           wx.showToast({
-            title: result.root,
+            title: "取消收藏",
           })
           wx.startPullDownRefresh();
         }

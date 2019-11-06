@@ -1,6 +1,7 @@
 // pages/mall/index.js
 const Page_path=require("../../macros/pagePath.js");
 const MallService=require("../../services/mallService.js");
+const Util = require("../../utils/util.js");
 Page({
 
   /**
@@ -23,7 +24,7 @@ Page({
     ],
     fastActionList: [
 
-    ], // 高端宠物
+    ], 
     setMenuList: [
       {
         name: "小体型犬",
@@ -47,40 +48,7 @@ Page({
       },
     ], // 养宠套餐
     
-    brandList:[
-      {
-        imageUrl:"http://s.360qc.com/userfiles/shop/2015/08/31/1441011037055.png",
-        information:'法国皇家'
-      },
-      {
-        imageUrl: "http://tm-image.tianyancha.com/tm/99dd32431c25c33214af75afac0b522b.jpg",
-        information: '冠能'
-      },
-      {
-        imageUrl: "http://img.boqiicdn.com/Data/Shop/0/0/0/shopbrand_logo1431134552.jpg",
-        information: '伯纳天纯'
-      },
-      {
-        imageUrl: "http://img4.imgtn.bdimg.com/it/u=4148901729,1842399812&fm=214&gp=0.jpg",
-        information: '巴西淘淘'
-      },
-      {
-        imageUrl: "http://img2.imgtn.bdimg.com/it/u=1263608417,682825162&fm=214&gp=0.jpg",
-        information: '巅峰'
-      },
-      {
-        imageUrl: "http://img4.imgtn.bdimg.com/it/u=3244848101,669432983&fm=26&gp=0.jpg",
-        information: '卫仕'
-      },
-      {
-        imageUrl: "http://www.ixiupet.com/uploads/allimg/170613/23121M241-0.png",
-        information: '红狗'
-      },
-      {
-        imageUrl: "http://p1.sinaimg.cn/2576151472/180/80251341814526",
-        information: 'MAG'
-      },
-    ] ,  //品牌
+    brandList:[] ,  //品牌
 
     petsInforDrouce:[],  //页面数据
  
@@ -90,8 +58,31 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.showPageInfor();
-    this.getPetsTypeInfo();
+    let that = this;
+    this.showPageInfor(
+      function getPageInfoCallback(data){
+        console.log("page info : \n" + JSON.stringify(data));
+        that.setData({
+          petsInforDrouce: data
+        })
+      }
+    );
+    this.getPetsTypeInfo(
+      function getPetTypeInfoCallback(data) {
+        console.log("pet type : \n" + JSON.stringify(data));
+        that.setData({
+          fastActionList: data
+        })
+      }
+    );
+    this.getItemBrand(
+      function getItemBrandCallback(data) {
+        console.log("item brand : \n" + JSON.stringify(data));
+        that.setData({
+          brandList: data
+        })
+      }
+    )
   },
 
   /**
@@ -126,7 +117,6 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
   },
 
   /**
@@ -168,14 +158,8 @@ Page({
    */
   commodityInforMationTap:function(e){
 
-    var actinoKey = e.currentTarget.dataset.key
-
-    console.log(actinoKey);
-
-    let information = JSON.stringify(actinoKey);
-
     wx.navigateTo({
-      url: Page_path.Page_Mall_CommodityInformation + '?resinfo=' + encodeURIComponent(information)
+      url: Page_path.Page_Mall_CommodityInformation
     })
 
   },
@@ -205,27 +189,46 @@ Page({
   },
 
   /**
-   * 获得宠物类型（主粮、零食、用品）
+   * 查询品牌
+   * @param getBrandDataCallback
    */
-  getPetsTypeInfo:function(){
+  getItemBrand: function (getBrandDataCallback){
+    let that = this;
+    MallService.getBrandInfo(
+      function getResultCallback(result) {
+        if (Util.checkIsFunction(getBrandDataCallback)) {
+          getBrandDataCallback(result)
+        }
+      }
+    )
+  },
+
+  /**
+   * 获得商品类型（主粮、零食、用品）
+   * @param getPetTypesInfoCallback
+   */
+  getPetsTypeInfo: function (getPetTypesInfoCallback){
     let that=this;
-    MallService.getMallPetType(2, 4, function returnData(data) {
-        that.setData({
-          fastActionList: data
-        })
-    });
+    MallService.getMallPetType(2, 4,
+      function returnData(data) {
+        if (Util.checkIsFunction(getPetTypesInfoCallback)) {
+          getPetTypesInfoCallback(data)
+        }
+      }
+    );
   },
 
   /**
    * 页面显示宠物（主粮、零食、用品）信息
+   * @param getPageInfoCallback
    */
-  showPageInfor:function(){
+  showPageInfor: function (getPageInfoCallback){
     let that = this;
-    MallService.getMallPetTypeShowInfor(function returnData(data) {
-        console.log(data);
-        that.setData({
-          petsInforDrouce:data
-        })
+    MallService.getMallPetTypeShowInfor(
+      function returnData(data) {
+        if (Util.checkIsFunction(getPageInfoCallback)) {
+          getPageInfoCallback(data)
+        }
     });
   },
 
