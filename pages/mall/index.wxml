@@ -14,9 +14,9 @@
 
 <!-- 主粮、零食、用品、保健 -->
 <view class="fast-action-area">
-  <view wx:for="{{fastActionList}}" wx:for-item='fastActionItem' wx:for-index='fastActionIndex' wx:key='{{fastActionIndex}}' class="fast-action-item">
-    <image class="fast-action-icon" src='../../resource/dogfood.png' bindtap="fastActionTap" data-key="{{fastActionItem.itemTypeNo}}">
-    </image>
+  <view wx:for="{{fastActionList}}" wx:for-item='fastActionItem' wx:for-index='fastActionIndex' wx:key='{{fastActionIndex}}' class="fast-action-item" bindtap="fastActionTap" data-typeno='{{fastActionItem.itemTypeNo}}'>
+    <i-image i-class="fast-action-icon" imageSrc='{{fastActionItem.itemTypeImg}}' placeholderSrc='../../resource/placeholder.jpg' failSrc='../../resource/fail.png'>
+    </i-image>
     <view class="fast-action-title">
       {{fastActionItem.itemTypeName}}
     </view>
@@ -35,17 +35,17 @@
     </view>
   </view>
   <view class="section-content-flex">
-    <view wx:for='{{setMenuList}}' wx:for-item="setMenuItem" wx:for-index="setMenuIndex" wx:key='{{setMenuIndex}}' class="setmenu-item" bindtap="setMenuTap" data-index="{{setMenuIndex}}">
+    <view wx:for='{{setMenuList}}' wx:for-item="setMenuItem" wx:for-index="setMenuIndex" wx:key='{{setMenuIndex}}' class="setmenu-item" bindtap="setMenuTap" data-index="{{setMenuIndex}}" data-setmenuno='{{setMenuItem.itemPackNo}}'>
       <view class="setmenu-item-content">
         <view class="setmenu-item-info">
           <view class="text-name">
-            {{setMenuItem.name}}
+            {{setMenuItem.itemPackName}}
           </view>
           <view class="text-info">
             {{setMenuItem.info}}
           </view>
         </view>
-        <i-image i-class="setmenu-item-icon" imageSrc='{{setMenuItem.iconPath}}' placeholderSrc='../../resource/placeholder.jpg' failSrc='../../resource/fail.png'>
+        <i-image i-class="setmenu-item-icon" imageSrc='{{setMenuItem.itemPackImg}}' placeholderSrc='../../resource/placeholder.jpg' failSrc='../../resource/fail.png'>
         </i-image>
       </view>
     </view>
@@ -77,17 +77,14 @@
 <view class="divLine" />
 
 <!-- 主粮 -->
-
-
 <view wx:for='{{petsInforDrouce}}' wx:for-item="petsInforItem" wx:for-index="petsInforIndex" wx:key='{{petsInforIndex}}'>
   <view class="section-title-area">
-
     <view class="section-title" style="color: black;font-weight: bold;">
       {{petsInforItem.itemTypeName}}
     </view>
     <view class="section-info">
     </view>
-    <view class="section-more" bindtap="foodgrainMoreTap" data-key="{{petsInforItem.itemTypeNo}}">
+    <view class="section-more" bindtap="tapTypeDetail" data-typeno='{{petsInforItem.itemTypeNo}}'>
       更多
     </view>
     <i-icon type="right-arrow" size="32">
@@ -95,7 +92,7 @@
   </view>
 
   <view class="foodgrain-page">
-    <view class="foodgrain-page-formation" wx:for='{{petsInforItem.items}}' wx:for-item="Item" wx:for-index="Index" wx:key='{{Item.itemNo}}' bindtap="commodityInforMationTap">
+    <view class="foodgrain-page-formation" wx:for='{{petsInforItem.items}}' wx:for-item="Item" wx:for-index="Index" wx:key='{{Item.itemNo}}' bindtap="commodityInforMationTap" data-itemno='{{Item.itemNo}}'>
       <i-image i-class="foodgrain-page-formation-head" imageSrc="{{Item.coverImg}}" placeholderSrc='../../resource/placeholder.jpg' failSrc='../../resource/fail.png'>
       </i-image>
       <view class="foodgrain-page-formation-middle">

@@ -236,17 +236,17 @@
     </view>
   </view>
   <view class="section-content-flex">
-    <view wx:for='{{setMenuList}}' wx:for-item="setMenuItem" wx:for-index="setMenuIndex" wx:key='{{setMenuIndex}}' class="setmenu-item" bindtap="setMenuTap" data-index="{{setMenuIndex}}">
+    <view wx:for='{{setMenuList}}' wx:for-item="setMenuItem" wx:for-index="setMenuIndex" wx:key='{{setMenuIndex}}' class="setmenu-item" bindtap="setMenuTap" data-index="{{setMenuIndex}}" data-setmenuno='{{setMenuItem.itemPackNo}}'>
       <view class="setmenu-item-content">
         <view class="setmenu-item-info">
           <view class="text-name">
-            {{setMenuItem.name}}
+            {{setMenuItem.itemPackName}}
           </view>
           <view class="text-info">
             {{setMenuItem.info}}
           </view>
         </view>
-        <i-image i-class="setmenu-item-icon" imageSrc='{{setMenuItem.iconPath}}' placeholderSrc='/resource/placeholder.jpg' failSrc='/resource/fail.png'>
+        <i-image i-class="setmenu-item-icon" imageSrc='{{setMenuItem.itemPackImg}}' placeholderSrc='/resource/placeholder.jpg' failSrc='/resource/fail.png'>
         </i-image>
       </view>
     </view>

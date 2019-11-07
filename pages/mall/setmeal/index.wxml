@@ -1,76 +1,55 @@
 <!--pages/mall/setmeal/index.wxml-->
-<i-navigation-bar title='套餐'
-                  showBackButton='{{true}}'>
+<i-navigation-bar title='套餐' showBackButton='{{true}}'>
 </i-navigation-bar>
 
 <!-- 头部选择栏 -->
 <view class="setmeal-head">
-      <view  style="height:50px"
-             class="setmeal-selectinfo" 
-             wx:for='{{petType}}'
-             wx:for-item="petTypeItem"
-             wx:for-index="petTypeIndex"
-             wx:key='{{petTypeIndex}}'
-             bindtap="petTypeTap"
-             data-index="{{petTypeIndex}}">
-            <view style="{{parse.showStyle(petTypeItem.showLine)}}">
-                {{petTypeItem.petName}}
-            </view>       
-      </view>
+  <view style="height:50px" class="setmeal-selectinfo" wx:for='{{setMenuList}}' wx:for-item="petTypeItem" wx:for-index="petTypeIndex" wx:key='{{petTypeIndex}}' bindtap="petTypeTap" data-index="{{petTypeIndex}}" data-setmenuno='{{petTypeItem.itemPackNo}}'>
+    <view style="{{parse.showStyle(petTypeItem.showLine)}}">
+      {{petTypeItem.itemPackName}}
+    </view>
+  </view>
 </view>
 
 <!-- 图片展示信息 -->
-<scroll-view scroll-y
-             class="scroll-view-page"
-             style="height: {{pageHeight-50}}px"
-             bindscrolltolower="loadiongtap">
-  <view class="foodgrain-page">
-        <view class="foodgrain-page-formation"
-              wx:for='{{dataSource}}'
-              wx:for-item="dataSourceItem"
-              wx:for-index="dataSourceIndex"
-              wx:key='{{dataSourceIndex}}'
-              bindtap="commodityInforMationTap"
-              data-key="{{dataSourceItem}}">
-              <image class="foodgrain-page-formation-head"
-                    src="{{dataSourceItem.imageUrl}}">
-              </image>
-              <view class="foodgrain-page-formation-middle">
-                  {{dataSourceItem.commodity}}
-              </view>
-              <view class="foodgrain-page-formation-introduce">
-                  {{dataSourceItem.introduce}}
-              </view>
-              <view class="foodgrain-page-formation-down">
-                    <view class="foodgrain-page-formation-down-left">       
-                          <view class="foodgrain-page-formation-down-price">
-                              ￥{{dataSourceItem.price}} 
-                          </view>
-                          <view class="foodgrain-page-formation-down-member">
-                              会员价
-                          </view>
-                    </view>
-                    <view class="foodgrain-page-formation-down-originalPrice">
-                          ￥{{dataSourceItem.originalPrice}}
-                    </view>
-              </view>
+<view class="foodgrain-page">
+  <view class="foodgrain-page-formation" wx:for='{{itemList}}' wx:for-item="dataSourceItem" wx:for-index="dataSourceIndex" wx:key='{{dataSourceIndex}}' bindtap="commodityInforMationTap" data-key="{{dataSourceItem}}" data-itemno='{{dataSourceItem.itemNo}}'>
+    <i-image i-class="foodgrain-page-formation-head" imageSrc="{{dataSourceItem.coverImg}}" placeholderSrc='../../resource/placeholder.jpg' failSrc='../../resource/fail.png'>
+    </i-image>
+    <view class="foodgrain-page-formation-middle">
+      {{dataSourceItem.itemName}}
+    </view>
+    <view class="foodgrain-page-formation-introduce">
+      {{dataSourceItem.itemStage}}
+    </view>
+    <view class="foodgrain-page-formation-down">
+      <view class="foodgrain-page-formation-down-left">
+        <view class="foodgrain-page-formation-down-price">
+          ￥{{dataSourceItem.retailPrice}}
         </view>
+        <view class="foodgrain-page-formation-down-member">
+          会员价
+        </view>
+      </view>
+      <view class="foodgrain-page-formation-down-originalPrice">
+        ￥{{dataSourceItem.marketPrice}}
+      </view>
+    </view>
   </view>
-  <i-load-foot-item loadState='{{loadState}}'>
-  </i-load-foot-item>
-</scroll-view>
+</view>
+<i-load-foot-item loadState='{{loadState}}'>
+</i-load-foot-item>
 
 
-<wxs module='parse'>                                                                        
-   module.exports={
-      showStyle:function(res){
-          if(res==true){
-             return "border-bottom:3px solid #ED630A"
-          }else{
-             return "border-bottom:0px solid #ED630A"
-          }
+<wxs module='parse'>
+  module.exports = {
+    showStyle: function(res) {
+      if (res == true) {
+        return "border-bottom:3px solid #ED630A"
+      } else {
+        return "border-bottom:0px solid #ED630A"
       }
-        
-   }
+    }
 
+  }
 </wxs>

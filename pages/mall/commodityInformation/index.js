@@ -95,6 +95,7 @@ Page({
    */
   onLoad: function (options) {
     let that=this;
+    console.log("item detail: \n" + options.itemno)
     that.setData({
 
     })

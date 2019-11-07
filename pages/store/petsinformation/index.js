@@ -161,7 +161,7 @@ Page({
     wx.showLoading({
       title: '请稍等...',
     })
-    if (this.data.petDetailData.petFavorite.customer == null) {
+    if (this.data.petDetailData.petFavorite == null || this.data.petDetailData.petFavorite.customer == null) {
       PetService.addNewPetCollection(
         {
           petNo: this.data.petDetailData.petNo,

@@ -9,6 +9,7 @@ const Config = require("../../macros/config.js");
 const LocationService = require("../../services/locationService.js");
 const PetService = require("../../services/petService.js");
 const StoreService = require("../../services/storeService.js");
+const MallService = require("../../services/mallService.js");
 const {
   PetFilterObj
 } = require("../../entity/petFilterObj.js");
@@ -130,6 +131,16 @@ Page({
             that.setData({
               recommendGoodsList: result.root,
               pageIndex: that.data.pageIndex + Limit
+            })
+          }
+        )
+
+        // 套餐
+        MallService.getSetMealList(
+          function getResultCallback(result) {
+            console.log("set meal : \n" + JSON.stringify(result));
+            that.setData({
+              setMenuList: result.root
             })
           }
         )
@@ -298,10 +309,8 @@ Page({
    * 点击套餐中犬类
    */
   setMenuTap: function(res) {
-    var actionIndex = res.currentTarget.dataset.index
-
     wx.navigateTo({
-      url: PagePath.Page_Mall_SetMeal + '?setMealType=' + actionIndex
+      url: PagePath.Page_Mall_SetMeal + '?setmenuno=' + res.currentTarget.dataset.setmenuno
     })
 
   },
@@ -394,27 +403,7 @@ Page({
     newestList: [], // 最新上架
     fineList: [], // 精品
     upscaleList: [], // 高端宠物
-    setMenuList: [{
-        name: "小体型犬",
-        info: "低至99元起",
-        iconPath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571133940215&di=713c8e2f8180fe6e01fee05dfdeb04d9&imgtype=0&src=http%3A%2F%2Fimg.mp.itc.cn%2Fupload%2F20160629%2F727e135d01e94ff2ace58fe150c6f5ea.jpg",
-      },
-      {
-        name: "中体型犬",
-        info: "低至99元起",
-        iconPath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571134040835&di=021c08edae9fa11bb2dbabfbb1cdf4f3&imgtype=0&src=http%3A%2F%2Fimg3.redocn.com%2Ftupian%2F20150106%2Fwangoupaidebandiangou_3802352.jpg",
-      },
-      {
-        name: "大体型犬",
-        info: "低至99元起",
-        iconPath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571133984395&di=77ec705a4112547d49654adee4752b03&imgtype=0&src=http%3A%2F%2Fpic39.nipic.com%2F20140325%2F2531170_234047950000_2.jpg",
-      },
-      {
-        name: "猫咪套餐",
-        info: "低至99元起",
-        iconPath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571134123613&di=4600106c840ff2762ac724df88ab39be&imgtype=0&src=http%3A%2F%2Fpic.90sjimg.com%2Fdesign%2F01%2F13%2F48%2F71%2F58fda68f998e7.png",
-      },
-    ], // 养宠套餐
+    setMenuList: [], // 养宠套餐
     recommendStoreList: [], // 推荐商家
     hotTypeList: [], // 热门分类
     recommendGoodsList: [], // 为您推荐
