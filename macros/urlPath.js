@@ -86,7 +86,7 @@ module.exports={
   Url_Item_Brand, // 粮宠品牌
   Url_Item_Classify, // 宠粮分类
   Url_Item_SetMeal, // 商品套餐分类
-  Url_Item_Detail, // 详情 -------
+  Url_Item_Detail, // 详情
   Url_Item_List, // 获取商品列表
 
   Url_BusinessInfo,    //商家显示数据
@@ -101,8 +101,8 @@ module.exports={
   Url_DeleteAddress, // 删除收货地址
 
   Url_AddNew_Pet_Collection, // 新增宠物收藏
-  Url_Delete_Pet_Collection, // 删除宠物收藏----
-  Url_Get_Pet_Collection, // 查询宠物收藏----
+  Url_Delete_Pet_Collection, // 删除宠物收藏
+  Url_Get_Pet_Collection, // 查询宠物收藏
 
   Url_AddNew_Item_Collection, // 新增商品收藏----
   Url_Delete_Item_Collection, // 删除商品收藏----

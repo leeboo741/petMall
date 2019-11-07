@@ -1,6 +1,8 @@
 // pages/mall/commodityInformation/index.js
 const Page_path = require("../../../macros/pagePath.js");
-const PetService = require("../../../services/petService.js");
+const MallService = require("../../../services/mallService.js");
+const Util = require("../../../utils/util.js");
+const UserService = require("../../../services/userService.js");
 
 Page({
 
@@ -8,72 +10,53 @@ Page({
    * 页面的初始数据
    */
   data: {
-    imageUrls:null,  //图片链接
-    commodityInformation: null,  //商品详情
-    commodityintroduce: null,   //商品介绍
-    price: 0,                  //商品会员价格
-    originalPrice: 0,         //商品原价
-
-    shopDataSource:[],      //商品信息
-    commodityInforType:[    //商品具体分类信息
+    itemNo: null,
+    itemDetailData: null, 
+    commodityInforType: [    //商品具体分类信息
       {
-        type:"配送",
-        inforMation:"按重量计"
+        type: "配送",
       },
 
       {
-        type:"分类",
-        inforMation:"宠粮"
+        type: "分类",
       },
 
       {
         type: "品牌",
-        inforMation: "皇家"
       },
 
       {
         type: "阶段",
-        inforMation: "幼猫"
       },
 
       {
         type: "品种",
-        inforMation: "美国卷毛猫 布偶猫 英国短毛猫"
       },
 
       {
         type: "毛重",
-        inforMation: "2000克"
       },
 
       {
         type: "保质",
-        inforMation: "18个月"
       },
 
       {
         type: "适宜",
-        inforMation: "1-4个月龄幼猫，怀孕及哺乳期母猫"
       },
 
       {
         type: "口味",
-        inforMation: "鱼肉味"
       },
 
       {
         type: "期限",
-        inforMation: "18个月"
       },
 
       {
         type: "优惠",
-        inforMation: "无"
       },
     ],
-
-    evaluationInformation:[], // 评价列表
-
     guaranteeList:[  
         {
           guaranteeHead:"七天无理由退货",
@@ -86,8 +69,6 @@ Page({
         },
 
     ], //品质服务保障
-
-    imageList:[], // 详情
   },
 
   /**
@@ -95,10 +76,10 @@ Page({
    */
   onLoad: function (options) {
     let that=this;
-    console.log("item detail: \n" + options.itemno)
     that.setData({
-
+      itemNo: options.itemno
     })
+    wx.startPullDownRefresh();
   },
 
   /**
@@ -133,7 +114,15 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+    let that = this;
+    this.getItemDetail(this.data.itemNo,
+      function getItemDetailCallback(data) {
+        that.setData({
+          itemDetailData: data[0]
+        })
+        wx.stopPullDownRefresh();
+      }
+    )
   },
 
   /**
@@ -169,23 +158,62 @@ Page({
   },
 
   /**
-   * 获取详情
+   * 点击收藏
    */
-  getDetail: function() {
-
+  tapCollection: function () {
+    wx.showLoading({
+      title: '请稍等...',
+    })
+    if (this.data.itemDetailData.itemFavorite == null || this.data.itemDetailData.itemFavorite.customer == null) {
+      MallService.addNewItemCollection(
+        {
+          itemNo: this.data.itemDetailData.itemNo,
+          customerNo: UserService.getCustomerNo()
+        },
+        function addResultCallback(result) {
+          wx.hideLoading();
+          console.log(result);
+          wx.showToast({
+            title: '收藏成功',
+          })
+          wx.startPullDownRefresh();
+        }
+      )
+    } else {
+      MallService.deletePetCollection(
+        {
+          petNo: this.data.itemDetailData.itemNo,
+          customerNo: UserService.getCustomerNo()
+        },
+        function addResultCallback(result) {
+          wx.hideLoading();
+          console.log(result);
+          wx.showToast({
+            title: "取消收藏",
+          })
+          wx.startPullDownRefresh();
+        }
+      )
+    }
   },
 
   /**
-   * 获取宠物详情
+   * 下载商品详情
+   * @param itemNo
+   * @param getItemDetailCallback
    */
-  getPetDetail: function () {
+  getItemDetail: function(itemNo, getItemDetailCallback) {
+    MallService.getItemDetail(
+      {
+        itemNo: itemNo,
+        limit: 10,
+      },
+      function getResultCallback(result) {
+        if (Util.checkIsFunction(getItemDetailCallback)) {
+          getItemDetailCallback(result.root)
+        }
+      }
+    )
+  }
 
-  },
-
-  /**
-   * 获取宠物商品详情
-   */
-  getItemDetail: function () {
-
-  },
 })

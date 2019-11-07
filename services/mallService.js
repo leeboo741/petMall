@@ -1,4 +1,4 @@
-const UrlService = require("../macros/urlPath.js");
+const UrlPath = require("../macros/urlPath.js");
 
 const ResponseEnum = require("../services/handle/ResponseCodeEnum.js");
 const RequestUtil = require("../utils/requestUtil.js");
@@ -16,7 +16,7 @@ const Util = require("../utils/util.js");
  */
 function getMallPetType(grade, limit, getDataCallback) {
   let requestParam = new RequestParamObj({
-    url: UrlService.Url_Base + UrlService.Url_ItemType,
+    url: UrlPath.Url_Base + UrlPath.Url_ItemType,
     data: {
       grade: grade,
       limit: limit
@@ -36,7 +36,7 @@ function getMallPetType(grade, limit, getDataCallback) {
  */
 function getMallPetTypeShowInfor(getDataCallback) {
   let requestParam = new RequestParamObj({
-    url: UrlService.Url_Base + UrlService.Url_ItemShowTypeInfo,
+    url: UrlPath.Url_Base + UrlPath.Url_ItemShowTypeInfo,
     data: {},
     success(res) {
       if (typeof getDataCallback == "function" && getDataCallback) {
@@ -52,9 +52,9 @@ function getMallPetTypeShowInfor(getDataCallback) {
  * @param getDataCallback 获取数据回调
  */
 
-function getBrandInfo(getDataCallback){
+function getBrandInfo(getDataCallback) {
   let requestParam = new RequestParamObj({
-    url: UrlService.Url_Base + UrlService.Url_Item_Brand,
+    url: UrlPath.Url_Base + UrlPath.Url_Item_Brand,
     data: {},
     success(res) {
       if (typeof getDataCallback == "function" && getDataCallback) {
@@ -70,9 +70,9 @@ function getBrandInfo(getDataCallback){
  * 商城(获得品种下拉信息、)
  * @param getDataCallback 获取数据回调
  */
-function getVarieties(getDataCallback){
+function getVarieties(getDataCallback) {
   let requestParam = new RequestParamObj({
-    url: UrlService.Url_Base + UrlService.Url_Item_Classify,
+    url: UrlPath.Url_Base + UrlPath.Url_Item_Classify,
     data: {},
     success(res) {
       if (typeof getDataCallback == "function" && getDataCallback) {
@@ -89,7 +89,7 @@ function getVarieties(getDataCallback){
  */
 function getSetMealList(getResultCallback) {
   let requestParam = new RequestParamObj({
-    url: UrlService.Url_Base + UrlService.Url_Item_SetMeal,
+    url: UrlPath.Url_Base + UrlPath.Url_Item_SetMeal,
     success(res) {
       if (Util.checkIsFunction(getResultCallback)) {
         getResultCallback(res);
@@ -108,10 +108,6 @@ function getItemList(param, getResultCallback) {
   let data = {
     page: 0,
     number: 0,
-    // itemTypeNo: "",
-    // itemClassifyNo: "",
-    // itemPackNo: "",
-    // itemBrandNo: "",
   };
   if (!Util.checkEmpty(param.itemTypeNo)) {
     data.itemTypeNo = param.itemTypeNo;
@@ -133,7 +129,7 @@ function getItemList(param, getResultCallback) {
   }
 
   let requestParam = new RequestParamObj({
-    url: UrlService.Url_Base + UrlService.Url_Item_List,
+    url: UrlPath.Url_Base + UrlPath.Url_Item_List,
     data: data,
     success(res) {
       if (typeof getResultCallback == "function" && getResultCallback) {
@@ -144,6 +140,88 @@ function getItemList(param, getResultCallback) {
   RequestUtil.RequestGET(requestParam)
 }
 
+/**
+ * 获取商品详情
+ * @param param (itemNo, limit)
+ * @param getResultCallback
+ */
+function getItemDetail(param, getResultCallback) {
+  let requestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_Item_Detail,
+    data: {
+      itemNo: param.itemNo,
+      limit: param.limit,
+    },
+    success(res) {
+      if (Util.checkIsFunction(getResultCallback)) {
+        getResultCallback(res);
+      }
+    }
+  })
+  RequestUtil.RequestGET(requestParam)
+}
+
+/**
+ * 新增商品收藏
+ * @param param(itemNo , customerNo)
+ * @param addResultCallback
+ */
+function addNewItemCollection(param, addResultCallback) {
+  let requestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_AddNew_Item_Collection,
+    data: {
+      itemNo: param.itemNo ,
+      customerNo: param.customerNo
+    },
+    header: {
+      'content-type': "application/x-www-form-urlencoded"
+    },
+    success(res) {
+      if (Util.checkIsFunction(addResultCallback)) {
+        addResultCallback(res);
+      }
+    }
+  })
+  RequestUtil.RequestPOST(requestParam);
+}
+
+/**
+ * 查询商品收藏
+ * @param customerNo
+ * @param getResultCallback
+ */
+function getItemCollection(customerNo, getResultCallback) {
+  let requestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_Get_Item_Collection,
+    data: {
+      customerNo: customerNo
+    },
+    success(res) {
+      if (Util.checkIsFunction(getResultCallback)) {
+        getResultCallback(res);
+      }
+    }
+  })
+  RequestUtil.RequestGET(requestParam);
+}
+
+/**
+ * 删除宠物收藏
+ * @param param (customerNo, itemNo )
+ * @param getResultCallback
+ */
+function deleteItemCollection(param, deleteResultCallback) {
+  let requestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_Delete_Item_Collection + param.itemNo + "/" + param.customerNo,
+    success(res) {
+      if (Util.checkIsFunction(deleteResultCallback)) {
+        deleteResultCallback(res);
+      }
+    }
+  })
+  RequestUtil.RequestDELETE(requestParam);
+}
+
 module.exports = {
   getMallPetType: getMallPetType,
   getMallPetTypeShowInfor: getMallPetTypeShowInfor,
@@ -151,4 +229,8 @@ module.exports = {
   getVarieties: getVarieties,
   getSetMealList: getSetMealList,
   getItemList: getItemList,
+  getItemDetail: getItemDetail,
+  addNewItemCollection: addNewItemCollection,
+  getItemCollection: getItemCollection,
+  deleteItemCollection: deleteItemCollection,
 }

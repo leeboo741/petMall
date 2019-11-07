@@ -156,7 +156,7 @@
       </view>
     </view>
 
-    <view style="margin-left:8%;font-size:28rpx;">
+    <view style="margin-left:8%;font-size:24rpx;">
       {{evaluationInformationItem.content}}
     </view>
   </view>
