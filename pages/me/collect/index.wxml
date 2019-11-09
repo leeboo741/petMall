@@ -2,43 +2,97 @@
 <i-navigation-bar title='我的收藏'
                   showBackButton>
 </i-navigation-bar>
-
+<view class="tab-box" style="top: {{naviHeight}}px">
+  <i-tabs current="{{currentTabIndex}}" 
+          bindchange="handleTabChange"
+          color="#f3ba33">
+    <i-tab wx:for='{{tabList}}'
+            wx:for-item='tabItem'
+            wx:for-index='tabIndex'
+            wx:key='{{tabIndex}}'
+            key="{{tabIndex}}" 
+            title="{{tabItem}}">
+    </i-tab>
+  </i-tabs>
+</view>
+<view class="empty-zone"></view>
 <view class="collection-box">
-  <view wx:for='{{collectionList}}'
-        wx:for-item='collectionItem'
-        wx:for-index='collectionIndex'
-        wx:key='{{collectionIndex}}'
-        class="collection-item"
-        bindtap="tapPetCollection"
-        data-petno='{{collectionItem.pet.petNo}}'>
-    <view class="collection-item-image-box">
-      <i-image i-class="collection-item-image"
-               imageSrc="{{collectionItem.pet.coverMedia}}"
-               placeholderSrc='../../resource/avatar_placeholder.jpg'
-               mode='scaleToFit'>
-      </i-image>
+  <block wx:if='{{currentTabIndex==0}}'>
+    <view wx:for='{{collectionList}}'
+          wx:for-item='collectionItem'
+          wx:for-index='collectionIndex'
+          wx:key='{{collectionIndex}}'
+          class="collection-item"
+          bindtap="tapPetCollection"
+          data-petno='{{collectionItem.pet.petNo}}'>
+      <view class="collection-item-image-box">
+        <i-image i-class="collection-item-image"
+                imageSrc="{{collectionItem.pet.coverMedia}}"
+                placeholderSrc='../../resource/avatar_placeholder.jpg'
+                mode='scaleToFit'>
+        </i-image>
+      </view>
+      <view class="collection-item-info-box">
+        <view class="collection-item-info-line">
+          <view class="collection-item-info-name">
+          {{collectionItem.pet.petName}}
+          </view>
+        </view>
+        <view class="collection-item-info-line">
+          <view class="collection-item-info-address">
+          {{collectionItem.goods.province}} {{collectionItem.goods.city}}
+          </view>
+          <view class="collection-item-info-price">
+          ￥{{collectionItem.pet.retailPrice}}
+          </view>
+        </view>
+        <view class="cancel-collection-button"
+              catchtap="cancelPetCollection"
+              data-petno='{{collectionItem.pet.petNo}}'>
+        取消收藏
+        </view>
+      </view> 
     </view>
-    <view class="collection-item-info-box">
-      <view class="collection-item-info-line">
-        <view class="collection-item-info-name">
-        {{collectionItem.pet.petName}}
-        </view>
+  </block>
+
+  <block wx:else>
+    <view wx:for='{{itemCollectionList}}'
+          wx:for-item='collectionItem'
+          wx:for-index='collectionIndex'
+          wx:key='{{collectionIndex}}'
+          class="collection-item"
+          bindtap="tapItemCollection"
+          data-itemno='{{collectionItem.item.itemNo}}'>
+      <view class="collection-item-image-box">
+        <i-image i-class="collection-item-image"
+                imageSrc="{{collectionItem.item.coverImg}}"
+                placeholderSrc='../../resource/avatar_placeholder.jpg'
+                mode='scaleToFit'>
+        </i-image>
       </view>
-      <view class="collection-item-info-line">
-        <view class="collection-item-info-address">
-        {{collectionItem.goods.province}} {{collectionItem.goods.city}}
+      <view class="collection-item-info-box">
+        <view class="collection-item-info-line">
+          <view class="collection-item-info-name">
+          {{collectionItem.item.itemName}}
+          </view>
         </view>
-        <view class="collection-item-info-price">
-        ￥{{collectionItem.goods.price}}
+        <view class="collection-item-info-line">
+          <view class="collection-item-info-address">
+          {{collectionItem.goods.province}} {{collectionItem.goods.city}}
+          </view>
+          <view class="collection-item-info-price">
+          ￥{{collectionItem.item.retailPrice}}
+          </view>
         </view>
-      </view>
-      <view class="cancel-collection-button"
-            catchtap="cancelPetCollection"
-            data-petno='{{collectionItem.pet.petNo}}'>
-      取消收藏
-      </view>
-    </view> 
-  </view>
+        <view class="cancel-collection-button"
+              catchtap="cancelItemCollection"
+              data-itemno='{{collectionItem.item.itemNo}}'>
+        取消收藏
+        </view>
+      </view> 
+    </view>
+  </block>
+  
 </view>
 
 <!-- 加载块 -->

@@ -6,6 +6,8 @@ const PagePath = require("../../../macros/pagePath.js");
 const Util =  require("../../../utils/util.js");
 const PetService = require("../../../services/petService.js");
 const UserService = require("../../../services/userService.js");
+const MallService = require("../../../services/mallService.js");
+const app = getApp();
 
 Page({
 
@@ -13,15 +15,25 @@ Page({
    * 页面的初始数据
    */
   data: {
+    naviHeight: 0,
     pageIndex: 0, // 页码
     loadState: LoadFootItemState.Loading_State_Empty, // 底部状态
     collectionList: [],
+    itemCollectionList: [],
+    currentTabIndex: 0,
+    tabList: [
+      "宠物",
+      "商品"
+    ],
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    this.setData({
+      naviHeight: app.globalData.naviHeight
+    })
     wx.startPullDownRefresh();
   },
 
@@ -57,49 +69,51 @@ Page({
    */
   onPullDownRefresh: function () {
     let that = this;
-    this.requestGetPetCollectionList(UserService.getCustomerNo(),
-      function getPetCollectionCallback(data) {
-        that.setData({
-          collectionList: data,
-        })
-        if (data.length > 0) {
+    if (this.data.currentTabIndex == 0) {
+      this.requestGetPetCollectionList(UserService.getCustomerNo(),
+        function getPetCollectionCallback(data) {
           that.setData({
-            loadState: LoadFootItemState.Loading_State_End
+            collectionList: data,
           })
-        } else {
-          that.setData({
-            loadState: LoadFootItemState.Loading_State_Empty
-          })
+          if (data.length > 0) {
+            that.setData({
+              loadState: LoadFootItemState.Loading_State_End
+            })
+          } else {
+            that.setData({
+              loadState: LoadFootItemState.Loading_State_Empty
+            })
+          }
+          wx.stopPullDownRefresh();
         }
-        wx.stopPullDownRefresh();
-      }
-    )
+      )
+    } else {
+      this.requestGetItemCollection(UserService.getCustomerNo(),
+        function getItemCollectionCallback(data) {
+          that.setData({
+            itemCollectionList: data,
+          })
+          if (data.length > 0) {
+            that.setData({
+              loadState: LoadFootItemState.Loading_State_End
+            })
+          } else {
+            that.setData({
+              loadState: LoadFootItemState.Loading_State_Empty
+            })
+          }
+          wx.stopPullDownRefresh();
+        }
+      )
+    }
+    
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    if (this.data.loadState == LoadFootItemState.Loading_State_End) {
-      return;
-    }
-    this.setData({
-      loadState: LoadFootItemState.Loading_State_Loading,
-    })
-    let that = this;
-    this.data.tempTimeInterval = setTimeout(function () {
-      that.data.pageIndex = that.data.pageIndex + 1;
-      if (that.data.pageIndex >= 5) {
-        that.setData({
-          loadState: LoadFootItemState.Loading_State_End
-        })
-      } else {
-        that.setData({
-          collectionList: that.data.collectionList.concat(that.data.tempCollectionList),
-          loadState: LoadFootItemState.Loading_State_Normal
-        })
-      }
-    }, 1000)
+    
   },
 
   /**
@@ -107,6 +121,17 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+
+  /**
+   * 选择tab
+   */
+  handleTabChange: function(e) {
+    this.setData({
+      currentTabIndex: e.detail.key,
+      loadState: LoadFootItemState.Loading_State_Empty
+    })
+    wx.startPullDownRefresh();
   },
 
   /**
@@ -119,11 +144,35 @@ Page({
   },
 
   /**
+   * 点击商品收藏卡片
+   */
+  tapItemCollection: function (e) {
+    wx.navigateTo({
+      url: PagePath.Page_Mall_CommodityInformation + "?itemno=" + e.currentTarget.dataset.itemno,
+    })
+  },
+
+  /**
    * 点击宠物取消收藏
    */
   cancelPetCollection: function(e) {
     this.requestDeletePetCollection(e.currentTarget.dataset.petno, UserService.getCustomerNo(),
       function deletePetCollectionCallback(result) {
+        console.log("Delete collection :\n" + JSON.stringify(result));
+        wx.showToast({
+          title: result,
+        })
+        wx.startPullDownRefresh();
+      }
+    )
+  },
+
+  /**
+   * 点击商品取消收藏
+   */
+  cancelItemCollection: function (e) {
+    this.requestDeleteItemCollection(e.currentTarget.dataset.itemno, UserService.getCustomerNo(),
+      function deleteItemCollectionCallback(result) {
         console.log("Delete collection :\n" + JSON.stringify(result));
         wx.showToast({
           title: result,
@@ -166,5 +215,40 @@ Page({
         }
       }
     )
-  }
+  },
+
+  /**
+   * 请求商品收藏列表
+   * @param customerNo
+   * @param getItemCollectionCallback
+   */
+  requestGetItemCollection: function (customerNo, getItemCollectionCallback) {
+    MallService.getItemCollection(customerNo,
+      function getResultCallback(result) {
+        if (Util.checkIsFunction(getItemCollectionCallback)) {
+          getItemCollectionCallback(result.root)
+        }
+      }
+    )
+  },
+
+  /**
+   * 删除商品收藏
+   * @param itemNo 
+   * @param customerNo
+   * @param deleteItemCollectionCallback
+   */
+  requestDeleteItemCollection: function (itemNo, customerNo, deleteItemCollectionCallback) {
+    MallService.deleteItemCollection(
+      {
+        customerNo: customerNo,
+        itemNo: itemNo
+      },
+      function deleteResultCallback(result) {
+        if (Util.checkIsFunction(deleteItemCollectionCallback)) {
+          deleteItemCollectionCallback(result.root)
+        }
+      }
+    )
+  },
 })

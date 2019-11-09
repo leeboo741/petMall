@@ -164,7 +164,7 @@ Page({
     wx.showLoading({
       title: '请稍等...',
     })
-    if (this.data.itemDetailData.itemFavorite == null || this.data.itemDetailData.itemFavorite.customer == null) {
+    if (this.data.itemDetailData.itemFavorites == null || this.data.itemDetailData.itemFavorites.customer == null) {
       MallService.addNewItemCollection(
         {
           itemNo: this.data.itemDetailData.itemNo,
@@ -180,9 +180,9 @@ Page({
         }
       )
     } else {
-      MallService.deletePetCollection(
+      MallService.deleteItemCollection(
         {
-          petNo: this.data.itemDetailData.itemNo,
+          itemNo: this.data.itemDetailData.itemNo,
           customerNo: UserService.getCustomerNo()
         },
         function addResultCallback(result) {
@@ -207,6 +207,7 @@ Page({
       {
         itemNo: itemNo,
         limit: 10,
+        customerNo: UserService.getCustomerNo(),
       },
       function getResultCallback(result) {
         if (Util.checkIsFunction(getItemDetailCallback)) {

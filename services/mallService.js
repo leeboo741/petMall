@@ -151,6 +151,7 @@ function getItemDetail(param, getResultCallback) {
     data: {
       itemNo: param.itemNo,
       limit: param.limit,
+      customerNo: param.customerNo
     },
     success(res) {
       if (Util.checkIsFunction(getResultCallback)) {

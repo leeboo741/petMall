@@ -55,7 +55,7 @@
 
   </view>
   <view class="business-pets-page">
-    <view class="business-pets-information" wx:for='{{petList}}' wx:for-item="petItem" wx:for-index="petIndex" wx:key='{{petIndex}}' bindtap="petsInforTap" data-item="{{petItem}}" data-index="{{petIndex}}" data-petno='{{petItem.petNo}}'>
+    <view class="business-pets-information" wx:for='{{petList[0].petList}}' wx:for-item="petItem" wx:for-index="petIndex" wx:key='{{petIndex}}' bindtap="petsInforTap" data-item="{{petItem}}" data-index="{{petIndex}}" data-petno='{{petItem.petNo}}'>
       <view class="business-pets-information">
         <i-image imageSrc="{{petItem.coverMedia}}" i-class="business-pets-image" placeholderSrc='../../resource/placeholder.jpg' failSrc='../../resource/fail.png'>
         </i-image>

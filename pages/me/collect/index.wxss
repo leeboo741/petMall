@@ -1,4 +1,18 @@
 /* pages/me/collect/index.wxss */
+
+.tab-box{
+  position: absolute;
+  left: 0rpx;
+  width: 100%;
+  z-index: 3;
+}
+
+.empty-zone{
+  position: relative;
+  height: 84rpx;
+  width: 100%;
+}
+
 .collection-box{
   display: flex;
   flex-direction: row;
