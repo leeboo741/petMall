@@ -16,8 +16,12 @@ const Util = require("../utils/util.js");
 /**
  * 上传文件
  * @param fileAddress
+ * @param uploadCallback
+ * @parma onProgressCallback
+ * @return uploadTask
  */
-function fileUpload(fileAddress, uploadCallback) {
+function fileUpload(fileAddress, uploadCallback, onProgressCallback) {
+  let uploadTask = null;
   let fileUploadParam = new UploadFileParamObj({
     url: UrlPath.Url_Base + UrlPath.Url_UploadFile,
     filePath: fileAddress, 
@@ -25,15 +29,28 @@ function fileUpload(fileAddress, uploadCallback) {
     header: { "Content-Type": "multipart/form-data" },
     success(res) {
       console.log("upload success\n" + JSON.stringify(res));
+      if (uploadCallback != null && typeof uploadCallback == "function") {
+        uploadCallback(res);
+      }
     },
     fail(res) {
       console.log("upload fail\n" + JSON.stringify(res));
     },
     complete(res) {
-      console.log("upload complete\n" + JSON.stringify(res));
+      uploadTask.offProgressUpdate(
+        function offProgressCallback(res) {
+          console.log("cancel progress: \n" + fileAddress);
+        } 
+      );
+    },
+    onProgressCallback(res) {
+      if (onProgressCallback != null && typeof onProgressCallback == "function") {
+        onProgressCallback(res);
+      }
     }
   })
-  RequestUtil.RequestUploadFile(fileUploadParam);
+  uploadTask = RequestUtil.RequestUploadFile(fileUploadParam);
+  return uploadTask;
 }
 
 module.exports={

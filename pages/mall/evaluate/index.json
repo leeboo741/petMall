@@ -3,6 +3,6 @@
     "i-navigation-bar": "/lee-components/leeNavigationBar/index",
     "i-icon": "/dist/icon/index",
     "i-load-foot-item": "/lee-components/leeLoadingFootItem/index"
-
-  }
+  },
+  "enablePullDownRefresh": true
 }

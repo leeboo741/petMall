@@ -4,6 +4,7 @@
     "i-panel": "/dist/panel/index",
     "i-cell": "/dist/cell/index",
     "i-cell-group": "/dist/cell-group/index",
-    "i-icon": "/lee-components/leeIcon/index"
+    "i-icon": "/lee-components/leeIcon/index",
+    "i-progress": "../../dist/progress/index"
   }
 }

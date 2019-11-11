@@ -7,6 +7,7 @@
 
 const Key_UserInfo = "userInfo";
 const Key_CurrentRole = "currentRole";
+const Key_BusinessInfo = "businessInfo";
 
 const app = getApp();
 
@@ -35,7 +36,8 @@ function saveCurrentRole(role) {
 }
 
 /**
- * 获取当前角色 买家 0 卖家 1
+ * 获取当前角色 
+ * @return 买家 0 卖家 1
  */
 function getCurrentRole() {
   try {
@@ -44,6 +46,54 @@ function getCurrentRole() {
       return 0;
     }
     return userInfo;
+  } catch (e) {
+    return null;
+  }
+}
+
+/**
+ * 存储卖家信息
+ * @param businessInfo 卖家信息
+ */
+function saveLocalBusinessInfo(businessInfo) {
+  let businessInfoStr = JSON.stringify(businessInfo);
+  try {
+    wx.setStorageSync(Key_BusinessInfo, businessInfoStr)
+  } catch(e) {
+
+  }
+}
+
+/**
+ * 删除本地卖家信息
+ * @param deleteCallback
+ */
+function deleteLocalBusinessInfo(deleteCallback) {
+  wx.removeStorage({
+    key: Key_BusinessInfo,
+    success(res) {
+      console.log("删除卖家 success: \n" + JSON.stringify(res));
+      if (deleteCallback && typeof deleteCallback == "function") {
+        deleteCallback(true)
+      }
+    },
+    fail(res) {
+      console.log("删除卖家 fail: \n" + JSON.stringify(res));
+      if (deleteCallback && typeof deleteCallback == "function") {
+        deleteCallback(false)
+      }
+    }
+  })
+}
+
+/**
+ * 获取本地卖家信息
+ * @return businessInfo
+ */
+function getLocalBusinessInfo() {
+  try {
+    let businessInfo = JSON.parse(wx.getStorageSync(Key_BusinessInfo));
+    return businessInfo;
   } catch (e) {
     return null;
   }
@@ -64,6 +114,7 @@ function saveLocalUserInfo(userInfo) {
 
 /**
  * 删除用户
+ * @param deleteCallback 删除回调
  */
 function deleteLocalUserInfo(deleteCallback) {
   wx.removeStorage({
@@ -85,6 +136,7 @@ function deleteLocalUserInfo(deleteCallback) {
 
 /**
  * 获取本地用户信息
+ * @return userInfo
  */
 function getLocalUserInfo() {
   try {
@@ -97,6 +149,7 @@ function getLocalUserInfo() {
 
 /**
  * 获取用户电话
+ * @return phone
  */
 function getPhone() {
   let userInfo = getLocalUserInfo();
@@ -108,6 +161,7 @@ function getPhone() {
 
 /**
  * 获取openId
+ * @return openId
  */
 function getOpenId() {
   let userInfo = getLocalUserInfo();
@@ -119,6 +173,7 @@ function getOpenId() {
 
 /**
  * 获取 customerNo
+ * @return customerNo
  */
 function getCustomerNo() {
   let userInfo = getLocalUserInfo();
@@ -130,6 +185,7 @@ function getCustomerNo() {
 
 /**
  * 是否登陆
+ * @return true 已登录 false 未登录
  */
 function isLogin() {
   let openId = getOpenId();
@@ -313,20 +369,43 @@ function getCode(phone, getCodeCallback) {
   RequestUtil.RequestGET(requestParam);
 }
 
+/**
+ * 认证管理
+ * @param param
+ * @param authenticateResultCallback
+ */
+function authenticate(param, authenticateResultCallback) {
+  let requestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_Auth,
+    data: {
+
+    },
+    success(res) {
+      if (authenticateResultCallback && typeof authenticateResultCallback == "function") {
+        authenticateResultCallback(res);
+      }
+    }
+  })
+}
+
 module.exports = {
-  saveCurrentRole: saveCurrentRole,
-  getCurrentRole: getCurrentRole,
-  saveLocalUserInfo: saveLocalUserInfo,
-  deleteLocalUserInfo: deleteLocalUserInfo,
-  getLocalUserInfo: getLocalUserInfo,
-  getPhone: getPhone,
-  getCustomerNo: getCustomerNo,
-  getOpenId: getOpenId,
-  isLogin: isLogin,
-  startLogin: startLogin,
-  register: register,
-  getCode: getCode,
-  Login_Success,
-  Login_Fail,
-  Login_Register
+  saveCurrentRole: saveCurrentRole, // 存储当前角色 买家 卖家
+  getCurrentRole: getCurrentRole, // 获取当前存储角色 买家 卖家
+  saveLocalBusinessInfo: saveLocalBusinessInfo, // 保存 卖家对象
+  deleteLocalBusinessInfo: deleteLocalBusinessInfo, // 删除 卖家对象
+  getLocalBusinessInfo: getLocalBusinessInfo, // 获取 卖家对象
+  saveLocalUserInfo: saveLocalUserInfo, // 保存用户对象
+  deleteLocalUserInfo: deleteLocalUserInfo, // 删除用户对象
+  getLocalUserInfo: getLocalUserInfo, // 获取用户对象
+  getPhone: getPhone, // 获取用户电话
+  getCustomerNo: getCustomerNo, // 获取用户客户编号
+  getOpenId: getOpenId, // 获取用户 openId
+  isLogin: isLogin, // 用户是否已登录
+  startLogin: startLogin, // 用户请求登陆
+  register: register, // 用户注册
+  getCode: getCode, // 用户注册获取 短信验证
+  Login_Success, // 登陆成功标识
+  Login_Fail, // 登陆失败标识
+  Login_Register, // 登陆未注册标识
+  authenticate: authenticate, // 商家认证
 }

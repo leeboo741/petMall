@@ -12,7 +12,6 @@
              placeholder-class="placeholder-text"
              class="normal-text"
              bindinput="inputPetType">
-
       </input>
     </i-cell>
     

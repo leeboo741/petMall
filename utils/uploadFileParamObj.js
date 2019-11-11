@@ -12,6 +12,7 @@ var UploadFileParamObj = function UploadFileParamObj(obj) {
   this.success = null; // 请求成功回调
   this.fail = null; // 请求失败回调
   this.complete = null; // 请求完成回调
+  this.onProgressCallback = null; // 进度回调
 
   if (obj != null) {
     if (obj.url != null && typeof obj.url == "string") {
@@ -37,6 +38,9 @@ var UploadFileParamObj = function UploadFileParamObj(obj) {
     }
     if (obj.complete != null && typeof obj.complete == "function") {
       this.complete = obj.complete;
+    }
+    if (obj.onProgressCallback != null && typeof obj.onProgressCallback == "function") {
+      this.onProgressCallback = obj.onProgressCallback;
     }
   }
 }

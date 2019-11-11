@@ -1,83 +1,54 @@
 // pages/mall/evaluate/index.js
+
+const PetService = require("../../../services/petService.js");
+const MallService = require("../../../services/mallService.js");
+const Util = require("../../../utils/util.js");
+const LoadFootItemState = require("../../../lee-components/leeLoadingFootItem/loadFootObj.js");
+
+const Limit = 20;
+
+const Evaluate_Type_Pet = 0;
+const Evaluate_Type_Item = 1;
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    evaluationInformation: [
-      {
-        userName: "刘大仙",
-        userImageUrl: "http://img005.hc360.cn/m6/M09/94/6B/wKhQolb07DuEFsI8AAAAAEyvm8c183.jpg",
-        evaluationTime: "两天前",
-        starsNumber: 3,
-        information: "（默认好评）通过平台担保交易买到一只皇家幼猫BK34奶糕粮2Kg"
-      },
+    evaluationInformation: [],
 
-      {
-        userName: "杨大仙",
-        userImageUrl: "http://pic4.58cdn.com.cn/zhuanzh/n_v2bbebe75ef9264afda39b5b5b482144ee.jpg?w=750&h=0",
-        evaluationTime: "2019-10-18",
-        starsNumber: 4,
-        information: "（默认好评）通过平台担保交易买到一只皇家幼猫BK34奶糕粮2Kg"
-      },
+    loadState: LoadFootItemState.Loading_State_Empty,  //底部状态
+    offset: 0,
 
-      {
-        userName: "李大仙",
-        userImageUrl: "http://pic4.58cdn.com.cn/zhuanzh/n_v2bbebe75ef9264afda39b5b5b482144ee.jpg?w=750&h=0",
-        evaluationTime: "2019-10-15",
-        starsNumber: 5,
-        information: "（默认好评）通过平台担保交易买到一只皇家幼猫BK34奶糕粮2Kg"
-      },
+    petNo: null,
+    itemNo: null,
 
-      {
-        userName: "俞大仙",
-        userImageUrl: "http://pic4.58cdn.com.cn/zhuanzh/n_v2bbebe75ef9264afda39b5b5b482144ee.jpg?w=750&h=0",
-        evaluationTime: "2019-10-15",
-        starsNumber: 5,
-        information: "（默认好评）通过平台担保交易买到一只皇家幼猫BK34奶糕粮2Kg"
-      },
-
-      {
-        userName: "张大仙",
-        userImageUrl: "http://pic4.58cdn.com.cn/zhuanzh/n_v2bbebe75ef9264afda39b5b5b482144ee.jpg?w=750&h=0",
-        evaluationTime: "2019-10-15",
-        starsNumber: 5,
-        information: "（默认好评）通过平台担保交易买到一只皇家幼猫BK34奶糕粮2Kg"
-      },
-
-      {
-        userName: "幸大仙",
-        userImageUrl: "http://pic4.58cdn.com.cn/zhuanzh/n_v2bbebe75ef9264afda39b5b5b482144ee.jpg?w=750&h=0",
-        evaluationTime: "2019-10-15",
-        starsNumber: 5,
-        information: "（默认好评）通过平台担保交易买到一只皇家幼猫BK34奶糕粮2Kg"
-      },
-
-      {
-        userName: "付大仙",
-        userImageUrl: "http://pic4.58cdn.com.cn/zhuanzh/n_v2bbebe75ef9264afda39b5b5b482144ee.jpg?w=750&h=0",
-        evaluationTime: "2019-10-15",
-        starsNumber: 5,
-        information: "（默认好评）通过平台担保交易买到一只皇家幼猫BK34奶糕粮2Kg"
-      },
-
-      {
-        userName: "牛大仙",
-        userImageUrl: "http://pic4.58cdn.com.cn/zhuanzh/n_v2bbebe75ef9264afda39b5b5b482144ee.jpg?w=750&h=0",
-        evaluationTime: "2019-10-15",
-        starsNumber: 5,
-        information: "（默认好评）通过平台担保交易买到一只皇家幼猫BK34奶糕粮2Kg"
-      },
-
-    ]
+    type: Evaluate_Type_Pet,
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    let tempPetNo = options.petno;
+    let tempItemNo = options.itemno;
+    if (Util.checkEmpty(tempPetNo) && Util.checkEmpty(tempItemNo)) {
+      console.error("Evaluate petNo 和 Evaluate ItemNo 不能同时为空");
+    }
+    if (!Util.checkEmpty(tempPetNo)) {
+      this.setData({
+        petNo: tempPetNo,
+        type: Evaluate_Type_Pet,
+      })
+    }
+    if (!Util.checkEmpty(tempItemNo)) {
+      this.setData({
+        itemNo: tempItemNo,
+        type: Evaluate_Type_Item,
+      })
+    }
+    wx.startPullDownRefresh();
   },
 
   /**
@@ -112,7 +83,20 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+    this.data.offset = 0;
+    if (this.data.type == Evaluate_Type_Pet) {
+      this.requestPetEvaluate(this.data.offset, 
+        function getPetEvaluateCallback(data) {
+          console.log ("Pet More Evaluate: \n" + JSON.stringify(data));
+        }
+      )
+    } else if (this.data.type == Evaluate_Type_Item) {
+      this.requestItemEvaluate(this.data.offset,
+        function getItemEvaluateCallback(data) {
+          console.log("Item More Evaluate: \n" + JSON.stringify(data));
+        }
+      )
+    }
   },
 
   /**
@@ -127,5 +111,41 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+
+  /**
+   * 请求宠物评价列表
+   */
+  requestPetEvaluate: function (offset, getPetEvaluateCallback) {
+    PetService.getMorePetEvaluate(
+      {
+        petNo: this.data.petNo,
+        offset: offset,
+        limit: Limit
+      },
+      function getResultCallback(result) {
+        if (Util.checkIsFunction(getPetEvaluateCallback)) {
+          getPetEvaluateCallback(result.root)
+        }
+      }
+    )
+  },
+
+  /**
+   * 请求商品评价列表
+   */
+  requestItemEvaluate: function(offset, getItemEvaluateCallback) {
+    MallService.getMoreItemEvaluate(
+      {
+        itemNo: this.data.itemNo,
+        offset: offset,
+        limit: Limit
+      },
+      function getResultCallback(result) {
+        if (Util.checkIsFunction(getItemEvaluateCallback)) {
+          getItemEvaluateCallback(result.root)
+        }
+      }
+    )
   }
 })

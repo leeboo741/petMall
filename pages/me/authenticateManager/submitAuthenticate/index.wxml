@@ -42,6 +42,11 @@
                   wx:else>
           </image>
         </view>
+        <view class="progress-box"
+              hidden="{{!parse.showProgress(progressForIdentifier)}}">
+          <i-progress percent="{{progressForIdentifier}}" hide-info style="width: 100%;">
+          </i-progress>
+        </view>
       </view>
       <view class="upload-explain-box">
         <image class="upload-explain-image"
@@ -52,73 +57,174 @@
   </i-cell>
 </i-panel>
 
-<i-panel i-class='panel'
-         title='营业执照'
-         wx:if='{{type != 0}}'>
-  <i-cell>
-    <view slot='header'
-          class="upload-image-item">
-      <view class="upload-image-box"
-            bindtap="selectLicenseImage">
-        <view class="upload-image-content">
-          <image class="upload-image"
-                  src="{{imagePathWithLicense}}"
-                  wx:if='{{parse.showImage(imagePathWithLicense)}}'>
-          </image>
-          <image class="upload-image-little"
-                  src='../../../../resource/add_new.png'
-                  wx:else>
+<block wx:if='{{type != 0}}'>
+  <i-panel i-class='panel'
+          title='营业执照'>
+    <i-cell-group>
+      <i-cell title='营业执照编号'>
+        <input class="normal-text"
+              slot='footer'
+              placeholder-class="placeholder-text"
+              placeholder="请输入营业执照编号"
+              bindinput="inputLicense">
+        </input>
+      </i-cell>
+    </i-cell-group>
+  </i-panel>
+
+  <i-panel i-class='panel'
+          title='营业执照'>
+    <i-cell>
+      <view slot='header'
+            class="upload-image-item">
+        <view class="upload-image-box"
+              bindtap="selectLicenseImage">
+          <view class="upload-image-content">
+            <image class="upload-image"
+                    src="{{imagePathWithLicense}}"
+                    wx:if='{{parse.showImage(imagePathWithLicense)}}'>
+            </image>
+            <image class="upload-image-little"
+                    src='../../../../resource/add_new.png'
+                    wx:else>
+            </image>
+          </view>
+          <view class="progress-box"
+                hidden="{{!parse.showProgress(progressForLicense)}}">
+            <i-progress percent="{{progressForLicense}}" hide-info style="width: 100%;">
+            </i-progress>
+          </view>
+        </view>
+        <view class="upload-explain-box">
+          <image class="upload-explain-image"
+                src='../../../../resource/explain_license.png'>
           </image>
         </view>
       </view>
-      <view class="upload-explain-box">
-        <image class="upload-explain-image"
-               src='../../../../resource/explain_license.png'>
-        </image>
-      </view>
-    </view>
-  </i-cell>
-</i-panel>
+    </i-cell>
+  </i-panel>
+</block>
 
-<i-panel i-class='panel'
-         title='实体照片'
-         wx:if='{{type == 2}}'>
-  <i-cell>
-    <view slot='header'
-          class="upload-image-item">
-      <view class="upload-image-box"
-            bindtap="selectStorefrontImage">
-        <view class="upload-image-content">
-          <image class="upload-image"
-                  src="{{imagePathWithStorefront}}"
-                  wx:if='{{parse.showImage(imagePathWithStorefront)}}'>
-          </image>
-          <image class="upload-image-little"
-                  src='../../../../resource/add_new.png'
-                  wx:else>
+<block wx:if='{{type == 2}}'>
+  <i-panel i-class='panel'
+          title='店铺信息'>
+    <i-cell-group>
+      <i-cell title='店铺名称'>
+        <input class="normal-text"
+              slot='footer'
+              placeholder-class="placeholder-text"
+              placeholder="请输入店铺名称"
+              bindinput="inputStoreName">
+        </input>
+      </i-cell>
+
+      <i-cell>
+        <view class="item-1"
+              slot='header'>
+          <view class="item-title">
+          所在地区
+          </view>
+          <picker class="item-input normal-text"
+                  mode="region"
+                  value="{{region}}"
+                  bindchange="selectRegion">
+            <view class="input-content {{parse.getRegionClass(region)}}">
+            {{parse.getRegionStr(region)}}
+            </view>
+          </picker>
+          <i-icon i-class='item-icon'
+                  type="right-arrow"
+                  size="36"
+                  color="#778899">
+          </i-icon>
+        </view>
+      </i-cell>
+      
+      <i-cell>
+        <view class="item-1"
+              slot='header'>
+          <view class="item-title">
+          详细地址
+          </view>
+          <input class="item-input"
+                placeholder="请输入详细地址"
+                placeholder-class="placeholder-text"
+                value="{{detailAddress}}"
+                bindinput="inputDetailAddress">
+          </input>
+          <i-icon i-class='item-icon'
+                  type="location"
+                  size="36"
+                  color="#778899">
+          </i-icon>
+        </view>
+      </i-cell>
+    </i-cell-group>
+  </i-panel>
+
+  <i-panel i-class='panel'
+          title='实体照片'>
+    <i-cell>
+      <view slot='header'
+            class="upload-image-item">
+        <view class="upload-image-box"
+              bindtap="selectStorefrontImage">
+          <view class="upload-image-content">
+            <image class="upload-image"
+                    src="{{imagePathWithStorefront}}"
+                    wx:if='{{parse.showImage(imagePathWithStorefront)}}'>
+            </image>
+            <image class="upload-image-little"
+                    src='../../../../resource/add_new.png'
+                    wx:else>
+            </image>
+          </view>
+          <view class="progress-box"
+                hidden="{{!parse.showProgress(progressForStoreFont)}}">
+            <i-progress percent="{{progressForStoreFont}}" hide-info style="width: 100%;">
+            </i-progress>
+          </view>
+        </view>
+        <view class="upload-explain-box">
+          <image class="upload-explain-image"
+                src='../../../../resource/explain_storefont.png'>
           </image>
         </view>
       </view>
-      <view class="upload-explain-box">
-        <image class="upload-explain-image"
-               src='../../../../resource/explain_storefont.png'>
-        </image>
-      </view>
-    </view>
-  </i-cell>
-</i-panel>
+    </i-cell>
+  </i-panel>
+</block>
 
-<view class="submit-button">
+<view class="submit-button"
+      bindtap="tapSubmit">
 提交审核
 </view>
 
 <wxs module='parse'>
   module.exports={
+    showProgress: function(progressValue) {
+      if (progressValue < 0 || progressValue >= 100) {
+        return false;
+      }
+      return true;
+    },
     showImage: function(image) {
       if (image == null || image.length <= 0) {
         return false;
       }
       return true;
+    },
+    getRegionClass: function(region) {
+      if(region == null || region.length <= 0) {
+        return "placeholder-text";
+      }
+      return "normal-text";
+    },
+    getRegionStr: function(region) {
+      if(region == null || region.length <= 0) {
+        return '请选择省市区';
+      }
+      return region[0] + "-" + region[1] + "-" + region[2];
     }
   }
 </wxs>

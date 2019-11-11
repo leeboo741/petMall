@@ -223,15 +223,43 @@ function deleteItemCollection(param, deleteResultCallback) {
   RequestUtil.RequestDELETE(requestParam);
 }
 
+/**
+ * 获取更多商品评价
+ * @param param (itemNo, offset, limit)
+ * @param getResultCallback
+ */
+function getMoreItemEvaluate(param, getResultCallback) {
+  let requestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_Pet_More_Evaluate,
+    data: {
+      itemNo: param.itemNo,
+      offset: param.offset,
+      limit: param.limit
+    },
+    success(res) {
+      if (Util.checkIsFunction(getResultCallback)) {
+        getResultCallback(res);
+      }
+    }
+  })
+  RequestUtil.RequestGET(requestParam);
+}
+
 module.exports = {
-  getMallPetType: getMallPetType,
+
   getMallPetTypeShowInfor: getMallPetTypeShowInfor,
+
+  getMallPetType: getMallPetType,
   getBrandInfo: getBrandInfo,
   getVarieties: getVarieties,
+
   getSetMealList: getSetMealList,
   getItemList: getItemList,
   getItemDetail: getItemDetail,
+
   addNewItemCollection: addNewItemCollection,
   getItemCollection: getItemCollection,
   deleteItemCollection: deleteItemCollection,
+
+  getMoreItemEvaluate: getMoreItemEvaluate, // 获取更多商家评价
 }

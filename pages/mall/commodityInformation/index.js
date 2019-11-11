@@ -144,7 +144,7 @@ Page({
    */
   evaluateTap:function(){
     wx.navigateTo({
-      url: Page_path.Page_Mall_Evaluate
+      url: Page_path.Page_Mall_Evaluate + "?itemno=" + this.data.itemDetailData.itemNo
     })
   },
 
@@ -153,7 +153,7 @@ Page({
    */
   goShopTap:function(){
     wx.navigateTo({
-      url: Page_path.Page_Mall_Shoppingpayment+"?requestInfo="+this.data.shopDataSource
+      url: Page_path.Page_Mall_Shoppingpayment
     })
   },
 

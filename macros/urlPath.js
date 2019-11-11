@@ -6,6 +6,7 @@ const Url_Base = "http://192.168.3.200:8080"; // Base Url ---商城 卢
 const Url_Login = "/login"; // 登陆
 const Url_Register = "/register"; // 注册
 const Url_GetCode = "/business/VerificationCode"; // 获取短信验证码
+const Url_Auth = "/auths/saveAAuth"; // 商家认证
 
 /**
  * ----商城
@@ -17,6 +18,7 @@ const Url_Item_Classify = "/item/Classify"; //宠粮分类
 const Url_Item_SetMeal = "/item/Pack"; // 查询商品套餐分类
 const Url_Item_Detail = "/item/itemNoAndLimit"; // 获取宠物商品详情
 const Url_Item_List = "/item"; // 查询商品列表
+const Url_Item_More_Evaluate = "/item/appraise"; // 获取更多商品评价
 
 /**
  * ----商家
@@ -70,9 +72,13 @@ const Url_Pet_Breed = "/petSort/petGenreNO"; // 获取宠物品种
 
 const Url_Pet_Detail = "/PetDetail/detail"; // 获取宠物详情
 
-/**
- * ----宠物商品
- */
+const Url_Pet_More_Evaluate = "/pet/appraise"; // 获取更多宠物评价
+
+const Url_Pet_Release = "/PetController/petPublish"; // 发布宠物
+const Url_Pet_Edit = "/PetController/petEdit"; // 编辑宠物
+const Url_Pet_On_Shelves = ""; // 上架宠物
+const Url_Pet_Off_Shelves = "/PetController/PetOut"; // 下架宠物
+const Url_Pet_ReleaseList = ""; // 已发布宠物列表
 
 module.exports={
   Url_Base,  // Base Url
@@ -80,6 +86,7 @@ module.exports={
   Url_Login, // 登陆
   Url_Register, // 注册
   Url_GetCode, // 获取短信验证码
+  Url_Auth, // 商家认证
 
   Url_ItemType, // 商城宠物类型
   Url_ItemShowTypeInfo, // 商城显示数据
@@ -88,6 +95,7 @@ module.exports={
   Url_Item_SetMeal, // 商品套餐分类
   Url_Item_Detail, // 详情
   Url_Item_List, // 获取商品列表
+  Url_Item_More_Evaluate, // 获取更多商品评价
 
   Url_BusinessInfo,    //商家显示数据
   Url_Business_Recommend, // 推荐商家
@@ -104,9 +112,9 @@ module.exports={
   Url_Delete_Pet_Collection, // 删除宠物收藏
   Url_Get_Pet_Collection, // 查询宠物收藏
 
-  Url_AddNew_Item_Collection, // 新增商品收藏----
-  Url_Delete_Item_Collection, // 删除商品收藏----
-  Url_Get_Item_Collection, // 查询商品收藏-----
+  Url_AddNew_Item_Collection, // 新增商品收藏
+  Url_Delete_Item_Collection, // 删除商品收藏
+  Url_Get_Item_Collection, // 查询商品收藏
 
   Url_Evaluate, // 发布评价
 
@@ -120,5 +128,10 @@ module.exports={
   Url_Pet_HotSort, // 获取热门分类
   Url_Pet_Breed, // 获取宠物品种
   Url_Pet_Detail, // 获取宠物详情
-
+  Url_Pet_More_Evaluate, // 获取宠物更多评价
+  Url_Pet_Release, // 发布宠物
+  Url_Pet_Edit, // 编辑宠物
+  Url_Pet_On_Shelves, // 上架宠物
+  Url_Pet_Off_Shelves, // 下架宠物
+  Url_Pet_ReleaseList, // 已发布宠物列表
 }

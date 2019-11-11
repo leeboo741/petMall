@@ -142,7 +142,7 @@ Page({
    */
   evaluateTap: function () {
     wx.navigateTo({
-      url: Page_path.Page_Mall_Evaluate + "?storeno=" + this.data.petDetailData.business.businessNo
+      url: Page_path.Page_Mall_Evaluate + "?petno=" + this.data.petDetailData.petNo
     })
   },
 

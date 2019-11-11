@@ -251,6 +251,7 @@ function RequestDELETE(requestParam) {
 /**
  * 上传文件请求
  * @param uploadFileParam UploadFileParamObj 对象
+ * @return uploadTask
  */
 function RequestUploadFile(uploadFileParam) {
   if (uploadFileParam == null) {
@@ -261,7 +262,8 @@ function RequestUploadFile(uploadFileParam) {
     throw new Error("请使用 UploadFileParamObj");
     return;
   }
-  wx.uploadFile({
+  let uploadTask = null;
+  uploadTask = wx.uploadFile({
     url: uploadFileParam.url,
     filePath: uploadFileParam.filePath,
     name: uploadFileParam.name,
@@ -308,6 +310,14 @@ function RequestUploadFile(uploadFileParam) {
       }
     }
   })
+  uploadTask.onProgressUpdate(
+    function upload(res){
+      if (uploadFileParam.onProgressCallback != null && typeof uploadFileParam.onProgressCallback == "function") {
+        uploadFileParam.onProgressCallback(res)
+      }
+    }
+  )
+  return uploadTask;
 }
 
 module.exports={

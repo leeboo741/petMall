@@ -287,6 +287,124 @@ function deletePetCollection(param, deleteResultCallback) {
   RequestUtil.RequestDELETE(requestParam);
 }
 
+/**
+ * 获取更多宠物评价
+ * @param param (petNo, offset, limit)
+ * @param getResultCallback
+ */
+function getMorePetEvaluate(param, getResultCallback) {
+  let requestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_Pet_More_Evaluate,
+    data: {
+      petNo: param.petNo,
+      offset: param.offset,
+      limit: param.limit,
+    },
+    success(res) {
+      if (Util.checkIsFunction(getResultCallback)) {
+        getResultCallback(res);
+      }
+    }
+  })
+  RequestUtil.RequestGET(requestParam);
+}
+
+/**
+ * 发布宠物
+ * @param param
+ * @param releaseResultCallback
+ */
+function releasePet(param, releaseResultCallback) {
+  let requestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_Pet_Release,
+    data: {
+
+    },
+    success(res) {
+      if (Util.checkIsFunction(releaseResultCallback)) {
+        releaseResultCallback(res);
+      }
+    }
+  })
+  RequestUtil.RequestPOST(requestParam);
+}
+
+/**
+ * 编辑宠物
+ * @param param
+ * @param editResultCallback
+ */
+function editPet(param, editResultCallback) {
+  let requestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_Pet_Edit,
+    data: {
+
+    },
+    success(res) {
+      if (Util.checkIsFunction(editResultCallback)) {
+        editResultCallback(res);
+      }
+    }
+  })
+  RequestUtil.RequestPUT(requestParam);
+}
+
+/**
+ * 上架宠物
+ */
+function onShelves() {
+  let requestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_Pet_On_Shelves,
+    data: {
+
+    },
+    success(res) {
+      if (Util.checkIsFunction(editResultCallback)) {
+        editResultCallback(res);
+      }
+    }
+  })
+  RequestUtil.RequestPUT(requestParam);
+}
+
+/**
+ * 下架宠物
+ */
+function offShelves() {
+  let requestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_Pet_Off_Shelves,
+    data: {
+
+    },
+    success(res) {
+      if (Util.checkIsFunction(editResultCallback)) {
+        editResultCallback(res);
+      }
+    }
+  })
+  RequestUtil.RequestPUT(requestParam);
+}
+
+/**
+ * 获取已发布宠物列表
+ * @param param
+ * @param getResultCallback
+ */
+function getReleaseList(param, getResultCallback) {
+  let requestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_Pet_ReleaseList,
+    data: {
+
+    },
+    success(res) {
+      if (Util.checkIsFunction(getResultCallback)) {
+        getResultCallback(res);
+      }
+    }
+  })
+  RequestUtil.RequestGET(requestParam);
+}
+
 module.exports = {
   getNewestPet: getNewestPet, // 获取最新上架
   getUpScalePet: getUpScalePet, // 获取高端宠物
@@ -302,4 +420,12 @@ module.exports = {
   addNewPetCollection: addNewPetCollection, // 新增宠物收藏
   getPetCollection: getPetCollection, // 获取宠物收藏列表
   deletePetCollection: deletePetCollection, // 删除宠物收藏
+
+  getMorePetEvaluate: getMorePetEvaluate, // 获取更多宠物评价
+
+  releasePet: releasePet, // 发布宠物
+  editPet: editPet, // 编辑宠物
+  onShelves: onShelves, // 上架宠物
+  offShelves: offShelves, // 下架宠物
+  getReleaseList: getReleaseList, // 获取已发布宠物列表
 }

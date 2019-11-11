@@ -1,4 +1,9 @@
 // pages/me/authenticateManager/personalAuthenticate/index.js
+
+const UploadFileService = require("../../../../services/uploadFileService.js");
+const Util = require("../../../../utils/util.js");
+const UserService = require("../../../../services/userService.js");
+
 Page({
 
   /**
@@ -11,11 +16,26 @@ Page({
     name: null, // 真实名称
     identifier: null, // 身份证号
 
+    license: null, // 营业执照编号
+
+    storeName: null, // 店铺名称
+    region: [], // 店铺所在区域
+    detailAddress: null, // 店铺详细地址
+
     imagePathWithIdentifier: null, // 手持身份证 照片
+    serviceIdentifierImagePath: null, // 身份证服务器地址
+    progressForIdentifier: -1, // 身份证照片进度 小于0 大于等于100 隐藏进度条
+    uploadTaskForIdentifier: null, // 身份证上传任务
 
     imagePathWithLicense: null, // 营业执照 照片
+    serviceLicenseImagePath: null, // 身份证服务器地址
+    progressForLicense: -1, // 营业执照进度
+    uploadTaskForLicense: null, // 营业执照上传任务
 
     imagePathWithStorefront: null, // 实体 照片
+    serviceStorefrontImagePath: null, // 身份证服务器地址
+    progressForStoreFont: -1, // 门店进度
+    uploadTaskForStoreFont: null, // 门店上传任务
   },
 
   /**
@@ -113,10 +133,59 @@ Page({
     wx.chooseImage({
       count: 1,
       success: function(res) {
-        that.setData({
-          imagePathWithIdentifier: res.tempFilePaths[0]
-        })
+        // 选中地址 是否 和已经选中图片地址相同
+        // 相同，不做操作
+        // 不同，上传
+        if (that.data.imagePathWithIdentifier != res.tempFilePaths[0]) {
+          // 获取选中图片本地地址
+          // 图片上传进度归零
+          // 服务器图片地址清空
+          that.setData({
+            imagePathWithIdentifier: res.tempFilePaths[0],
+            progressForIdentifier: 0,
+            serviceIdentifierImagePath: null,
+          })
+          // 上传任务不为空
+          if (that.data.uploadTaskForIdentifier != null) {
+            // 取消图片上传进度监听
+            that.data.uploadTaskForIdentifier.offProgressUpdate();
+            // 中止图片上传任务
+            that.data.uploadTaskForIdentifier.abort();
+            // 图片上传任务置空
+            that.data.uploadTaskForIdentifier = null;
+          }
+          // 重新开始图片上传任务
+          that.data.uploadTaskForIdentifier = UploadFileService.fileUpload(that.data.imagePathWithIdentifier,
+            // 监听图片上传任务
+            function uploadCallback(res) {
+              console.log("identifier upload callback: \n" + JSON.stringify(res));
+              // 接收服务器存储地址
+              // 进度归零
+              that.setData({
+                serviceIdentifierImagePath: res.root[0].fileAddress,
+                progressForIdentifier: -1,
+              })
+            },
+            // 监听图片上传进度
+            function onProgressCallback(res) {
+              console.log("identifier on progress callback: \n" + JSON.stringify(res));
+              // 更新图片上传进度
+              that.setData({
+                progressForIdentifier: res.progress
+              })
+            },
+          )
+        }
       },
+    })
+  },
+
+  /**
+   * 输入营业执照编号
+   */
+  inputLicense: function (e) {
+    this.setData({
+      license: e.detail.value
     })
   },
 
@@ -128,10 +197,77 @@ Page({
     wx.chooseImage({
       count: 1,
       success: function (res) {
-        that.setData({
-          imagePathWithLicense: res.tempFilePaths[0]
-        })
+        // 选中地址 是否 和已经选中图片地址相同
+        // 相同，不做操作
+        // 不同，上传
+        if (that.data.imagePathWithLicense != res.tempFilePaths[0]) {
+          // 获取选中图片本地地址
+          // 图片上传进度归零
+          // 服务器图片地址清空
+          that.setData({
+            imagePathWithLicense: res.tempFilePaths[0],
+            progressForLicense: 0,
+            serviceLicenseImagePath: null,
+          })
+          // 上传任务不为空
+          if (that.data.uploadTaskForLicense != null) {
+            // 取消图片上传进度监听
+            that.data.uploadTaskForLicense.offProgressUpdate();
+            // 中止图片上传任务
+            that.data.uploadTaskForLicense.abort();
+            // 图片上传任务置空
+            that.data.uploadTaskForLicense = null;
+          }
+          // 重新开始图片上传任务
+          that.data.uploadTaskForLicense = UploadFileService.fileUpload(that.data.imagePathWithLicense,
+            // 监听图片上传任务
+            function uploadCallback(res) {
+              console.log("license upload callback: \n" + JSON.stringify(res));
+              // 接收服务器存储地址
+              // 进度归零
+              that.setData({
+                serviceLicenseImagePath: res.root[0].fileAddress,
+                progressForLicense: -1,
+              })
+            },
+            // 监听图片上传进度
+            function onProgressCallback(res) {
+              console.log("license on progress callback: \n" + JSON.stringify(res));
+              // 更新图片上传进度
+              that.setData({
+                progressForLicense: res.progress
+              })
+            },
+          )
+        }
       },
+    })
+  },
+
+  /**
+   * 输入店铺名称
+   */
+  inputStoreName: function (e) {
+    this.setData({
+      storeName: e.detail.value
+    })
+  },
+
+  /**
+   * 选择店铺所在区域
+   */
+  selectRegion: function (e) {
+    this.setData({
+      region: e.detail.value
+    })
+  },
+
+  /**
+   * 输入店铺详细地址
+   */
+  inputDetailAddress: function (e) {
+    this.setData({
+      detailAddress: e.detail.value
     })
   },
 
@@ -143,10 +279,146 @@ Page({
     wx.chooseImage({
       count: 1,
       success: function (res) {
-        that.setData({
-          imagePathWithStorefront: res.tempFilePaths[0]
-        })
+        // 选中地址 是否 和已经选中图片地址相同
+        // 相同，不做操作
+        // 不同，上传
+        if (that.data.imagePathWithStorefront != res.tempFilePaths[0]) {
+          // 获取选中图片本地地址
+          // 图片上传进度归零
+          // 服务器图片地址清空
+          that.setData({
+            imagePathWithStorefront: res.tempFilePaths[0],
+            progressForStoreFont: 0,
+            serviceStorefrontImagePath: null,
+          })
+          // 上传任务不为空
+          if (that.data.uploadTaskForStoreFont != null) {
+            // 取消图片上传进度监听
+            that.data.uploadTaskForStoreFont.offProgressUpdate();
+            // 中止图片上传任务
+            that.data.uploadTaskForStoreFont.abort();
+            // 图片上传任务置空
+            that.data.uploadTaskForStoreFont = null;
+          }
+          // 重新开始图片上传任务
+          that.data.uploadTaskForStoreFont = UploadFileService.fileUpload(that.data.imagePathWithStorefront,
+            // 监听图片上传任务
+            function uploadCallback(res) {
+              console.log("store font upload callback: \n" + JSON.stringify(res));
+              // 接收服务器存储地址
+              // 进度归零
+              that.setData({
+                serviceStorefrontImagePath: res.root[0].fileAddress,
+                progressForStoreFont: -1,
+              })
+            },
+            // 监听图片上传进度
+            function onProgressCallback(res) {
+              console.log("store font on progress callback: \n" + JSON.stringify(res));
+              // 更新图片上传进度
+              that.setData({
+                progressForStoreFont: res.progress
+              })
+            },
+          )
+        }
       },
     })
+  },
+
+  /**
+   * 点击提交
+   */
+  tapSubmit: function () {
+    if (this.checkSubmitData()) {
+      UserService.authenticate(
+        {
+
+        },
+        function authResultCallback(result){
+
+        }
+      )
+    }
+  },
+
+  /**
+   * 检查数据
+   * @return safe true通过 false不通过
+   */
+  checkSubmitData: function() {
+    if (Util.checkEmpty(this.data.name)) {
+      wx.showToast({
+        title: '姓名不能为空',
+        icon: 'none'
+      })
+      return false;
+    }
+
+    if (Util.checkEmpty(this.data.identifier)) {
+      wx.showToast({
+        title: '身份证不能为空',
+        icon: 'none'
+      })
+      return false;
+    }
+
+    if (Util.checkEmpty(this.data.serviceIdentifierImagePath)) {
+      wx.showToast({
+        title: '请上传身份证照片',
+        icon: 'none'
+      })
+      return false;
+    }
+
+    if (this.data.type != 0) {
+      if (Util.checkEmpty(this.data.license)) {
+        wx.showToast({
+          title: '营业执照不能为空',
+          icon: 'none'
+        })
+        return false;
+      }
+      if (Util.checkEmpty(this.data.serviceLicenseImagePath)) {
+        wx.showToast({
+          title: '请上传营业执照照片',
+          icon: 'none'
+        })
+        return false;
+      }
+    }
+
+    if (this.data.type == 2) {
+      if (Util.checkEmpty(this.data.storeName)) {
+        wx.showToast({
+          title: '店铺名称不能为空',
+          icon: 'none'
+        })
+        return false;
+      }
+      if (Util.checkEmpty(this.data.region)) {
+        wx.showToast({
+          title: '请选择区域',
+          icon: 'none'
+        })
+        return false;
+      }
+      if (Util.checkEmpty(this.data.detailAddress)) {
+        wx.showToast({
+          title: '详细地址不能为空',
+          icon: 'none'
+        })
+        return false;
+      }
+      if (Util.checkEmpty(this.data.serviceStorefrontImagePath)) {
+        wx.showToast({
+          title: '请上传门店照片',
+          icon: 'none'
+        })
+        return false;
+      }
+    }
+
+    return true;
   }
 })

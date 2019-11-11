@@ -1,12 +1,30 @@
 /* pages/me/releaseManager/index.wxss */
 
 .add-new-button{
+  width: 100%;
   height: 90rpx;
   background: linear-gradient(to right, rgb(255,147,87) , rgb(255, 51, 59));
   color: white;
   font-size: 34rpx;
   line-height: 90rpx;
   text-align: center;
+  z-index: 2;
+  position: fixed;
+  bottom: 0rpx;
+  left: 0rpx;
+}
+
+.empty-zone{
+  width: 100%;
+  height: 90rpx;
+  z-index: 1;
+}
+
+.page-content{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 
 .release-item{

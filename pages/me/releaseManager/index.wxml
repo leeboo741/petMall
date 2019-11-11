@@ -3,156 +3,165 @@
                   showBackButton>
 </i-navigation-bar>
 
+
+
+<view class="page-content">
+  <i-panel title='已发布宠物列表'
+           i-class='panel'
+           style='width: 100%'>
+    <i-cell-group>
+      <i-cell wx:for='{{releaseList}}'
+              wx:for-item='releaseItem'
+              wx:for-index='releaseIndex'
+              wx:key='{{releaseIndex}}'>
+        <!-- item -->
+        <view class="release-item"
+              slot='header'>
+          <view class="release-item-content">
+            <!-- 图片 -->
+            <i-image i-class="release-goods-image"
+                    imageSrc='{{releaseItem.pet.imagePaths[0]}}'
+                    placeholderSrc='../../resource/avatar_placeholder.jpg'>
+            </i-image>
+            <!-- 信息 -->
+            <view class="release-goods-info-box">
+              <!-- line -->
+              <view class="release-goods-info-line"
+                    style="justify-content: flex-start;">
+                <view class="release-goods-info-name">
+                {{releaseItem.pet.name}}
+                </view>
+                <view class="release-goods-info-sexy">
+                {{releaseItem.pet.sexy}}
+                </view>
+              </view>
+              <!-- line -->
+              <view class="release-goods-info-line">
+                <view class="release-goods-info-identifier">
+                {{releaseItem.pet.identifier}}
+                </view>
+                <view class="release-goods-info-price">
+                ￥{{releaseItem.pet.price}}
+                </view>
+              </view>
+              <!-- line -->
+              <view class="release-goods-info-line">
+                <view class="release-goods-info-birthday">
+                生日：{{releaseItem.pet.birthday}}
+                </view>
+                <view class="release-goods-info-sterilized">
+                {{parse.sterilizedInfo(releaseItem.pet.sterilized)}}
+                </view>
+              </view>
+              <!-- line -->
+              <view class="release-goods-info-line">
+                <view class="release-goods-info-vaccine-box">
+                  <view class="release-goods-info-vaccine-title">
+                  第一次疫苗信息：
+                  </view>
+                  <view class="release-goods-info-vaccine-info">
+                    <view class="release-goods-info-vaccine-date">
+                    {{releaseItem.pet.vaccine.date}}
+                    </view>
+                    <view class="release-goods-info-vaccine-brand">
+                    {{releaseItem.pet.vaccine.brand}}
+                    </view>
+                  </view>
+                </view>
+              </view>
+              <!-- line -->
+              <view class="release-goods-info-line">
+                <view class="release-goods-info-vaccine-box">
+                  <view class="release-goods-info-vaccine-title">
+                  第一次驱虫信息：
+                  </view>
+                  <view class="release-goods-info-vaccine-info">
+                    <view class="release-goods-info-vaccine-date">
+                    {{releaseItem.pet.repellent.date}}
+                    </view>
+                    <view class="release-goods-info-vaccine-brand">
+                    {{releaseItem.pet.repellent.brand}}
+                    </view>
+                  </view>
+                </view>
+              </view>
+              <!-- line -->
+              <view class="release-goods-info-line">
+                <view class="release-goods-info-parent-box">
+                  <view class="release-goods-info-parent-title">
+                  父母信息：
+                  </view>
+                  <view class="release-goods-info-parent-info">
+                    <view class="release-goods-info-parent-info-item">
+                      <view class="release-goods-info-parent-info-title">
+                      父亲：
+                      </view>
+                      <view class="release-goods-info-parent-info-name">
+                      {{releaseItem.pet.parent.father.name}}
+                      </view>
+                      <i-image i-class="release-goods-info-parent-info-image"
+                              imageSrc='{{releaseItem.pet.parent.father.imagePath}}'
+                              placeholderSrc='../../resource/avatar_placeholder.jpg'>
+                      </i-image>
+                    </view>
+                    <view class="release-goods-info-parent-info-item">
+                      <view class="release-goods-info-parent-info-title">
+                      母亲：
+                      </view>
+                      <view class="release-goods-info-parent-info-name">
+                      {{releaseItem.pet.parent.mother.name}}
+                      </view>
+                      <i-image i-class="release-goods-info-parent-info-image"
+                              imageSrc='{{releaseItem.pet.parent.mother.imagePath}}'
+                              placeholderSrc='../../resource/avatar_placeholder.jpg'>
+                      </i-image>
+                    </view>
+                  </view>
+                </view>
+              </view>
+              <!-- line -->
+              <view class="release-goods-info-line">
+                <view class="release-goods-info-describe">
+                  <view class="release-goods-info-describe-title">
+                  描述：
+                  </view>
+                  <view class="release-goods-info-describe-content">
+                  {{releaseItem.pet.describe}}
+                  </view>
+                </view>
+              </view>
+            </view>
+          </view>
+          <view class="release-item-button-box">
+            <view class="release-item-button">
+            上架
+            </view>
+            <view class="release-item-button">
+            下架
+            </view>
+            <view class="release-item-button">
+            编辑
+            </view>
+          </view>
+        </view>
+      </i-cell>
+    </i-cell-group>
+  </i-panel>
+
+
+  <!-- 加载块 -->
+  <i-load-foot-item loadState='{{loadState}}'>
+  </i-load-foot-item>
+</view>
+
+<view class="empty-zone">
+</view>
+
 <view class="add-new-button"
       bindtap="tapAddNewRelease">
 + 发布新宠
 </view>
 
-<i-panel title='已发布宠物列表'
-         i-class='panel'>
-  <i-cell-group>
-    <i-cell wx:for='{{releaseList}}'
-            wx:for-item='releaseItem'
-            wx:for-index='releaseIndex'
-            wx:key='{{releaseIndex}}'>
-      <!-- item -->
-      <view class="release-item"
-            slot='header'>
-        <view class="release-item-content">
-          <!-- 图片 -->
-          <i-image i-class="release-goods-image"
-                  imageSrc='{{releaseItem.pet.imagePaths[0]}}'
-                  placeholderSrc='../../resource/avatar_placeholder.jpg'>
-          </i-image>
-          <!-- 信息 -->
-          <view class="release-goods-info-box">
-            <!-- line -->
-            <view class="release-goods-info-line"
-                  style="justify-content: flex-start;">
-              <view class="release-goods-info-name">
-              {{releaseItem.pet.name}}
-              </view>
-              <view class="release-goods-info-sexy">
-              {{releaseItem.pet.sexy}}
-              </view>
-            </view>
-            <!-- line -->
-            <view class="release-goods-info-line">
-              <view class="release-goods-info-identifier">
-              {{releaseItem.pet.identifier}}
-              </view>
-              <view class="release-goods-info-price">
-              ￥{{releaseItem.pet.price}}
-              </view>
-            </view>
-            <!-- line -->
-            <view class="release-goods-info-line">
-              <view class="release-goods-info-birthday">
-              生日：{{releaseItem.pet.birthday}}
-              </view>
-              <view class="release-goods-info-sterilized">
-              {{parse.sterilizedInfo(releaseItem.pet.sterilized)}}
-              </view>
-            </view>
-            <!-- line -->
-            <view class="release-goods-info-line">
-              <view class="release-goods-info-vaccine-box">
-                <view class="release-goods-info-vaccine-title">
-                第一次疫苗信息：
-                </view>
-                <view class="release-goods-info-vaccine-info">
-                  <view class="release-goods-info-vaccine-date">
-                  {{releaseItem.pet.vaccine.date}}
-                  </view>
-                  <view class="release-goods-info-vaccine-brand">
-                  {{releaseItem.pet.vaccine.brand}}
-                  </view>
-                </view>
-              </view>
-            </view>
-            <!-- line -->
-            <view class="release-goods-info-line">
-              <view class="release-goods-info-vaccine-box">
-                <view class="release-goods-info-vaccine-title">
-                第一次驱虫信息：
-                </view>
-                <view class="release-goods-info-vaccine-info">
-                  <view class="release-goods-info-vaccine-date">
-                  {{releaseItem.pet.repellent.date}}
-                  </view>
-                  <view class="release-goods-info-vaccine-brand">
-                  {{releaseItem.pet.repellent.brand}}
-                  </view>
-                </view>
-              </view>
-            </view>
-            <!-- line -->
-            <view class="release-goods-info-line">
-              <view class="release-goods-info-parent-box">
-                <view class="release-goods-info-parent-title">
-                父母信息：
-                </view>
-                <view class="release-goods-info-parent-info">
-                  <view class="release-goods-info-parent-info-item">
-                    <view class="release-goods-info-parent-info-title">
-                    父亲：
-                    </view>
-                    <view class="release-goods-info-parent-info-name">
-                    {{releaseItem.pet.parent.father.name}}
-                    </view>
-                    <i-image i-class="release-goods-info-parent-info-image"
-                             imageSrc='{{releaseItem.pet.parent.father.imagePath}}'
-                             placeholderSrc='../../resource/avatar_placeholder.jpg'>
-                    </i-image>
-                  </view>
-                  <view class="release-goods-info-parent-info-item">
-                    <view class="release-goods-info-parent-info-title">
-                    母亲：
-                    </view>
-                    <view class="release-goods-info-parent-info-name">
-                    {{releaseItem.pet.parent.mother.name}}
-                    </view>
-                    <i-image i-class="release-goods-info-parent-info-image"
-                             imageSrc='{{releaseItem.pet.parent.mother.imagePath}}'
-                             placeholderSrc='../../resource/avatar_placeholder.jpg'>
-                    </i-image>
-                  </view>
-                </view>
-              </view>
-            </view>
-            <!-- line -->
-            <view class="release-goods-info-line">
-              <view class="release-goods-info-describe">
-                <view class="release-goods-info-describe-title">
-                描述：
-                </view>
-                <view class="release-goods-info-describe-content">
-                {{releaseItem.pet.describe}}
-                </view>
-              </view>
-            </view>
-          </view>
-        </view>
-        <view class="release-item-button-box">
-          <view class="release-item-button">
-          上架
-          </view>
-          <view class="release-item-button">
-          下架
-          </view>
-          <view class="release-item-button">
-          删除
-          </view>
-        </view>
-      </view>
-    </i-cell>
-  </i-cell-group>
-</i-panel>
-
-
-<!-- 加载块 -->
-<i-load-foot-item loadState='{{loadState}}'>
-</i-load-foot-item>
 
 <wxs module='parse'>
   module.exports={
