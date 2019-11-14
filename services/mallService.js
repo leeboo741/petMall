@@ -230,11 +230,11 @@ function deleteItemCollection(param, deleteResultCallback) {
  */
 function getMoreItemEvaluate(param, getResultCallback) {
   let requestParam = new RequestParamObj({
-    url: UrlPath.Url_Base + UrlPath.Url_Pet_More_Evaluate,
+    url: UrlPath.Url_Base + UrlPath.Url_Item_More_Evaluate,
     data: {
       itemNo: param.itemNo,
-      offset: param.offset,
-      limit: param.limit
+      page: param.offset,
+      number: param.limit
     },
     success(res) {
       if (Util.checkIsFunction(getResultCallback)) {

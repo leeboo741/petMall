@@ -55,6 +55,12 @@
   margin-left: 15rpx;
 }
 
+.release-item-title{
+  color: #ee2c2c;
+  font-size: 28rpx;
+  padding: 15rpx;
+}
+
 .release-goods-image{
   width: 120rpx;
   height: 120rpx;
@@ -75,6 +81,19 @@
   align-items: center;
   margin-bottom: 15rpx;
   justify-content: space-between;
+}
+
+.release-goods-info-line-column {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15rpx;
+}
+
+.release-goods-info-line-column-title{
+  font-size: 26rpx;
+  font-weight: bold;
+  margin: 8rpx;
+  color: #778899;
 }
 
 .release-goods-info-name{
@@ -102,6 +121,12 @@
   font-weight: bold;
 }
 
+.release-goods-info-delet-price{
+  font-size: 24rpx;
+  color: gray;
+  text-decoration: line-through;
+}
+
 .release-goods-info-birthday{
   font-size: 28rpx;
   color: gray;
@@ -116,6 +141,7 @@
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  margin: 8rpx 5rpx;
 }
 
 .release-goods-info-vaccine-title{
@@ -148,8 +174,9 @@
 }
 
 .release-goods-info-parent-title{
-  font-size: 25rpx;
-  color: gray;
+  font-size: 26rpx;
+  font-weight: bold;
+  color: #778899;
   margin-bottom: 8rpx;
 }
 

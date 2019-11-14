@@ -13,6 +13,7 @@ Page({
     currentRole: 0, // 当前角色 0 买家 1 卖家
     isLogin: null, // 是否登陆
     userInfo: null, // 用户信息
+    businessInfo: null, // 卖家信息
     orderActionList: [
       {
         name: "待付款",
@@ -206,7 +207,8 @@ Page({
     this.setData({
       isLogin: UserService.isLogin(),
       userInfo: UserService.getLocalUserInfo(),
-      currentRole: UserService.getCurrentRole()
+      currentRole: UserService.getCurrentRole(),
+      businessInfo: UserService.getLocalBusinessInfo()
     })
   },
 
@@ -252,10 +254,51 @@ Page({
     console.log("点击 CELL :\n" + e.currentTarget.dataset.index)
     switch(e.currentTarget.dataset.index) {
       case 0:
-        this.setData({
-          currentRole: this.data.currentRole==0?1:0
-        })
-        UserService.saveCurrentRole(this.data.currentRole)
+        // 如果当前是买家角色
+          // 是否已经登录
+            // 已经登录，获取卖家信息后切换角色
+            // 未登录， 直接切换角色
+        // 如果是卖家角色
+          // 是否已经登录
+            // 已经登录，重新获取买家信息后切换角色
+            // 未登录， 直接切换角色
+        let that = this;
+        if (that.data.currentRole == 0) {
+          if (UserService.isLogin()) {
+            UserService.requestBusinessInfo(UserService.getCustomerNo(),
+              function getBusinessInfoCallback() {
+                that.setData({
+                  currentRole: 1,
+                  businessInfo: UserService.getLocalBusinessInfo(),
+                })
+                UserService.saveCurrentRole(that.data.currentRole)
+              }
+            )
+          } else {
+            that.setData({
+              currentRole: 1
+            })
+            UserService.saveCurrentRole(that.data.currentRole)
+          }
+        } else {
+          if (UserService.isLogin()) {
+            UserService.startLogin(function loginCallback(state) {
+              wx.hideLoading();
+              if (state == UserService.Login_Success) {
+                that.setData({
+                  currentRole: 0,
+                  userInfo: UserService.getLocalUserInfo()
+                })
+                UserService.saveCurrentRole(that.data.currentRole)
+              }
+            })
+          } else {
+            that.setData({
+              currentRole: 0
+            })
+            UserService.saveCurrentRole(that.data.currentRole)
+          }
+        }
         break;
       case 1:
       case 2:
@@ -278,7 +321,7 @@ Page({
    */
   tapToLogin: function() {
     wx.navigateTo({
-      url: PagePath.Page_Login_Index,
+      url: PagePath.Page_Login_Index + "?type=" + this.data.currentRole,
     })
   },
 

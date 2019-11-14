@@ -3,8 +3,6 @@
                   showBackButton>
 </i-navigation-bar>
 
-
-
 <view class="page-content">
   <i-panel title='已发布宠物列表'
            i-class='panel'
@@ -20,7 +18,7 @@
           <view class="release-item-content">
             <!-- 图片 -->
             <i-image i-class="release-goods-image"
-                    imageSrc='{{releaseItem.pet.imagePaths[0]}}'
+                    imageSrc='{{releaseItem.coverMedia[0].coverImg}}'
                     placeholderSrc='../../resource/avatar_placeholder.jpg'>
             </i-image>
             <!-- 信息 -->
@@ -29,58 +27,75 @@
               <view class="release-goods-info-line"
                     style="justify-content: flex-start;">
                 <view class="release-goods-info-name">
-                {{releaseItem.pet.name}}
+                {{parse.showName(releaseItem)}}
                 </view>
                 <view class="release-goods-info-sexy">
-                {{releaseItem.pet.sexy}}
+                {{parse.getSexy(releaseItem.petSex)}}
                 </view>
               </view>
               <!-- line -->
               <view class="release-goods-info-line">
                 <view class="release-goods-info-identifier">
-                {{releaseItem.pet.identifier}}
+                {{releaseItem.petUniqueCode!=null?releaseItem.petUniqueCode:""}}
                 </view>
                 <view class="release-goods-info-price">
-                ￥{{releaseItem.pet.price}}
+                ￥{{releaseItem.retailPrice}}
+                </view>
+                <view class="release-goods-info-delet-price">
+                ￥{{releaseItem.marketPrice}}
                 </view>
               </view>
               <!-- line -->
               <view class="release-goods-info-line">
                 <view class="release-goods-info-birthday">
-                生日：{{releaseItem.pet.birthday}}
+                生日：{{releaseItem.petBirthday}}
                 </view>
                 <view class="release-goods-info-sterilized">
-                {{parse.sterilizedInfo(releaseItem.pet.sterilized)}}
+                {{parse.sterilizedInfo(releaseItem.petSterilization)}}
                 </view>
               </view>
               <!-- line -->
-              <view class="release-goods-info-line">
-                <view class="release-goods-info-vaccine-box">
+              <view class="release-goods-info-line-column">
+                <view class="release-goods-info-line-column-title">
+                疫苗信息：
+                </view>
+                <view class="release-goods-info-vaccine-box"
+                      wx:for='{{releaseItem.petVaccineList}}'
+                      wx:for-item='vaccineItem'
+                      wx:for-index='vaccineIndex'
+                      wx:key='{{vaccineIndex}}'>
                   <view class="release-goods-info-vaccine-title">
-                  第一次疫苗信息：
+                  第{{vaccineIndex+1}}次疫苗：
                   </view>
                   <view class="release-goods-info-vaccine-info">
                     <view class="release-goods-info-vaccine-date">
-                    {{releaseItem.pet.vaccine.date}}
+                    {{vaccineItem.vaccineDate}}
                     </view>
                     <view class="release-goods-info-vaccine-brand">
-                    {{releaseItem.pet.vaccine.brand}}
+                    {{vaccineItem.vaccineBrandName}}
                     </view>
                   </view>
                 </view>
               </view>
               <!-- line -->
-              <view class="release-goods-info-line">
-                <view class="release-goods-info-vaccine-box">
+              <view class="release-goods-info-line-column">
+                <view class="release-goods-info-line-column-title">
+                驱虫信息：
+                </view>
+                <view class="release-goods-info-vaccine-box"
+                      wx:for='{{releaseItem.petKillList}}'
+                      wx:for-item='repellentItem'
+                      wx:for-index='repellentIndex'
+                      wx:key='{{repellentIndex}}'>
                   <view class="release-goods-info-vaccine-title">
-                  第一次驱虫信息：
+                  第{{repellentIndex+1}}次驱虫：
                   </view>
                   <view class="release-goods-info-vaccine-info">
                     <view class="release-goods-info-vaccine-date">
-                    {{releaseItem.pet.repellent.date}}
+                    {{repellentItem.killDate}}
                     </view>
                     <view class="release-goods-info-vaccine-brand">
-                    {{releaseItem.pet.repellent.brand}}
+                    {{repellentItem.killBrandName}}
                     </view>
                   </view>
                 </view>
@@ -97,10 +112,10 @@
                       父亲：
                       </view>
                       <view class="release-goods-info-parent-info-name">
-                      {{releaseItem.pet.parent.father.name}}
+                      {{releaseItem.fatherName}}
                       </view>
                       <i-image i-class="release-goods-info-parent-info-image"
-                              imageSrc='{{releaseItem.pet.parent.father.imagePath}}'
+                              imageSrc='{{releaseItem.fatherImg}}'
                               placeholderSrc='../../resource/avatar_placeholder.jpg'>
                       </i-image>
                     </view>
@@ -109,10 +124,10 @@
                       母亲：
                       </view>
                       <view class="release-goods-info-parent-info-name">
-                      {{releaseItem.pet.parent.mother.name}}
+                      {{releaseItem.motherName}}
                       </view>
                       <i-image i-class="release-goods-info-parent-info-image"
-                              imageSrc='{{releaseItem.pet.parent.mother.imagePath}}'
+                              imageSrc='{{releaseItem.motherImg}}'
                               placeholderSrc='../../resource/avatar_placeholder.jpg'>
                       </i-image>
                     </view>
@@ -126,28 +141,40 @@
                   描述：
                   </view>
                   <view class="release-goods-info-describe-content">
-                  {{releaseItem.pet.describe}}
+                  {{releaseItem.petDescription}}
                   </view>
                 </view>
               </view>
             </view>
           </view>
           <view class="release-item-button-box">
-            <view class="release-item-button">
+            <view class="release-item-button"
+                  bindtap='tapOnShelves'
+                  data-index='{{releaseIndex}}'
+                  wx:if='{{releaseItem.itemState==0}}'>
             上架
             </view>
-            <view class="release-item-button">
-            下架
-            </view>
-            <view class="release-item-button">
+            <view class="release-item-button"
+                  bindtap='tapEdit'
+                  data-index='{{releaseIndex}}'
+                  wx:if='{{releaseItem.itemState==0}}'>
             编辑
+            </view>
+            <view class="release-item-title"
+                  wx:if='{{releaseItem.itemState==1}}'>
+            审核中
+            </view>
+            <view class="release-item-button"
+                  bindtap='tapOffShelves'
+                  data-index='{{releaseIndex}}'
+                  wx:if='{{releaseItem.itemState==2}}'>
+            下架
             </view>
           </view>
         </view>
       </i-cell>
     </i-cell-group>
   </i-panel>
-
 
   <!-- 加载块 -->
   <i-load-foot-item loadState='{{loadState}}'>
@@ -166,10 +193,27 @@
 <wxs module='parse'>
   module.exports={
     sterilizedInfo: function(sterilized) {
-      if (sterilized) {
+      if (sterilized==1) {
         return "已绝育";
       } 
       return "未绝育";
+    },
+    getSexy: function(sexy) {
+      if (sexy == 1) {
+        return "公";
+      } else {
+        return "母"
+      }
+    },
+    showName: function(item) {
+      var name = ""; 
+      if (item.petName!=null) {
+        name = name + item.petName;
+      }
+      if (item.petGenre!=null) {
+        name = name + item.petGenre.petGenreName;
+      }
+      return name;
     }
   }
 </wxs>

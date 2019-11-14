@@ -83,7 +83,33 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+    // 上传任务不为空
+    if (that.data.uploadTaskForIdentifier != null) {
+      // 取消图片上传进度监听
+      that.data.uploadTaskForIdentifier.offProgressUpdate();
+      // 中止图片上传任务
+      that.data.uploadTaskForIdentifier.abort();
+      // 图片上传任务置空
+      that.data.uploadTaskForIdentifier = null;
+    }
+    // 上传任务不为空
+    if (that.data.uploadTaskForLicense != null) {
+      // 取消图片上传进度监听
+      that.data.uploadTaskForLicense.offProgressUpdate();
+      // 中止图片上传任务
+      that.data.uploadTaskForLicense.abort();
+      // 图片上传任务置空
+      that.data.uploadTaskForLicense = null;
+    }
+    // 上传任务不为空
+    if (that.data.uploadTaskForStoreFont != null) {
+      // 取消图片上传进度监听
+      that.data.uploadTaskForStoreFont.offProgressUpdate();
+      // 中止图片上传任务
+      that.data.uploadTaskForStoreFont.abort();
+      // 图片上传任务置空
+      that.data.uploadTaskForStoreFont = null;
+    }
   },
 
   /**

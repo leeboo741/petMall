@@ -52,6 +52,17 @@ function getCurrentRole() {
 }
 
 /**
+ * 获取卖家编号
+ */
+function getBusinessNo() {
+  let businessInfo = getLocalBusinessInfo();
+  if (businessInfo == null || businessInfo.businessNo == null || businessInfo.businessNo.length <= 0) {
+    return null;
+  }
+  return businessInfo.businessNo;
+}
+
+/**
  * 存储卖家信息
  * @param businessInfo 卖家信息
  */
@@ -196,6 +207,27 @@ function isLogin() {
 }
 
 /**
+ * 获取卖家信息
+ * @param customerNo
+ * @param getBusinessInfoCallback
+ */
+function requestBusinessInfo(customerNo, getBusinessInfoCallback) {
+  let requestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_LoginBusiness,
+    data: {
+      customerNo: customerNo
+    },
+    success (res) {
+      if (Util.checkIsFunction(getBusinessInfoCallback)) {
+        saveLocalBusinessInfo(res.root);
+        getBusinessInfoCallback();
+      }
+    }
+  })
+  RequestUtil.RequestGET(requestParam);
+}
+
+/**
  * 开始登陆
  * 先微信登陆 --》 成功后 调用 自有服务器登陆方法
  * @param loginCallback 登陆回调
@@ -203,7 +235,7 @@ function isLogin() {
 function startLogin(loginCallback) {
   let that = this;
   wx.showLoading({
-    title: '登陆中...',
+    title: '请稍等...',
   })
   wx.login({
     success(res) {
@@ -391,6 +423,8 @@ function authenticate(param, authenticateResultCallback) {
 module.exports = {
   saveCurrentRole: saveCurrentRole, // 存储当前角色 买家 卖家
   getCurrentRole: getCurrentRole, // 获取当前存储角色 买家 卖家
+  getBusinessNo: getBusinessNo, // 获取卖家编号
+  requestBusinessInfo: requestBusinessInfo, // 请求卖家信息
   saveLocalBusinessInfo: saveLocalBusinessInfo, // 保存 卖家对象
   deleteLocalBusinessInfo: deleteLocalBusinessInfo, // 删除 卖家对象
   getLocalBusinessInfo: getLocalBusinessInfo, // 获取 卖家对象

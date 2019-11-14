@@ -1,12 +1,13 @@
 
-// const Url_Base = "http://192.168.3.111:5050"; // Base Url ----- 刘
-const Url_Base = "http://192.168.3.200:8080"; // Base Url ---商城 卢
-// const Url_Base ="http://192.168.3.103:5050";    //---商家 罗
+// const Url_Base = "http://192.168.3.111:5050"; // ----- 刘
+const Url_Base = "http://192.168.3.103:5050"; // ---- 罗
+// const Url_Base = "http://192.168.3.200:8080"; // ---- 卢
 
 const Url_Login = "/login"; // 登陆
 const Url_Register = "/register"; // 注册
 const Url_GetCode = "/business/VerificationCode"; // 获取短信验证码
 const Url_Auth = "/auths/saveAAuth"; // 商家认证
+const Url_LoginBusiness = "/login/changeBusiness"; // 转换卖家身份
 
 /**
  * ----商城
@@ -69,6 +70,7 @@ const Url_Pet_Filter = "/PetFilter/petFilter"; // 宠物筛选
 
 const Url_Pet_HotSort = "/petSort/hotSort"; // 获取热门分类
 const Url_Pet_Breed = "/petSort/petGenreNO"; // 获取宠物品种
+const Url_Pet_Sort = "/petSort/petSort"; // 获取宠物分类
 
 const Url_Pet_Detail = "/PetDetail/detail"; // 获取宠物详情
 
@@ -76,9 +78,8 @@ const Url_Pet_More_Evaluate = "/pet/appraise"; // 获取更多宠物评价
 
 const Url_Pet_Release = "/PetController/petPublish"; // 发布宠物
 const Url_Pet_Edit = "/PetController/petEdit"; // 编辑宠物
-const Url_Pet_On_Shelves = ""; // 上架宠物
-const Url_Pet_Off_Shelves = "/PetController/PetOut"; // 下架宠物
-const Url_Pet_ReleaseList = ""; // 已发布宠物列表
+const Url_Pet_OnOrOff_Shelves = "/PetController/PetOut"; // 上架/下架宠物
+const Url_Pet_ReleaseList = "/businessDetail/businessDetail"; // 已发布宠物列表
 
 module.exports={
   Url_Base,  // Base Url
@@ -87,6 +88,7 @@ module.exports={
   Url_Register, // 注册
   Url_GetCode, // 获取短信验证码
   Url_Auth, // 商家认证
+  Url_LoginBusiness, // 转变卖家身份
 
   Url_ItemType, // 商城宠物类型
   Url_ItemShowTypeInfo, // 商城显示数据
@@ -127,11 +129,11 @@ module.exports={
   Url_Pet_Filter, // 宠物筛选
   Url_Pet_HotSort, // 获取热门分类
   Url_Pet_Breed, // 获取宠物品种
+  Url_Pet_Sort, // 获取宠物分类
   Url_Pet_Detail, // 获取宠物详情
   Url_Pet_More_Evaluate, // 获取宠物更多评价
   Url_Pet_Release, // 发布宠物
   Url_Pet_Edit, // 编辑宠物
-  Url_Pet_On_Shelves, // 上架宠物
-  Url_Pet_Off_Shelves, // 下架宠物
+  Url_Pet_OnOrOff_Shelves, // 上架/下架宠物
   Url_Pet_ReleaseList, // 已发布宠物列表
 }

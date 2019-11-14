@@ -1,4 +1,8 @@
 // pages/me/releaseManager/releaseNew/selectTransportType/index.js
+
+const Util = require("../../../../../utils/util.js");
+const app = getApp();
+
 Page({
 
   /**
@@ -8,33 +12,28 @@ Page({
     transportList: [
       {
         name: "航空", // 名称
-        price: 600, // 价格
-        useable: true, // 可用
+        price: null, // 价格
+        useable: false, // 可用
       },
       {
         name: "专车", // 名称
-        price: 400, // 价格
-        useable: true, // 可用
+        price: null, // 价格
+        useable: false, // 可用
       },
       {
         name: "大巴", // 名称
-        price: 200, // 价格
-        useable: true, // 可用
+        price: null, // 价格
+        useable: false, // 可用
       },
       {
         name: "铁路", // 名称
-        price: 300, // 价格
-        useable: true, // 可用
-      },
-      {
-        name: "航运", // 名称
-        price: 500, // 价格
-        useable: true, // 可用
+        price: null, // 价格
+        useable: false, // 可用
       },
       {
         name: "自提", // 名称
-        price: 0, // 价格
-        useable: true, // 可用
+        price: null, // 价格
+        useable: false, // 可用
       },
     ],
   },
@@ -43,7 +42,22 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    if (!Util.checkEmpty(app.globalData.selectTransportList)) {
+      for (let i = 0; i < this.data.transportList.length; i++) {
+        let tempTransport = this.data.transportList[i];
+        for (let j = 0; j < app.globalData.selectTransportList.length; j ++) {
+          let tempSelectTransport = app.globalData.selectTransportList[j];
+          if (tempTransport.name == tempSelectTransport.name) {
+            tempTransport.useable = true;
+            tempTransport.price = tempSelectTransport.price;
+          }
+        }
+      }
+      this.setData({
+        transportList: this.data.transportList
+      })
+      app.globalData.selectTransportList = null;
+    }
   },
 
   /**
@@ -111,7 +125,10 @@ Page({
    */
   inputPrice: function (e) {
     let tempTransport = this.data.transportList[e.currentTarget.dataset.index];
-    tempTransport.tempPrice = e.detail.value;
+    tempTransport.price = e.detail.value;
+    if (Util.checkEmpty(e.detail.value)) {
+      tempTransport.price = null;
+    }
     this.setData({
       transportList: this.data.transportList
     })
@@ -122,5 +139,44 @@ Page({
    */
   confirmSelected: function () {
     console.log("确定选择: \n" + JSON.stringify(this.data.transportList));
-  }
+    let selectTransportList = this.getSelectTransportList();
+    if (!Util.checkEmpty(selectTransportList)) {
+      app.globalData.selectTransportList = selectTransportList;
+      wx.navigateBack({
+        
+      })
+    }
+  },
+
+  /**
+   * 获取并检查选中的运输方式
+   * @return selectTransportList
+   */
+  getSelectTransportList: function() {
+    let haveSelected = false;
+    let selectTransportList = [];
+    for (let index = 0; index < this.data.transportList.length; index++) {
+      let tempTransport = this.data.transportList[index];
+      if (tempTransport.useable) {
+        haveSelected = true;
+        if (Util.checkEmpty(tempTransport.price)) {
+          wx.showToast({
+            title: "请输入 " + tempTransport.name + " 价格" ,
+            icon: 'none'
+          })
+          return null;
+        } else {
+          selectTransportList.push(tempTransport);
+        }
+      }
+    }
+    if (!haveSelected) {
+      wx.showToast({
+        title: '请选择至少一种运输方式',
+        icon: 'none'
+      })
+      return null;
+    }
+    return selectTransportList;
+  },
 })

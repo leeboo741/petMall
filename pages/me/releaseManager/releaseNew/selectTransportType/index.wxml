@@ -31,7 +31,8 @@
       <input class="input normal-text"
              slot='footer'
              placeholder-class="placeholder-class"
-             placeholder='{{transportItem.price}}'
+             placeholder='请输入价格'
+             value="{{transportItem.price}}"
              bindinput="inputPrice"
              data-index='{{transportIndex}}'
              type="digit">

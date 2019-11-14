@@ -33,8 +33,12 @@ function handleResponse(resource, handleSuccessCallback, handleFailCallback) {
       handleFailCallback(resource.data.code, resource.data.errMsg, resource.header, resource.cookies)
     }
   } else {
+    let msg = resource.data.errMsg;
+    if (msg == null || msg.length <= 0) {
+      msg = "请求失败！"
+    }
     wx.showToast({
-      title: resource.data.errMsg,
+      title: msg,
       icon: 'none'
     })
     if (handleFailCallback != null && typeof handleFailCallback == "function") {

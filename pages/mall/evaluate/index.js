@@ -84,26 +84,60 @@ Page({
    */
   onPullDownRefresh: function () {
     this.data.offset = 0;
-    if (this.data.type == Evaluate_Type_Pet) {
-      this.requestPetEvaluate(this.data.offset, 
-        function getPetEvaluateCallback(data) {
-          console.log ("Pet More Evaluate: \n" + JSON.stringify(data));
+    this.getEvaluateData(this.data.offset, 
+      function getDataCallback(data) {
+        that.setData({
+          evaluationInformation: data,
+        })
+        that.data.offset = that.data.offset + Limit;
+        if (data.length >= Limit) {
+          that.setData({
+            loadState: LoadFootItemState.Loading_State_Normal
+          })
+        } else if (data.length < Limit && data.length > 0) {
+          that.setData({
+            loadState: LoadFootItemState.Loading_State_End
+          })
+        } else {
+          that.setData({
+            loadState: LoadFootItemState.Loading_State_Empty
+          })
         }
-      )
-    } else if (this.data.type == Evaluate_Type_Item) {
-      this.requestItemEvaluate(this.data.offset,
-        function getItemEvaluateCallback(data) {
-          console.log("Item More Evaluate: \n" + JSON.stringify(data));
-        }
-      )
-    }
+        wx.stopPullDownRefresh();
+      }
+    )
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-
+    if (this.data.loadState == LoadFootItemState.Loading_State_End
+      || this.data.loadState == LoadFootItemState.Loading_State_Loading) {
+      return;
+    }
+    this.setData({
+      loadState: LoadFootItemState.Loading_State_Loading,
+    })
+    let that = this;
+    this.getEvaluateData(this.data.offset,
+      function getDataCallback(data) {
+        let tempList = that.data.evaluationInformation.concat(data);
+        that.setData({
+          evaluationInformation: tempList
+        })
+        that.data.offset = that.data.offset + Limit;
+        if (data.length >= Limit) {
+          that.setData({
+            loadState: LoadFootItemState.Loading_State_Normal
+          })
+        } else {
+          that.setData({
+            loadState: LoadFootItemState.Loading_State_End
+          })
+        }
+      }
+    )
   },
 
   /**
@@ -114,7 +148,37 @@ Page({
   },
 
   /**
+   * 获取评价数据
+   * @param offset
+   * @param getEvaluateCallback
+   */
+  getEvaluateData: function (offset, getEvaluateCallback) {
+    let that = this;
+    if (this.data.type == Evaluate_Type_Pet) {
+      this.requestPetEvaluate(this.data.offset,
+        function getPetEvaluateCallback(data) {
+          console.log("Pet More Evaluate: \n" + JSON.stringify(data));
+          if (Util.checkIsFunction(getEvaluateCallback)) {
+            getEvaluateCallback(data.root)
+          }
+        }
+      )
+    } else if (this.data.type == Evaluate_Type_Item) {
+      this.requestItemEvaluate(this.data.offset,
+        function getItemEvaluateCallback(data) {
+          console.log("Item More Evaluate: \n" + JSON.stringify(data));
+          if (Util.checkIsFunction(getEvaluateCallback)) {
+            getEvaluateCallback(data.root)
+          }
+        }
+      )
+    }
+  },
+
+  /**
    * 请求宠物评价列表
+   * @param offset
+   * @param getPetEvaluateCallback
    */
   requestPetEvaluate: function (offset, getPetEvaluateCallback) {
     PetService.getMorePetEvaluate(
@@ -133,6 +197,8 @@ Page({
 
   /**
    * 请求商品评价列表
+   * @param offset
+   * @param getItemEvaluateCallback
    */
   requestItemEvaluate: function(offset, getItemEvaluateCallback) {
     MallService.getMoreItemEvaluate(

@@ -182,6 +182,26 @@ function getHotType(petTypeParam, getResultCallback) {
 }
 
 /**
+ * 获取宠物分类
+ * @param getResultCallback 
+ */
+function getSort(getResultCallback){
+  let requestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_Pet_Sort,
+    data: {
+      offset: 0,
+      limit: 30,
+    },
+    success(res) {
+      if (Util.checkIsFunction(getResultCallback)) {
+        getResultCallback(res);
+      }
+    }
+  })
+  RequestUtil.RequestGET(requestParam);
+} 
+
+/**
  * 获取宠物品种
  * @param petSortNo 宠物大类Id
  * @param getResultCallback 结果回调
@@ -297,8 +317,8 @@ function getMorePetEvaluate(param, getResultCallback) {
     url: UrlPath.Url_Base + UrlPath.Url_Pet_More_Evaluate,
     data: {
       petNo: param.petNo,
-      offset: param.offset,
-      limit: param.limit,
+      page: param.offset,
+      number: param.limit,
     },
     success(res) {
       if (Util.checkIsFunction(getResultCallback)) {
@@ -311,15 +331,13 @@ function getMorePetEvaluate(param, getResultCallback) {
 
 /**
  * 发布宠物
- * @param param
+ * @param releaseData
  * @param releaseResultCallback
  */
-function releasePet(param, releaseResultCallback) {
+function releasePet(releaseData, releaseResultCallback) {
   let requestParam = new RequestParamObj({
     url: UrlPath.Url_Base + UrlPath.Url_Pet_Release,
-    data: {
-
-    },
+    data: releaseData,
     success(res) {
       if (Util.checkIsFunction(releaseResultCallback)) {
         releaseResultCallback(res);
@@ -331,70 +349,58 @@ function releasePet(param, releaseResultCallback) {
 
 /**
  * 编辑宠物
- * @param param
+ * @param releaseData
  * @param editResultCallback
  */
-function editPet(param, editResultCallback) {
+function editPet(releaseData, editResultCallback) {
   let requestParam = new RequestParamObj({
     url: UrlPath.Url_Base + UrlPath.Url_Pet_Edit,
-    data: {
-
-    },
+    data: releaseData,
     success(res) {
       if (Util.checkIsFunction(editResultCallback)) {
         editResultCallback(res);
       }
     }
   })
-  RequestUtil.RequestPUT(requestParam);
+  RequestUtil.RequestPOST(requestParam);
 }
 
 /**
- * 上架宠物
+ * 上架/下架宠物
+ * @param param (petNo, itemState)
+ * @param onOrOffShelvesResultCallback
  */
-function onShelves() {
+function onOrOffShelves(param, onOrOffShelvesResultCallback) {
   let requestParam = new RequestParamObj({
-    url: UrlPath.Url_Base + UrlPath.Url_Pet_On_Shelves,
+    url: UrlPath.Url_Base + UrlPath.Url_Pet_OnOrOff_Shelves,
     data: {
-
+      petNo: param.petNo,
+      itemState: param.itemState
+    },
+    header: {
+      'content-type': "application/x-www-form-urlencoded"
     },
     success(res) {
-      if (Util.checkIsFunction(editResultCallback)) {
-        editResultCallback(res);
+      if (Util.checkIsFunction(onOrOffShelvesResultCallback)) {
+        onOrOffShelvesResultCallback(res);
       }
     }
   })
-  RequestUtil.RequestPUT(requestParam);
-}
-
-/**
- * 下架宠物
- */
-function offShelves() {
-  let requestParam = new RequestParamObj({
-    url: UrlPath.Url_Base + UrlPath.Url_Pet_Off_Shelves,
-    data: {
-
-    },
-    success(res) {
-      if (Util.checkIsFunction(editResultCallback)) {
-        editResultCallback(res);
-      }
-    }
-  })
-  RequestUtil.RequestPUT(requestParam);
+  RequestUtil.RequestPOST(requestParam);
 }
 
 /**
  * 获取已发布宠物列表
- * @param param
+ * @param param (businessNo, offset, limit)
  * @param getResultCallback
  */
-function getReleaseList(param, getResultCallback) {
+function getReleaseList(param , getResultCallback) {
   let requestParam = new RequestParamObj({
     url: UrlPath.Url_Base + UrlPath.Url_Pet_ReleaseList,
     data: {
-
+      businessNo: param.businessNo,
+      offset: param.offset,
+      limit: param.limit
     },
     success(res) {
       if (Util.checkIsFunction(getResultCallback)) {
@@ -413,6 +419,7 @@ module.exports = {
   getPetList: getPetList, // 获取筛选宠物
 
   getHotType: getHotType, // 获取热门分类
+  getSort: getSort, // 获取宠物分类
   getBreed: getBreed, // 获取宠物品种
 
   getPetDetail: getPetDetail, // 获取宠物详情
@@ -425,7 +432,6 @@ module.exports = {
 
   releasePet: releasePet, // 发布宠物
   editPet: editPet, // 编辑宠物
-  onShelves: onShelves, // 上架宠物
-  offShelves: offShelves, // 下架宠物
+  onOrOffShelves: onOrOffShelves, // 上架/下架宠物
   getReleaseList: getReleaseList, // 获取已发布宠物列表
 }
