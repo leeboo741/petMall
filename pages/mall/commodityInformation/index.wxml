@@ -139,7 +139,7 @@
   </view>
 
   <view class="bottom-showinfor ">
-    <view class="bottom-button-type-two " bindtap="goShopTap ">
+    <view class="bottom-button-type-two " bindtap="goShopTap">
       担保购买
     </view>
   </view>

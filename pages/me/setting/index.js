@@ -24,7 +24,7 @@ Page({
   onLoad: function (options) {
     this.setData({
       userInfo: UserService.getLocalUserInfo(),
-      managerAddressUrl: PagePath.Page_Me_AddressManager,
+      managerAddressUrl: PagePath.Page_Me_AddressManager + "?ableselect=1",
       pageHeight: app.globalData.pageHeight
     })
   },

@@ -34,8 +34,8 @@ const Url_Business_PetList = "/business/businessPet"; // 获取商家宠物列�
  * ----地址管理
  */
 const Url_GetAddressList = "/order/ReceivingAddress"; // 获取收货地址列表
-const Url_AddNewAddress = "/order/ReceivingAddress/insert"; // 添加新收货地址
-const Url_EditAddress = "/order/ReceivingAddress/update"; // 编辑收货地址
+const Url_AddNewAddress = "/order/ReceivingAddress/insertReceivingAddress"; // 添加新收货地址
+const Url_EditAddress = "/order/ReceivingAddress/updateReceivingAddress"; // 编辑收货地址
 const Url_DeleteAddress = "/order/ReceivingAddress/"; // 删除收货地址
 
 /**
@@ -80,6 +80,12 @@ const Url_Pet_Release = "/PetController/petPublish"; // 发布宠物
 const Url_Pet_Edit = "/PetController/petEdit"; // 编辑宠物
 const Url_Pet_OnOrOff_Shelves = "/PetController/PetOut"; // 上架/下架宠物
 const Url_Pet_ReleaseList = "/businessDetail/businessDetail"; // 已发布宠物列表
+
+/**
+ * ----订单
+ */
+const Url_Order_Pet = "/customer/pet/order/save"; // 新增宠物订单
+const Url_Order_Item = "/customer/item/order/save"; // 新增商品订单
 
 module.exports={
   Url_Base,  // Base Url
@@ -136,4 +142,7 @@ module.exports={
   Url_Pet_Edit, // 编辑宠物
   Url_Pet_OnOrOff_Shelves, // 上架/下架宠物
   Url_Pet_ReleaseList, // 已发布宠物列表
+
+  Url_Order_Pet, // 新增宠物订单
+  Url_Order_Item, // 新增商品订单
 }

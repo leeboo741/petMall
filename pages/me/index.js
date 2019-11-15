@@ -118,7 +118,7 @@ Page({
       {
         name: "收货地址",
         detail: "",
-        link: PagePath.Page_Me_AddressManager,
+        link: PagePath.Page_Me_AddressManager + "?ableselect=0",
         show: true,
       }, 
       {

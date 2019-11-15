@@ -3,6 +3,7 @@ const Page_path = require("../../../macros/pagePath.js");
 const MallService = require("../../../services/mallService.js");
 const Util = require("../../../utils/util.js");
 const UserService = require("../../../services/userService.js");
+const app = getApp();
 
 Page({
 
@@ -152,8 +153,9 @@ Page({
    * 担保购买
    */
   goShopTap:function(){
+    app.globalData.shopItem = this.data.itemDetailData;
     wx.navigateTo({
-      url: Page_path.Page_Mall_Shoppingpayment
+      url: Page_path.Page_Mall_Shoppingpayment + "?type=item"
     })
   },
 

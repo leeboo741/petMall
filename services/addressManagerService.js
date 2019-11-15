@@ -56,7 +56,7 @@ function addNewAddress(addressObj, addCallback) {
       }
     }
   })
-  RequestUtil.RequestPUT(requestParam);
+  RequestUtil.RequestPOST(requestParam);
 }
 
 /**

@@ -31,10 +31,21 @@
 
 .pets-informaction-tabs{
    display: flex;
-   flex-wrap: wrap;
+   flex-direction: row;
    margin-left: 3%;
    margin-top:3%;
    font-size:27rpx;
+}
+
+.pets-information-transport-box{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  flex-grow: 1;
+}
+
+.pets-information-transport-item{
+  
 }
 
 .pets-sexmu{

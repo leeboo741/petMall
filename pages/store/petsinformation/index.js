@@ -4,6 +4,7 @@ const PetService = require("../../../services/petService.js");
 const Util = require("../../../utils/util.js");
 const StoreService = require("../../../services/storeService.js");
 const UserService = require("../../../services/userService.js");
+const app = getApp();
 
 Page({
 
@@ -20,22 +21,6 @@ Page({
     showPetsInfo: [],
     label: [
       "平台认证", "实名认证", "已纳押金", "商家认证"
-    ],
-    delivery: [ //配送
-      {
-        type: "自提",
-        price: 0
-      },
-
-      {
-        type: "汽运",
-        price: 200
-      },
-
-      {
-        type: "空运",
-        price: 600
-      },
     ],
     service: [ //服务
       "100%实拍", "先行赔付", "平台认证"
@@ -150,8 +135,11 @@ Page({
    * 担保购买
    */
   goShopTap: function (res) {
-
     console.log("点击担保购买！");
+    app.globalData.shopPet = this.data.petDetailData;
+    wx.navigateTo({
+      url: Page_path.Page_Mall_Shoppingpayment + "?type=pet"
+    })
   },
 
   /**

@@ -106,7 +106,7 @@ Page({
    */
   tapAddress: function(e) {
     if (this.data.ableSelectAddress) {
-      app.globalData.selectAddress = this.addressList[e.currentTarget.datase.index];
+      app.globalData.selectReceiveAddress = this.data.addressList[e.currentTarget.dataset.index];
       wx.navigateBack({
         
       })

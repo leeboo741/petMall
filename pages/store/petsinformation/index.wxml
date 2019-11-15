@@ -68,8 +68,32 @@
 
 <view class="pets-informaction-tabs">
   <view style="color:#ccc;">配送： </view>
-  <view wx:for="{{delivery}}" wx:for-item='deliveryItem' wx:for-index='deliveryIndex' wx:key='{{deliveryIndex}}' style="margin-left:3%;disply:flex;">
-    <i-icon type="service_fill" color="#F9A513" /> {{deliveryItem.type}} {{deliveryItem.price}} 元
+  <view class="pets-information-transport-box">
+    <view class="pets-information-transport-item"
+          wx:if='{{petDetailData.petTransport.airport!=null}}'>
+      <i-icon type="service_fill" color="#F9A513" />
+      航空 {{petDetailData.petTransport.airport}} 元
+    </view>
+    <view class="pets-information-transport-item"
+          wx:if='{{petDetailData.petTransport.railway!=null}}'>
+      <i-icon type="service_fill" color="#F9A513" />
+      铁路 {{petDetailData.petTransport.railway}} 元
+    </view>
+    <view class="pets-information-transport-item"
+          wx:if='{{petDetailData.petTransport.shuttleBus!=null}}'>
+      <i-icon type="service_fill" color="#F9A513" />
+      专车 {{petDetailData.petTransport.shuttleBus}} 元
+    </view>
+    <view class="pets-information-transport-item"
+          wx:if='{{petDetailData.petTransport.coach!=null}}'>
+      <i-icon type="service_fill" color="#F9A513" />
+      大巴 {{petDetailData.petTransport.coach}} 元
+    </view>
+    <view class="pets-information-transport-item"
+          wx:if='{{petDetailData.petTransport.takeTheir!=null}}'>
+      <i-icon type="service_fill" color="#F9A513" />
+      自提 {{petDetailData.petTransport.takeTheir}} 元
+    </view>
   </view>
 </view>
 
