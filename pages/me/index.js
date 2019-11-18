@@ -210,6 +210,17 @@ Page({
       currentRole: UserService.getCurrentRole(),
       businessInfo: UserService.getLocalBusinessInfo()
     })
+    if (UserService.isLogin()) {
+      if (this.data.currentRole == 1 && UserService.getLocalBusinessInfo() == null) {
+        UserService.requestBusinessInfo(UserService.getCustomerNo(),
+          function getBusinessInfoCallback() {
+            that.setData({
+              businessInfo: UserService.getLocalBusinessInfo(),
+            })
+          }
+        )
+      }
+    }
   },
 
   /**

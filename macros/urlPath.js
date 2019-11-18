@@ -6,7 +6,7 @@ const Url_Base = "http://192.168.3.103:5050"; // ---- 罗
 const Url_Login = "/login"; // 登陆
 const Url_Register = "/register"; // 注册
 const Url_GetCode = "/business/VerificationCode"; // 获取短信验证码
-const Url_Auth = "/auths/saveAAuth"; // 商家认证
+const Url_Auth = "/auth/saveAAuth"; // 商家认证
 const Url_LoginBusiness = "/login/changeBusiness"; // 转换卖家身份
 
 /**

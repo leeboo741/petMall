@@ -403,14 +403,24 @@ function getCode(phone, getCodeCallback) {
 
 /**
  * 认证管理
- * @param param
+ * @param param (type, business, name, identifier, identifierImagePath, license, licenseImagePath, storeName, region, detailAddress, storeFontImagePath)
  * @param authenticateResultCallback
  */
 function authenticate(param, authenticateResultCallback) {
   let requestParam = new RequestParamObj({
     url: UrlPath.Url_Base + UrlPath.Url_Auth,
     data: {
-
+      "businessAuthType": param.type,
+      "business": param.business,
+      "realName": param.name,
+      "idCard": param.identifier,
+      "legalImg": param.identifierImagePath,
+      "licenseNo": param.license,
+      "licenseImg": param.licenseImagePath,
+      "shopName": param.storeName,
+      "shopAddress": param.region,
+      "detailAddress": param.detailAddress,
+      "shopImg": param.storeFontImagePath,
     },
     success(res) {
       if (authenticateResultCallback && typeof authenticateResultCallback == "function") {
@@ -418,6 +428,7 @@ function authenticate(param, authenticateResultCallback) {
       }
     }
   })
+  RequestUtil.RequestPOST(requestParam);
 }
 
 module.exports = {

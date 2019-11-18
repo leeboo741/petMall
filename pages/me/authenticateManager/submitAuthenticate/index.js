@@ -36,6 +36,8 @@ Page({
     serviceStorefrontImagePath: null, // 身份证服务器地址
     progressForStoreFont: -1, // 门店进度
     uploadTaskForStoreFont: null, // 门店上传任务
+
+    successTimeout: null,
   },
 
   /**
@@ -83,6 +85,8 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
+    clearTimeout(this.data.successTimeout);
+    successTimeout = null;
     // 上传任务不为空
     if (that.data.uploadTaskForIdentifier != null) {
       // 取消图片上传进度监听
@@ -356,46 +360,73 @@ Page({
    * 点击提交
    */
   tapSubmit: function () {
-    if (this.checkSubmitData()) {
-      UserService.authenticate(
-        {
-
-        },
-        function authResultCallback(result){
-
+    let that = this;
+    let submitData = this.getSubmitData();
+    if (submitData != null) {
+      UserService.authenticate(submitData,
+        function authResultCallback(result) {
+          console.log("认证 ： \n" + JSON.stringify(result));
+          if (result.root >= 1) {
+            wx.showToast({
+              title: '认证成功',
+              duration: 1500,
+            })
+            that.data.successTimeout = setTimeout(
+              function success(res) {
+                wx.navigateBack({
+                  
+                })
+              },
+              1600
+            )
+          } else {
+            wx.showToast({
+              title: '插入认证失败',
+              icon: 'none'
+            })
+          }
         }
       )
     }
   },
 
   /**
-   * 检查数据
-   * @return safe true通过 false不通过
+   * 获取提交数据
+   * @return submitData
    */
-  checkSubmitData: function() {
+  getSubmitData: function() {
+    let submitData = {};
+    submitData.type = parseInt(this.data.type) + 1;
+    submitData.business = {
+      businessNo: UserService.getBusinessNo()
+    }
+
     if (Util.checkEmpty(this.data.name)) {
       wx.showToast({
         title: '姓名不能为空',
         icon: 'none'
       })
-      return false;
+      return null;
     }
+    submitData.name = this.data.name;
 
     if (Util.checkEmpty(this.data.identifier)) {
       wx.showToast({
         title: '身份证不能为空',
         icon: 'none'
       })
-      return false;
+      return null;
     }
+    submitData.identifier = this.data.identifier;
 
     if (Util.checkEmpty(this.data.serviceIdentifierImagePath)) {
       wx.showToast({
         title: '请上传身份证照片',
         icon: 'none'
       })
-      return false;
+      return null;
     }
+    submitData.identifierImagePath = this.data.serviceIdentifierImagePath;
 
     if (this.data.type != 0) {
       if (Util.checkEmpty(this.data.license)) {
@@ -403,15 +434,18 @@ Page({
           title: '营业执照不能为空',
           icon: 'none'
         })
-        return false;
+        return null;
       }
+      submitData.license = this.data.license;
+
       if (Util.checkEmpty(this.data.serviceLicenseImagePath)) {
         wx.showToast({
           title: '请上传营业执照照片',
           icon: 'none'
         })
-        return false;
+        return null;
       }
+      submitData.licenseImagePath = this.data.serviceLicenseImagePath;
     }
 
     if (this.data.type == 2) {
@@ -420,31 +454,38 @@ Page({
           title: '店铺名称不能为空',
           icon: 'none'
         })
-        return false;
+        return null;
       }
+      submitData.storeName = this.data.storeName;
+
       if (Util.checkEmpty(this.data.region)) {
         wx.showToast({
           title: '请选择区域',
           icon: 'none'
         })
-        return false;
+        return null;
       }
+      submitData.region = this.data.region[0] + "-" + this.data.region[1] + "-" + this.data.region[2];
+
       if (Util.checkEmpty(this.data.detailAddress)) {
         wx.showToast({
           title: '详细地址不能为空',
           icon: 'none'
         })
-        return false;
+        return null;
       }
+      submitData.detailAddress = this.data.detailAddress;
+
       if (Util.checkEmpty(this.data.serviceStorefrontImagePath)) {
         wx.showToast({
           title: '请上传门店照片',
           icon: 'none'
         })
-        return false;
+        return null;
       }
+      submitData.storeFontImagePath = this.data.serviceStorefrontImagePath
     }
 
-    return true;
+    return submitData;
   }
 })
