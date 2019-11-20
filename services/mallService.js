@@ -249,17 +249,17 @@ module.exports = {
 
   getMallPetTypeShowInfor: getMallPetTypeShowInfor,
 
-  getMallPetType: getMallPetType,
-  getBrandInfo: getBrandInfo,
-  getVarieties: getVarieties,
+  getMallPetType: getMallPetType, // 获取宠物类别
+  getBrandInfo: getBrandInfo, // 获取品牌列表
+  getVarieties: getVarieties, // 获取
 
-  getSetMealList: getSetMealList,
-  getItemList: getItemList,
-  getItemDetail: getItemDetail,
+  getSetMealList: getSetMealList, // 获取套餐列表
+  getItemList: getItemList, // 获取商品列表
+  getItemDetail: getItemDetail, // 获取商品详情
 
-  addNewItemCollection: addNewItemCollection,
-  getItemCollection: getItemCollection,
-  deleteItemCollection: deleteItemCollection,
+  addNewItemCollection: addNewItemCollection, // 新增商品收藏
+  getItemCollection: getItemCollection, // 获取商品收藏
+  deleteItemCollection: deleteItemCollection, // 删除商品收藏
 
   getMoreItemEvaluate: getMoreItemEvaluate, // 获取更多商家评价
 }

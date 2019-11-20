@@ -2,6 +2,7 @@
 // const Url_Base = "http://192.168.3.111:5050"; // ----- 刘
 const Url_Base = "http://192.168.3.103:5050"; // ---- 罗
 // const Url_Base = "http://192.168.3.200:8080"; // ---- 卢
+// const Url_Base = "https://huji820.picp.vip"; // ---测试
 
 const Url_Login = "/login"; // 登陆
 const Url_Register = "/register"; // 注册
@@ -84,8 +85,16 @@ const Url_Pet_ReleaseList = "/businessDetail/businessDetail"; // 已发布宠物
 /**
  * ----订单
  */
-const Url_Order_Pet = "/customer/pet/order/save"; // 新增宠物订单
-const Url_Order_Item = "/customer/item/order/save"; // 新增商品订单
+const Url_Order_AddNew_Pet = "/customer/pet/order/save"; // 新增宠物订单
+const Url_Order_AddNew_Item = "/customer/item/order/save"; // 新增商品订单
+const Url_Order_Query_Customer = "/customer/order/list/type"; // 客户订单查询
+const Url_Order_Query_Business = "/businessOrder/businessOrder/type"; // 商户订单查询
+
+/**
+ * ----支付
+ */
+const Url_Pay_Pet = "/pay/weChat/pet/order"; // 获取宠物订单支付信息
+const Url_Pay_Item = "/pay/weChat/item"; // 获取商品订单支付信息
 
 module.exports={
   Url_Base,  // Base Url
@@ -143,6 +152,11 @@ module.exports={
   Url_Pet_OnOrOff_Shelves, // 上架/下架宠物
   Url_Pet_ReleaseList, // 已发布宠物列表
 
-  Url_Order_Pet, // 新增宠物订单
-  Url_Order_Item, // 新增商品订单
+  Url_Order_AddNew_Pet, // 新增宠物订单
+  Url_Order_AddNew_Item, // 新增商品订单
+  Url_Order_Query_Customer, // 客户订单查询
+  Url_Order_Query_Business, // 商户订单查询
+
+  Url_Pay_Pet, // 获取宠物订单支付信息
+  Url_Pay_Item, // 获取商品订单支付信息
 }

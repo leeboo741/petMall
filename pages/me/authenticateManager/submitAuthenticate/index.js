@@ -86,7 +86,7 @@ Page({
    */
   onUnload: function () {
     clearTimeout(this.data.successTimeout);
-    successTimeout = null;
+    this.data.successTimeout = null;
     // 上传任务不为空
     if (that.data.uploadTaskForIdentifier != null) {
       // 取消图片上传进度监听

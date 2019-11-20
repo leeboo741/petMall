@@ -1,5 +1,9 @@
 // pages/mall/shoppingpayment/index.js
+const OrderService = require("../../../services/orderService.js");
+const UserService = require("../../../services/userService.js");
+const PayService = require("../../../services/payService.js");
 const Page_path = require("../../../macros/pagePath.js");
+const Util = require("../../../utils/util.js");
 const app = getApp();
 const Shop_Type_Item = "item";
 const Shop_Type_Pet = "pet";
@@ -48,7 +52,7 @@ Page({
         shopDataSource: app.globalData.shopPet
       })
     }
-
+    this.countPrice();
   },
 
   /**
@@ -126,6 +130,7 @@ Page({
       selectTransport: selectTransport,
       selectTransportPrice: selectTransportPrice
     })
+    this.countPrice();
   },
   
 
@@ -142,8 +147,9 @@ Page({
     this.setData({
       num: num,
       minusStatus: minusStatus,
-      numPrice: num * that.data.shopDataSource.price - that.data.showIntegral + that.data.freight
     })
+
+    this.countPrice();
   },
   /** 
    * 点击加号
@@ -156,8 +162,9 @@ Page({
     this.setData({
       num: num,
       minusStatus: minusStatus,
-      numPrice: num * that.data.shopDataSource.price - that.data.showIntegral + that.data.freight
     })
+
+    this.countPrice();
   },
   /** 
    * 输入框事件
@@ -169,8 +176,9 @@ Page({
     this.setData({
       num: num,
       minusStatus: minusStatus,
-      numPrice: num * that.data.shopDataSource.price - that.data.showIntegral + that.data.freight
     })
+
+    this.countPrice();
   },
 
   /**
@@ -213,13 +221,6 @@ Page({
   },
 
   /**
-   * 支付商品
-   */
-  shopPayTap: function() {
-    console.log("点击支付，应支付：" + this.data.numPrice);
-  },
-
-  /**
    * 点击蒙版
    */
   maskTap: function() {
@@ -244,6 +245,135 @@ Page({
     wx.navigateTo({
       url: Page_path.Page_Me_AddressManager +"?ableselect=1"
     })
+  },
 
-  }
+  /**
+   * 计算总价
+   */
+  countPrice: function() {
+    this.setData({
+      numPrice: (parseFloat(this.data.shopDataSource.retailPrice) * parseInt(this.data.num)) + parseFloat(this.data.selectTransportPrice)
+    })
+  },
+
+  /**
+   * 点击担保支付
+   */
+  shopPayTap: function () {
+    console.log("点击支付，应支付：" + this.data.numPrice);
+    wx.showLoading({
+      title: '下单中...',
+    })
+    let that = this;
+    this.requestAddNewOrder(
+      function requestAddNewOrderCallback(result) {
+        wx.hideLoading();
+        if (!Util.checkEmpty(result)) {
+          console.log("下单成功");
+          that.requestPayInfo(result, 
+            function getPayInfoCallback(payInfoData) {
+              console.log("支付信息： \n" + JSON.stringify(payInfoData));
+              wx.requestPayment({
+                timeStamp: payInfoData.timeStamp,
+                nonceStr: payInfoData.nonceStr,
+                package: payInfoData.package,
+                signType: payInfoData.signType,
+                paySign: payInfoData.paySign, 
+                success(res) {
+                  wx.navigateBack({
+                    
+                  })
+                },
+                fail(res) {
+                  wx.showToast({
+                    title: '支付失败,请稍后重试',
+                    icon: 'none'
+                  })
+                }
+              })
+            } 
+          )
+        } else {
+          wx.showToast({
+            title: '插入失败',
+            icon: 'none'
+          })
+        }
+      }
+    )
+  },
+
+  /**
+   * 提交订单
+   * @param requestAddNewOrderCallback
+   */
+  requestAddNewOrder: function (requestAddNewOrderCallback) {
+    let param = {};
+    param.customer = {
+      customerNo: UserService.getCustomerNo()
+    }
+    param.paymentAmount = this.data.numPrice;
+    param.qty = this.data.num;
+    param.receivingAddress = this.data.receiveAddress;
+    param.carriage = this.data.selectTransportPrice; // 只要金额 不要知道运输方式吗？
+
+    // param.coupon = null;
+    // param.couponAmount = null;
+    // param.pointAmount = null;
+    // param.usePoint = null;
+
+    if (this.data.type == Shop_Type_Item) {
+      param.item = {
+        itemNo: this.data.shopDataSource.itemNo
+      }
+      OrderService.addNewItemOrder(param,
+        function addNewOrderResultCallback(result) {
+          console.log("新增商品订单 ：\n" + JSON.stringify(result));
+          if (Util.checkIsFunction(requestAddNewOrderCallback)) {
+            requestAddNewOrderCallback(result.root);
+          }
+        }
+      )
+    } else {
+      param.pet = {
+        petNo: this.data.shopDataSource.petNo
+      }
+      OrderService.addNewPetOrder(param,
+        function addNewOrderResultCallback(result) {
+          console.log("新增宠物订单 ：\n" + JSON.stringify(result));
+          if (Util.checkIsFunction(requestAddNewOrderCallback)) {
+            requestAddNewOrderCallback(result.root);
+          }
+        }
+      )
+    }
+  },
+
+  /**
+   * 获取支付信息
+   * @param orderNo
+   * @param getPayInfoCallback
+   */
+  requestPayInfo: function (orderNo, getPayInfoCallback) {
+    if (this.data.type == Shop_Type_Item) {
+      PayService.getItemOrderPayInfo(orderNo,
+        function getResultCallback(result) {
+          if (Util.checkIsFunction(getPayInfoCallback)) {
+            getPayInfoCallback(result);
+          }
+        }
+      )
+    } else {
+      PayService.getPetOrderPayInfo(orderNo,
+        function getResultCallback(result) {
+          if (Util.checkIsFunction(getPayInfoCallback)) {
+            getPayInfoCallback(result);
+          }
+        }
+      )
+    }
+  },
+
+
 })
+

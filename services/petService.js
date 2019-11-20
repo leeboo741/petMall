@@ -10,7 +10,6 @@ const {
 const {
   RequestParamObj
 } = require("../utils/requestParamObj.js");
-const ResponseEnum = require("../services/handle/ResponseCodeEnum.js");
 const RequestUtil = require("../utils/requestUtil.js");
 const UrlPath = require("../macros/urlPath.js");
 const Util = require("../utils/util.js");
