@@ -204,6 +204,7 @@ Page({
   tapToEvaluate: function(e) {
     let tempOrder = this.data.dataSource[e.currentTarget.dataset.index];
     let tempOrderNo = e.currentTarget.dataset.orderno;
+    app.globalData.evaluateOrder = tempOrder;
     wx.navigateTo({
       url: PagePath.Page_Order_Evaluate_Index + "?orderno=" + tempOrderNo,
     })

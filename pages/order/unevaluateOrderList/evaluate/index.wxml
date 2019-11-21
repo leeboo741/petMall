@@ -12,56 +12,86 @@
               slot='header'>
           <view class="order-info-box">
             <view class="order-number">
-            {{order.orderNumber}}
+            {{order.orderNo}}
             </view>
             <view class="order-date">
-            {{order.orderDate}} {{order.orderTime}}
+            {{order.createDate}} {{order.createTime}}
             </view>
           </view>
           <view class="store-info-box">
             <view class="store-image-box">
               <i-image i-class='store-image'
-                       imageSrc='{{order.store.imagePath}}'
+                       imageSrc='{{parse.getStoreLogo(order)}}'
                        placeholderSrc='../../resource/avatar_placeholder.jpg'>
               </i-image>
             </view>
             <view class="store-name">
-            {{order.store.name}}
+            {{parse.getSotreName(order)}}
             </view>
           </view>
-          <view class="goods-info-box">
-            <view class="goods-image-box">
-              <i-image i-class='goods-image'
-                       imageSrc='{{order.goods.imagePath}}'
-                       placeholderSrc='../../resource/avatar_placeholder.jpg'>
-              </i-image>
-            </view>
-            <view class="goods-info">
-              <view class="goods-info-line">
-                <view class="goods-name">
-                {{order.goods.name}}
+          <!-- 商品item -->
+          <block wx:if='{{order.item != null}}'>
+            <view class="goods-info-box">
+              <view class="goods-image-box">
+                <i-image i-class='goods-image'
+                        imageSrc='{{order.item.coverImg}}'
+                        placeholderSrc='../../resource/avatar_placeholder.jpg'>
+                </i-image>
+              </view>
+              <view class="goods-info">
+                <view class="goods-info-line">
+                  <view class="goods-name">
+                  {{order.item.itemName}}
+                  </view>
                 </view>
-                <view class="goods-sexy"
-                      wx:if='{{parse.showSexy(order.goods)}}'>
-                {{order.goods.sexy}}
+                <view class="goods-info-line"
+                      style="justify-content: space-between; align-items: flex-end;">
+                  <view class="goods-count">
+                  x{{order.qty}}
+                  </view>
+                  <view class="goods-price">
+                  ￥{{order.item.retailPrice}}
+                  </view>
                 </view>
               </view>
-              <view class="goods-info-line"
-                    style="justify-content: space-between; align-items: flex-end;">
-                <view class="goods-count">
-                x{{order.goods.count}}{{order.goods.unit}}
+            </view>
+          </block>
+          <!-- 宠物item -->
+          <block wx:if='{{order.pet != null}}'>
+            <view class="goods-info-box">
+              <view class="goods-image-box">
+                <i-image i-class='goods-image'
+                        imageSrc='{{order.pet.coverMedia}}'
+                        placeholderSrc='../../resource/avatar_placeholder.jpg'>
+                </i-image>
+              </view>
+              <view class="goods-info">
+                <view class="goods-info-line">
+                  <view class="goods-name">
+                  {{order.pet.petName}}
+                  </view>
+                  <view class="goods-sexy"
+                        wx:if='{{parse.showSexy(order)}}'>
+                  {{parse.getSexy(order)}}
+                  </view>
                 </view>
-                <view class="goods-price">
-                {{order.goods.price}}/{{order.goods.unit}}
+                <view class="goods-info-line"
+                      style="justify-content: space-between; align-items: flex-end;">
+                  <view class="goods-count">
+                  x{{order.qty}}
+                  </view>
+                  <view class="goods-price">
+                  {{order.pet.retailPrice}}
+                  </view>
                 </view>
               </view>
             </view>
-          </view>
+          </block>
           <!-- 订单金额 -->
           <view class="goods-info-line"
                 style="justify-content: flex-end;">
             <view class="goods-amount">
-            总计：{{order.orderAmount}}元
+            总计：{{orderItem.paymentAmount}}元
             </view>
           </view>
         </view>
@@ -107,13 +137,13 @@
                   auto-height
                   placeholder-class='placeholder-text'
                   placeholder='输入评价内容'
-                  bindinput="inputEvaluate">
+                  bindinput="inputEvaluateContent">
         </textarea>
       </i-cell>
     </i-cell-group>
   </i-panel>
   <i-panel i-class='panel'
-           title='上传图片（最多6张）'>
+           title='上传图片（最多{{maxUploadImageLength}}张）'>
     <i-cell>
       <view class="upload-image-box"
             slot='header'>
@@ -122,9 +152,15 @@
               wx:for-item='uploadImageItem'
               wx:for-index='uploadImageIndex'
               wx:key='{{uploadImageIndex}}'>
-          <image src='{{uploadImageItem}}'
-                class='upload-image-item-image'>
-          </image>
+          <i-image imageSrc='{{uploadImageItem}}'
+                   i-class='upload-image-item-image'
+                   placeholderSrc='../../resource/avatar_placeholder.jpg'>
+          </i-image>
+          <view class="progress-box"
+                hidden="{{!parse.showProgress(uploadImageProgress, currentUploadIndex, uploadImageIndex)}}">
+            <i-progress percent="{{uploadImageProgress}}" hide-info style="width: 100%;">
+            </i-progress>
+          </view>
         </view>
         <view class="upload-image-item">
           <view class='upload-image-item-image'
@@ -140,7 +176,6 @@
 </block>
 
 <!-- 卖家版 -->
-
 <block wx:if='{{currentRole == 1}}'>
   <i-panel i-class='panel'>
     <i-cell-group>
@@ -250,7 +285,7 @@
     </i-cell-group>
   </i-panel>
   <i-panel i-class='panel'
-           title='上传图片（最多6张）'>
+           title='上传图片（最多{{maxUploadImageLength}}张）'>
     <i-cell>
       <view class="upload-image-box"
             slot='header'>
@@ -259,9 +294,15 @@
               wx:for-item='uploadImageItem'
               wx:for-index='uploadImageIndex'
               wx:key='{{uploadImageIndex}}'>
-          <image src='{{uploadImageItem}}'
-                class='upload-image-item-image'>
-          </image>
+          <i-image imageSrc='{{uploadImageItem}}'
+                   i-class='upload-image-item-image'
+                   placeholderSrc='../../resource/avatar_placeholder.jpg'>
+          </i-image>
+          <view class="progress-box"
+                hidden="{{!parse.showProgress(uploadImageProgress, currentUploadIndex, uploadImageIndex)}}">
+            <i-progress percent="{{uploadImageProgress}}" hide-info style="width: 100%;">
+            </i-progress>
+          </view>
         </view>
         <view class="upload-image-item">
           <view class='upload-image-item-image'
@@ -278,17 +319,49 @@
 
 <view class="empty-zone">
 </view>
-<view class="submit-button">
+<view class="submit-button"
+      bindtap="tapSubmit">
 提交评价
 </view>
 
 <wxs module='parse'>
   module.exports={
-    showSexy: function(goodsItem) {
-      if (goodsItem.sexy == null || goodsItem.sexy.length <= 0) {
+    getStoreLogo: function(orderItem) {
+      if (orderItem.item != null) {
+        return ""
+      }
+      if (orderItem.pet != null) {
+        return orderItem.pet.business.headerImg;
+      }
+    },
+    getSotreName: function(orderItem) {
+      if (orderItem.item != null) {
+        return "自营"
+      }
+      if (orderItem.pet != null) {
+        return orderItem.pet.business.businessName;
+      }
+    },
+    showSexy: function(orderItem) {
+      if (orderItem.pet == null || orderItem.pet.petSex != null || orderItem.pet.petSex.length <= 0) {
         return false;
       }
       return true;
-    }
+    },
+    getSexy: function (orderItem) {
+      if (orderItem.pet.petSex == 1) {
+        return "公";
+      }
+      return "母";
+    },
+    showProgress: function(progressValue, currentIndex, index) {
+      if (currentIndex != index) {
+        return false;
+      }
+      if (progressValue < 0 || progressValue >= 100 ) {
+        return false;
+      }
+      return true;
+    },
   }
 </wxs>

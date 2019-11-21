@@ -76,6 +76,7 @@ const Url_Pet_Sort = "/petSort/petSort"; // 获取宠物分类
 const Url_Pet_Detail = "/PetDetail/detail"; // 获取宠物详情
 
 const Url_Pet_More_Evaluate = "/pet/appraise"; // 获取更多宠物评价
+const Url_Pet_AddNew_Evaluate = "/pet/appraise/insertPetAppraise"; // 新增宠物评价
 
 const Url_Pet_Release = "/PetController/petPublish"; // 发布宠物
 const Url_Pet_Edit = "/PetController/petEdit"; // 编辑宠物
@@ -147,6 +148,7 @@ module.exports={
   Url_Pet_Sort, // 获取宠物分类
   Url_Pet_Detail, // 获取宠物详情
   Url_Pet_More_Evaluate, // 获取宠物更多评价
+  Url_Pet_AddNew_Evaluate, // 新增宠物评价
   Url_Pet_Release, // 发布宠物
   Url_Pet_Edit, // 编辑宠物
   Url_Pet_OnOrOff_Shelves, // 上架/下架宠物

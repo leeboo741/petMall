@@ -395,7 +395,7 @@
       } else if (transportType.name == '自提') {
         return "../../../../resource/transport_self.png";
       }
-    }
+    },
     showProgress: function(progressValue, currentIndex, index) {
       if (currentIndex != index) {
         return false;

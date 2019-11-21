@@ -329,6 +329,35 @@ function getMorePetEvaluate(param, getResultCallback) {
 }
 
 /**
+ * 新增宠物评价
+ * @param param
+ * @param addNewEvaluateCallback
+ */
+function addNewPetEvaluate(param, addNewEvaluateCallback) {
+  let requestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_Pet_AddNew_Evaluate,
+    data: {
+      billNo: param.orderNo,
+      content: param.content,
+      customer: {
+        customerNo: param.customerNo,
+      },
+      pet: {
+        petNo: param.petNo,
+      },
+      petAppraiseImgList: param.imageList,
+      praiseDegree: param.degree
+    },
+    success(res) {
+      if (Util.checkIsFunction(addNewEvaluateCallback)) {
+        addNewEvaluateCallback(res)
+      }
+    }
+  })
+  RequestUtil.RequestPOST(requestParam);
+}
+
+/**
  * 发布宠物
  * @param releaseData
  * @param releaseResultCallback
@@ -428,6 +457,7 @@ module.exports = {
   deletePetCollection: deletePetCollection, // 删除宠物收藏
 
   getMorePetEvaluate: getMorePetEvaluate, // 获取更多宠物评价
+  addNewPetEvaluate: addNewPetEvaluate, // 新增宠物评价
 
   releasePet: releasePet, // 发布宠物
   editPet: editPet, // 编辑宠物
