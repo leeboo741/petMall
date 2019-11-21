@@ -9,50 +9,76 @@
   <view wx:for='{{dataSource}}'
         wx:for-item='orderItem'
         wx:for-index='orderIndex'
-        wx:key='{{orderIndex}}'
+        wx:key='orderNo'
+        bindtap="tapToOrderDetail"
+        data-index='{{orderIndex}}'
+        data-orderno='{{orderItem.orderNo}}'
         class="order-item">
     <!-- 订单信息 -->
-    <view class="order-info-box"
-          bindtap="tapToOrderDetail"
-          data-index='{{orderIndex}}'>
+    <view class="order-info-box">
       <view class="order-info-number">
-      {{orderItem.orderNo}}
+      订单编号：{{orderItem.orderNo}}
       </view>
       <view class="order-info-time">
-      {{orderItem.orderDate}} {{orderItem.orderTime}}
+      {{orderItem.createDate}} {{orderItem.createTime}}
       </view>
     </view>
     <!-- 订单商品 -->
-    <view class="order-goods-box"
-          bindtap="tapToOrderDetail"
-          data-index='{{orderIndex}}'>
+    <view class="order-goods-box">
       <!-- 商品Item -->
       <view class="order-goods-item"
-            wx:for='{{orderItem.goods}}'
-            wx:for-item='goodsItem'
-            wx:for-index='goodsIndex'
-            wx:key='{{goodsIndex}}'>
+            wx:if='{{parse.showItemCell(orderItem)}}'
+            catchtap="tapItem"
+            data-index='{{orderIndex}}'
+            data-itemno='{{orderItem.item.itemNo}}'>
         <i-image i-class="order-goods-image"
-                 imageSrc='{{goodsItem.goodsImagePath}}'
+                 imageSrc='{{orderItem.item.coverImg}}'
                  placeholderSrc='../../resource/avatar_placeholder.jpg'>
         </i-image>
         <view class="order-goods-info">
           <view class="order-goods-item-line">
             <view class="order-goods-name">
-            {{goodsItem.goodsName}}
-            </view>
-            <view class="order-goods-sexy"
-                  wx:if='{{parse.showSexy(goodsItem)}}'>
-            {{goodsItem.goodsSexy}}
+            {{orderItem.item.itemName}}
             </view>
           </view>
           <view class="order-goods-item-line"
                 style="justify-content: space-between; align-items: flex-end;">
             <view class="order-goods-count">
-            x{{goodsItem.goodsCount}}{{goodsItem.goodsUnit}}
+            x{{orderItem.qty}}
             </view>
             <view class="order-goods-price">
-            {{goodsItem.goodsPrice}}/{{goodsItem.goodsUnit}}
+            ￥{{orderItem.item.retailPrice}}
+            </view>
+          </view>
+        </view>
+      </view>
+      <!-- 宠物Item -->
+      <view class="order-goods-item"
+            wx:if='{{parse.showPetCell(orderItem)}}'
+            catchtap="tapPet"
+            data-index='{{orderIndex}}'
+            data-petno='{{orderItem.pet.petNo}}'>
+        <i-image i-class="order-goods-image"
+                 imageSrc='{{orderItem.pet.coverMedia}}'
+                 placeholderSrc='../../resource/avatar_placeholder.jpg'>
+        </i-image>
+        <view class="order-goods-info">
+          <view class="order-goods-item-line">
+            <view class="order-goods-name">
+            {{orderItem.pet.petName}}
+            </view>
+            <view class="order-goods-sexy"
+                  wx:if='{{parse.showSexy(orderItem)}}'>
+            {{parse.getSexy(orderItem)}}
+            </view>
+          </view>
+          <view class="order-goods-item-line"
+                style="justify-content: space-between; align-items: flex-end;">
+            <view class="order-goods-count">
+            x{{orderItem.qty}}
+            </view>
+            <view class="order-goods-price">
+            {{orderItem.pet.retailPrice}}
             </view>
           </view>
         </view>
@@ -61,32 +87,33 @@
       <view class="order-goods-item-line"
             style="justify-content: flex-end;">
         <view class="order-goods-amount">
-        总计：{{orderItem.orderAmount}}元
+        总计：{{orderItem.paymentAmount}}元
         </view>
       </view>
     </view>
     <!-- 订单操作 -->
     <view class="order-operate-box">
-      <view class="order-store-box">
+      <view class="order-store-box"
+            catchtap="tapStore"
+            data-index='{{orderIndex}}'
+            data-storeno='{{orderItem.pet.business.businessNo}}'>
         <i-image i-class="order-store-image"
-                 imageSrc='{{orderItem.store.storeLogoPath}}'
+                 imageSrc='{{parse.getStoreLogo(orderItem)}}'
                  placeholderSrc='../../resource/avatar_placeholder.jpg'>
         </i-image>
         <view class="order-store-name">
-        {{orderItem.store.storeName}}
+        {{parse.getSotreName(orderItem)}}
         </view>
       </view>
       <view class="order-operate-button-box">
         <view class="order-operate-button"
-              bindtap="tapBuyerMore"
+              catchtap="tapMore"
               data-index='{{orderIndex}}'>
         更多
         </view>
         <view class="order-operate-button"
-              hidden>
-        联系商家
-        </view>
-        <view class="order-operate-button">
+              catchtap="tapRemind"
+              data-index='{{orderIndex}}'>
         提醒发货
         </view>
       </view>
@@ -100,63 +127,88 @@
 <!-- 卖家版 -->
 <block wx:else>
   <!-- 订单Item -->
-  <view wx:for='{{sellerDataSource}}'
+  <view wx:for='{{dataSource}}'
         wx:for-item='orderItem'
         wx:for-index='orderIndex'
         wx:key='{{orderIndex}}'
+        bindtap="tapToOrderDetail"
+        data-index='{{orderIndex}}'
+        data-orderno='{{orderItem.orderNo}}'
         class="order-item">
     <!-- 订单信息 -->
-    <view class="order-info-box"
-          bindtap="tapToOrderDetail"
-          data-index='{{orderIndex}}'>
+    <view class="order-info-box">
       <view class="order-info-number">
-      {{orderItem.orderNo}}
+      订单编号：{{orderItem.orderNo}}
       </view>
       <view class="order-info-time">
-      {{orderItem.orderDate}} {{orderItem.orderTime}}
+      {{orderItem.createDate}} {{orderItem.createTime}}
       </view>
     </view>
     <!-- 订单商品 -->
-    <view class="order-goods-box"
-          bindtap="tapToOrderDetail"
-          data-index='{{orderIndex}}'>
+    <view class="order-goods-box">
       <!-- 商品Item -->
       <view class="order-goods-item"
-            wx:for='{{orderItem.goods}}'
-            wx:for-item='goodsItem'
-            wx:for-index='goodsIndex'
-            wx:key='{{goodsIndex}}'>
+            wx:if='{{parse.showItemCell(orderItem)}}'
+            catchtap="tapItem"
+            data-index='{{orderIndex}}'
+            data-itemno='{{orderItem.item.itemNo}}'>
         <i-image i-class="order-goods-image"
-                 imageSrc='{{goodsItem.goodsImagePath}}'
+                 imageSrc='{{orderItem.item.coverImg}}'
                  placeholderSrc='../../resource/avatar_placeholder.jpg'>
         </i-image>
         <view class="order-goods-info">
           <view class="order-goods-item-line">
             <view class="order-goods-name">
-            {{goodsItem.goodsName}}
-            </view>
-            <view class="order-goods-sexy"
-                  wx:if='{{parse.showSexy(goodsItem)}}'>
-            {{goodsItem.goodsSexy}}
+            {{orderItem.item.itemName}}
             </view>
           </view>
           <view class="order-goods-item-line"
                 style="justify-content: space-between; align-items: flex-end;">
             <view class="order-goods-count">
-            x{{goodsItem.goodsCount}}{{goodsItem.goodsUnit}}
+            x{{orderItem.qty}}
             </view>
             <view class="order-goods-price">
-            {{goodsItem.goodsPrice}}/{{goodsItem.goodsUnit}}
+            ￥{{orderItem.item.retailPrice}}
             </view>
           </view>
-        </view> 
+        </view>
       </view>
-      
+      <!-- 宠物Item -->
+      <view class="order-goods-item"
+            wx:if='{{parse.showPetCell(orderItem)}}'
+            catchtap="tapPet"
+            data-index='{{orderIndex}}'
+            data-petno='{{orderItem.pet.petNo}}'>
+        <i-image i-class="order-goods-image"
+                 imageSrc='{{orderItem.pet.coverMedia}}'
+                 placeholderSrc='../../resource/avatar_placeholder.jpg'>
+        </i-image>
+        <view class="order-goods-info">
+          <view class="order-goods-item-line">
+            <view class="order-goods-name">
+            {{orderItem.pet.petName}}
+            </view>
+            <view class="order-goods-sexy"
+                  wx:if='{{parse.showSexy(orderItem)}}'>
+            {{parse.getSexy(orderItem)}}
+            </view>
+          </view>
+          <view class="order-goods-item-line"
+                style="justify-content: space-between; align-items: flex-end;">
+            <view class="order-goods-count">
+            x{{orderItem.qty}}
+            </view>
+            <view class="order-goods-price">
+            {{orderItem.pet.retailPrice}}
+            </view>
+          </view>
+        </view>
+      </view>
       <!-- 订单金额 -->
       <view class="order-goods-item-line"
             style="justify-content: flex-end;">
         <view class="order-goods-amount">
-        总计：{{orderItem.orderAmount}}元
+        总计：{{orderItem.paymentAmount}}元
         </view>
       </view>
     </view>
@@ -164,7 +216,7 @@
     <view class="order-operate-box">
       <view class="order-store-box">
         <i-image i-class="order-store-image"
-                 imageSrc='{{orderItem.customer.customerAvatarPath}}'
+                 imageSrc='{{orderItem.customer.headerImage}}'
                  placeholderSrc='../../resource/avatar_placeholder.jpg'>
         </i-image>
         <view class="order-store-name">
@@ -172,14 +224,16 @@
         </view>
       </view>
       <view class="order-operate-button-box">
-        <view class="order-operate-button">
+        <view class="order-operate-button"
+              catchtap="tapMore"
+              data-index='{{orderIndex}}'
+              hidden>
         更多
         </view>
         <view class="order-operate-button"
-              hidden>
-        联系买家
-        </view>
-        <view class="order-operate-button">
+              catchtap="tapConfirmSend"
+              data-index='{{orderIndex}}'
+              data-orderno='{{orderItem.orderNo}}'>
         确认发货
         </view>
       </view>
@@ -196,11 +250,39 @@
 
 <wxs module='parse'>
   module.exports={
-    showSexy: function(goodsItem) {
-      if (goodsItem.goodsSexy == null || goodsItem.goodsSexy.length <= 0) {
+    getStoreLogo: function(orderItem) {
+      if (orderItem.item != null) {
+        return ""
+      }
+      if (orderItem.pet != null) {
+        return orderItem.pet.business.headerImg;
+      }
+    },
+    getSotreName: function(orderItem) {
+      if (orderItem.item != null) {
+        return "自营"
+      }
+      if (orderItem.pet != null) {
+        return orderItem.pet.business.businessName;
+      }
+    },
+    showSexy: function(orderItem) {
+      if (orderItem.pet == null || orderItem.pet.petSex != null || orderItem.pet.petSex.length <= 0) {
         return false;
       }
       return true;
+    },
+    getSexy: function (orderItem) {
+      if (orderItem.pet.petSex == 1) {
+        return "公";
+      }
+      return "母";
+    },
+    showItemCell: function(order) {
+      return order.item != null;
+    },
+    showPetCell: function(order) {
+      return order.pet != null;
     }
   }
 </wxs>

@@ -1,9 +1,13 @@
 // pages/order/unevaluateOrderList/index.js
 
 const LoadFootItemState = require("../../../lee-components/leeLoadingFootItem/loadFootObj.js");
-const PageSize = 20;
+const OrderService = require("../../../services/orderService.js");
 const UserService = require("../../../services/userService.js");
 const PagePath = require("../../../macros/pagePath.js");
+const Config = require("../../../macros/config.js");
+const Enum = require("../../../utils/enum.js");
+const Util = require("../../../utils/util.js");
+const Limit = 20;
 
 Page({
 
@@ -11,405 +15,10 @@ Page({
    * 页面的初始数据
    */
   data: {
-    pageIndex: 0, // 页码
+    offset: 0, // 页码
     loadState: LoadFootItemState.Loading_State_Empty, // 底部状态
-
-    dataSource: [
-      {
-        orderNo: "2232232232232232",
-        orderDate: "2019-10-11",
-        orderTime: "10:11:11",
-        payTime: "2019-10-11 12:11:11", // 最后付款时间
-        orderClose: false,
-        orderAmount: 123,
-        goods: [
-          {
-            goodsName: "英国短毛猫",
-            goodsType: "PET",
-            goodsPrice: 2000,
-            goodsSexy: "公",
-            goodsCount: 1,
-            goodsUnit: "只",
-            goodsAmount: 300,
-            goodsImagePath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571057930011&di=3fb1a36f78f5b885f003d75560006e9b&imgtype=0&src=http%3A%2F%2Fimg3.duitang.com%2Fuploads%2Fitem%2F201604%2F25%2F20160425205546_4JwcA.thumb.700_0.jpeg"
-          }
-        ],
-        store: {
-          storeName: "萌宠宠物店",
-          storeLogoPath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571141353757&di=bfa169b0ff9c44c88c56f15c45582967&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0132565a447811a801219741f137ba.jpeg"
-        }
-      },
-      {
-        orderNo: "1232232232232232",
-        orderDate: "2019-10-11",
-        orderTime: "10:11:11",
-        payTime: "2019-10-11 12:11:11", // 最后付款时间
-        orderClose: true,
-        orderAmount: 123,
-        goods: [
-          {
-            goodsName: "猫粮",
-            goodsType: "主粮",
-            goodsPrice: 500,
-            goodsSexy: null,
-            goodsCount: 2,
-            goodsUnit: "袋",
-            goodsAmount: 300,
-            goodsImagePath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571057930011&di=3fb1a36f78f5b885f003d75560006e9b&imgtype=0&src=http%3A%2F%2Fimg3.duitang.com%2Fuploads%2Fitem%2F201604%2F25%2F20160425205546_4JwcA.thumb.700_0.jpeg"
-          },
-        ],
-        store: {
-          storeName: "萌宠小屋",
-          storeLogoPath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571138693420&di=fee3aa2a043f375cdb1cbb90f9380c2a&imgtype=0&src=http%3A%2F%2Fd5.file.680.com%2FItem%2F2018-6%2F20%2F10596211_201862011416.jpg"
-        }
-      },
-      {
-        orderNo: "2232232232232232",
-        orderDate: "2019-10-11",
-        orderTime: "10:11:11",
-        payTime: "2019-10-11 12:11:11", // 最后付款时间
-        orderClose: false,
-        orderAmount: 123,
-        goods: [
-          {
-            goodsName: "英国短毛猫",
-            goodsType: "PET",
-            goodsPrice: 2000,
-            goodsSexy: "公",
-            goodsCount: 1,
-            goodsUnit: "只",
-            goodsAmount: 300,
-            goodsImagePath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571057930011&di=3fb1a36f78f5b885f003d75560006e9b&imgtype=0&src=http%3A%2F%2Fimg3.duitang.com%2Fuploads%2Fitem%2F201604%2F25%2F20160425205546_4JwcA.thumb.700_0.jpeg"
-          }
-        ],
-        store: {
-          storeName: "萌宠宠物店",
-          storeLogoPath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571141353757&di=bfa169b0ff9c44c88c56f15c45582967&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0132565a447811a801219741f137ba.jpeg"
-        }
-      },
-      {
-        orderNo: "1232232232232232",
-        orderDate: "2019-10-11",
-        orderTime: "10:11:11",
-        payTime: "2019-10-11 12:11:11", // 最后付款时间
-        orderClose: true,
-        orderAmount: 123,
-        goods: [
-          {
-            goodsName: "猫粮",
-            goodsType: "主粮",
-            goodsPrice: 500,
-            goodsSexy: null,
-            goodsCount: 2,
-            goodsUnit: "袋",
-            goodsAmount: 300,
-            goodsImagePath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571057930011&di=3fb1a36f78f5b885f003d75560006e9b&imgtype=0&src=http%3A%2F%2Fimg3.duitang.com%2Fuploads%2Fitem%2F201604%2F25%2F20160425205546_4JwcA.thumb.700_0.jpeg"
-          },
-        ],
-        store: {
-          storeName: "萌宠小屋",
-          storeLogoPath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571138693420&di=fee3aa2a043f375cdb1cbb90f9380c2a&imgtype=0&src=http%3A%2F%2Fd5.file.680.com%2FItem%2F2018-6%2F20%2F10596211_201862011416.jpg"
-        }
-      },
-      {
-        orderNo: "2232232232232232",
-        orderDate: "2019-10-11",
-        orderTime: "10:11:11",
-        payTime: "2019-10-11 12:11:11", // 最后付款时间
-        orderClose: false,
-        orderAmount: 123,
-        goods: [
-          {
-            goodsName: "英国短毛猫",
-            goodsType: "PET",
-            goodsPrice: 2000,
-            goodsSexy: "公",
-            goodsCount: 1,
-            goodsUnit: "只",
-            goodsAmount: 300,
-            goodsImagePath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571057930011&di=3fb1a36f78f5b885f003d75560006e9b&imgtype=0&src=http%3A%2F%2Fimg3.duitang.com%2Fuploads%2Fitem%2F201604%2F25%2F20160425205546_4JwcA.thumb.700_0.jpeg"
-          }
-        ],
-        store: {
-          storeName: "萌宠宠物店",
-          storeLogoPath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571141353757&di=bfa169b0ff9c44c88c56f15c45582967&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0132565a447811a801219741f137ba.jpeg"
-        }
-      },
-      {
-        orderNo: "1232232232232232",
-        orderDate: "2019-10-11",
-        orderTime: "10:11:11",
-        payTime: "2019-10-11 12:11:11", // 最后付款时间
-        orderClose: true,
-        orderAmount: 123,
-        goods: [
-          {
-            goodsName: "猫粮",
-            goodsType: "主粮",
-            goodsPrice: 500,
-            goodsSexy: null,
-            goodsCount: 2,
-            goodsUnit: "袋",
-            goodsAmount: 300,
-            goodsImagePath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571057930011&di=3fb1a36f78f5b885f003d75560006e9b&imgtype=0&src=http%3A%2F%2Fimg3.duitang.com%2Fuploads%2Fitem%2F201604%2F25%2F20160425205546_4JwcA.thumb.700_0.jpeg"
-          },
-        ],
-        store: {
-          storeName: "萌宠小屋",
-          storeLogoPath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571138693420&di=fee3aa2a043f375cdb1cbb90f9380c2a&imgtype=0&src=http%3A%2F%2Fd5.file.680.com%2FItem%2F2018-6%2F20%2F10596211_201862011416.jpg"
-        }
-      },
-    ], // 数据源
-    sellerDataSource: [
-      {
-        orderNo: "2232232232232232",
-        orderDate: "2019-10-11",
-        orderTime: "10:11:11",
-        payTime: "2019-10-11 12:11:11", // 最后付款时间
-        orderClose: false,
-        orderAmount: 123,
-        goods: [
-          {
-            goodsName: "英国短毛猫",
-            goodsType: "PET",
-            goodsPrice: 2000,
-            goodsSexy: "公",
-            goodsCount: 1,
-            goodsUnit: "只",
-            goodsAmount: 300,
-            goodsImagePath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571057930011&di=3fb1a36f78f5b885f003d75560006e9b&imgtype=0&src=http%3A%2F%2Fimg3.duitang.com%2Fuploads%2Fitem%2F201604%2F25%2F20160425205546_4JwcA.thumb.700_0.jpeg"
-          }
-        ],
-        customer: {
-          customerName: "逗啊逗",
-          customerAvatarPath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571228473763&di=7983ab89537ae923fc13b05acf6baf04&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201609%2F28%2F20160928230144_QARdX.thumb.700_0.png"
-        }
-      },
-      {
-        orderNo: "1232232232232232",
-        orderDate: "2019-10-11",
-        orderTime: "10:11:11",
-        payTime: "2019-10-11 12:11:11", // 最后付款时间
-        orderClose: true,
-        orderAmount: 123,
-        goods: [
-          {
-            goodsName: "猫粮",
-            goodsType: "主粮",
-            goodsPrice: 500,
-            goodsSexy: null,
-            goodsCount: 2,
-            goodsUnit: "袋",
-            goodsAmount: 300,
-            goodsImagePath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571057930011&di=3fb1a36f78f5b885f003d75560006e9b&imgtype=0&src=http%3A%2F%2Fimg3.duitang.com%2Fuploads%2Fitem%2F201604%2F25%2F20160425205546_4JwcA.thumb.700_0.jpeg"
-          },
-        ],
-        customer: {
-          customerName: "溜啊溜",
-          customerAvatarPath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571228473763&di=7983ab89537ae923fc13b05acf6baf04&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201609%2F28%2F20160928230144_QARdX.thumb.700_0.png"
-        }
-      },
-      {
-        orderNo: "2232232232232232",
-        orderDate: "2019-10-11",
-        orderTime: "10:11:11",
-        payTime: "2019-10-11 12:11:11", // 最后付款时间
-        orderClose: false,
-        orderAmount: 123,
-        goods: [
-          {
-            goodsName: "英国短毛猫",
-            goodsType: "PET",
-            goodsPrice: 2000,
-            goodsSexy: "公",
-            goodsCount: 1,
-            goodsUnit: "只",
-            goodsAmount: 300,
-            goodsImagePath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571057930011&di=3fb1a36f78f5b885f003d75560006e9b&imgtype=0&src=http%3A%2F%2Fimg3.duitang.com%2Fuploads%2Fitem%2F201604%2F25%2F20160425205546_4JwcA.thumb.700_0.jpeg"
-          }
-        ],
-        customer: {
-          customerName: "逗啊逗",
-          customerAvatarPath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571228473763&di=7983ab89537ae923fc13b05acf6baf04&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201609%2F28%2F20160928230144_QARdX.thumb.700_0.png"
-        }
-      },
-      {
-        orderNo: "1232232232232232",
-        orderDate: "2019-10-11",
-        orderTime: "10:11:11",
-        payTime: "2019-10-11 12:11:11", // 最后付款时间
-        orderClose: true,
-        orderAmount: 123,
-        goods: [
-          {
-            goodsName: "猫粮",
-            goodsType: "主粮",
-            goodsPrice: 500,
-            goodsSexy: null,
-            goodsCount: 2,
-            goodsUnit: "袋",
-            goodsAmount: 300,
-            goodsImagePath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571057930011&di=3fb1a36f78f5b885f003d75560006e9b&imgtype=0&src=http%3A%2F%2Fimg3.duitang.com%2Fuploads%2Fitem%2F201604%2F25%2F20160425205546_4JwcA.thumb.700_0.jpeg"
-          },
-        ],
-        customer: {
-          customerName: "溜啊溜",
-          customerAvatarPath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571228473763&di=7983ab89537ae923fc13b05acf6baf04&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201609%2F28%2F20160928230144_QARdX.thumb.700_0.png"
-        }
-      },
-      {
-        orderNo: "2232232232232232",
-        orderDate: "2019-10-11",
-        orderTime: "10:11:11",
-        payTime: "2019-10-11 12:11:11", // 最后付款时间
-        orderClose: false,
-        orderAmount: 123,
-        goods: [
-          {
-            goodsName: "英国短毛猫",
-            goodsType: "PET",
-            goodsPrice: 2000,
-            goodsSexy: "公",
-            goodsCount: 1,
-            goodsUnit: "只",
-            goodsAmount: 300,
-            goodsImagePath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571057930011&di=3fb1a36f78f5b885f003d75560006e9b&imgtype=0&src=http%3A%2F%2Fimg3.duitang.com%2Fuploads%2Fitem%2F201604%2F25%2F20160425205546_4JwcA.thumb.700_0.jpeg"
-          }
-        ],
-        customer: {
-          customerName: "逗啊逗",
-          customerAvatarPath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571228473763&di=7983ab89537ae923fc13b05acf6baf04&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201609%2F28%2F20160928230144_QARdX.thumb.700_0.png"
-        }
-      },
-      {
-        orderNo: "1232232232232232",
-        orderDate: "2019-10-11",
-        orderTime: "10:11:11",
-        payTime: "2019-10-11 12:11:11", // 最后付款时间
-        orderClose: true,
-        orderAmount: 123,
-        goods: [
-          {
-            goodsName: "猫粮",
-            goodsType: "主粮",
-            goodsPrice: 500,
-            goodsSexy: null,
-            goodsCount: 2,
-            goodsUnit: "袋",
-            goodsAmount: 300,
-            goodsImagePath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571057930011&di=3fb1a36f78f5b885f003d75560006e9b&imgtype=0&src=http%3A%2F%2Fimg3.duitang.com%2Fuploads%2Fitem%2F201604%2F25%2F20160425205546_4JwcA.thumb.700_0.jpeg"
-          },
-        ],
-        customer: {
-          customerName: "溜啊溜",
-          customerAvatarPath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571228473763&di=7983ab89537ae923fc13b05acf6baf04&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201609%2F28%2F20160928230144_QARdX.thumb.700_0.png"
-        }
-      },
-    ],
+    dataSource: [],
     currentRole: null,
-
-
-    tempDataSource: [
-      {
-        orderNo: "2232232232232232",
-        orderDate: "2019-10-11",
-        orderTime: "10:11:11",
-        payTime: "2019-10-11 12:11:11", // 最后付款时间
-        orderClose: false,
-        orderAmount: 123,
-        goods: [
-          {
-            goodsName: "英国短毛猫",
-            goodsType: "PET",
-            goodsPrice: 2000,
-            goodsSexy: "公",
-            goodsCount: 1,
-            goodsUnit: "只",
-            goodsAmount: 300,
-            goodsImagePath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571057930011&di=3fb1a36f78f5b885f003d75560006e9b&imgtype=0&src=http%3A%2F%2Fimg3.duitang.com%2Fuploads%2Fitem%2F201604%2F25%2F20160425205546_4JwcA.thumb.700_0.jpeg"
-          }
-        ],
-        store: {
-          storeName: "萌宠宠物店",
-          storeLogoPath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571141353757&di=bfa169b0ff9c44c88c56f15c45582967&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0132565a447811a801219741f137ba.jpeg"
-        }
-      },
-      {
-        orderNo: "1232232232232232",
-        orderDate: "2019-10-11",
-        orderTime: "10:11:11",
-        payTime: "2019-10-11 12:11:11", // 最后付款时间
-        orderClose: true,
-        orderAmount: 123,
-        goods: [
-          {
-            goodsName: "猫粮",
-            goodsType: "主粮",
-            goodsPrice: 500,
-            goodsSexy: null,
-            goodsCount: 2,
-            goodsUnit: "袋",
-            goodsAmount: 300,
-            goodsImagePath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571057930011&di=3fb1a36f78f5b885f003d75560006e9b&imgtype=0&src=http%3A%2F%2Fimg3.duitang.com%2Fuploads%2Fitem%2F201604%2F25%2F20160425205546_4JwcA.thumb.700_0.jpeg"
-          },
-        ],
-        store: {
-          storeName: "萌宠小屋",
-          storeLogoPath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571138693420&di=fee3aa2a043f375cdb1cbb90f9380c2a&imgtype=0&src=http%3A%2F%2Fd5.file.680.com%2FItem%2F2018-6%2F20%2F10596211_201862011416.jpg"
-        }
-      },
-    ],
-    tempSellerDataSource: [
-      {
-        orderNo: "2232232232232232",
-        orderDate: "2019-10-11",
-        orderTime: "10:11:11",
-        payTime: "2019-10-11 12:11:11", // 最后付款时间
-        orderClose: false,
-        orderAmount: 123,
-        goods: [
-          {
-            goodsName: "英国短毛猫",
-            goodsType: "PET",
-            goodsPrice: 2000,
-            goodsSexy: "公",
-            goodsCount: 1,
-            goodsUnit: "只",
-            goodsAmount: 300,
-            goodsImagePath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571057930011&di=3fb1a36f78f5b885f003d75560006e9b&imgtype=0&src=http%3A%2F%2Fimg3.duitang.com%2Fuploads%2Fitem%2F201604%2F25%2F20160425205546_4JwcA.thumb.700_0.jpeg"
-          }
-        ],
-        customer: {
-          customerName: "逗啊逗",
-          customerAvatarPath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571228473763&di=7983ab89537ae923fc13b05acf6baf04&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201609%2F28%2F20160928230144_QARdX.thumb.700_0.png"
-        }
-      },
-      {
-        orderNo: "1232232232232232",
-        orderDate: "2019-10-11",
-        orderTime: "10:11:11",
-        payTime: "2019-10-11 12:11:11", // 最后付款时间
-        orderClose: true,
-        orderAmount: 123,
-        goods: [
-          {
-            goodsName: "猫粮",
-            goodsType: "主粮",
-            goodsPrice: 500,
-            goodsSexy: null,
-            goodsCount: 2,
-            goodsUnit: "袋",
-            goodsAmount: 300,
-            goodsImagePath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571057930011&di=3fb1a36f78f5b885f003d75560006e9b&imgtype=0&src=http%3A%2F%2Fimg3.duitang.com%2Fuploads%2Fitem%2F201604%2F25%2F20160425205546_4JwcA.thumb.700_0.jpeg"
-          },
-        ],
-        customer: {
-          customerName: "溜啊溜",
-          customerAvatarPath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571228473763&di=7983ab89537ae923fc13b05acf6baf04&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201609%2F28%2F20160928230144_QARdX.thumb.700_0.png"
-        }
-      },
-    ],
-    tempTimeInterval: null,
   },
 
   /**
@@ -419,6 +28,7 @@ Page({
     this.setData({
       currentRole: UserService.getCurrentRole()
     })
+    wx.startPullDownRefresh();
   },
 
   /**
@@ -446,48 +56,74 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-    clearTimeout(this.data.tempTimeInterval);
-    this.data.tempTimeInterval = null;
+
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+    let that = this;
+    this.data.offset = 0;
+    this.setData({
+      loadState: LoadFootItemState.Loading_State_Loading,
+    })
+    this.requestData(this.data.offset,
+      function getDataCallback(data) {
+        console.log("获取未支付订单： \n" + JSON.stringify(data));
+        that.setData({
+          dataSource: data,
+        })
+        that.data.offset = that.data.offset + Limit;
+        if (data.length >= Limit) {
+          that.setData({
+            loadState: LoadFootItemState.Loading_State_Normal
+          })
+        } else if (data.length < Limit && data.length > 0) {
+          that.setData({
+            loadState: LoadFootItemState.Loading_State_End
+          })
+        } else {
+          that.setData({
+            loadState: LoadFootItemState.Loading_State_Empty
+          })
+        }
+        wx.stopPullDownRefresh();
+      }
+    )
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    if (this.data.loadState == LoadFootItemState.Loading_State_End) {
+    if (this.data.loadState == LoadFootItemState.Loading_State_End
+      || this.data.loadState == LoadFootItemState.Loading_State_Loading) {
       return;
     }
     this.setData({
       loadState: LoadFootItemState.Loading_State_Loading,
     })
     let that = this;
-    this.data.tempTimeInterval = setTimeout(function () {
-      that.data.pageIndex = that.data.pageIndex + 1;
-      if (that.data.pageIndex >= 5) {
+    this.requestData(this.data.offset,
+      function getDataCallback(data) {
+        console.log("获取未支付订单： \n" + JSON.stringify(data));
+        let tempList = that.data.dataSource.concat(data);
         that.setData({
-          loadState: LoadFootItemState.Loading_State_End
+          dataSource: tempList
         })
-      } else {
-        if (that.data.currentRole == 0) {
+        that.data.offset = that.data.offset + Limit;
+        if (data.length >= Limit) {
           that.setData({
-            dataSource: that.data.dataSource.concat(that.data.tempDataSource),
             loadState: LoadFootItemState.Loading_State_Normal
           })
         } else {
           that.setData({
-            sellerDataSource: that.data.sellerDataSource.concat(that.data.tempSellerDataSource),
-            loadState: LoadFootItemState.Loading_State_Normal
+            loadState: LoadFootItemState.Loading_State_End
           })
         }
       }
-    }, 1000)
+    )
   },
 
   /**
@@ -498,36 +134,108 @@ Page({
   },
 
   /**
-   * 点击单据
-   */
+     * 点击单据
+     */
   tapToOrderDetail: function (e) {
+    let tempOrder = this.data.dataSource[e.currentTarget.dataset.index];
+    let tempOrderNo = e.currentTarget.dataset.orderno;
     wx.navigateTo({
-      url: PagePath.Page_Order_Detail,
+      url: PagePath.Page_Order_Detail + "?orderno=" + tempOrderNo,
     })
+  },
+
+  /**
+   * 点击订单商品
+   */
+  tapItem: function (e) {
+    let tempOrder = this.data.dataSource[e.currentTarget.dataset.index];
+    let tempItemNo = e.currentTarget.dataset.itemno;
+    wx.navigateTo({
+      url: PagePath.Page_Mall_CommodityInformation + "?itemno=" + tempItemNo,
+    })
+  },
+
+  /**
+   * 点击订单宠物
+   */
+  tapPet: function (e) {
+    let tempOrder = this.data.dataSource[e.currentTarget.dataset.index];
+    let tempPetNo = e.currentTarget.dataset.petno;
+    wx.navigateTo({
+      url: PagePath.Page_Store_PetsInforMation + '?petno=' + tempPetNo,
+    })
+  },
+
+  /**
+   * 点击订单商家
+   */
+  tapStore: function (e) {
+    let tempOrder = this.data.dataSource[e.currentTarget.dataset.index];
+    let tempStoreNo = e.currentTarget.dataset.storeno;
+    wx.navigateTo({
+      url: PagePath.Page_Store_StoreInforMation + '?storeno=' + tempStoreNo,
+    })
+  },
+
+  /**
+   * 点击更多
+   */
+  tapMore: function (e) {
+    let tempOrder = this.data.dataSource[e.currentTarget.dataset.index];
+    if (this.data.currentRole == 0) {
+      wx.showActionSheet({
+        itemList: ["申请退款"],
+        success(res) {
+          if (res.tapIndex == 0) {
+            wx.navigateTo({
+              url: PagePath.Page_Order_Refund_Index + "?orderno=" + tempOrder.orderNo,
+            })
+          }
+        }
+      })
+    }
   },
 
   /**
    * 点击评价
    */
   tapToEvaluate: function(e) {
+    let tempOrder = this.data.dataSource[e.currentTarget.dataset.index];
+    let tempOrderNo = e.currentTarget.dataset.orderno;
     wx.navigateTo({
-      url: PagePath.Page_Order_Evaluate_Index,
+      url: PagePath.Page_Order_Evaluate_Index + "?orderno=" + tempOrderNo,
     })
   },
 
   /**
-   * 点击 买家更多
+   * 请求数据
+   * @param offset
+   * @param getDataCallback
    */
-  tapBuyerMore: function (e) {
-    wx.showActionSheet({
-      itemList: ["申请退款"],
-      success(res) {
-        if (res.tapIndex == 0) {
-          wx.navigateTo({
-            url: PagePath.Page_Order_Refund_Index,
-          })
+  requestData: function (offset, getDataCallback) {
+    let param = {
+      offset: offset,
+      limit: Limit,
+      orderType: Enum.Order_Type_Enum.UnEvaluate,
+    }
+    if (this.data.currentRole == 0) {
+      param.customerNo = UserService.getCustomerNo();
+      OrderService.customerQueryOrderList(param,
+        function queryResultCallback(result) {
+          if (Util.checkIsFunction(getDataCallback)) {
+            getDataCallback(result.root)
+          }
         }
-      },
-    })
-  }
+      )
+    } else {
+      param.businessNo = UserService.getBusinessNo();
+      OrderService.businessQueryOrderList(param,
+        function queryResultCallback(result) {
+          if (Util.checkIsFunction(getDataCallback)) {
+            getDataCallback(result.root)
+          }
+        }
+      )
+    }
+  },
 })

@@ -45,16 +45,38 @@ function addNewItemOrder(param, addNewItemOrderResultCallback) {
 
 /**
  * 客户 查询订单
+ * @param param (customerNo, orderType, offset, limit)
+ * @param queryOrderListCallback
  */
 function customerQueryOrderList(param, queryOrderListCallback) {
-
+  let requestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_Order_Query_Customer,
+    data: param,
+    success(res) {
+      if (Util.checkIsFunction(queryOrderListCallback)) {
+        queryOrderListCallback(res)
+      }
+    }
+  })
+  RequestUtil.RequestGET(requestParam);
 }
 
 /**
  * 商户 查询订单
+ * @param param (businessNo, orderType, offset, limit)
+ * @param queryOrderListCallback
  */
 function businessQueryOrderList(param, queryOrderListCallback) {
-
+  let requestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_Order_Query_Business,
+    data: param,
+    success(res) {
+      if (Util.checkIsFunction(queryOrderListCallback)) {
+        queryOrderListCallback(res)
+      }
+    }
+  })
+  RequestUtil.RequestGET(requestParam);
 }
 
 module.exports={
