@@ -252,11 +252,39 @@
 
 <wxs module='parse'>
   module.exports={
-    showSexy: function(goodsItem) {
-      if (goodsItem.goodsSexy == null || goodsItem.goodsSexy.length <= 0) {
+    getStoreLogo: function(orderItem) {
+      if (orderItem.item != null) {
+        return ""
+      }
+      if (orderItem.pet != null) {
+        return orderItem.pet.business.headerImg;
+      }
+    },
+    getSotreName: function(orderItem) {
+      if (orderItem.item != null) {
+        return "自营"
+      }
+      if (orderItem.pet != null) {
+        return orderItem.pet.business.businessName;
+      }
+    },
+    showSexy: function(orderItem) {
+      if (orderItem.pet == null || orderItem.pet.petSex != null || orderItem.pet.petSex.length <= 0) {
         return false;
       }
       return true;
+    },
+    getSexy: function (orderItem) {
+      if (orderItem.pet.petSex == 1) {
+        return "公";
+      }
+      return "母";
+    },
+    showItemCell: function(order) {
+      return order.item != null;
+    },
+    showPetCell: function(order) {
+      return order.pet != null;
     }
   }
 </wxs>

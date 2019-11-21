@@ -11,17 +11,16 @@
         <view class="store-info">
           <view class="store-logo-box">
             <i-image i-class="store-logo"
-                     imageSrc='{{order.store.imagePath}}'
+                     imageSrc='{{parse.getStoreLogo(order)}}'
                      placeholderSrc='../../resource/avatar_placeholder.jpg'>
             </i-image>
           </view>
           <view class="store-name">
-          {{order.store.name}}
+          {{parse.getStoreName(order)}}
           </view>
         </view>      
         <view class="store-line-v"></view>
         <view class="store-call-box"
-              data-phone='{{store.store.phone}}'
               bindtap="callStorePhone">
           <i-icon type='phone'
                   size="36">
@@ -32,83 +31,159 @@
         </view>
       </view>
     </i-cell>
-
-    <i-cell>
-      <view class="goods-box"
-            slot='header'>
-        <view class="goods-image-box">
-          <i-image i-class="goods-image"
-                   imageSrc='{{order.goods.imagePath}}'
-                   placeholderSrc='../../resource/avatar_placeholder.jpg'>
-          </i-image>
+    <!-- 商品信息 -->
+    <block wx:if='{{order.item != null}}'>
+      <i-cell>
+        <view class="goods-box"
+              slot='header'>
+          <view class="goods-image-box">
+            <i-image i-class="goods-image"
+                    imageSrc='{{order.item.coverImg}}'
+                    placeholderSrc='../../resource/avatar_placeholder.jpg'>
+            </i-image>
+          </view>
+          <view class="goods-info-box">
+            <view class="goods-info-line">
+              <view class="goods-info-name">
+              {{order.item.itemName}}
+              </view>
+              <view class="goods-info-count">
+              x{{order.qty}}
+              </view>
+            </view>
+            <view class="goods-info-line">
+              <view class="goods-info-price">
+              ￥{{order.paymentAmount}}
+              </view>
+            </view>
+          </view>      
         </view>
-        <view class="goods-info-box">
-          <view class="goods-info-line">
-            <view class="goods-info-name">
-            {{order.goods.name}}
-            </view>
-            <view class="goods-info-sexy"
-                  wx:if='{{parse.showSexy(order.goods.sexy)}}'>
-            {{order.goods.sexy}}
-            </view>
-            <view class="goods-info-count">
-            x{{order.goods.count}}{{order.goods.unit}}
-            </view>
-          </view>
-          <view class="goods-info-line">
-            <view class="goods-info-price">
-            ￥{{order.orderAmount}}
-            </view>
-          </view>
-        </view>      
-      </view>
-    </i-cell>
+      </i-cell>
 
-    <i-cell>
-      <view class="price-box"
-            slot='header'>
-        <view class="price-title-box">
-          <view class="price-title">
-          价格明细
-          </view>
-        </view>
-        <view class='price-content-box'>
-          <view class="price-content-item">
-            <view class="price-content-item-title">
-            价格
-            </view>
-            <view class="price-content-item-value">
-            {{order.price.goodsPrice}}
+      <i-cell>
+        <view class="price-box"
+              slot='header'>
+          <view class="price-title-box">
+            <view class="price-title">
+            价格明细
             </view>
           </view>
-          <view class="price-content-item">
-            <view class="price-content-item-title">
-            运费
+          <view class='price-content-box'>
+            <view class="price-content-item">
+              <view class="price-content-item-title">
+              价格
+              </view>
+              <view class="price-content-item-value">
+              {{order.item.retailPrice}} X {{order.qty}}
+              </view>
             </view>
-            <view class="price-content-item-value">
-            {{order.price.freight}}
+            <!-- <view class="price-content-item">
+              <view class="price-content-item-title">
+              运费
+              </view>
+              <view class="price-content-item-value">
+              {{order.price.freight}}
+              </view>
             </view>
-          </view>
-          <view class="price-content-item">
-            <view class="price-content-item-title">
-            优惠券抵扣
+            <view class="price-content-item">
+              <view class="price-content-item-title">
+              优惠券抵扣
+              </view>
+              <view class="price-content-item-value">
+              -{{order.price.couponOffset}}
+              </view>
             </view>
-            <view class="price-content-item-value">
-            -{{order.price.couponOffset}}
-            </view>
-          </view>
-          <view class="price-content-item">
-            <view class="price-content-item-title">
-            积分抵扣
-            </view>
-            <view class="price-content-item-value">
-            -{{order.price.pointOffset}}
-            </view>
+            <view class="price-content-item">
+              <view class="price-content-item-title">
+              积分抵扣
+              </view>
+              <view class="price-content-item-value">
+              -{{order.price.pointOffset}}
+              </view>
+            </view> -->
           </view>
         </view>
-      </view>
-    </i-cell>
+      </i-cell>
+    </block>
+    <!-- 宠物信息 -->
+    <block wx:if='{{order.pet != null}}'>
+      <i-cell>
+        <view class="goods-box"
+              slot='header'>
+          <view class="goods-image-box">
+            <i-image i-class="goods-image"
+                    imageSrc='{{orderItem.pet.coverMedia}}'
+                    placeholderSrc='../../resource/avatar_placeholder.jpg'>
+            </i-image>
+          </view>
+          <view class="goods-info-box">
+            <view class="goods-info-line">
+              <view class="goods-info-name">
+              {{order.pet.petName}}
+              </view>
+              <view class="goods-info-sexy"
+                    wx:if='{{parse.showSexy(order)}}'>
+              {{parse.getSexy(order)}}
+              </view>
+              <view class="goods-info-count">
+              x{{order.qty}}
+              </view>
+            </view>
+            <view class="goods-info-line">
+              <view class="goods-info-price">
+              ￥{{order.paymentAmount}}
+              </view>
+            </view>
+          </view>      
+        </view>
+      </i-cell>
 
+      <i-cell>
+        <view class="price-box"
+              slot='header'>
+          <view class="price-title-box">
+            <view class="price-title">
+            价格明细
+            </view>
+          </view>
+          <view class='price-content-box'>
+            <view class="price-content-item">
+              <view class="price-content-item-title">
+              价格
+              </view>
+              <view class="price-content-item-value">
+              {{order.item.retailPrice}} X {{order.qty}}
+              </view>
+            </view>
+            <!-- <view class="price-content-item">
+              <view class="price-content-item-title">
+              运费
+              </view>
+              <view class="price-content-item-value">
+              {{order.price.freight}}
+              </view>
+            </view>
+            <view class="price-content-item">
+              <view class="price-content-item-title">
+              优惠券抵扣
+              </view>
+              <view class="price-content-item-value">
+              -{{order.price.couponOffset}}
+              </view>
+            </view>
+            <view class="price-content-item">
+              <view class="price-content-item-title">
+              积分抵扣
+              </view>
+              <view class="price-content-item-value">
+              -{{order.price.pointOffset}}
+              </view>
+            </view> -->
+          </view>
+        </view>
+      </i-cell>
+    </block>
+    
     <i-cell>
       <view class="detail-box"
             slot='header'>
@@ -117,7 +192,7 @@
           联系人
           </view>
           <view class="detail-value">
-          {{order.customer.name}}
+          {{order.customer.customerName}}
           </view>
         </view>
         <view class="detail-item">
@@ -133,7 +208,7 @@
           收货地址
           </view>
           <view class="detail-value">
-          {{order.customer.province}}{{order.customer.city}}{{order.customer.district}}{{order.customer.detailAddress}}
+          {{order.receivingAddress.province}} {{order.receivingAddress.city}} {{order.receivingAddress.county}} {{order.receivingAddress.detailedAddress}}
           </view>
         </view>
         <view class="detail-item">
@@ -141,7 +216,7 @@
           卖家名称
           </view>
           <view class="detail-value">
-          {{order.store.name}}
+          {{parse.getStoreName(order)}}
           </view>
         </view>
         <view class="detail-item">
@@ -149,7 +224,7 @@
           订单编号
           </view>
           <view class="detail-value">
-          {{order.orderNumber}}
+          {{order.orderNo}}
           </view>
         </view>
         <view class="detail-item">
@@ -157,7 +232,7 @@
           下单时间
           </view>
           <view class="detail-value">
-          {{order.orderDate}} {{order.orderTime}}
+          {{order.createDate}} {{order.createTime}}
           </view>
         </view>
       </view>
@@ -167,11 +242,47 @@
 
 <wxs module='parse'>
   module.exports={
-    showSexy: function(sexy) {
-      if (sexy == null || sexy.length <= 0) {
+    getStoreName: function(orderItem) {
+      if (orderItem.item != null) {
+        return orderItem.item.business.businessName;
+      }
+      if (orderItem.pet != null) {
+        return orderItem.pet.business.businessName;
+      }
+    },
+    getStoreLogo: function(orderItem) {
+      if (orderItem.item != null) {
+        return ""
+      }
+      if (orderItem.pet != null) {
+        return orderItem.pet.business.headerImg;
+      }
+    },
+    getSotreName: function(orderItem) {
+      if (orderItem.item != null) {
+        return "自营"
+      }
+      if (orderItem.pet != null) {
+        return orderItem.pet.business.businessName;
+      }
+    },
+    showSexy: function(orderItem) {
+      if (orderItem.pet == null || orderItem.pet.petSex != null || orderItem.pet.petSex.length <= 0) {
         return false;
       }
       return true;
+    },
+    getSexy: function (orderItem) {
+      if (orderItem.pet.petSex == 1) {
+        return "公";
+      }
+      return "母";
+    },
+    showItemCell: function(order) {
+      return order.item != null;
+    },
+    showPetCell: function(order) {
+      return order.pet != null;
     }
   }
 </wxs>

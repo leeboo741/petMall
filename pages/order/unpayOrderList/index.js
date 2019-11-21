@@ -8,6 +8,7 @@ const PagePath = require("../../../macros/pagePath.js");
 const Config = require("../../../macros/config.js");
 const Enum = require("../../../utils/enum.js");
 const Util = require("../../../utils/util.js");
+const app = getApp();
 const Limit = 20;
 
 Page({
@@ -139,6 +140,7 @@ Page({
   tapToOrderDetail: function (e) {
     let tempOrder = this.data.dataSource[e.currentTarget.dataset.index];
     let tempOrderNo = e.currentTarget.dataset.orderno;
+    app.globalData.detailOrder = tempOrder;
     wx.navigateTo({
       url: PagePath.Page_Order_Detail + "?orderno=" + tempOrderNo,
     })
@@ -191,7 +193,7 @@ Page({
             if (tempOrder.pet != null) {
               phone = tempOrder.pet.business.phoneNumber
             }
-            if (Util.checkEmpty(tempOrder.pet) || Util.checkEmpty(tempOrder.pet.business) || Util.checkEmpty(tempOrder.pet.business.phoneNumber)) {
+            if (Util.checkEmpty(phone)) {
               wx.showToast({
                 title: '商家电话不存在',
                 icon: 'none'

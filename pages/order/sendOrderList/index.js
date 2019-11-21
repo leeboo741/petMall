@@ -7,6 +7,7 @@ const PagePath = require("../../../macros/pagePath.js");
 const Config = require("../../../macros/config.js");
 const Enum = require("../../../utils/enum.js");
 const Util = require("../../../utils/util.js");
+const app = getApp();
 const Limit = 20;
 
 Page({
@@ -139,6 +140,7 @@ Page({
   tapToOrderDetail: function (e) {
     let tempOrder = this.data.dataSource[e.currentTarget.dataset.index];
     let tempOrderNo = e.currentTarget.dataset.orderno;
+    app.globalData.detailOrder = tempOrder;
     wx.navigateTo({
       url: PagePath.Page_Order_Detail + "?orderno=" + tempOrderNo,
     })
