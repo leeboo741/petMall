@@ -70,7 +70,7 @@ Page({
     })
     this.requestData(this.data.offset,
       function getDataCallback(data) {
-        console.log("获取未支付订单： \n" + JSON.stringify(data));
+        console.log("获取未评价订单： \n" + JSON.stringify(data));
         that.setData({
           dataSource: data,
         })
@@ -107,7 +107,7 @@ Page({
     let that = this;
     this.requestData(this.data.offset,
       function getDataCallback(data) {
-        console.log("获取未支付订单： \n" + JSON.stringify(data));
+        console.log("获取未评价订单： \n" + JSON.stringify(data));
         let tempList = that.data.dataSource.concat(data);
         that.setData({
           dataSource: tempList
@@ -134,8 +134,8 @@ Page({
   },
 
   /**
-     * 点击单据
-     */
+   * 点击单据
+   */
   tapToOrderDetail: function (e) {
     let tempOrder = this.data.dataSource[e.currentTarget.dataset.index];
     let tempOrderNo = e.currentTarget.dataset.orderno;
