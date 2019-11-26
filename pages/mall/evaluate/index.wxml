@@ -6,7 +6,7 @@
   <block wx:if='{{type==0}}'>
     <view class="userevaluate-content-tables-page" wx:for="{{evaluationInformation}}" wx:for-item="evaluationInformationItem" wx:for-index="evaluationInformationIndex" wx:key="evaluationInformationIndex">
       <view class="userevaluate-content-head" style="margin-left:2%">
-        <i-image imageSrc="{{evaluationInformationItem.customer.headerImage}}" i-class="image-sty" placeholderSrc='../../resource/placeholder.jpg' failSrc='../../resource/fail.png'>
+        <i-image imageSrc="{{evaluationInformationItem.customer.headerImage}}" i-class="image-sty" >
         </i-image>
         <view style="margin-left:2%;font-weight:bold;font-size:32rpx;">
           {{evaluationInformationItem.customer.customerName}}
@@ -31,7 +31,7 @@
   <block wx:else>
     <view class="userevaluate-content-tables-page" wx:for="{{evaluationInformation}}" wx:for-item="evaluationInformationItem" wx:for-index="evaluationInformationIndex" wx:key="evaluationInformationIndex">
       <view class="userevaluate-content-head" style="margin-left:2%">
-        <i-image imageSrc="{{evaluationInformationItem.customer.headerImage}}" i-class="image-sty" placeholderSrc='../../resource/placeholder.jpg' failSrc='../../resource/fail.png'>
+        <i-image imageSrc="{{evaluationInformationItem.customer.headerImage}}" i-class="image-sty" >
         </i-image>
         <view style="margin-left:2%;font-weight:bold;font-size:32rpx;">
           {{evaluationInformationItem.customer.customerName}}

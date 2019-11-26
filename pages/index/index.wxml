@@ -18,7 +18,7 @@
 <swiper class='banner' circular="{{true}}" indicator-dots="{{true}}" autoplay="{{true}}" interval="5000" duration="300" vertical="{{false}}" indicator-active-color="#7bbfea" indicator-color="#cccccc">
   <swiper-item wx:for="{{bannerDataSource}}" wx:for-item="bannerItem" wx:for-index="bannerIndex" wx:key="bannerIndex">
     <view class='banner-item' data-index="{{bannerIndex}}" data-link="{{bannerItem.link}}" data-imageurl="{{bannerItem.imageUrl}}" bindtap='tapBanner'>
-      <i-image i-class='banner-item-image' mode='scaleToFill' lazy-load='{{true}}' imageSrc='{{bannerItem.imageUrl}}' placeholderSrc='/resource/placeholder.jpg' failSrc='/resource/fail.png'>
+      <i-image i-class='banner-item-image' mode='scaleToFill' lazy-load='{{true}}' imageSrc='{{bannerItem.imageUrl}}'>
       </i-image>
     </view>
   </swiper-item>
@@ -38,11 +38,9 @@
 <!-- 特惠抢购 -->
 <i-panel>
   <view class="section-title-area">
-    <i-icon type="star" size="32" color="#ff9900">
-    </i-icon>
-    <view class="section-title" style="color: #ff9900">
-      特惠抢购
-    </view>
+    <image class='section-title-icon-1'
+           src="../../resource/preferential.png">
+    </image>
     <view class="section-info">
     </view>
     <view class="section-more" bindtap="preferentialTap">
@@ -54,7 +52,7 @@
   <scroll-view class="section-scroll-h" scroll-x enable-flex>
     <view wx:for='{{preferentialList}}' wx:for-item="preferentialItem" wx:for-index="preferentialIndex" wx:key='{{preferentialIndex}}' class="goods-item" bindtap="petsInforTap" data-petno='{{preferentialItem.petNo}}' data-index="{{preferentialIndex}}" data-item="{{preferentialItem}}">
       <view class="goods-image-box">
-        <i-image i-class="goods-image" imageSrc='{{preferentialItem.coverMedia}}' placeholderSrc='/resource/placeholder.jpg' failSrc='/resource/fail.png'>
+        <i-image i-class="goods-image" imageSrc='{{preferentialItem.coverMedia[0].coverImg}}'>
         </i-image>
       </view>
 
@@ -83,9 +81,10 @@
 <!-- 最新上架 -->
 <i-panel>
   <view class="section-title-area">
-    <i-icon type="clock" size="32" color="#ff6600">
-    </i-icon>
-    <view class="section-title" style="color: #ff6600">
+    <image class="section-title-icon-2"
+           src="../../resource/newest.png">
+    </image>
+    <view class="section-title">
       最新上架
     </view>
     <view class="section-info">
@@ -99,7 +98,7 @@
   <scroll-view class="section-scroll-h" scroll-x enable-flex>
     <view wx:for='{{newestList}}' wx:for-item="newestItem" wx:for-index="newestIndex" wx:key='{{newestIndex}}' class="goods-item" bindtap="petsInforTap" data-petno='{{newestItem.petNo}}'>
       <view class="goods-image-box">
-        <i-image i-class="goods-image" imageSrc='{{newestItem.coverMedia}}' placeholderSrc='/resource/placeholder.jpg' failSrc='/resource/fail.png' lazy-load="{{true}}">
+        <i-image i-class="goods-image" imageSrc='{{newestItem.coverMedia[0].coverImg}}'  lazy-load="{{true}}">
         </i-image>
       </view>
 
@@ -125,9 +124,10 @@
 <!-- 精品宠物 -->
 <i-panel>
   <view class="section-title-area">
-    <i-icon type="vip" size="32" color="#ff6600">
-    </i-icon>
-    <view class="section-title" style="color: #ff6600">
+    <image class="section-title-icon-2"
+           src="../../resource/fine.png">
+    </image>
+    <view class="section-title">
       精品宠物
     </view>
     <view class="section-info">
@@ -141,7 +141,7 @@
   <view class="section-content-flex">
     <view wx:for='{{fineList}}' wx:for-item="fineItem" wx:for-index="fineIndex" wx:key='{{fineIndex}}' class="goods-flex-item" bindtap="petsInforTap" data-petno='{{fineItem.petNo}}'>
       <view class="goods-image-box">
-        <i-image i-class="goods-flex-image" imageSrc='{{fineItem.coverMedia}}' placeholderSrc='/resource/placeholder.jpg' failSrc='/resource/fail.png'>
+        <i-image i-class="goods-flex-image" imageSrc='{{fineItem.coverMedia[0].coverImg}}' >
         </i-image>
       </view>
 
@@ -176,9 +176,10 @@
 <!-- 高端宠物 -->
 <i-panel>
   <view class="section-title-area">
-    <i-icon type="cup" size="32" color="#ff6600">
-    </i-icon>
-    <view class="section-title" style="color: #ff6600">
+    <image class="section-title-icon-2"
+           src="../../resource/upscale.png">
+    </image>
+    <view class="section-title">
       高端宠物
     </view>
     <view class="section-info">
@@ -192,7 +193,7 @@
   <view class="section-content-flex">
     <view wx:for='{{upscaleList}}' wx:for-item="upscaleItem" wx:for-index="upscaleIndex" wx:key='{{upscaleIndex}}' class="goods-flex-item" bindtap="petsInforTap" data-petno='{{upscaleItem.petNo}}'>
       <view class="goods-image-box">
-        <i-image i-class="goods-flex-image" imageSrc='{{upscaleItem.coverMedia}}' placeholderSrc='/resource/placeholder.jpg' failSrc='/resource/fail.png'>
+        <i-image i-class="goods-flex-image" imageSrc='{{upscaleItem.coverMedia[0].coverImg}}' >
         </i-image>
       </view>
 
@@ -227,9 +228,10 @@
 <!-- 养宠套餐 -->
 <i-panel>
   <view class="section-title-area">
-    <i-icon type="bone" size="32" color="#ff6600">
-    </i-icon>
-    <view class="section-title" style="color: #ff6600">
+    <image class="section-title-icon-2"
+           src="../../resource/setmenu.png">
+    </image>
+    <view class="section-title">
       养宠套餐
     </view>
     <view class="section-info">
@@ -246,7 +248,7 @@
             {{setMenuItem.info}}
           </view>
         </view>
-        <i-image i-class="setmenu-item-icon" imageSrc='{{setMenuItem.itemPackImg}}' placeholderSrc='/resource/placeholder.jpg' failSrc='/resource/fail.png'>
+        <i-image i-class="setmenu-item-icon" imageSrc='{{setMenuItem.itemPackImg}}' >
         </i-image>
       </view>
     </view>
@@ -256,15 +258,18 @@
 <!-- 推荐商家 -->
 <i-panel>
   <view class="section-title-area">
-    <view class="section-title" style="color: #ff6600">
-      推 / 荐 / 商 / 家
-    </view>
+    <image class="section-title-icon-3"
+           src='../../resource/recommend_store.png'>
+    </image>
   </view>
   <view class="section-content-flex">
     <view wx:for='{{recommendStoreList}}' wx:for-item="recommendStoreItem" wx:for-index="recommendStoreIndex" wx:key='{{recommendStoreIndex}}' class="recommend-store-item">
       <view class="recommend-store-logo-box">
-        <i-image i-class="recommend-store-logo" imageSrc="{{recommendStoreItem.iconAddress}}" placeholderSrc='/resource/placeholder.jpg' failSrc='/resource/fail.png'>
+        <i-image i-class="recommend-store-logo" imageSrc="{{recommendStoreItem.headerImg}}" >
         </i-image>
+        <image class="authent-image"
+              src="../../resource/authent.png">
+        </image>
       </view>
       <view class="text-name">
         {{recommendStoreItem.businessName}}
@@ -279,13 +284,13 @@
 <!-- 热门分类 -->
 <i-panel>
   <view class="section-title-area">
-    <view class="section-title" style="color: #ff6600">
-      热 / 门 / 分 / 类
-    </view>
+    <image class="section-title-icon-3"
+           src='../../resource/hot_type.png'>
+    </image>
   </view>
   <view class="section-content-flex">
     <view wx:for='{{hotTypeList}}' wx:for-item="hotTypeItem" wx:for-index="hotTypeIndex" wx:key='{{hotTypeIndex}}' class="hot-type-item" bindtap="hotTypeTap" data-index="{{hotTypeIndex}}" data-breedno="{{petsItem.petGenreNo}}" data-name='{{petsItem.petGenreName}}'>
-      <i-image i-class="hot-type-icon" imageSrc="{{hotTypeItem.iconPath}}" placeholderSrc='/resource/placeholder.jpg' failSrc='/resource/fail.png'>
+      <i-image i-class="hot-type-icon" imageSrc="{{hotTypeItem.petGenreImg}}" >
       </i-image>
       <view class="text-name">
         {{hotTypeItem.petGenreName}}
@@ -297,14 +302,14 @@
 <!-- 为您推荐 -->
 <i-panel>
   <view class="section-title-area">
-    <view class="section-title" style="color: #ff6600">
-      为 / 您 / 推 / 荐
-    </view>
+    <image class="section-title-icon-3"
+           src='../../resource/recommend_goods.png'>
+    </image>
   </view>
   <view class="section-content-flex">
     <view wx:for='{{recommendGoodsList}}' wx:for-item="recommendGoodsItem" wx:for-index="recommendGoodsIndex" wx:key='{{recommendGoodsIndex}}' class="recommend-goods-item" bindtap="petsInforTap" data-petno='{{recommendGoodsItem.petNo}}'>
       <view class="recommend-goods-image-box">
-        <i-image i-class="recommend-goods-image" imageSrc='{{recommendGoodsItem.coverMedia}}' placeholderSrc='/resource/placeholder.jpg' failSrc='/resource/fail.png'>
+        <i-image i-class="recommend-goods-image" imageSrc='{{recommendGoodsItem.coverMedia[0].coverImg}}' >
         </i-image>
       </view>
       <view class="recommend-goods-info-box">
@@ -318,7 +323,7 @@
         </view>
         <view class="goods-info-line">
           <view class="recomend-goods-store-name-box">
-            <i-image i-class="recommend-goods-store-logo" imageSrc='{{recommendGoodsItem.business.iconAddress}}' placeholderSrc='/resource/placeholder.jpg' failSrc='/resource/fail.png'>
+            <i-image i-class="recommend-goods-store-logo" imageSrc='{{recommendGoodsItem.business.iconAddress}}' >
             </i-image>
             <view class="text-info">
               {{recommendGoodsItem.business.businessName}}

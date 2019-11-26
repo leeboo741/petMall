@@ -4,7 +4,7 @@
 
 <view class="business-head-page">
   <view class="business-head-inleft">
-    <i-image imageSrc="{{storeDetail.iconAddress}}" i-class="business-image" placeholderSrc='../../resource/placeholder.jpg' failSrc='../../resource/fail.png'>
+    <i-image imageSrc="{{storeDetail.iconAddress}}" i-class="business-image" >
     </i-image>
   </view>
   <view class="business-head-inright">
@@ -57,7 +57,7 @@
   <view class="business-pets-page">
     <view class="business-pets-information" wx:for='{{petList[0].petList}}' wx:for-item="petItem" wx:for-index="petIndex" wx:key='{{petIndex}}' bindtap="petsInforTap" data-item="{{petItem}}" data-index="{{petIndex}}" data-petno='{{petItem.petNo}}'>
       <view class="business-pets-information">
-        <i-image imageSrc="{{petItem.coverMedia}}" i-class="business-pets-image" placeholderSrc='../../resource/placeholder.jpg' failSrc='../../resource/fail.png'>
+        <i-image imageSrc="{{petItem.coverMedia}}" i-class="business-pets-image" >
         </i-image>
       </view>
       <view class="business-pets-bottom">
@@ -80,7 +80,7 @@
   <view class="userevaluate-content-page">
     <view class="userevaluate-content-tables-page" wx:for="{{evaluateList}}" wx:for-item="evaluationInformationItem" wx:for-index="evaluationInformationIndex" wx:key="evaluationInformationIndex">
       <view class="userevaluate-content-head">
-        <i-image imageSrc="{{evaluationInformationItem.userImageUrl}}" i-class="image-sty" placeholderSrc='../../resource/placeholder.jpg' failSrc='../../resource/fail.png'>
+        <i-image imageSrc="{{evaluationInformationItem.userImageUrl}}" i-class="image-sty" >
         </i-image>
         <view style="font-weight:bold;font-size:26rpx;">
           {{evaluationInformationItem.customer.customerName}}
@@ -102,7 +102,7 @@
       <block wx:if="{{evaluationInformationItem.evaluationImage.length!=0}}">
         <view style="display:flex;flex-wrap:wrap;width:100%;">
           <view wx:for="{{evaluationInformationItem.appraiseImgs}}" wx:for-item="ImageItem" wx:for-index="ImageIndex" wx:key="evaluationImageIndex" class='evaluate-image-box'>
-            <i-image imageSrc="{{ImageItem}}" style="width:80%;height:190rpx;border-radius:16rpx;" placeholderSrc='../../resource/placeholder.jpg' failSrc='../../resource/fail.png'>
+            <i-image imageSrc="{{ImageItem}}" style="width:80%;height:190rpx;border-radius:16rpx;" >
             </i-image>
           </view>
         </view>

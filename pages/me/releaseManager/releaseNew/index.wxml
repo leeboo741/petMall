@@ -171,7 +171,7 @@
             wx:key='{{uploadImageIndex}}'>
         <i-image imageSrc='{{uploadImageItem}}'
                  i-class='upload-image-item-image'
-                  placeholderSrc='../../resource/avatar_placeholder.jpg'>
+                  >
         </i-image>
         <view class="progress-box"
               hidden="{{!parse.showProgress(uploadImageProgress, currentUploadIndex, uploadImageIndex)}}">
@@ -311,7 +311,7 @@
           <i-image i-class="parent-info-item-image"
                     imageSrc="{{parent.father.imagePath}}"
                     wx:if='{{parse.showParentImage(parent.father)}}'
-                    placeholderSrc='../../resource/avatar_placeholder.jpg'>
+                    >
           </i-image>
           <image class="parent-info-item-image-little"
                  src='../../../../resource/add_new.png'
@@ -333,7 +333,7 @@
           <i-image i-class="parent-info-item-image"
                     imageSrc="{{parent.mother.imagePath}}"
                     wx:if='{{parse.showParentImage(parent.mother)}}'
-                    placeholderSrc='../../resource/avatar_placeholder.jpg'>
+                    >
           </i-image>
           <image class="parent-info-item-image-little"
                  src='../../../../resource/add_new.png'

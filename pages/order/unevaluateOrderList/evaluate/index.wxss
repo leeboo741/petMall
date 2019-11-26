@@ -126,6 +126,7 @@
   background: rgb(245, 245, 245);
   padding: 8rpx;
   text-align: left;
+  min-height: 200rpx;
 }
 .upload-image-box{
   display: flex;

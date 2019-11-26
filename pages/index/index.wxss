@@ -35,7 +35,7 @@
 
 .banner{
   width: 100%;
-  height: 360rpx;
+  height:250rpx;
 }
 
 .banner-item{
@@ -51,7 +51,7 @@
 
 .banner-item-image{
   width: 100vw;
-  height: 360rpx;
+  height: 250rpx;
   margin: auto;
   border-radius: 10rpx;
   /* box-shadow: 0rpx 0rpx 40rpx 5rpx #b9b9b9; */
@@ -92,10 +92,27 @@
   color: #778899;
 }
 
+.section-title-icon-1{
+  height: 32rpx;
+  width: 140rpx;
+}
+
+.section-title-icon-2{
+  height: 32rpx;
+  width: 32rpx;
+}
+
+.section-title-icon-3{
+  height: 38rpx;
+  width: 240rpx;
+}
+
 .section-title{
   flex-shrink: 0;
   margin-left: 10rpx;
   font-size: 32rpx;
+  font-weight: bold;
+  color: black;
 }
 
 .section-info{
@@ -234,6 +251,14 @@
 
 .recommend-store-logo-box{
   position: relative;
+}
+
+.authent-image{
+  position: absolute;
+  bottom: 0rpx;
+  left: 0rpx;
+  width: 100%;
+  height: 30rpx;
 }
 
 .recommend-store-logo{

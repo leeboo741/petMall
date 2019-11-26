@@ -144,6 +144,8 @@ Page({
     wx.navigateTo({
       url: PagePath.Page_Order_Detail + "?orderno=" + tempOrderNo,
     })
+
+    
   },
 
   /**
@@ -253,6 +255,7 @@ Page({
   tapToPay: function (e) {
     let tempOrder = this.data.dataSource[e.currentTarget.dataset.index];
     let tempOrderNo = e.currentTarget.dataset.orderno;
+
     let payType = 0;
     if (tempOrder.pet != null) {
       payType = 1;

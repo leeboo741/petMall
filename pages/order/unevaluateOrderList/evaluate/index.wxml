@@ -12,7 +12,7 @@
               slot='header'>
           <view class="order-info-box">
             <view class="order-number">
-            {{order.orderNo}}
+            订单编号：{{order.orderNo}}
             </view>
             <view class="order-date">
             {{order.createDate}} {{order.createTime}}
@@ -22,7 +22,7 @@
             <view class="store-image-box">
               <i-image i-class='store-image'
                        imageSrc='{{parse.getStoreLogo(order)}}'
-                       placeholderSrc='../../resource/avatar_placeholder.jpg'>
+                       >
               </i-image>
             </view>
             <view class="store-name">
@@ -35,7 +35,7 @@
               <view class="goods-image-box">
                 <i-image i-class='goods-image'
                         imageSrc='{{order.item.coverImg}}'
-                        placeholderSrc='../../resource/avatar_placeholder.jpg'>
+                        >
                 </i-image>
               </view>
               <view class="goods-info">
@@ -62,7 +62,7 @@
               <view class="goods-image-box">
                 <i-image i-class='goods-image'
                         imageSrc='{{order.pet.coverMedia}}'
-                        placeholderSrc='../../resource/avatar_placeholder.jpg'>
+                        >
                 </i-image>
               </view>
               <view class="goods-info">
@@ -91,7 +91,7 @@
           <view class="goods-info-line"
                 style="justify-content: flex-end;">
             <view class="goods-amount">
-            总计：{{orderItem.paymentAmount}}元
+            总计：{{order.paymentAmount}}元
             </view>
           </view>
         </view>
@@ -100,31 +100,31 @@
         <view class="star-box"
               slot='footer'>
           <i-icon type='star'
-                  size="35"
+                  size="42"
                   color="{{starLevel>=0?'#FFA500':'#778899'}}"
                   bindtap="tapStar"
                   data-starlevel="1"> 
           </i-icon>   
           <i-icon type='star'
-                  size="35"
+                  size="42"
                   color="{{starLevel>=2?'#FFA500':'#778899'}}"
                   bindtap="tapStar"
                   data-starlevel="2"> 
           </i-icon>  
           <i-icon type='star'
-                  size="35"
+                  size="42"
                   color="{{starLevel>=3?'#FFA500':'#778899'}}"
                   bindtap="tapStar"
                   data-starlevel="3"> 
           </i-icon>  
           <i-icon type='star'
-                  size="35"
+                  size="42"
                   color="{{starLevel>=4?'#FFA500':'#778899'}}"
                   bindtap="tapStar"
                   data-starlevel="4"> 
           </i-icon>  
           <i-icon type='star'
-                  size="35"
+                  size="42"
                   color="{{starLevel>=5?'#FFA500':'#778899'}}"
                   bindtap="tapStar"
                   data-starlevel="5"> 
@@ -154,7 +154,7 @@
               wx:key='{{uploadImageIndex}}'>
           <i-image imageSrc='{{uploadImageItem}}'
                    i-class='upload-image-item-image'
-                   placeholderSrc='../../resource/avatar_placeholder.jpg'>
+                   >
           </i-image>
           <view class="progress-box"
                 hidden="{{!parse.showProgress(uploadImageProgress, currentUploadIndex, uploadImageIndex)}}">
@@ -194,7 +194,7 @@
             <view class="store-image-box">
               <i-image i-class='store-image'
                        imageSrc='{{sellerOrder.customer.customerAvatarPath}}'
-                       placeholderSrc='../../resource/avatar_placeholder.jpg'>
+                       >
               </i-image>
             </view>
             <view class="store-name">
@@ -205,7 +205,7 @@
             <view class="goods-image-box">
               <i-image i-class='goods-image'
                        imageSrc='{{sellerOrder.goods.imagePath}}'
-                       placeholderSrc='../../resource/avatar_placeholder.jpg'>
+                       >
               </i-image>
             </view>
             <view class="goods-info">
@@ -296,7 +296,7 @@
               wx:key='{{uploadImageIndex}}'>
           <i-image imageSrc='{{uploadImageItem}}'
                    i-class='upload-image-item-image'
-                   placeholderSrc='../../resource/avatar_placeholder.jpg'>
+                   >
           </i-image>
           <view class="progress-box"
                 hidden="{{!parse.showProgress(uploadImageProgress, currentUploadIndex, uploadImageIndex)}}">

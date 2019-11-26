@@ -6,7 +6,7 @@
 <swiper class='banner' circular="{{true}}" indicator-dots="{{true}}" autoplay="{{true}}" interval="5000" duration="300" vertical="{{false}}" indicator-active-color="#7bbfea" indicator-color="#cccccc">
   <swiper-item wx:for="{{bannerDataSource}}" wx:for-item="bannerItem" wx:for-index="bannerIndex" wx:key="bannerIndex">
     <view class='banner-item' data-index="{{bannerIndex}}" data-link="{{bannerItem.link}}" data-imageurl="{{bannerItem.imageUrl}}" bindtap='tapBanner'>
-      <i-image i-class='banner-item-image' mode='scaleToFill' lazy-load='{{true}}' imageSrc='{{bannerItem.imageUrl}}' placeholderSrc='../../resource/placeholder.jpg' failSrc='../../resource/fail.png'>
+      <i-image i-class='banner-item-image' mode='scaleToFill' lazy-load='{{true}}' imageSrc='{{bannerItem.imageUrl}}' >
       </i-image>
     </view>
   </swiper-item>
@@ -15,7 +15,7 @@
 <!-- 主粮、零食、用品、保健 -->
 <view class="fast-action-area">
   <view wx:for="{{fastActionList}}" wx:for-item='fastActionItem' wx:for-index='fastActionIndex' wx:key='{{fastActionIndex}}' class="fast-action-item" bindtap="fastActionTap" data-typeno='{{fastActionItem.itemTypeNo}}'>
-    <i-image i-class="fast-action-icon" imageSrc='{{fastActionItem.itemTypeImg}}' placeholderSrc='../../resource/placeholder.jpg' failSrc='../../resource/fail.png'>
+    <i-image i-class="fast-action-icon" imageSrc='{{fastActionItem.itemTypeImg}}' >
     </i-image>
     <view class="fast-action-title">
       {{fastActionItem.itemTypeName}}
@@ -45,7 +45,7 @@
             {{setMenuItem.info}}
           </view>
         </view>
-        <i-image i-class="setmenu-item-icon" imageSrc='{{setMenuItem.itemPackImg}}' placeholderSrc='../../resource/placeholder.jpg' failSrc='../../resource/fail.png'>
+        <i-image i-class="setmenu-item-icon" imageSrc='{{setMenuItem.itemPackImg}}' >
         </i-image>
       </view>
     </view>
@@ -66,7 +66,7 @@
 <!--图片展示-->
 <view class="brand-page">
   <view class="brand-body-content" wx:for='{{brandList}}' wx:for-item="brandItem" wx:for-index="brandIndex" wx:key='{{brandIndex}}' bindtap="brandTap" data-index="brandIndex" data-brandno='{{brandItem.itemBrandNo}}'>
-    <i-image i-class="brand-body-content-image" imageSrc="{{brandItem.itemBrandImg}}" placeholderSrc='../../resource/placeholder.jpg' failSrc='../../resource/fail.png'>
+    <i-image i-class="brand-body-content-image" imageSrc="{{brandItem.itemBrandImg}}" >
     </i-image>
     <view class="brand-body-content-text">
       {{brandItem.itemBrandName}}
@@ -93,7 +93,7 @@
 
   <view class="foodgrain-page">
     <view class="foodgrain-page-formation" wx:for='{{petsInforItem.items}}' wx:for-item="Item" wx:for-index="Index" wx:key='{{Item.itemNo}}' bindtap="commodityInforMationTap" data-itemno='{{Item.itemNo}}'>
-      <i-image i-class="foodgrain-page-formation-head" imageSrc="{{Item.coverImg}}" placeholderSrc='../../resource/placeholder.jpg' failSrc='../../resource/fail.png'>
+      <i-image i-class="foodgrain-page-formation-head" imageSrc="{{Item.coverImg}}" >
       </i-image>
       <view class="foodgrain-page-formation-middle">
         {{Item.itemName}}

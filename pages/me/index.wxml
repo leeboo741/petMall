@@ -40,8 +40,7 @@
             bindtap="tapToEdit">
         <view class="avatar-box">
           <i-image i-class="avatar-image"
-                   imageSrc="{{userInfo.avatarUrl}}"
-                   placeholderSrc='../../resource/avatar_placeholder.jpg'>
+                   imageSrc="{{userInfo.avatarUrl}}">
           </i-image>
           <view class="avatar-detail">
           商城会员
@@ -179,8 +178,7 @@
             bindtap="tapToEditStore">
         <view class="avatar-box">
           <i-image i-class="avatar-image"
-                    imageSrc="{{userInfo.avatarUrl}}"
-                    placeholderSrc='../../resource/avatar_placeholder.jpg'>
+                    imageSrc="{{userInfo.avatarUrl}}">
           </i-image>
           <view class="avatar-detail">
           实名认证

@@ -5,13 +5,13 @@
 <swiper class='banner' circular="{{true}}" indicator-dots="{{true}}" autoplay="{{false}}" vertical="{{false}}" indicator-active-color="#7bbfea" indicator-color="#cccccc">
   <!-- <swiper-item wx:for="{{petDetailData.coverMedia}}" wx:for-item="bannerItem" wx:for-index="bannerIndex" wx:key="bannerIndex">
     <view class='banner-item' data-index="{{bannerIndex}}" data-imageurl="{{bannerItem}}" bindtap='tapBanner'>
-      <i-image i-class='banner-item-image' mode='scaleToFill' lazy-load='{{true}}' imageSrc='{{bannerItem}}' placeholderSrc='../../resource/placeholder.jpg' failSrc='../../resource/fail.png'>
+      <i-image i-class='banner-item-image' mode='scaleToFill' lazy-load='{{true}}' imageSrc='{{bannerItem}}' >
       </i-image>
     </view>
   </swiper-item> -->
   <swiper-item>
     <view class='banner-item' data-imageurl="{{petDetailData.coverMedia}}" bindtap='tapBanner'>
-      <i-image i-class='banner-item-image' mode='scaleToFill' lazy-load='{{true}}' imageSrc='{{petDetailData.coverMedia}}' placeholderSrc='../../resource/placeholder.jpg' failSrc='../../resource/fail.png'>
+      <i-image i-class='banner-item-image' mode='scaleToFill' lazy-load='{{true}}' imageSrc='{{petDetailData.coverMedia}}' >
       </i-image>
     </view>
   </swiper-item>
@@ -108,7 +108,7 @@
 
 <view class="business-head-page">
   <view class="business-head-inleft" bindtap="recommendedTap" data-item="{{storeDetailData}}">
-    <i-image imageSrc="{{storeDetailData.iconAddress}}" i-class="business-image" placeholderSrc='../../resource/placeholder.jpg' failSrc='../../resource/fail.png'>
+    <i-image imageSrc="{{storeDetailData.iconAddress}}" i-class="business-image" >
     </i-image>
   </view>
   <view class="business-head-inright">
@@ -163,7 +163,7 @@
 <view class="userevaluate-content-page">
   <view class="userevaluate-content-tables-page" wx:for="{{evaluateList}}" wx:for-item="evaluationInformationItem" wx:for-index="evaluationInformationIndex" wx:key="evaluationInformationIndex" style="margin-bottom: 20rpx;">
     <view class="userevaluate-content-head">
-      <i-image imageSrc="{{evaluationInformationItem.userImageUrl}}" i-class="image-sty" placeholderSrc='../../resource/placeholder.jpg' failSrc='../../resource/fail.png'>
+      <i-image imageSrc="{{evaluationInformationItem.userImageUrl}}" i-class="image-sty" >
       </i-image>
       <view style="margin-left:2%;font-weight:bold;font-size:28rpx;">
         {{evaluationInformationItem.customer.customerName}}

@@ -13,7 +13,7 @@
   <view class="business-pets-page">
     <view class="business-pets-information" wx:for='{{petsInforMation}}' wx:for-item="petsItem" wx:for-index="petsIndex" wx:key='{{petsIndex}}' bindtap="tapPets" data-petno='{{petsItem.petNo}}'>
       <view class="business-pets-information">
-        <i-image imageSrc="{{petsItem.coverMedia}}" placeholderSrc='/resource/placeholder.jpg' failSrc='/resource/fail.png' i-class="business-pets-image">
+        <i-image imageSrc="{{petsItem.coverMedia}}" i-class="business-pets-image">
         </i-image>
       </view>
       <view class="business-pets-bottom">

@@ -16,7 +16,7 @@
   <scroll-view class="scroll-view-page" scroll-x>
     <view style="display: flex;align-items:center;flex-wrap: nowrap;margin-top: 2%;">
       <view class="recommended-page" wx:for="{{recommendedBusinesses}}" wx:for-item='recommendedItem' wx:for-index='recommendedIndex' wx:key='{{recommendedIndex}}' bindtap="recommendedTap" data-storeno='{{recommendedItem.businessNo}}' data-item="{{recommendedItem}}">
-        <i-image i-class="recommended-head-page" imageSrc="{{recommendedItem.headerImg}}" placeholderSrc='../../resource/placeholder.jpg' failSrc='../../resource/fail.png'>
+        <i-image i-class="recommended-head-page" imageSrc="{{recommendedItem.headerImg}}" >
         </i-image>
         <view class="recommended-bottom-page">
           {{recommendedItem.businessName}}
@@ -31,7 +31,7 @@
       <view class="merchant-information-head-left">
         <!--头像-->
         <view>
-          <i-image imageSrc="{{merchantInformationItem.headerImg}}" i-class="merchant-information-head-leftimage" placeholderSrc='../../resource/placeholder.jpg' failSrc='../../resource/fail.png'>
+          <i-image imageSrc="{{merchantInformationItem.headerImg}}" i-class="merchant-information-head-leftimage" >
           </i-image>
         </view>
         <view class="label-csty" style="{{parse.showLabelSty(merchantInformationItem.auth.businessAuthType)}}">
@@ -78,7 +78,7 @@
             data-item="{{merchantInformationItem}}"
             wx:if='{{dogInforMationIndex<3}}'>
         <view>
-          <i-image imageSrc="{{dogInforMationItem.coverImg}}" i-class="merchant-information-bottom-dogimage"  placeholderSrc='../../resource/placeholder.jpg' failSrc='../../resource/fail.png'>
+          <i-image imageSrc="{{dogInforMationItem.coverImg}}" i-class="merchant-information-bottom-dogimage"  >
           </i-image>
         </view>
 

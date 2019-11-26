@@ -28,7 +28,6 @@
       <view class="collection-item-image-box">
         <i-image i-class="collection-item-image"
                 imageSrc="{{collectionItem.pet.coverMedia}}"
-                placeholderSrc='../../resource/avatar_placeholder.jpg'
                 mode='scaleToFit'>
         </i-image>
       </view>
@@ -66,7 +65,6 @@
       <view class="collection-item-image-box">
         <i-image i-class="collection-item-image"
                 imageSrc="{{collectionItem.item.coverImg}}"
-                placeholderSrc='../../resource/avatar_placeholder.jpg'
                 mode='scaleToFit'>
         </i-image>
       </view>

@@ -245,6 +245,35 @@ function getMoreItemEvaluate(param, getResultCallback) {
   RequestUtil.RequestGET(requestParam);
 }
 
+/**
+ * 新增商品评价
+ * @param param
+ * @param addNewEvaluateCallback
+ */
+function addNewItemEvaluate(param, addNewEvaluateCallback) {
+  let requestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_Pet_AddNew_Evaluate,
+    data: {
+      billNo: param.orderNo,
+      content: param.content,
+      customer: {
+        customerNo: param.customerNo,
+      },
+      item: {
+        itemNo: param.itemNo,
+      },
+      petAppraiseImgList: param.imageList,
+      praiseDegree: param.degree
+    },
+    success(res) {
+      if (Util.checkIsFunction(addNewEvaluateCallback)) {
+        addNewEvaluateCallback(res)
+      }
+    }
+  })
+  RequestUtil.RequestPOST(requestParam);
+}
+
 module.exports = {
 
   getMallPetTypeShowInfor: getMallPetTypeShowInfor,
@@ -262,4 +291,5 @@ module.exports = {
   deleteItemCollection: deleteItemCollection, // 删除商品收藏
 
   getMoreItemEvaluate: getMoreItemEvaluate, // 获取更多商家评价
+  addNewItemEvaluate: addNewItemEvaluate, // 新增商品评价
 }

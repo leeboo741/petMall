@@ -14,7 +14,7 @@
 <!-- 图片展示信息 -->
 <view class="foodgrain-page">
   <view class="foodgrain-page-formation" wx:for='{{itemList}}' wx:for-item="dataSourceItem" wx:for-index="dataSourceIndex" wx:key='{{dataSourceIndex}}' bindtap="commodityInforMationTap" data-key="{{dataSourceItem}}" data-itemno='{{dataSourceItem.itemNo}}'>
-    <i-image i-class="foodgrain-page-formation-head" imageSrc="{{dataSourceItem.coverImg}}" placeholderSrc='../../resource/placeholder.jpg' failSrc='../../resource/fail.png'>
+    <i-image i-class="foodgrain-page-formation-head" imageSrc="{{dataSourceItem.coverImg}}">
     </i-image>
     <view class="foodgrain-page-formation-middle">
       {{dataSourceItem.itemName}}

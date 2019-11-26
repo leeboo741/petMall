@@ -33,7 +33,7 @@
             data-itemno='{{orderItem.item.itemNo}}'>
         <i-image i-class="order-goods-image"
                  imageSrc='{{orderItem.item.coverImg}}'
-                 placeholderSrc='../../resource/avatar_placeholder.jpg'>
+                 >
         </i-image>
         <view class="order-goods-info">
           <view class="order-goods-item-line">
@@ -60,7 +60,7 @@
             data-petno='{{orderItem.pet.petNo}}'>
         <i-image i-class="order-goods-image"
                  imageSrc='{{orderItem.pet.coverMedia}}'
-                 placeholderSrc='../../resource/avatar_placeholder.jpg'>
+                 >
         </i-image>
         <view class="order-goods-info">
           <view class="order-goods-item-line">
@@ -99,7 +99,7 @@
             data-storeno='{{orderItem.pet.business.businessNo}}'>
         <i-image i-class="order-store-image"
                  imageSrc='{{parse.getStoreLogo(orderItem)}}'
-                 placeholderSrc='../../resource/avatar_placeholder.jpg'>
+                 >
         </i-image>
         <view class="order-store-name">
         {{parse.getSotreName(orderItem)}}
@@ -157,7 +157,7 @@
             data-itemno='{{orderItem.item.itemNo}}'>
         <i-image i-class="order-goods-image"
                  imageSrc='{{orderItem.item.coverImg}}'
-                 placeholderSrc='../../resource/avatar_placeholder.jpg'>
+                 >
         </i-image>
         <view class="order-goods-info">
           <view class="order-goods-item-line">
@@ -184,7 +184,7 @@
             data-petno='{{orderItem.pet.petNo}}'>
         <i-image i-class="order-goods-image"
                  imageSrc='{{orderItem.pet.coverMedia}}'
-                 placeholderSrc='../../resource/avatar_placeholder.jpg'>
+                 >
         </i-image>
         <view class="order-goods-info">
           <view class="order-goods-item-line">
@@ -220,7 +220,7 @@
       <view class="order-store-box">
         <i-image i-class="order-store-image"
                  imageSrc='{{orderItem.customer.headerImage}}'
-                 placeholderSrc='../../resource/avatar_placeholder.jpg'>
+                 >
         </i-image>
         <view class="order-store-name">
         {{orderItem.customer.customerName}}

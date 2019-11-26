@@ -28,8 +28,7 @@
 <!-- 商品信息、加减框 -->
 <view class="shoopingpay-head-showinfo"
       wx:if='{{shopDataSource!=null}}'>
-  <i-image imageSrc="{{shopDataSource.imageUrl}}" i-class="showinfo-image" 
-           placeholderSrc='../../resource/avatar_placeholder.jpg'>
+  <i-image imageSrc="{{shopDataSource.imageUrl}}" i-class="showinfo-image">
   </i-image>
   <view>
     <view class="shoopingpay-head-showtext">

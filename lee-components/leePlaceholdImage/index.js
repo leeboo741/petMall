@@ -16,11 +16,11 @@ Component({
   properties: {
     failSrc: {
       type: String,
-      value: null,
+      value: "/lee-components/leePlaceholdImage/fail.jpg",
     },
     placeholderSrc: {
       type: String,
-      value: null,
+      value: "/lee-components/leePlaceholdImage/placeholder.jpg",
     }, // 占位图地址
     imageSrc: {
       type: String,
@@ -62,13 +62,15 @@ Component({
    */
   methods: {
     // 图片加载错误
-    loadError: function () {
+    loadError: function (e) {
+      console.log("imagePlaceholder Error: \n" + JSON.stringify(e))
       this.setData({
         loadState: Load_State_Fail,
       })
     },
     // 图片加载成功
-    load: function () {
+    load: function (e) {
+      console.log("imagePlaceholder Complete: \n" + JSON.stringify(e))
       this.setData({
         loadState: Load_State_Success,
       })
@@ -86,15 +88,27 @@ Component({
   /**
    * 生命周期
    */
+  created: function() {
+    console.log("imagePlaceholder created : \n" +  this.properties.imageSrc);
+  },
+  attached: function () {
+    console.log("imagePlaceholder attached : \n" + this.properties.imageSrc);
+  },
+  ready: function () {
+    console.log("imagePlaceholder ready : \n" + this.properties.imageSrc);
+  },
   lifeTimes: {
     created: function () {
       // 在组件实例刚刚被创建时执行
+      console.log("imagePlaceholder  lifeTimes attached : \n" + this.properties.imageSrc);
     },
     attached: function () {
       // 在组件实例进入页面节点树时执行
+      console.log("imagePlaceholder  lifeTimes attached : \n" + this.properties.imageSrc);
     },
     ready: function () {
       // 在组件在视图层布局完成后执行
+      console.log("imagePlaceholder  lifeTimes ready : \n" + this.properties.imageSrc);
     },
     moved: function () {
       // 在组件实例被移动到节点树另一个位置时执行

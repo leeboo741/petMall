@@ -40,7 +40,7 @@ Page({
         })
         PetService.getPreferentialPet(preferentialPetFilter,
           function getResultCallback(result) {
-            console.log("preferential pet: \n" + JSON.stringify(result));
+            console.log("特惠抢购: \n" + JSON.stringify(result));
             that.setData({
               preferentialList: result.root
             })
@@ -55,7 +55,7 @@ Page({
         })
         PetService.getNewestPet(newestPetFilter,
           function getResultCallback(result) {
-            console.log("newest pet: \n" + JSON.stringify(result));
+            console.log("最新上架: \n" + JSON.stringify(result));
             that.setData({
               newestList: result.root
             })
@@ -69,7 +69,7 @@ Page({
         })
         PetService.getFinePet(finePetFilter,
           function getResultCallback(result) {
-            console.log("fine pet: \n" + JSON.stringify(result));
+            console.log("精品宠物: \n" + JSON.stringify(result));
             that.setData({
               fineList: result.root
             })
@@ -84,7 +84,7 @@ Page({
         })
         PetService.getUpScalePet(upScalePetFilter,
           function getResultCallback(result) {
-            console.log("upScale pet: \n" + JSON.stringify(result));
+            console.log("高端宠物: \n" + JSON.stringify(result));
             that.setData({
               upscaleList: result.root
             })
@@ -98,7 +98,7 @@ Page({
         }
         StoreService.getRecommendBusiness(recommendFilter,
           function getResultCallback(result) {
-            console.log("recommend business: \n" + JSON.stringify(result));
+            console.log("推荐商家: \n" + JSON.stringify(result));
             that.setData({
               recommendStoreList: result.root
             })
@@ -111,7 +111,7 @@ Page({
         }
         PetService.getHotType(hotTypeFilter,
           function getResultCallback(result) {
-            console.log("hot type: \n" + JSON.stringify(result));
+            console.log("热门分类: \n" + JSON.stringify(result));
             that.setData({
               hotTypeList: result.root
             })
@@ -127,7 +127,7 @@ Page({
         })
         PetService.getPetList(petFilter,
           function getResultCallback(result) {
-            console.log("filter pet: \n" + JSON.stringify(result));
+            console.log("为您推荐: \n" + JSON.stringify(result));
             that.setData({
               recommendGoodsList: result.root,
               pageIndex: that.data.pageIndex + Limit
@@ -138,7 +138,7 @@ Page({
         // 套餐
         MallService.getSetMealList(
           function getResultCallback(result) {
-            console.log("set meal : \n" + JSON.stringify(result));
+            console.log("养宠套餐 : \n" + JSON.stringify(result));
             that.setData({
               setMenuList: result.root
             })
@@ -189,7 +189,7 @@ Page({
     let that = this;
     PetService.getPetList(petFilter,
       function getResultCallback(result) {
-        console.log("fine pet: \n" + JSON.stringify(result));
+        console.log("为您推荐: \n" + JSON.stringify(result));
         wx.stopPullDownRefresh();
         that.setData({
           recommendGoodsList: result.root,
@@ -221,7 +221,7 @@ Page({
     })
     PetService.getPetList(petFilter,
       function getResultCallback(result) {
-        console.log("fine pet: \n" + JSON.stringify(result));
+        console.log("为您推荐: \n" + JSON.stringify(result));
         let tempRecommend = that.data.recommendGoodsList.concat(result.root);
         that.data.pageIndex = that.data.pageIndex + Limit;
         if (result.root.length < Limit) {
@@ -356,15 +356,23 @@ Page({
     pageIndex: 0, // 页码
     loadState: LoadFootItemState.Loading_State_Normal, // 底部状态
     bannerDataSource: [{
-        imageUrl: "https://petimg.tyferp.com/weapp/banner01.jpg", // 图片地址
+        imageUrl: "https://img.taochonghui.com/weapp/market/banner/banner01.png", // 图片地址
         link: "", // 内容地址
       },
       {
-        imageUrl: "https://petimg.tyferp.com/weapp/banner02.jpg",
+        imageUrl: "https://img.taochonghui.com/weapp/market/banner/banner02.png",
         link: "",
       },
       {
-        imageUrl: "https://petimg.tyferp.com/weapp/banner03.jpg",
+        imageUrl: "https://img.taochonghui.com/weapp/market/banner/banner03.png",
+        link: "",
+      },
+      {
+        imageUrl: "https://img.taochonghui.com/weapp/market/banner/banner04.png",
+        link: "",
+      },
+      {
+        imageUrl: "https://img.taochonghui.com/weapp/market/banner/banner05.png",
         link: "",
       }
     ], // banner

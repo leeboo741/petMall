@@ -68,7 +68,7 @@
           <view class="result-item-image-box">
             <i-image i-class='result-item-image'
                      imageSrc='{{brandItem.imagePath}}'
-                     placeholderSrc='../../resource/placeholder.jpg'>
+                     >
             </i-image>
           </view>
           <view class="result-item-info-box">
@@ -97,7 +97,7 @@
           <view class="result-item-image-box">
             <i-image i-class='result-item-image'
                      imageSrc='{{breedItem.imagePath}}'
-                     placeholderSrc='../../resource/placeholder.jpg'>
+                     >
             </i-image>
           </view>
           <view class="result-item-info-box">
@@ -126,7 +126,7 @@
           <view class="result-item-image-box">
             <i-image i-class='result-item-image'
                      imageSrc='{{storeItem.imagePath}}'
-                     placeholderSrc='../../resource/placeholder.jpg'>
+                     >
             </i-image>
           </view>
           <view class="result-item-info-box">

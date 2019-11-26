@@ -12,7 +12,7 @@
           <view class="store-logo-box">
             <i-image i-class="store-logo"
                      imageSrc='{{parse.getStoreLogo(order)}}'
-                     placeholderSrc='../../resource/avatar_placeholder.jpg'>
+                     >
             </i-image>
           </view>
           <view class="store-name">
@@ -39,7 +39,7 @@
           <view class="goods-image-box">
             <i-image i-class="goods-image"
                     imageSrc='{{order.item.coverImg}}'
-                    placeholderSrc='../../resource/avatar_placeholder.jpg'>
+                    >
             </i-image>
           </view>
           <view class="goods-info-box">
@@ -113,7 +113,7 @@
           <view class="goods-image-box">
             <i-image i-class="goods-image"
                     imageSrc='{{orderItem.pet.coverMedia}}'
-                    placeholderSrc='../../resource/avatar_placeholder.jpg'>
+                    >
             </i-image>
           </view>
           <view class="goods-info-box">

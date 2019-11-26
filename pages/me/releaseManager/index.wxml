@@ -19,7 +19,7 @@
             <!-- 图片 -->
             <i-image i-class="release-goods-image"
                     imageSrc='{{releaseItem.coverMedia[0].coverImg}}'
-                    placeholderSrc='../../resource/avatar_placeholder.jpg'>
+                    >
             </i-image>
             <!-- 信息 -->
             <view class="release-goods-info-box">
@@ -116,7 +116,7 @@
                       </view>
                       <i-image i-class="release-goods-info-parent-info-image"
                               imageSrc='{{releaseItem.fatherImg}}'
-                              placeholderSrc='../../resource/avatar_placeholder.jpg'>
+                              >
                       </i-image>
                     </view>
                     <view class="release-goods-info-parent-info-item">
@@ -128,7 +128,7 @@
                       </view>
                       <i-image i-class="release-goods-info-parent-info-image"
                               imageSrc='{{releaseItem.motherImg}}'
-                              placeholderSrc='../../resource/avatar_placeholder.jpg'>
+                              >
                       </i-image>
                     </view>
                   </view>

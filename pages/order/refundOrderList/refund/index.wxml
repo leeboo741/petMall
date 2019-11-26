@@ -28,8 +28,7 @@
                 wx:for-index='goodsIndex'
                 wx:key='{{goodsIndex}}'>
             <i-image i-class="order-goods-image"
-                    imageSrc='{{goodsItem.goodsImagePath}}'
-                    placeholderSrc='../../resource/avatar_placeholder.jpg'>
+                    imageSrc='{{goodsItem.goodsImagePath}}'>
             </i-image>
             <view class="order-goods-info">
               <view class="order-goods-item-line">

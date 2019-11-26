@@ -5,7 +5,7 @@
 <view class="image-page-info">
   <!-- 图片展示 -->
   <view class="image-page-head">
-    <i-image i-class="images-cal" imageSrc="{{itemDetailData.coverImg}}" placeholderSrc='../../resource/placeholder.jpg' failSrc='../../resource/fail.png'>
+    <i-image i-class="images-cal" imageSrc="{{itemDetailData.coverImg}}" >
     </i-image>
   </view>
 
@@ -56,7 +56,7 @@
   <view class="userevaluate-content-page">
     <view class="userevaluate-content-tables-page" wx:for="{{itemDetailData.itemAppraise}}" wx:for-item="evaluationInformationItem" wx:for-index="evaluationInformationIndex" wx:key="evaluationInformationIndex" style="margin-bottom: 20rpx;">
       <view class="userevaluate-content-head">
-        <i-image imageSrc="{{evaluationInformationItem.customer.coverImg}}" i-class="image-sty" placeholderSrc='../../resource/placeholder.jpg' failSrc='../../resource/fail.png'>
+        <i-image imageSrc="{{evaluationInformationItem.customer.coverImg}}" i-class="image-sty" >
         </i-image>
         <view style="margin-left:2%;font-weight:bold;font-size:28rpx;">
           {{evaluationInformationItem.customer.customerName}}

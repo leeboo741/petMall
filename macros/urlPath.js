@@ -20,7 +20,8 @@ const Url_Item_Classify = "/item/Classify"; //宠粮分类
 const Url_Item_SetMeal = "/item/Pack"; // 查询商品套餐分类
 const Url_Item_Detail = "/item/itemNoAndLimit"; // 获取宠物商品详情
 const Url_Item_List = "/item"; // 查询商品列表
-const Url_Item_More_Evaluate = "/item/appraise"; // 获取更多商品评价
+const Url_Item_More_Evaluate = "/item/appraise/itemAppraise"; // 获取更多商品评价
+const Url_Item_AddNew_Evaluate = "/item/appraise/itemAppraise"; // 新增商品评价
 
 /**
  * ----商家
@@ -114,6 +115,7 @@ module.exports={
   Url_Item_Detail, // 详情
   Url_Item_List, // 获取商品列表
   Url_Item_More_Evaluate, // 获取更多商品评价
+  Url_Item_AddNew_Evaluate, // 新增商品评价
 
   Url_BusinessInfo,    //商家显示数据
   Url_Business_Recommend, // 推荐商家
