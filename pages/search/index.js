@@ -1,7 +1,12 @@
 // pages/search/index.js
 
+const Limit = 20;
 const app = getApp();
+const Enum = require("../../utils/enum.js");
+const Util = require("../../utils/util.js");
+const PagePath = require("../../macros/pagePath.js");
 const SearchService = require("../../services/searchService.js");
+const LoadFootItemState = require("../../lee-components/leeLoadingFootItem/loadFootObj.js");
 
 Page({
 
@@ -9,60 +14,14 @@ Page({
    * 页面的初始数据
    */
   data: {
+    offset: 0, // 页码
+    loadState: LoadFootItemState.Loading_State_Empty, // 底部状态
     naviHeight: app.globalData.naviHeight,
-    pageHeight: app.globalData.pageHeight,
     searchHistory: [], // 搜索历史
     searchKeyword: null, // 搜索关键字
-    searchBrandResult: [
-      {
-        name: "红狗",
-        imagePath: "http://www.reddogchina.com/Uploads/article/original_img2/1566877752.jpg",
-      }
-    ], // 搜索品牌结果
-    searchBreedResult: [
-      {
-        name: "斑点狗",
-        imagePath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571912457694&di=0c84b4aeaae678ea76e315df78538b2d&imgtype=0&src=http%3A%2F%2Fpic.51yuansu.com%2Fpic3%2Fcover%2F03%2F78%2F26%2F5bff363b99cad_610.jpg"
-      }
-    ], // 搜索品种结果
-    searchStoreResult: [
-      {
-        name: "萌宠小屋",
-        province: "江西",
-        city: "南昌",
-        imagePath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571141353757&di=bfa169b0ff9c44c88c56f15c45582967&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0132565a447811a801219741f137ba.jpeg"
-      },
-      {
-        name: "萌宠小屋1",
-        province: "江西",
-        city: "南昌",
-        imagePath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571138693420&di=fee3aa2a043f375cdb1cbb90f9380c2a&imgtype=0&src=http%3A%2F%2Fd5.file.680.com%2FItem%2F2018-6%2F20%2F10596211_201862011416.jpg"
-      },
-      {
-        name: "萌宠小屋2",
-        province: "江西",
-        city: "南昌",
-        imagePath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571138363687&di=18e750383ce1bb7e631e984f87897f57&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F01b9de5be67338a80120925291fad2.jpg%401280w_1l_2o_100sh.jpg"
-      },
-      {
-        name: "萌宠小屋",
-        province: "江西",
-        city: "南昌",
-        imagePath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571141353757&di=bfa169b0ff9c44c88c56f15c45582967&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0132565a447811a801219741f137ba.jpeg"
-      },
-      {
-        name: "萌宠小屋1",
-        province: "江西",
-        city: "南昌",
-        imagePath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571138693420&di=fee3aa2a043f375cdb1cbb90f9380c2a&imgtype=0&src=http%3A%2F%2Fd5.file.680.com%2FItem%2F2018-6%2F20%2F10596211_201862011416.jpg"
-      },
-      {
-        name: "萌宠小屋2",
-        province: "江西",
-        city: "南昌",
-        imagePath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571138363687&di=18e750383ce1bb7e631e984f87897f57&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F01b9de5be67338a80120925291fad2.jpg%401280w_1l_2o_100sh.jpg"
-      },
-    ], // 搜索商家结果
+    searchBrandResult: [], // 搜索品牌结果
+    searchBreedResult: [], // 搜索品种结果
+    searchStoreResult: [], // 搜索商家结果
   },
 
   /**
@@ -106,14 +65,67 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+    this.data.offset = 0;
+    let that = this;
+    this.setData({
+      loadState: LoadFootItemState.Loading_State_Loading,
+    })
+    this.requestSearchResult(this.data.offset, this.data.searchKeyword, 
+      function getResultCallback(result) {
+        that.setData({
+          searchBrandResult: result.itemBrand,
+          searchBreedResult: result.petGenre,
+          searchStoreResult: result.business,
+        })
+        that.data.offset = that.data.offset + Limit;
+        if (result.business.length >= Limit) {
+          that.setData({
+            loadState: LoadFootItemState.Loading_State_Normal
+          })
+        } else if (result.business.length < Limit && result.business.length > 0) {
+          that.setData({
+            loadState: LoadFootItemState.Loading_State_End
+          })
+        } else {
+          that.setData({
+            loadState: LoadFootItemState.Loading_State_Empty
+          })
+        }
+        wx.stopPullDownRefresh();
+      }
+    )
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-
+    if (this.data.loadState == LoadFootItemState.Loading_State_End
+      || this.data.loadState == LoadFootItemState.Loading_State_Loading) {
+      return;
+    }
+    this.setData({
+      loadState: LoadFootItemState.Loading_State_Loading,
+    })
+    let that = this;
+    this.requestSearchResult(this.data.offset, this.data.searchKeyword,
+      function getResultCallback(result) {
+        let tempStoreList = that.data.searchStoreResult.concat(result.business);
+        that.setData({
+          searchStoreResult: tempStoreList
+        })
+        that.data.offset = that.data.offset + Limit;
+        if (result.business.length >= Limit) {
+          that.setData({
+            loadState: LoadFootItemState.Loading_State_Normal
+          })
+        } else {
+          that.setData({
+            loadState: LoadFootItemState.Loading_State_End
+          })
+        }
+      }
+    )
   },
 
   /**
@@ -132,6 +144,7 @@ Page({
     this.setData({
       searchHistory: SearchService.getSearchHistoryList(),
     })
+    wx.startPullDownRefresh();
   },
 
   /**
@@ -155,5 +168,65 @@ Page({
     this.setData({
       searchKeyword: this.data.searchHistory[e.currentTarget.dataset.index]
     })
+    wx.startPullDownRefresh();
+  },
+
+  /**
+   * 点击品种item
+   */
+  tapBreedItem: function (e) {
+    let tempIndex = e.currentTarget.dataset.index;
+    let tempBreed = this.data.searchBreedResult[tempIndex];
+    let tempBreedNo = e.currentTarget.dataset.breedno;
+    let tempBreedName = e.currentTarget.dataset.breedname;
+    let tempSortNo = e.currentTarget.dataset.sortno;
+    wx.navigateTo({
+      url: PagePath.Page_Home_Nearby + "?breedno=" + tempBreedNo + "&requesttype=" + Enum.Nearby_RequestType_Enum.All + "&pagetitle=" + tempBreedName
+    })
+  },
+
+  /**
+   * 点击品牌item
+   */
+  tapBrandItem: function (e) {
+    let tempIndex = e.currentTarget.dataset.index;
+    let tempBrand = this.data.searchBrandResult[tempIndex];
+    let tempBrandNo = e.currentTarget.dataset.brandno;
+    wx.navigateTo({
+      url: PagePath.Page_Mall_Sstaplefood + '?brandno=' + tempBrandNo
+    })
+  },
+
+  /**
+   * 点击商家item
+   */
+  tapStoreItem: function (e) {
+    let tempIndex = e.currentTarget.dataset.index;
+    let tempStore = this.data.searchStoreResult[tempIndex];
+    let tempStoreNo = e.currentTarget.dataset.storeno;
+    wx.navigateTo({
+      url: PagePath.Page_Store_StoreInforMation + '?storeno=' + tempStoreNo
+    })
+  },
+
+  /**
+   * 请求搜索结果
+   * @param offset
+   * @param searchKeyword
+   * @param getResultCallback
+   */
+  requestSearchResult: function (offset, searchKeyword, getResultCallback) {
+    SearchService.getSearchResult(
+      {
+        searchKey: searchKeyword,
+        offset: offset,
+        limit: Limit
+      },
+      function getSearchResultCallback(result) {
+        if (Util.checkIsFunction(getResultCallback)) {
+          getResultCallback(result.root)
+        }
+      }
+    )
   }
 })

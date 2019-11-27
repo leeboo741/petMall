@@ -6,5 +6,6 @@
     "i-panel": "/dist/panel/index",
     "i-cell": "/dist/cell/index",
     "i-cell-group": "/dist/cell-group/index"
-  }
+  },
+  "enablePullDownRefresh": true
 }

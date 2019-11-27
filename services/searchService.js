@@ -5,6 +5,13 @@
  * 
  */
 
+const {
+  RequestParamObj
+} = require("../utils/requestParamObj.js");
+const RequestUtil = require("../utils/requestUtil.js");
+const UrlPath = require("../macros/urlPath.js");
+const Util = require("../utils/util.js");
+
 const Key_SearchHistory = "searchHistory"
 
 const SearchHistory_Max_Size = 15;
@@ -63,8 +70,32 @@ function deleteSearchHistory(deleteCallback){
   })
 }
 
+/**
+ * 获取搜索结果
+ * @param param (searchKey, offset, limit)
+ * @param getSearchResultCallback
+ */
+function getSearchResult(param, getSearchResultCallback) {
+  let requestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_Search,
+    data: {
+      search: param.searchKey,
+      offset: param.offset,
+      limit: param.limit,
+    },
+    success(res) {
+      if (Util.checkIsFunction(getSearchResultCallback)) {
+        getSearchResultCallback(res)
+      }
+    }
+  });
+
+  RequestUtil.RequestGET(requestParam);
+}
+
 module.exports={
   saveSearchHistory: saveSearchHistory,
   getSearchHistoryList: getSearchHistoryList,
-  deleteSearchHistory: deleteSearchHistory
+  deleteSearchHistory: deleteSearchHistory,
+  getSearchResult: getSearchResult
 }

@@ -9,6 +9,7 @@ const Url_Register = "/register"; // 注册
 const Url_GetCode = "/business/VerificationCode"; // 获取短信验证码
 const Url_Auth = "/auth/saveAAuth"; // 商家认证
 const Url_LoginBusiness = "/login/changeBusiness"; // 转换卖家身份
+const Url_Search = "/search/search"; // 搜索接口
 
 /**
  * ----商城
@@ -106,6 +107,7 @@ module.exports={
   Url_GetCode, // 获取短信验证码
   Url_Auth, // 商家认证
   Url_LoginBusiness, // 转变卖家身份
+  Url_Search, // 搜索
 
   Url_ItemType, // 商城宠物类型
   Url_ItemShowTypeInfo, // 商城显示数据
