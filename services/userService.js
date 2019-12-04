@@ -255,7 +255,7 @@ function startLogin(loginCallback) {
                 // 微信用户基本信息
                 let userInfo = res.userInfo;
                 // 向服务器请求登陆，返回 本微信 在服务器状态，注册|未注册，
-                _requestLogin(wxCode,
+                _requestLogin(wxCode, res.encryptedData, res.iv,
                   function loginRequestCallback(loginSuccess, data) {
                     if (loginSuccess) {
                       let tempUserInfo = data.root;
@@ -324,14 +324,17 @@ function startLogin(loginCallback) {
  * @param wxCode 微信登陆成功后拿到的code
  * @param loginCallback 登陆 回调 （@param state 成功失败 @param data 返回数据）
  */
-function _requestLogin(wxCode, loginCallback) {
+function _requestLogin(wxCode, encryptedData, iv, loginCallback) {
   let requestParam = new RequestParamObj({
     url: UrlPath.Url_Base + UrlPath.Url_Login,
     data: {
-      code: wxCode
+      code: wxCode,
+      encryptedData: encryptedData,
+      iv: iv
     },
+    method: "POST",
     header: {
-      'content-type': "application/x-www-form-urlencoded"
+      "Content-Type": "application/json"
     },
     success: function(res) {
       if (typeof loginCallback == "function" && loginCallback) {

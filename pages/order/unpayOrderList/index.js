@@ -296,7 +296,7 @@ Page({
       PayService.getItemOrderPayInfo(orderNo,
         function getResultCallback(result) {
           if (Util.checkIsFunction(getPayInfoCallback)) {
-            getPayInfoCallback(result);
+            getPayInfoCallback(result.root);
           }
         }
       )
@@ -304,7 +304,7 @@ Page({
       PayService.getPetOrderPayInfo(orderNo,
         function getResultCallback(result) {
           if (Util.checkIsFunction(getPayInfoCallback)) {
-            getPayInfoCallback(result);
+            getPayInfoCallback(result.root);
           }
         }
       )

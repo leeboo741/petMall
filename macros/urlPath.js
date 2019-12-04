@@ -1,7 +1,6 @@
 
 // const Url_Base = "http://192.168.3.111:5050"; // ----- 刘
 const Url_Base = "http://192.168.3.103:5050"; // ---- 罗
-// const Url_Base = "http://192.168.3.200:8080"; // ---- 卢
 // const Url_Base = "https://huji820.picp.vip"; // ---测试
 
 const Url_Login = "/login"; // 登陆
