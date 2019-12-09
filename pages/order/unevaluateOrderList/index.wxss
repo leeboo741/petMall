@@ -135,6 +135,12 @@
   margin-left: 15rpx;
 }
 
+.refund-state{
+  color: #ee2c2c;
+  padding: 15rpx;
+  margin-left: 15rpx;
+}
+
 .order-splice-line{
   border-bottom: 8rpx solid rgb(240, 240, 240);
 }

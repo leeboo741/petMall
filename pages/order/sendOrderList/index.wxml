@@ -107,17 +107,26 @@
       </view>
       <view class="order-operate-button-box">
         <view class="order-operate-button"
+              catchtap="tapRefund"
+              data-index='{{orderIndex}}'
+              wx:if="{{orderItem.refundsState != 1}}">
+        申请退款
+        </view>
+        <view class="refund-state"
+              wx:else>
+        退款中
+        </view>
+        <view class="order-operate-button"
               catchtap="tapMore"
-              data-index='{{orderIndex}}'>
+              data-index='{{orderIndex}}'
+              hidden>
         更多
         </view>
         <view class="order-operate-button"
-              hidden>
-        联系商家
-        </view>
-        <view class="order-operate-button"
-              hidden>
-        查看物流
+              catchtap="confirmRecive"
+              data-index='{{orderIndex}}'
+              data-orderno='{{orderItem.orderNo}}'>
+        确认收货
         </view>
       </view>
     </view>
@@ -229,7 +238,8 @@
       <view class="order-operate-button-box">
         <view class="order-operate-button"
               catchtap="tapMore"
-              data-index='{{orderIndex}}'>
+              data-index='{{orderIndex}}'
+              hidden>
         更多
         </view>
         <view class="order-operate-button"

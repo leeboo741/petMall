@@ -165,36 +165,26 @@ Page({
    */
   onShow: function() {
     let that = this;
-    if (app.globalData.currentCity) {
-      wx.showLoading({
-        title: '定位中...',
-      })
-      LocationService.getCurrentLocationInfo(
-        function callback(res) {
-          console.log(JSON.stringify(res));
-          wx.hideLoading();
+    wx.showLoading({
+      title: '定位中...',
+    })
+    LocationService.getCurrentLocationInfo(
+      function callback(res) {
+        console.log(JSON.stringify(res));
+        wx.hideLoading();
 
-          app.globalData.currentLocationInfo = res;
-          let city = res.address_component.city;
-          app.globalData.currentCity = city;
+        let city = res.address_component.city;
+        app.globalData.currentCity = city;
 
 
-          that.data.titleSelectList[0].selectInfo = app.globalData.currentCity;
-          that.setData({
-            city: app.globalData.currentCity,
-            titleSelectList: that.data.titleSelectList
-          })
-          wx.startPullDownRefresh();
-        }
-      )
-    } else {
-      that.data.titleSelectList[0].selectInfo = app.globalData.currentCity;
-      that.setData({
-        city: app.globalData.currentCity,
-        titleSelectList: that.data.titleSelectList
-      })
-      wx.startPullDownRefresh();
-    }
+        that.data.titleSelectList[0].selectInfo = app.globalData.currentCity;
+        that.setData({
+          city: app.globalData.currentCity,
+          titleSelectList: that.data.titleSelectList
+        })
+        wx.startPullDownRefresh();
+      }
+    )
   },
 
   /**

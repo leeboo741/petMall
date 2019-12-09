@@ -112,20 +112,10 @@
         更多
         </view>
         <view class="order-operate-button"
-              hidden>
-        联系商家
-        </view>
-        <view class="order-operate-button"
-              wx:if="{{!orderItem.orderClose}}"
               catchtap="tapToPay"
               data-index='{{orderIndex}}'
               data-orderno='{{orderItem.orderNo}}'>
         去付款
-        </view>
-        <view class="order-operate-button"
-              wx:else
-              hidden>
-        重新下单
         </view>
       </view>
     </view>

@@ -107,13 +107,25 @@
       </view>
       <view class="order-operate-button-box">
         <view class="order-operate-button"
+              catchtap="tapRefund"
+              data-index='{{orderIndex}}'
+              wx:if="{{orderItem.refundsState != 1}}">
+        申请退款
+        </view>
+        <view class="refund-state"
+              wx:else>
+        退款中
+        </view>
+        <view class="order-operate-button"
               catchtap="tapMore"
-              data-index='{{orderIndex}}'>
+              data-index='{{orderIndex}}'
+              hidden>
         更多
         </view>
         <view class="order-operate-button"
               catchtap="tapRemind"
-              data-index='{{orderIndex}}'>
+              data-index='{{orderIndex}}'
+              hidden>
         提醒发货
         </view>
       </view>

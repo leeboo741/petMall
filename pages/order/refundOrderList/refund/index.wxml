@@ -6,47 +6,73 @@
 <i-panel i-class='panel'>
   <i-cell-group>
     <i-cell>
-      <view class="goods-box"
+      <!-- 订单Item -->
+      <view bindtap="tapToOrderDetail"
+            data-orderno='{{order.orderNo}}'
+            class="order-item"
             slot='header'>
         <!-- 订单信息 -->
         <view class="order-info-box">
           <view class="order-info-number">
-          {{order.orderNo}}
+          订单编号：{{order.orderNo}}
           </view>
           <view class="order-info-time">
-          {{order.orderDate}} {{order.orderTime}}
+          {{order.createDate}} {{order.createTime}}
           </view>
         </view>
         <!-- 订单商品 -->
-        <view class="order-goods-box"
-              bindtap="tapToOrderDetail"
-              data-index='{{orderIndex}}'>
+        <view class="order-goods-box">
           <!-- 商品Item -->
           <view class="order-goods-item"
-                wx:for='{{order.goods}}'
-                wx:for-item='goodsItem'
-                wx:for-index='goodsIndex'
-                wx:key='{{goodsIndex}}'>
+                wx:if='{{parse.showItemCell(order)}}'
+                catchtap="tapItem"
+                data-itemno='{{order.item.itemNo}}'>
             <i-image i-class="order-goods-image"
-                    imageSrc='{{goodsItem.goodsImagePath}}'>
+                    imageSrc='{{order.item.coverImg}}'>
             </i-image>
             <view class="order-goods-info">
               <view class="order-goods-item-line">
                 <view class="order-goods-name">
-                {{goodsItem.goodsName}}
-                </view>
-                <view class="order-goods-sexy"
-                      wx:if='{{parse.showSexy(goodsItem)}}'>
-                {{goodsItem.goodsSexy}}
+                {{order.item.itemName}}
                 </view>
               </view>
               <view class="order-goods-item-line"
                     style="justify-content: space-between; align-items: flex-end;">
                 <view class="order-goods-count">
-                x{{goodsItem.goodsCount}}{{goodsItem.goodsUnit}}
+                x{{order.qty}}
                 </view>
                 <view class="order-goods-price">
-                {{goodsItem.goodsPrice}}/{{goodsItem.goodsUnit}}
+                ￥{{order.item.retailPrice}}
+                </view>
+              </view>
+            </view>
+          </view>
+          <!-- 宠物Item -->
+          <view class="order-goods-item"
+                wx:if='{{parse.showPetCell(order)}}'
+                catchtap="tapPet"
+                data-petno='{{order.pet.petNo}}'>
+            <i-image i-class="order-goods-image"
+                    imageSrc='{{order.pet.coverMedia}}'
+                    >
+            </i-image>
+            <view class="order-goods-info">
+              <view class="order-goods-item-line">
+                <view class="order-goods-name">
+                {{order.pet.petName}}
+                </view>
+                <view class="order-goods-sexy"
+                      wx:if='{{parse.showSexy(order)}}'>
+                {{parse.getSexy(order)}}
+                </view>
+              </view>
+              <view class="order-goods-item-line"
+                    style="justify-content: space-between; align-items: flex-end;">
+                <view class="order-goods-count">
+                x{{order.qty}}
+                </view>
+                <view class="order-goods-price">
+                {{order.pet.retailPrice}}
                 </view>
               </view>
             </view>
@@ -55,11 +81,22 @@
           <view class="order-goods-item-line"
                 style="justify-content: flex-end;">
             <view class="order-goods-amount">
-            总计：{{order.orderAmount}}元
+            总计：{{order.paymentAmount}}元
             </view>
           </view>
-        </view>      
+        </view>
       </view>
+    </i-cell>
+
+    <i-cell title='退款金额'>
+      <input slot='footer'
+             class="reason-input normal-text"
+             value="{{refundAmount}}"
+             placeholder-class='placeholder-text'
+             placeholder='输入退款原因'
+             bindinput="inputAmount">
+      
+      </input>
     </i-cell>
 
     <i-cell title='退款原因'>
@@ -76,32 +113,66 @@
 
 <i-panel i-class='panel'
          title='上传凭证（最多6张）'>
-  <i-cell>
-    <view class="upload-image-box"
-          slot='header'>
-      <view class="upload-image-item"
-            wx:for='{{refundEvidence}}'
-            wx:for-item='uploadImageItem'
-            wx:for-index='uploadImageIndex'
-            wx:key='{{uploadImageIndex}}'>
-        <image src='{{uploadImageItem}}'
-              class='upload-image-item-image'>
-        </image>
-      </view>
-      <view class="upload-image-item">
-        <view class='upload-image-item-image'
-              bindtap="tapAddNewUploadImage">
-          <image class="upload-image-item-center"
-                 src='../../../../resource/add_new.png'>
-          </image>
-        </view>
-      </view>
-    </view>
-  </i-cell>
+  <i-image-upload uploadUrl='{{uploadUrl}}'
+                  name='multipartFile'
+                  formData='{{}}'
+                  startUpload='{{false}}'
+                  autoUpload='{{true}}'
+                  bind:upload-complete='uploadComplete'
+                  bind:delete-image='deleteImage'
+                  bind:addnew='addNewImage'
+                  ableDelete='{{true}}'
+                  selectMode='append'
+                  maxImageCount='{{9}}'
+                  videoMaxLength='{{10}}'
+                  imageSourceType="{{['album', 'camera']}}"
+                  videoSourceType="{{['album', 'camera']}}"
+                  showAddNewButton='{{true}}'>
+  </i-image-upload>
 </i-panel>
 
 <view class="empty-zone"></view>
 
-<view class="submit-button">
+<view class="submit-button"
+      bindtap="tapSubmit">
 提交申请
 </view>
+
+<wxs module='parse'>
+  module.exports={
+    getStoreLogo: function(orderItem) {
+      if (orderItem.item != null) {
+        return ""
+      }
+      if (orderItem.pet != null) {
+        return orderItem.pet.business.headerImg;
+      }
+    },
+    getSotreName: function(orderItem) {
+      if (orderItem.item != null) {
+        return "自营"
+      }
+      if (orderItem.pet != null) {
+        return orderItem.pet.business.businessName;
+      }
+    },
+    showSexy: function(orderItem) {
+      if (orderItem.pet == null || orderItem.pet.petSex != null || orderItem.pet.petSex.length <= 0) {
+        return false;
+      }
+      return true;
+    },
+    getSexy: function (orderItem) {
+      if (orderItem.pet.petSex == 1) {
+        return "公";
+      }
+      return "母";
+    },
+    showItemCell: function(order) {
+      return order.item != null;
+    },
+    showPetCell: function(order) {
+      return order.pet != null;
+    }
+  }
+</wxs>

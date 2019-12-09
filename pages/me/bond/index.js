@@ -1,5 +1,8 @@
 // pages/me/bond/index.js
+
 const app = getApp();
+const UserService = require("../../../services/userService.js");
+
 Page({
 
   /**
@@ -8,6 +11,7 @@ Page({
   data: {
     checkContract: false, // 是否检查完合约
     height: null,
+    businessInfo: null,
   },
 
   /**
@@ -15,7 +19,8 @@ Page({
    */
   onLoad: function (options) {
     this.setData({
-      height: app.globalData.pageHeight
+      height: app.globalData.pageHeight,
+      businessInfo: UserService.getLocalBusinessInfo()
     })
   },
 
@@ -75,5 +80,41 @@ Page({
     this.setData({
       checkContract: !this.data.checkContract
     })
-  }
+  },
+
+  /**
+   * 暂不缴纳
+   */
+  cancelBond: function() {
+
+  },
+
+  /**
+   * 缴纳保证金
+   */
+  confirmBond: function() {
+    if (!this.data.checkContract) {
+      wx.showToast({
+        title: '请阅读并同意条款',
+        icon:'none'
+      })
+      return;
+    }
+    wx.showLoading({
+      title: '请稍等...',
+    })
+    UserService.addBond(
+      {
+        billNo: this.data.businessInfo.bond.billNo,
+        authNo: this.data.businessInfo.auth.billNo,
+        authType: this.data.businessInfo.auth.businessAuthType,
+        businessNo: this.data.businessInfo.businessNo,
+        amount: 5000,
+      },
+      function bondResultCallback(res) {
+        console.log("缴纳保证金： \n" + JSON.stringify(res));
+        wx.hideLoading();
+      }
+    )
+  },
 })

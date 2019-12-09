@@ -1,6 +1,6 @@
 /* pages/order/refundOrderList/refund/index.wxss */
 
-.goods-box{
+.order-item{
   display: flex;
   flex-direction: column;
 }
@@ -14,13 +14,12 @@
 }
 
 .order-info-number{
-  font-size: 35rpx;
-  font-weight: bold;
+  font-size: 28rpx;
   color: #778899;
 }
 
 .order-info-time{
-  font-size: 26rpx;
+  font-size: 22rpx;
   color: gray;
 }
 
@@ -83,10 +82,47 @@
   color: gray;
 }
 
+.refund-state{
+  font-size: 32rpx;
+  color: #ee2c2c;
+}
+
 .order-goods-amount{
   font-size: 32rpx;
   color: #ee2c2c;
   font-weight: bold;
+}
+
+.order-goods-pay-time{
+  font-size: 26rpx;
+  color: gray;
+  margin-left: 10rpx;
+}
+
+.order-operate-box{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10rpx 20rpx;
+}
+
+.order-store-box{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.order-store-image{
+  width: 50rpx;
+  height: 50rpx;
+  border-radius: 8rpx;
+}
+
+.order-store-name{
+  font-size: 24rpx;
+  color: gray;
+  margin-left: 10rpx;
 }
 
 .reason-input{

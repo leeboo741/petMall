@@ -16,7 +16,7 @@
   </i-cell>
 </i-panel>
 
-<i-panel i-class='panel'
+<!-- <i-panel i-class='panel'
          title='上传凭证（最多6张）'>
   <i-cell>
     <view class="upload-image-box"
@@ -40,10 +40,11 @@
       </view>
     </view>
   </i-cell>
-</i-panel>
+</i-panel> -->
 
 <view class="empty-zone"></view>
 
-<view class="submit-button">
+<view class="submit-button"
+      bindtap="tapSubmit">
 提交驳回
 </view>

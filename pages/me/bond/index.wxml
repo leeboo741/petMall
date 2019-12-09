@@ -32,12 +32,14 @@
     </view>
   </view>
   <view class="button-box">
-    <view class="operate-button empty-button">
+    <view class="operate-button empty-button"
+          bindtap="cancelBond">
       <view class="operate-button-title empty-title">
       暂不缴纳
       </view>
     </view>
-    <view class="operate-button full-button">
+    <view class="operate-button full-button"
+          bindtap="confirmBond">
       <view class="operate-button-title full-title">
       缴纳保证金
       </view>

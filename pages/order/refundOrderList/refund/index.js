@@ -1,42 +1,37 @@
 // pages/order/refundOrderList/refund/index.js
+
+const app = getApp();
+const UrlPath = require("../../../../macros/urlPath.js");
+const Util = require("../../../../utils/util.js");
+const OrderService = require("../../../../services/orderService.js");
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    order:{
-      orderNo: "2232232232232232",
-      orderDate: "2019-10-11",
-      orderTime: "10:11:11",
-      orderAmount: 123,
-      goods: [
-        {
-          goodsName: "英国短毛猫",
-          goodsType: "PET",
-          goodsPrice: 2000,
-          goodsSexy: "公",
-          goodsCount: 1,
-          goodsUnit: "只",
-          goodsAmount: 300,
-          goodsImagePath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571057930011&di=3fb1a36f78f5b885f003d75560006e9b&imgtype=0&src=http%3A%2F%2Fimg3.duitang.com%2Fuploads%2Fitem%2F201604%2F25%2F20160425205546_4JwcA.thumb.700_0.jpeg"
-        }
-      ],
-      store: {
-        storeName: "萌宠宠物店",
-        storeLogoPath: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571141353757&di=bfa169b0ff9c44c88c56f15c45582967&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0132565a447811a801219741f137ba.jpeg"
-      }
-    },
+    order:null,
 
     refundReason: null, // 退款原因
     refundEvidence: [], // 退款凭证
+    refundAmount: null, // 退款金额
+
+    uploadUrl: null, // 上传文件地址
+
+    backTimeOut: null,
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    this.setData({
+      order: app.globalData.refundOrder,
+      uploadUrl: UrlPath.Url_Base + UrlPath.Url_UploadFile,
+      refundAmount: app.globalData.refundOrder.paymentAmount
+    })
+    app.globalData.refundOrder = null;
   },
 
   /**
@@ -64,7 +59,8 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+    clearTimeout(this.data.backTimeOut);
+    this.data.backTimeOut = null;
   },
 
   /**
@@ -89,17 +85,142 @@ Page({
   },
 
   /**
-   * 点击添加新上传图片
+   * 输入金额
    */
-  tapAddNewUploadImage: function (e) {
-    let that = this;
-    wx.chooseImage({
-      count: 8,
-      success: function (res) {
-        that.setData({
-          refundEvidence: res.tempFilePaths
-        })
-      },
+  inputAmount: function (e) {
+    let inputAmount = 0;
+    if (!Util.checkEmpty(e.detail.value)) {
+      inputAmount = parseFloat(e.detail.value);
+    }
+    if (inputAmount > this.data.order.paymentAmount || inputAmount < 0) {
+      wx.showToast({
+        title: '金额应在0~'+this.data.order.paymentAmount+"之间",
+        icon:'none'
+      })
+      inputAmount = this.data.order.paymentAmount;
+    }
+
+    this.setData({
+      refundAmount: inputAmount
     })
   },
+
+  /**
+   * 输入原因
+   */
+  inputReason: function(e) {
+    this.setData({
+      refundReason: e.detail.value
+    })
+  },
+
+  /**
+   * 图片上传完成
+   */
+  uploadComplete: function(e) {
+    let uploadImagePathList = e.detail.uploadReturnDataList;
+    this.setData({
+      refundEvidence: this.packageRefundImages(uploadImagePathList)
+    })
+  },
+
+  /**
+   * 删除图片
+   */
+  deleteImage: function (e) {
+    let uploadImagePathList = e.detail.uploadReturnDataList;
+    let imagePathList = e.detail.imagePathList;
+    let deleteIndex = e.detail.deleteIndex;
+    this.setData({
+      refundEvidence: this.packageRefundImages(uploadImagePathList)
+    })
+  },
+
+  /**
+   * 组装退款凭证
+   */
+  packageRefundImages: function(imageList) {
+    let refundImages = [];
+    for (let index = 0; index < imageList.length; index++) {
+      let imagePath = imageList[index];
+      let refundImageObj = {
+        initiateRefundImg: imagePath
+      }
+      refundImages.push(refundImageObj);
+    }
+    return refundImages;
+  },
+
+  /**
+   * 点击提交
+   */
+  tapSubmit: function (e) {
+    if (Util.checkEmpty(this.data.refundReason)) {
+      this.data.refundReason = "无理由";
+    }
+    let that = this;
+    this.requestRefund(
+      function refundCallback(result) {
+        if (result > 0) {
+          wx.showToast({
+            title: '提交成功',
+            duration: 1500
+          })
+          that.data.backTimeOut = setTimeout(
+            function timeOut(){
+              wx.navigateBack({
+                
+              })
+            },
+            1550
+          )
+        } else {
+          wx.showToast({
+            title: '插入失败',
+            icon: 'none'
+          })
+        }
+      }
+    )
+  },
+
+  /**
+   * 发起退款申请请求
+   * @param refundCallback
+   */
+  requestRefund: function(refundCallback) {
+    if (this.data.order.pet != null) {
+      OrderService.petRefundOrder(
+        {
+          refundImages: this.data.refundEvidence,
+          orderNo: this.data.order.orderNo,
+          reason: this.data.refundReason,
+          refundAmount: this.data.refundAmount,
+          orderAmount: this.data.order.paymentAmount
+        },
+        function refundResultCallback(result) {
+          console.log("发起退款 宠物：\n" + JSON.stringify(result));
+          if (Util.checkIsFunction(refundCallback)) {
+            refundCallback(result.root);
+          }
+        }
+      )
+    } else if (this.data.order.item != null) {
+      OrderService.itemRefundOrder(
+        {
+          refundImages: this.data.refundEvidence,
+          orderNo: this.data.order.orderNo,
+          reason: this.data.refundReason,
+          refundAmount: this.data.refundAmount,
+          orderAmount: this.data.order.paymentAmount
+        },
+        function refundResultCallback(result) {
+          console.log("发起退款 商品：\n" + JSON.stringify(result));
+          if (Util.checkIsFunction(refundCallback)) {
+            refundCallback(result.root);
+          }
+        }
+      )
+    }
+  }
 })

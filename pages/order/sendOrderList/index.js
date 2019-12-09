@@ -29,7 +29,6 @@ Page({
     this.setData({
       currentRole: UserService.getCurrentRole()
     })
-    wx.startPullDownRefresh();
   },
 
   /**
@@ -43,7 +42,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    wx.startPullDownRefresh();
   },
 
   /**
@@ -189,12 +188,89 @@ Page({
         itemList: ["申请退款"],
         success(res) {
           if (res.tapIndex == 0) {
+            app.globalData.refundOrder = tempOrder;
             wx.navigateTo({
               url: PagePath.Page_Order_Refund_Index + "?orderno=" + tempOrder.orderNo,
             })
           }
         }
       })
+    }
+  },
+
+  /**
+   * 点击退款
+   */
+  tapRefund: function (e) {
+    let tempOrder = this.data.dataSource[e.currentTarget.dataset.index];
+    app.globalData.refundOrder = tempOrder;
+    wx.navigateTo({
+      url: PagePath.Page_Order_Refund_Index + "?orderno=" + tempOrder.orderNo,
+    })
+  },
+
+  /**
+   * 确认收货
+   */
+  confirmRecive: function(e) {
+    let index = e.currentTarget.dataset.index;
+    let tempOrder = this.data.dataSource[index];
+    let orderNo = e.currentTarget.dataset.orderno;
+
+    let type = 0;
+    if (tempOrder.pet == null) {
+      type = 1;
+    }
+    let that = this;
+    this.requestRecive(type, orderNo,
+      function reciveResultCallback(result) {
+        if (result > 0) {
+          wx.showToast({
+            title: '确认收货成功',
+          })
+          that.data.dataSource.splice(index, 1);
+          that.setData({
+            dataSource: that.data.dataSource
+          })
+        } else {
+          wx.showToast({
+            title: '插入失败',
+            icon: 'none'
+          })
+        }
+      }
+    )
+  },
+
+  /**
+   * 请求收货
+   * @param type
+   * @param orderNo
+   * @param reciveResultCallback
+   */
+  requestRecive: function(type, orderNo, reciveResultCallback) {
+    if (type == 0) {
+      OrderService.confirmRecivePetOrder(
+        {
+          orderNo: orderNo
+        },
+        function requestCallback(res) {
+          if (Util.checkIsFunction(reciveResultCallback)) {
+            reciveResultCallback(res.root)
+          }
+        }
+      )
+    } else {
+      OrderService.confirmReciveItemOrder(
+        {
+          orderNo: orderNo
+        },
+        function requestCallback(res) {
+          if (Util.checkIsFunction(reciveResultCallback)) {
+            reciveResultCallback(res.root)
+          }
+        }
+      )
     }
   },
 

@@ -9,6 +9,7 @@ const Url_GetCode = "/business/VerificationCode"; // 获取短信验证码
 const Url_Auth = "/auth/saveAAuth"; // 商家认证
 const Url_LoginBusiness = "/login/changeBusiness"; // 转换卖家身份
 const Url_Search = "/search/search"; // 搜索接口
+const Url_Add_Bond = "/bond/addBond"; // 缴纳保证金
 
 /**
  * ----商城
@@ -91,6 +92,15 @@ const Url_Order_AddNew_Pet = "/customer/pet/order/save"; // 新增宠物订单
 const Url_Order_AddNew_Item = "/customer/item/order/save"; // 新增商品订单
 const Url_Order_Query_Customer = "/customer/order/list/type"; // 客户订单查询
 const Url_Order_Query_Business = "/businessOrder/businessOrder/type"; // 商户订单查询
+const Url_Order_ConfirmSend_Pet = "/OrderState/petDeliverGoods"; // 确认 宠物发货
+const Url_Order_ConfirmSend_Item = "/OrderState/itemDeliverGoods"; // 确认 商品发货
+const Url_Order_ConfirmRecive_Pet = "/OrderState/confirmGoods"; // 确认收货 宠物
+const Url_Order_ConfirmRecive_Item = "/OrderState/confirmGoodsItem"; // 确认收货 商品
+const Url_Order_Refund_Pet = "/OrderState/refundsPet"; // 发起退款 宠物
+const Url_Order_Refund_Item = "/OrderState/refundsItem"; // 发起退款 商品
+const Url_Order_Refund_Detail = "/businessOrder/refundOrderDetail"; // 获取退款单详情
+const Url_Order_Refund_Confirm_Pet = "/businessOrder/businessRefund"; // 确认退款 宠物
+const Url_Order_Refund_Confirm_Item = "/businessOrder/businessRefundItem"; // 确认退款 商品
 
 /**
  * ----支付
@@ -107,6 +117,7 @@ module.exports={
   Url_Auth, // 商家认证
   Url_LoginBusiness, // 转变卖家身份
   Url_Search, // 搜索
+  Url_Add_Bond, // 缴纳保证金
 
   Url_ItemType, // 商城宠物类型
   Url_ItemShowTypeInfo, // 商城显示数据
@@ -161,6 +172,15 @@ module.exports={
   Url_Order_AddNew_Item, // 新增商品订单
   Url_Order_Query_Customer, // 客户订单查询
   Url_Order_Query_Business, // 商户订单查询
+  Url_Order_ConfirmSend_Pet, // 确认 宠物发货
+  Url_Order_ConfirmSend_Item, // 确认 商品发货
+  Url_Order_ConfirmRecive_Pet, // 确认 宠物收货
+  Url_Order_ConfirmRecive_Item, // 确认 商品收货
+  Url_Order_Refund_Pet, // 发起退款 宠物
+  Url_Order_Refund_Item, // 发起退款 商品
+  Url_Order_Refund_Detail, // 获取退款单详情
+  Url_Order_Refund_Confirm_Pet, // 确认退款 宠物
+  Url_Order_Refund_Confirm_Item, // 确认退款 商品
 
   Url_Pay_Pet, // 获取宠物订单支付信息
   Url_Pay_Item, // 获取商品订单支付信息

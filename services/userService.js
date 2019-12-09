@@ -434,6 +434,34 @@ function authenticate(param, authenticateResultCallback) {
   RequestUtil.RequestPOST(requestParam);
 }
 
+/**
+ * 缴纳保证金
+ * @param param(billNo, authNo, authType, businessNo, amount)
+ * @param bondResultCallback
+ */
+function addBond(param, bondResultCallback) {
+  let requestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_Add_Bond,
+    data: {
+     billNo: param.billNo,
+     business: {
+       auth: {
+         billNo: param.authNo,
+         businessAuthType: param.authType,
+       },
+       businessNo: param.businessNo,
+     },
+     paymentAmount: param.amount
+    },
+    success(res) {
+      if (Util.checkIsFunction(bondResultCallback)) {
+        bondResultCallback(res);
+      }
+    }
+  })
+  RequestUtil.RequestPOST(requestParam);
+}
+
 module.exports = {
   saveCurrentRole: saveCurrentRole, // 存储当前角色 买家 卖家
   getCurrentRole: getCurrentRole, // 获取当前存储角色 买家 卖家
@@ -456,4 +484,5 @@ module.exports = {
   Login_Fail, // 登陆失败标识
   Login_Register, // 登陆未注册标识
   authenticate: authenticate, // 商家认证
+  addBond: addBond, // 缴纳保证金
 }

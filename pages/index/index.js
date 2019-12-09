@@ -29,7 +29,6 @@ Page({
       function callback(res) {
         console.log(JSON.stringify(res));
         wx.hideLoading();
-        app.globalData.currentLocationInfo = res;
         let city = res.address_component.city;
         app.globalData.currentCity = city;
 

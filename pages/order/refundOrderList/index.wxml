@@ -108,7 +108,8 @@
       <view class="order-operate-button-box">
         <view class="order-operate-button"
               catchtap="tapMore"
-              data-index='{{orderIndex}}'>
+              data-index='{{orderIndex}}'
+              hidden>
         更多
         </view>
         <view class="order-operate-button"

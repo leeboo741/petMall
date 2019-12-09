@@ -29,7 +29,6 @@ Page({
     this.setData({
       currentRole: UserService.getCurrentRole()
     })
-    wx.startPullDownRefresh();
   },
 
   /**
@@ -43,7 +42,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    wx.startPullDownRefresh();
   },
 
   /**
@@ -184,16 +183,6 @@ Page({
   tapMore: function (e) {
     let tempOrder = this.data.dataSource[e.currentTarget.dataset.index];
     if (this.data.currentRole == 0) {
-      wx.showActionSheet({
-        itemList: ["申请退款"],
-        success(res) {
-          if (res.tapIndex == 0) {
-            wx.navigateTo({
-              url: PagePath.Page_Order_Refund_Index + "?orderno=" + tempOrder.orderNo,
-            })
-          }
-        }
-      })
     }
   },
 
@@ -203,6 +192,7 @@ Page({
   tapReview: function (e) {
     let tempOrder = this.data.dataSource[e.currentTarget.dataset.index];
     let tempOrderNo = e.currentTarget.dataset.orderno;
+    app.globalData.refundReviewOrder = tempOrder;
     wx.navigateTo({
       url: PagePath.Page_Order_Refund_Review + "?orderno=" + tempOrderNo,
     })

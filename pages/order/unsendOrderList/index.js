@@ -29,7 +29,6 @@ Page({
     this.setData({
       currentRole: UserService.getCurrentRole()
     })
-    wx.startPullDownRefresh();
   },
 
   /**
@@ -43,7 +42,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    wx.startPullDownRefresh();
   },
 
   /**
@@ -189,6 +188,7 @@ Page({
         itemList: ["申请退款"],
         success(res) {
           if (res.tapIndex == 0) {
+            app.globalData.refundOrder = tempOrder;
             wx.navigateTo({
               url: PagePath.Page_Order_Refund_Index + "?orderno=" + tempOrder.orderNo,
             })
@@ -196,6 +196,29 @@ Page({
         }
       })
     }
+  },
+
+  /**
+   * 点击退款
+   */
+  tapRefund: function(e) {
+    let tempOrder = this.data.dataSource[e.currentTarget.dataset.index];
+    app.globalData.refundOrder = tempOrder;
+    wx.navigateTo({
+      url: PagePath.Page_Order_Refund_Index + "?orderno=" + tempOrder.orderNo,
+    })
+  },
+
+  /**
+   * 点击确认发货
+   */
+  tapConfirmSend: function (e) {
+    let index = e.currentTarget.dataset.index;
+    let tempOrder = this.data.dataSource[index];
+    app.globalData.confirmSendOrder = tempOrder;
+    wx.navigateTo({
+      url: PagePath.Page_Order_UnsendList_ConfirmSend,
+    })
   },
 
   /**

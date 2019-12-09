@@ -30,7 +30,6 @@ Page({
     this.setData({
       currentRole: UserService.getCurrentRole()
     })
-    wx.startPullDownRefresh();
   },
 
   /**
@@ -44,7 +43,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    wx.startPullDownRefresh();
   },
 
   /**
@@ -262,6 +261,13 @@ Page({
     }
     this.requestPayInfo(payType, tempOrderNo,
       function getPayInfoCallback(payInfoData) {
+        if (payInfoData == null) {
+          wx.showToast({
+            title: '获取支付信息失败',
+            icon: 'none'
+          })
+          return;
+        }
         wx.requestPayment({
           timeStamp: payInfoData.timeStamp,
           nonceStr: payInfoData.nonceStr,

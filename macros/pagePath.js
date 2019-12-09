@@ -41,6 +41,7 @@ const Page_Register_Index = "/pages/login/register/index"; // 注册
 
 const Page_Order_UnpayList_Index = "/pages/order/unpayOrderList/index"; // 待付款订单列表
 const Page_Order_UnsendList_Index = "/pages/order/unsendOrderList/index"; // 待发货订单列表
+const Page_Order_UnsendList_ConfirmSend = "/pages/order/unsendOrderList/confirmSend/index"; // 确认发货
 const Page_Order_SendList_Index = "/pages/order/sendOrderList/index"; // 已发货订单列表
 const Page_Order_UnevaluateList_Index = "/pages/order/unevaluateOrderList/index"; // 未评价订单列表
 const Page_Order_RefundList_Index = "/pages/order/refundOrderList/index"; // 退货|退款订单列表
@@ -95,6 +96,7 @@ module.exports={
 
   Page_Order_UnpayList_Index, // 待付款订单列表
   Page_Order_UnsendList_Index, // 待发货订单列表
+  Page_Order_UnsendList_ConfirmSend, // 确认发货
   Page_Order_SendList_Index, // 已发货订单列表
   Page_Order_UnevaluateList_Index, // 未评价订单列表
   Page_Order_RefundList_Index, // 退货|退款订单列表

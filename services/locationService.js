@@ -9,36 +9,45 @@ var QQMapWX = require('../libs/qqmap-wx-jssdk.min.js');
 var QQMapSDK = new QQMapWX({
   key: Config.Key_QQ_Map
 });
+const app = getApp();
 
 /**
  * 获取当前地址信息
  * @param getLocationInfoCallback 获取当前地址信息回调
  */
 function getCurrentLocationInfo(getLocationInfoCallback) {
-  wx.getLocation({
-    type: "gcj02",
-    success: function (res) {
-      console.log("------------ 定位成功 ------------");
-      console.log(res);
-      const latitude = res.latitude;
-      const longitude = res.longitude;
-      reverseGeocoder(latitude, longitude, 
-        function rgeoCallback(res) {
-          if (getLocationInfoCallback != null && typeof getLocationInfoCallback == 'function') {
-            getLocationInfoCallback(res.result);
+  if (app.globalData.currentLocationInfo == null) {
+    wx.getLocation({
+      type: "gcj02",
+      success: function (res) {
+        console.log("------------ 定位成功 ------------");
+        console.log(res);
+        const latitude = res.latitude;
+        const longitude = res.longitude;
+        reverseGeocoder(latitude, longitude,
+          function rgeoCallback(res) {
+            if (getLocationInfoCallback != null && typeof getLocationInfoCallback == 'function') {
+              app.globalData.currentLocationInfo = res.result;
+              getLocationInfoCallback(res.result);
+            }
           }
-        }
-      )
-    },
-    fail: function (res) {
-      wx.hideLoading();
-      wx.stopPullDownRefresh();
-      wx.showToast({
-        title: '定位失败,请重新再试',
-        icon: 'none'
-      })
-    },
-  })
+        )
+      },
+      fail: function (res) {
+        wx.hideLoading();
+        wx.stopPullDownRefresh();
+        wx.showToast({
+          title: '定位失败,请重新再试',
+          icon: 'none'
+        })
+      },
+    })
+  } else {
+    if (getLocationInfoCallback != null && typeof getLocationInfoCallback == 'function') {
+      getLocationInfoCallback(app.globalData.currentLocationInfo);
+    }
+  }
+  
 }
 
 /**

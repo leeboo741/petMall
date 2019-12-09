@@ -44,7 +44,8 @@
     "pages/order/refundOrderList/refund/review",
     "pages/order/refundOrderList/refund/reject/index",
     "pages/order/refundOrderList/refund/approve/index",
-    "pages/search/index"
+    "pages/search/index",
+    "pages/order/unsendOrderList/confirmSend/index"
   ],
   "tabBar": {
     "color": "#80848f",

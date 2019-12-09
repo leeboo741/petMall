@@ -88,31 +88,31 @@ Page({
     clearTimeout(this.data.successTimeout);
     this.data.successTimeout = null;
     // 上传任务不为空
-    if (that.data.uploadTaskForIdentifier != null) {
+    if (this.data.uploadTaskForIdentifier != null) {
       // 取消图片上传进度监听
-      that.data.uploadTaskForIdentifier.offProgressUpdate();
+      this.data.uploadTaskForIdentifier.offProgressUpdate();
       // 中止图片上传任务
-      that.data.uploadTaskForIdentifier.abort();
+      this.data.uploadTaskForIdentifier.abort();
       // 图片上传任务置空
-      that.data.uploadTaskForIdentifier = null;
+      this.data.uploadTaskForIdentifier = null;
     }
     // 上传任务不为空
-    if (that.data.uploadTaskForLicense != null) {
+    if (this.data.uploadTaskForLicense != null) {
       // 取消图片上传进度监听
-      that.data.uploadTaskForLicense.offProgressUpdate();
+      this.data.uploadTaskForLicense.offProgressUpdate();
       // 中止图片上传任务
-      that.data.uploadTaskForLicense.abort();
+      this.data.uploadTaskForLicense.abort();
       // 图片上传任务置空
-      that.data.uploadTaskForLicense = null;
+      this.data.uploadTaskForLicense = null;
     }
     // 上传任务不为空
-    if (that.data.uploadTaskForStoreFont != null) {
+    if (this.data.uploadTaskForStoreFont != null) {
       // 取消图片上传进度监听
-      that.data.uploadTaskForStoreFont.offProgressUpdate();
+      this.data.uploadTaskForStoreFont.offProgressUpdate();
       // 中止图片上传任务
-      that.data.uploadTaskForStoreFont.abort();
+      this.data.uploadTaskForStoreFont.abort();
       // 图片上传任务置空
-      that.data.uploadTaskForStoreFont = null;
+      this.data.uploadTaskForStoreFont = null;
     }
   },
 
@@ -371,13 +371,16 @@ Page({
               title: '认证成功',
               duration: 1500,
             })
-            that.data.successTimeout = setTimeout(
-              function success(res) {
+            wx.showLoading({
+              title: '请稍等...',
+            })
+            UserService.requestBusinessInfo(UserService.getCustomerNo(),
+              function getBusinessInfoCallback() {
+                wx.hideLoading();
                 wx.navigateBack({
-                  
+
                 })
-              },
-              1600
+              }
             )
           } else {
             wx.showToast({

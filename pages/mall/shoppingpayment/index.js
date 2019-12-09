@@ -270,29 +270,44 @@ Page({
         wx.hideLoading();
         if (!Util.checkEmpty(result)) {
           console.log("下单成功");
-          that.requestPayInfo(result, 
-            function getPayInfoCallback(payInfoData) {
-              console.log("支付信息： \n" + JSON.stringify(payInfoData));
-              wx.requestPayment({
-                timeStamp: payInfoData.timeStamp,
-                nonceStr: payInfoData.nonceStr,
-                package: payInfoData.package,
-                signType: payInfoData.signType,
-                paySign: payInfoData.paySign, 
-                success(res) {
-                  wx.navigateBack({
-                    
-                  })
-                },
-                fail(res) {
-                  wx.showToast({
-                    title: '支付失败,请稍后重试',
-                    icon: 'none'
-                  })
-                }
-              })
-            } 
-          )
+          wx.showModal({
+            title: '下单成功',
+            content: '是否立即支付',
+            success(res) {
+              if (res.confirm) {
+                that.requestPayInfo(result,
+                  function getPayInfoCallback(payInfoData) {
+                    if (payInfoData == null) {
+                      wx.showToast({
+                        title: '获取支付信息失败',
+                        icon: 'none'
+                      })
+                      return;
+                    }
+                    console.log("支付信息： \n" + JSON.stringify(payInfoData));
+                    wx.requestPayment({
+                      timeStamp: payInfoData.timeStamp,
+                      nonceStr: payInfoData.nonceStr,
+                      package: payInfoData.package,
+                      signType: payInfoData.signType,
+                      paySign: payInfoData.paySign,
+                      success(res) {
+                        wx.navigateBack({
+
+                        })
+                      },
+                      fail(res) {
+                        wx.showToast({
+                          title: '支付失败,请稍后重试',
+                          icon: 'none'
+                        })
+                      }
+                    })
+                  }
+                )
+              }
+            }
+          })
         } else {
           wx.showToast({
             title: '插入失败',

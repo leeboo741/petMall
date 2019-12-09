@@ -1,0 +1,158 @@
+<!--pages/order/unsendOrderList/confirmSend/index.wxml-->
+
+<i-navigation-bar title='确认发货'
+                  showBackButton>
+</i-navigation-bar>
+
+<i-panel>
+  <i-cell-group>
+    <i-cell>
+      <view class="order-item"
+            slot='header'>
+          <!-- 订单信息 -->
+          <view class="order-info-box">
+            <view class="order-info-number">
+            订单编号：{{orderData.orderNo}}
+            </view>
+            <view class="order-info-time">
+            {{orderData.createDate}} {{orderData.createTime}}
+            </view>
+          </view>
+          <!-- 订单商品 -->
+          <view class="order-goods-box">
+            <!-- 商品Item -->
+            <view class="order-goods-item"
+                  wx:if='{{parse.showItemCell(orderData)}}'
+                  catchtap="tapItem"
+                  data-index='{{orderIndex}}'
+                  data-itemno='{{orderData.item.itemNo}}'>
+              <i-image i-class="order-goods-image"
+                      imageSrc='{{orderData.item.coverImg}}'
+                      >
+              </i-image>
+              <view class="order-goods-info">
+                <view class="order-goods-item-line">
+                  <view class="order-goods-name">
+                  {{orderData.item.itemName}}
+                  </view>
+                </view>
+                <view class="order-goods-item-line"
+                      style="justify-content: space-between; align-items: flex-end;">
+                  <view class="order-goods-count">
+                  x{{orderData.qty}}
+                  </view>
+                  <view class="order-goods-price">
+                  ￥{{orderData.item.retailPrice}}
+                  </view>
+                </view>
+              </view>
+            </view>
+            <!-- 宠物Item -->
+            <view class="order-goods-item"
+                  wx:if='{{parse.showPetCell(orderData)}}'
+                  catchtap="tapPet"
+                  data-index='{{orderIndex}}'
+                  data-petno='{{orderData.pet.petNo}}'>
+              <i-image i-class="order-goods-image"
+                      imageSrc='{{orderData.pet.coverMedia}}'
+                      >
+              </i-image>
+              <view class="order-goods-info">
+                <view class="order-goods-item-line">
+                  <view class="order-goods-name">
+                  {{orderData.pet.petName}}
+                  </view>
+                  <view class="order-goods-sexy"
+                        wx:if='{{parse.showSexy(orderData)}}'>
+                  {{parse.getSexy(orderData)}}
+                  </view>
+                </view>
+                <view class="order-goods-item-line"
+                      style="justify-content: space-between; align-items: flex-end;">
+                  <view class="order-goods-count">
+                  x{{orderData.qty}}
+                  </view>
+                  <view class="order-goods-price">
+                  {{orderData.pet.retailPrice}}
+                  </view>
+                </view>
+              </view>
+            </view>
+            <!-- 订单金额 -->
+            <view class="order-goods-item-line"
+                  style="justify-content: flex-end;">
+              <view class="order-goods-amount">
+              总计：{{orderData.paymentAmount}}元
+              </view>
+            </view>
+          </view>
+          <!-- 订单操作 -->
+          <view class="order-operate-box">
+            <view class="order-store-box">
+              <i-image i-class="order-store-image"
+                      imageSrc='{{orderData.customer.headerImage}}'
+                      >
+              </i-image>
+              <view class="order-store-name">
+              {{orderData.customer.customerName}}
+              </view>
+            </view>
+          </view>
+        </view>
+    </i-cell>
+    <i-cell title='运单编号'>
+      <input class="normal-text"
+             slot='footer'
+             placeholder-class="placeholder-text"
+             placeholder="请输入运单编号"
+             bindinput="inputSendBillNo">
+      </input>
+    </i-cell>
+    <i-cell>
+      <view class="confirm-button"
+            slot='header'
+            bindtap="confirmSend">
+      确认发货
+      </view>
+    </i-cell>
+  </i-cell-group>
+</i-panel>
+
+<wxs module='parse'>
+  module.exports={
+    getStoreLogo: function(orderItem) {
+      if (orderItem.item != null) {
+        return ""
+      }
+      if (orderItem.pet != null) {
+        return orderItem.pet.business.headerImg;
+      }
+    },
+    getSotreName: function(orderItem) {
+      if (orderItem.item != null) {
+        return "自营"
+      }
+      if (orderItem.pet != null) {
+        return orderItem.pet.business.businessName;
+      }
+    },
+    showSexy: function(orderItem) {
+      if (orderItem.pet == null || orderItem.pet.petSex != null || orderItem.pet.petSex.length <= 0) {
+        return false;
+      }
+      return true;
+    },
+    getSexy: function (orderItem) {
+      if (orderItem.pet.petSex == 1) {
+        return "公";
+      }
+      return "母";
+    },
+    showItemCell: function(order) {
+      return order.item != null;
+    },
+    showPetCell: function(order) {
+      return order.pet != null;
+    }
+  }
+</wxs>
