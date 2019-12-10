@@ -1,7 +1,7 @@
 /* pages/me/index.wxss */
 
 .userinfo-box{
-  min-height: 411rpx;
+  /* min-height: 411rpx; */
   display: flex;
   flex-direction: column;
 }
