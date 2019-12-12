@@ -270,6 +270,7 @@ function startLogin(loginCallback) {
                       userInfo.registrationTime = tempUserInfo.registrationTime
                       userInfo.points = tempUserInfo.points
                       userInfo.balance = tempUserInfo.balance
+                      userInfo.unionId = tempUserInfo.unionId
                       saveLocalUserInfo(userInfo);
                       if (Util.checkIsFunction(loginCallback)) {
                         loginCallback(Login_Success);
@@ -278,7 +279,9 @@ function startLogin(loginCallback) {
                       if (data.code == ResponseEnum.Res_Code.NOT_EXIST) {
                         loginCallback(Login_Register);
                         app.globalData.tempUserInfo = userInfo;
-                        app.globalData.openId = data.errMsg;
+                        let errUserInfo = JSON.parse(data.errMsg);
+                        app.globalData.unionId = errUserInfo.unionId;
+                        app.globalData.openId = errUserInfo.openid
                       } else {
                         loginCallback(Login_Fail);
                       }
@@ -366,6 +369,7 @@ function register(registerData, registerCallback) {
       let tempUserInfo = res.root;
       userInfo.customerNo = tempUserInfo.customerNo
       userInfo.openId = tempUserInfo.openid
+      userInfo.unionId = tempUserInfo.unionId
       userInfo.phone = tempUserInfo.phone
       userInfo.nickName = tempUserInfo.customerName
       userInfo.avatarUrl = tempUserInfo.headerImage

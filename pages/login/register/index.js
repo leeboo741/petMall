@@ -185,6 +185,7 @@ Page({
           headerImage: app.globalData.tempUserInfo.avatarUrl,
           sex: app.globalData.tempUserInfo.gender,
           openid: app.globalData.openId,
+          unionId: app.globalData.unionId,
           phone: this.data.phoneNumber,
           verifyCode: this.data.code,
         } ,
