@@ -108,6 +108,7 @@
 .result-item-image{
   width: 100rpx;
   height: 100rpx;
+  border-radius: 50% 50%;
 }
 
 .result-item-info-box{
@@ -120,4 +121,6 @@
 
 .result-item-name{
   font-size: 32rpx;
+  font-weight: bold;
+  padding-left: 3%;
 }

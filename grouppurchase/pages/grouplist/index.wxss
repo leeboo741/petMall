@@ -1,0 +1,120 @@
+/* grouppurchase/pages/grouplist/index.wxss */
+.banner{
+  width: 100%;
+  height:200rpx;
+}
+
+.banner-item{
+  position: absolute;
+  top: 0rpx;
+  left: 0rpx;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.banner-item-image{
+  width: 100vw;
+  height: 250rpx;
+  margin: auto;
+  border-radius: 10rpx;
+  /* box-shadow: 0rpx 0rpx 40rpx 5rpx #b9b9b9; */
+}
+
+.group-box-sty{
+  width: 100%;
+  height: 220rpx;
+  display: flex;
+  flex-flow: nowrap;
+}
+
+.group-box-left-sty{
+  width: 220rpx;
+  height: 220rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.group-box-left-image-sty{
+  width: 200rpx;
+  height: 200rpx;
+  border-radius: 20rpx;
+}
+
+.group-box-right-sty{
+  height: 200rpx;
+  display: flex;
+  flex-flow: column;
+  margin-top: 10rpx;
+  width: 70%;
+}
+
+.group-box-right-title-sty{
+  height: 20%;
+  display: flex;
+  align-items: center;
+  font-size: 29rpx;
+  font-weight: bold;
+  padding-left: 3%;
+}
+
+.group-box-right-shopname-sty{
+  height: 20%;
+  display: flex;
+  align-items: center;
+  padding-left: 3%;
+  color: #686868;
+  font-size: 25rpx;
+  flex-flow: nowrap;
+}
+
+.group-box-right-salesvolume-sty{
+  height: 20%;
+  display: flex;
+  align-items: center;
+  padding-left: 3%;
+  font-size: 25rpx;
+}
+
+.group-box-right-discount-sty{
+  height: 20%;
+  display: flex;
+  align-items: center;
+  padding-left: 3%;
+  flex-flow: nowrap;
+}
+
+.manjian-sty{
+  margin-right: 6%;
+  border-radius: 25rpx;
+  color: #CB774C;
+  font-size: 23rpx;
+}
+
+.group-box-right-price-sty{
+  height: 20%;
+  display: flex;
+  padding-left: 3%;
+  align-items: center;
+  position: relative;
+}
+
+.ljyy-button-sty{
+  position: absolute;
+  background-color: #FE4E02;
+  color: white;
+  padding: 7rpx 15rpx;
+  border-radius: 10rpx;
+  font-size: 26rpx;
+  right: 30rpx;
+}
+
+.item{
+  height: 80rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

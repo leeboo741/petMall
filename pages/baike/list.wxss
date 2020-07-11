@@ -1,0 +1,163 @@
+/* pages/baike/list.wxss */
+
+.button-zone{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  z-index: 1;
+}
+
+.button-item{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  flex-grow: 1;
+}
+
+.button-item-image{
+  width: 60rpx;
+  height: 60rpx;
+}
+
+.button-item-image-selected{
+  width: 80rpx;
+  height: 80rpx;
+}
+
+.button-item-title{
+  font-size: 22rpx;
+  color: lightgray;
+}
+
+.button-item-title-selected{
+  color: #778899;
+  font-size: 24rpx;
+}
+
+.splice-zone{
+  height: 15rpx;
+  background: rgb(250, 250, 250);
+}
+
+.breed-box{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  background: white;
+}
+
+.breed-item{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  width: 33.33333333%;
+  height: 220rpx;
+}
+
+.breed-item-image{
+  width: 150rpx;
+  height: 150rpx;
+}
+
+.breed-item-title{
+  font-size: 26rpx;
+  color: #778899;
+}
+
+.mask-view{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.mask-content{
+  width: 85%;
+  height: 500rpx;
+  position: relative;
+  z-index: 6;
+  background: white;
+  border-radius: 15rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mask-content-image-box{
+  position: absolute;
+  width: 180rpx;
+  height: 180rpx;
+  top: -90rpx;
+  left: 50%;
+  margin-left: -90rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  border-radius: 90rpx;
+}
+
+.mask-content-image{
+  width: 160rpx;
+  height: 160rpx;
+}
+
+.mask-content-title-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8rpx;
+  margin-top: 90rpx;
+}
+
+.mask-content-title{
+  text-align: center;
+  font-size: 30rpx;
+  color: #778899;
+  font-weight: bold;
+}
+
+.mask-content-describe-box{
+  display: flex;
+  width: 90%;
+  flex-grow: 1;
+  padding: 10rpx;
+  justify-content: center;
+}
+
+.mask-content-describe{
+  font-size: 26rpx;
+  color: gray;
+  line-height: 50rpx;
+}
+
+.article-box{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.article-item{
+  width: 85%;
+  padding: 15rpx 20rpx;
+  border-radius: 35rpx;
+  background: #b2cbe4;
+  margin: 15rpx 0rpx;
+}
+
+.article-item-title{
+  line-height: 50rpx;
+  letter-spacing: 3rpx;
+  font-size: 26rpx;
+  color: gray;
+}

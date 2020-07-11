@@ -1,0 +1,29 @@
+<!--pages/poststation/serverList/index.wxml-->
+<i-navigation-bar title='{{naviTitle}}' showBackButton='{{true}}' backgroundColor="white">
+</i-navigation-bar>
+<i-panel i-class='panel'
+          title='服务列表'>
+  <view class="server-item-box">
+    <view class="server-item"
+          wx:for='{{serverList}}'
+          wx:key='index'
+          bindtap='tapServerItem'
+          data-index='{{index}}'>
+      <view class="server-item-content">
+        <view class="server-item-row">
+          <view class="server-item-name">
+          {{item.serviceName}}
+          </view>
+        </view>
+        <view class="server-item-row" style="justify-content: flex-end;">
+          <view class="server-item-price">
+          ￥{{item.servicePrice}}
+          </view>
+          <view class="server-item-price-info">
+          起
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</i-panel>

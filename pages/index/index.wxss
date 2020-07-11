@@ -63,6 +63,7 @@
   align-items: flex-start;
   width: 98%;
   margin: 35rpx auto;
+  flex-flow: wrap;
 }
 
 .fast-action-item{
@@ -103,7 +104,7 @@
 }
 
 .section-title-icon-3{
-  height: 38rpx;
+  height: 33rpx;
   width: 240rpx;
 }
 
@@ -123,6 +124,16 @@
 .section-more{
   flex-shrink: 0;
   font-size: 28rpx;
+  color: #F15A26;
+}
+
+.gdcw-sty{
+  position: absolute;
+  width: 50rpx;
+  height: 50rpx;
+  right: 0;
+  top: 0;
+  z-index: 3;
 }
 
 .section-scroll-h{
@@ -187,6 +198,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 
 .goods-flex-image{
@@ -278,6 +290,7 @@
 .hot-type-icon{
   width: 100rpx;
   height: 100rpx;
+  border-radius: 20rpx;
 }
 
 .recommend-goods-item{
@@ -326,11 +339,24 @@
   font-size: 28rpx;
   font-weight: bold;
   color: #1c2438;
+  display:-webkit-box;
+  -webkit-line-clamp:1;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  -webkit-box-orient:vertical;
+  word-break:break-all;
 }
 
 .text-price{
   color: #ee2c2c;
   font-size: 22rpx;
+  display:-webkit-box;
+  -webkit-line-clamp:1;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  -webkit-box-orient:vertical;
+  word-break:break-all;
+  font-weight: bold;
 }
 
 .text-info{
@@ -341,6 +367,13 @@
 .text-address{
   color: #bbbec4;
   font-size: 20rpx;
+   display:-webkit-box;
+  -webkit-line-clamp:1;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  -webkit-box-orient:vertical;
+  word-break:break-all;
+
 }
 
 .text-original-price{
@@ -354,3 +387,179 @@
   font-size: 22rpx;
 }
 
+.ss-tj-kf-sty{
+  width: 100%;
+  height: 100rpx;
+  display: flex;
+  flex-flow: nowrap;
+}
+
+.ss-sty{
+  width: 60%;
+  height: 100rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tj-kf-sty{
+  width: 40%;
+  height: 100rpx;
+  display: flex;
+  flex-flow: nowrap;
+}
+
+.tj-sty{
+  width: 50%;
+  height: 100rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.kf-sty{
+  width: 50%;
+  height: 100rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ss-sty-image{
+  width: 90%;
+  height: 75rpx;
+}
+
+.tj-sty-image{
+  width: 40%;
+  height: 40rpx;
+}
+
+.kf-sty-image{
+  width: 30%;
+  height: 40rpx;
+}
+
+.getfish-sty{
+  position: fixed;
+  top: 35rpx;
+  left: 10rpx;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-styshow{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.group-purchase-sty{
+  width: 100%;
+  display: flex;
+  flex-flow: wrap;
+}
+
+.group-purchase-box-sty{
+  width: 48%;
+  height:100%;
+  display: flex;
+  flex-flow: column;
+  margin-left: 2%;
+  margin-bottom: 2%;
+}
+
+.group-purchase-image-sty{
+  width: 98%;
+  height: 360rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.group-purchase-infomation-sty{
+  margin-top: 2%;
+  color: #5C5C5C;
+  font-size: 24rpx;
+}
+
+.group-purchase-price-sty{
+  margin-top: 2%;
+  color: #FD471E;
+}
+
+.group-purchase-guide-sty{
+  font-size: 40rpx;
+  margin-top: 2%;
+  color: #FC451B;
+  display: flex;
+  flex-flow: nowrap
+}
+
+.foodgrain-page{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+ }
+ 
+ .foodgrain-page-formation{
+   width: 49.5%;
+   height: 50%;
+   display: flex;
+   flex-direction:column;
+   align-items: center;
+   justify-content: center;
+   margin-bottom: 20rpx;
+ }
+ 
+ .foodgrain-page-formation-head{
+  width:330rpx;
+  height: 330rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20rpx;
+  margin-top: 3%;
+ }
+ 
+ .foodgrain-page-formation-middle{
+  width:100%;
+  height: 13.333%;
+  display: flex;
+  align-items: center;
+  margin-left: 18%;
+  font-size: 23rpx;
+  margin-top: 3%;
+  font-weight: bold;
+ 
+ }
+ 
+ .foodgrain-page-formation-introduce{
+  width:100%;
+  height: 13.333%;
+  display: flex;
+  align-items: center;
+  font-size: 23rpx;
+  color: #ccc;
+  margin-left: 18%;
+ }
+ 
+ .foodgrain-page-formation-down{
+  width:100%;
+  height: 13.333%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  font-size: 26rpx;
+  color: #ED630A;
+  margin-left: 18%;
+ }
+ 
+ .foodgrain-page-formation-down-member{
+   border:1rpx solid #ED630A;
+   font-size: 20rpx;
+   border-radius:6rpx;
+ }

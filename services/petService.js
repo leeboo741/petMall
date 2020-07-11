@@ -15,26 +15,41 @@ const UrlPath = require("../macros/urlPath.js");
 const Util = require("../utils/util.js");
 
 /**
+ * 获取附近宠物
+ * @param queryParam (offset, limit, city, startMoney, endMoney, sex,  searchKey)
+ * @param 
+ */
+function getNearPetList(queryParam, getResultCallback) {
+  let requestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_Pet_List + "?queryParam=" + queryParam,
+    data: {},
+    success(res) {
+      if (Util.checkIsFunction(getResultCallback)) {
+        getResultCallback(res);
+      }
+    }
+  });
+  RequestUtil.RequestGET(requestParam);
+}
+
+
+/**
  * 获取最新发布宠物列表
  * @param petFilterParam PetFilterObj对象 筛选参数
  * @param getResultCallback 获取数据回调
+ * city: "",
+          startMoney: "",
+          endMoney:"",
+          sex:"",
+          offset:0,
+          limit: 6,
  */
-function getNewestPet(petFilterParam, getResultCallback) {
-  if (!(petFilterParam instanceof PetFilterObj)) {
-    console.error("请使用 PetFilterObj 对象")
-    return;
-  }
-  let data = {};
+function getNewestPet(queryParam, getResultCallback) {
+
   let requestParam = new RequestParamObj({
-    url: UrlPath.Url_Base + UrlPath.Url_Pet_Newest,
-    data: {
-      city: petFilterParam.city,
-      priceStart: petFilterParam.priceStart,
-      priceEnd: petFilterParam.priceEnd,
-      authType: petFilterParam.authType,
-      offset: petFilterParam.offset,
-      limit: petFilterParam.limit
-    },
+    url: UrlPath.Url_Base + UrlPath.Url_Pet_Newest + "?queryParam=" + queryParam,
+    data: {},
+
     success(res) {
       if (Util.checkIsFunction(getResultCallback)) {
         getResultCallback(res);
@@ -50,20 +65,9 @@ function getNewestPet(petFilterParam, getResultCallback) {
  * @param getResultCallback 获取数据回调
  */
 function getUpScalePet(petFilterParam, getResultCallback) {
-  if (!(petFilterParam instanceof PetFilterObj)) {
-    console.error("请使用 PetFilterObj 对象")
-    return;
-  }
-  let data = {};
   let requestParam = new RequestParamObj({
-    url: UrlPath.Url_Base + UrlPath.Url_Pet_UpScale,
+    url: UrlPath.Url_Base + UrlPath.Url_Pet_UpScale + "?queryParam=" + petFilterParam,
     data: {
-      city: petFilterParam.city,
-      priceStart: petFilterParam.priceStart,
-      priceEnd: petFilterParam.priceEnd,
-      authType: petFilterParam.authType,
-      offset: petFilterParam.offset,
-      limit: petFilterParam.limit
     },
     success(res) {
       if (Util.checkIsFunction(getResultCallback)) {
@@ -115,7 +119,11 @@ function getFinePet(petFilterParam, getResultCallback) {
     url: UrlPath.Url_Base + UrlPath.Url_Pet_Fine,
     data: {
       offset: petFilterParam.offset,
-      limit: petFilterParam.limit
+      limit: petFilterParam.limit,
+      city: petFilterParam.city,
+      priceStart: petFilterParam.priceStart,
+      priceEnd: petFilterParam.priceEnd,
+      authType: petFilterParam.authType
     },
     success(res) {
       if (Util.checkIsFunction(getResultCallback)) {
@@ -142,7 +150,9 @@ function getPetList(petFilterParam, getResultCallback) {
       city: petFilterParam.city,
       priceStart: petFilterParam.priceStart,
       priceEnd: petFilterParam.priceEnd,
-      petSortNo: petFilterParam.petSortNo,
+      // petSortNo: petFilterParam.petSortNo,
+      authType: petFilterParam.authType,
+      petGenreNo: petFilterParam.petGenreNo,
       offset: petFilterParam.offset,
       limit: petFilterParam.limit
     },
@@ -185,11 +195,13 @@ function getHotType(petTypeParam, getResultCallback) {
  * @param getResultCallback 
  */
 function getSort(getResultCallback){
+  let obj={
+    offset:0,
+    limit:30
+  }
   let requestParam = new RequestParamObj({
-    url: UrlPath.Url_Base + UrlPath.Url_Pet_Sort,
+    url: UrlPath.Url_Base + UrlPath.Url_Pet_Sort + "?queryParam=" + encodeURIComponent(JSON.stringify(obj), 'utf-8'),
     data: {
-      offset: 0,
-      limit: 30,
     },
     success(res) {
       if (Util.checkIsFunction(getResultCallback)) {
@@ -205,19 +217,30 @@ function getSort(getResultCallback){
  * @param petSortNo 宠物大类Id
  * @param getResultCallback 结果回调
  */
-function getBreed(petSortNo, getResultCallback) {
-  if (!Util.checkIsString(petSortNo)) {
-    console.error("请使用 petSortNo String 对象")
-    return;
+function getBreed(petSortNo, getResultCallback, failCallback) {
+  let obj = {};
+  if (petSortNo==null){
+    obj.offset= 0,
+    obj.limit =  8,
+    obj.petSortNo = null
+  }else{
+    // obj.offset = 0,
+    // obj.limit = 200,
+    obj.petSortNo = petSortNo
   }
+
   let requestParam = new RequestParamObj({
-    url: UrlPath.Url_Base + UrlPath.Url_Pet_Breed,
+    url: UrlPath.Url_Base + UrlPath.Url_Pet_Breed + "?queryParam=" + encodeURIComponent(JSON.stringify(obj), 'utf-8'),
     data: {
-      petSortNo: petSortNo,
     },
     success(res) {
       if (Util.checkIsFunction(getResultCallback)) {
         getResultCallback(res);
+      }
+    },
+    fail(res) {
+      if (Util.checkIsFunction(failCallback)) {
+        failCallback(res);
       }
     }
   });
@@ -229,12 +252,11 @@ function getBreed(petSortNo, getResultCallback) {
  * @param param
  * @param getResultCallback 结果回调
  */
-function getPetDetail(param, getResultCallback) {
+function getPetDetail(petNo, getResultCallback) {
   let requestParam = new RequestParamObj({
-    url: UrlPath.Url_Base + UrlPath.Url_Pet_Detail,
+    url: UrlPath.Url_Base + UrlPath.Url_Pet_Detail + petNo,
     data: {
-      petNo: param.petNo,
-      customerNo: param.customerNo
+     
     },
     success(res) {
       if (Util.checkIsFunction(getResultCallback)) {
@@ -245,66 +267,7 @@ function getPetDetail(param, getResultCallback) {
   RequestUtil.RequestGET(requestParam);
 }
 
-/**
- * 新增宠物收藏
- * @param param (petNo, customerNo)
- * @param addResultCallback
- */
-function addNewPetCollection(param, addResultCallback) {
-  let requestParam = new RequestParamObj({
-    url: UrlPath.Url_Base + UrlPath.Url_AddNew_Pet_Collection,
-    data: {
-      petNo: param.petNo,
-      customerNo: param.customerNo
-    },
-    header: {
-      'content-type': "application/x-www-form-urlencoded"
-    },
-    success(res) {
-      if (Util.checkIsFunction(addResultCallback)) {
-        addResultCallback(res);
-      }
-    }
-  })
-  RequestUtil.RequestPOST(requestParam);
-}
 
-/**
- * 查询宠物收藏
- * @param customerNo
- * @param getResultCallback
- */
-function getPetCollection(customerNo, getResultCallback) {
-  let requestParam = new RequestParamObj({
-    url: UrlPath.Url_Base + UrlPath.Url_Get_Pet_Collection,
-    data: {
-      customerNo: customerNo
-    },
-    success(res) {
-      if (Util.checkIsFunction(getResultCallback)) {
-        getResultCallback(res);
-      }
-    }
-  })
-  RequestUtil.RequestGET(requestParam);
-}
-
-/**
- * 删除宠物收藏
- * @param param (customerNo, petNo)
- * @param getResultCallback
- */
-function deletePetCollection(param, deleteResultCallback) {
-  let requestParam = new RequestParamObj({
-    url: UrlPath.Url_Base + UrlPath.Url_Delete_Pet_Collection + param.petNo + "/" + param.customerNo,
-    success(res) {
-      if (Util.checkIsFunction(deleteResultCallback)) {
-        deleteResultCallback(res);
-      }
-    }
-  })
-  RequestUtil.RequestDELETE(requestParam);
-}
 
 /**
  * 获取更多宠物评价
@@ -313,11 +276,11 @@ function deletePetCollection(param, deleteResultCallback) {
  */
 function getMorePetEvaluate(param, getResultCallback) {
   let requestParam = new RequestParamObj({
-    url: UrlPath.Url_Base + UrlPath.Url_Pet_More_Evaluate,
+    url: UrlPath.Url_Base + UrlPath.Url_Pet_MoreEvaluateInfo,
     data: {
       petNo: param.petNo,
-      page: param.offset,
-      number: param.limit,
+      offset: param.offset,
+      limit: param.limit,
     },
     success(res) {
       if (Util.checkIsFunction(getResultCallback)) {
@@ -397,24 +360,47 @@ function editPet(releaseData, editResultCallback) {
  * 上架/下架宠物
  * @param param (petNo, itemState)
  * @param onOrOffShelvesResultCallback
+ *   Url_PetShelve,//宠物上架
+    Url_PetOffShelve, //宠物下架
  */
 function onOrOffShelves(param, onOrOffShelvesResultCallback) {
-  let requestParam = new RequestParamObj({
-    url: UrlPath.Url_Base + UrlPath.Url_Pet_OnOrOff_Shelves,
-    data: {
-      petNo: param.petNo,
-      itemState: param.itemState
-    },
-    header: {
-      'content-type': "application/x-www-form-urlencoded"
-    },
-    success(res) {
-      if (Util.checkIsFunction(onOrOffShelvesResultCallback)) {
-        onOrOffShelvesResultCallback(res);
+    let Url_onOrOffShelves=null;
+    if (param.itemState == 0) {
+      Url_onOrOffShelves = UrlPath.Url_PetOffShelve
+     }else{
+      Url_onOrOffShelves = UrlPath.Url_PetShelve
+     }
+    let reuqestParam = new RequestParamObj({
+      url: UrlPath.Url_Base + Url_onOrOffShelves+ param.petNo ,
+      data: {},
+      method: "PUT",
+      header: {
+        'content-type': 'application/json'
+      },
+      success(res) {
+        if (Util.checkIsFunction(onOrOffShelvesResultCallback)) {
+          onOrOffShelvesResultCallback(res);
+        }
       }
-    }
-  })
-  RequestUtil.RequestPOST(requestParam);
+    })
+    RequestUtil.RequestPUT(reuqestParam);
+  
+  // let requestParam = new RequestParamObj({
+  //   url: UrlPath.Url_Base + UrlPath.Url_Pet_OnOrOff_Shelves,
+  //   data: {
+  //     petNo: param.2,
+  //     itemState: param.itemState
+  //   },
+  //   header: {
+  //     'content-type': "application/x-www-form-urlencoded"
+  //   },
+  //   success(res) {
+  //     if (Util.checkIsFunction(onOrOffShelvesResultCallback)) {
+  //       onOrOffShelvesResultCallback(res);
+  //     }
+  //   }
+  // })
+  // RequestUtil.RequestPOST(requestParam);
 }
 
 /**
@@ -440,6 +426,7 @@ function getReleaseList(param , getResultCallback) {
 }
 
 module.exports = {
+  getNearPetList: getNearPetList, // 获取附近
   getNewestPet: getNewestPet, // 获取最新上架
   getUpScalePet: getUpScalePet, // 获取高端宠物
   getPreferentialPet: getPreferentialPet, // 获取特惠抢购
@@ -452,9 +439,6 @@ module.exports = {
 
   getPetDetail: getPetDetail, // 获取宠物详情
 
-  addNewPetCollection: addNewPetCollection, // 新增宠物收藏
-  getPetCollection: getPetCollection, // 获取宠物收藏列表
-  deletePetCollection: deletePetCollection, // 删除宠物收藏
 
   getMorePetEvaluate: getMorePetEvaluate, // 获取更多宠物评价
   addNewPetEvaluate: addNewPetEvaluate, // 新增宠物评价

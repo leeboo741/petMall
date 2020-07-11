@@ -7,8 +7,11 @@ const PagePath = require("../../../macros/pagePath.js");
 const Config = require("../../../macros/config.js");
 const Enum = require("../../../utils/enum.js");
 const Util = require("../../../utils/util.js");
+const Utils = require("../../../utils/util.js");
 const app = getApp();
 const Limit = 20;
+
+const ShareManager = require("../../../services/shareService");
 
 Page({
 
@@ -20,6 +23,12 @@ Page({
     loadState: LoadFootItemState.Loading_State_Empty, // 底部状态
     dataSource: [],
     currentRole: null,
+    tabList: [
+      "宠物",
+      "商品"
+    ],
+    currentTabIndex: 0,
+
   },
 
   /**
@@ -70,7 +79,7 @@ Page({
     })
     this.requestData(this.data.offset,
       function getDataCallback(data) {
-        console.log("获取未评价订单： \n" + JSON.stringify(data));
+        Utils.logInfo("获取未评价订单： \n" + JSON.stringify(data));
         that.setData({
           dataSource: data,
         })
@@ -107,7 +116,7 @@ Page({
     let that = this;
     this.requestData(this.data.offset,
       function getDataCallback(data) {
-        console.log("获取未评价订单： \n" + JSON.stringify(data));
+        Utils.logInfo("获取未评价订单： \n" + JSON.stringify(data));
         let tempList = that.data.dataSource.concat(data);
         that.setData({
           dataSource: tempList
@@ -130,7 +139,7 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-
+    return ShareManager.getDefaultShareCard();
   },
 
   /**
@@ -172,9 +181,9 @@ Page({
    */
   tapStore: function (e) {
     let tempOrder = this.data.dataSource[e.currentTarget.dataset.index];
-    let tempStoreNo = e.currentTarget.dataset.storeno;
+    let tempStoreNo = tempOrder.shop.businessNo;
     wx.navigateTo({
-      url: PagePath.Page_Store_StoreInforMation + '?storeno=' + tempStoreNo,
+      url: PagePath.Page_Store_StoreInforMation + '?storeno=' + tempStoreNo + '&showtype=' + this.data.currentTabIndex,
     })
   },
 
@@ -182,20 +191,20 @@ Page({
    * 点击更多
    */
   tapMore: function (e) {
-    let tempOrder = this.data.dataSource[e.currentTarget.dataset.index];
-    if (this.data.currentRole == 0) {
-      wx.showActionSheet({
-        itemList: ["申请退款"],
-        success(res) {
-          if (res.tapIndex == 0) {
-            app.globalData.refundOrder = tempOrder;
-            wx.navigateTo({
-              url: PagePath.Page_Order_Refund_Index + "?orderno=" + tempOrder.orderNo,
-            })
-          }
-        }
-      })
-    }
+    // let tempOrder = this.data.dataSource[e.currentTarget.dataset.index];
+    // if (this.data.currentRole == 0) {
+    //   wx.showActionSheet({
+    //     itemList: ["申请退款"],
+    //     success(res) {
+    //       if (res.tapIndex == 0) {
+    //         app.globalData.refundOrder = tempOrder;
+    //         wx.navigateTo({
+    //           url: PagePath.Page_Order_Refund_Index + "?orderno=" + tempOrder.orderNo,
+    //         })
+    //       }
+    //     }
+    //   })
+    // }
   },
 
   /**
@@ -227,29 +236,65 @@ Page({
    * @param getDataCallback
    */
   requestData: function (offset, getDataCallback) {
-    let param = {
-      offset: offset,
-      limit: Limit,
-      orderType: Enum.Order_Type_Enum.UnEvaluate,
-    }
-    if (this.data.currentRole == 0) {
-      param.customerNo = UserService.getCustomerNo();
-      OrderService.customerQueryOrderList(param,
-        function queryResultCallback(result) {
-          if (Util.checkIsFunction(getDataCallback)) {
-            getDataCallback(result.root)
-          }
+    let that=this;
+    UserService.isLogin(function isLoginCallback(){
+      let param = {
+        offset: offset,
+        limit: Limit,
+        businessNo: UserService.getBusinessNo()
+      }
+      if (that.data.currentRole == 0) { //买家
+        if (that.data.currentTabIndex == 0) {  //宠物
+          OrderService.customerQueryToBeEvaluated(param,
+            function queryResultCallback(result) {
+              if (Util.checkIsFunction(getDataCallback)) {
+                getDataCallback(result.root)
+              }
+            }
+          )
+        } else {  //商品
+          OrderService.userGoodOrderToBeEvaluated(param,
+            function queryResultCallback(result) {
+              if (Util.checkIsFunction(getDataCallback)) {
+                getDataCallback(result.root)
+              }
+            }
+          )
         }
-      )
-    } else {
-      param.businessNo = UserService.getBusinessNo();
-      OrderService.businessQueryOrderList(param,
-        function queryResultCallback(result) {
-          if (Util.checkIsFunction(getDataCallback)) {
-            getDataCallback(result.root)
-          }
+
+      } else {  //卖家
+        if (that.data.currentTabIndex == 0) { //宠物
+          OrderService.businessQueryToBeEvaluated(param,
+            function queryResultCallback(result) {
+              if (Util.checkIsFunction(getDataCallback)) {
+                getDataCallback(result.root)
+              }
+            }
+          )
+        } else {  //商品
+          OrderService.businessGoodOrderToBeEvaluated(param,
+            function queryResultCallback(result) {
+              if (Util.checkIsFunction(getDataCallback)) {
+                getDataCallback(result.root)
+              }
+            }
+          )
         }
-      )
-    }
+      }
+    }, function notLoginCallback() {
+      if (Util.checkIsFunction(getDataCallback)) {
+        getDataCallback([])
+      }
+    })
+  },
+  /**
+  * 选择tab
+  */
+  handleTabChange: function (e) {
+    this.setData({
+      currentTabIndex: e.detail.key,
+      loadState: LoadFootItemState.Loading_State_Empty,
+    })
+    wx.startPullDownRefresh();
   },
 })

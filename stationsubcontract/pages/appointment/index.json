@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "comment": "/lee-components/comment/comment",
+    "i-navigation-bar": "/lee-components/leeNavigationBar/index",
+    "i-image": "/lee-components/leePlaceholdImage/index"
+  },
+  "enablePullDownRefresh": true
+}

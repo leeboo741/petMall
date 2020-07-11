@@ -1,0 +1,145 @@
+<i-navigation-bar title='美容师' showBackButton='{{true}}' backgroundColor="white">
+</i-navigation-bar>
+<view class="container">
+  <view class="topbgc"></view>
+  <view class="workerbox">
+    <scroll-view class="beautilist" scrollX="true">
+      
+      <swiper bindchange="handleChange" circular="true" class="beautbox" current="{{currentIndex}}" displayMultipleItems="{{itemNum}}" nextMargin="{{rightMargin}}" previousMargin="{{leftMargin}}" style="top:40rpx;">
+        <swiper-item catchtap="nextWorker" class="swiperitem {{currentIndex==index?'selected':''}}" data-index="{{index}}" wx:for="{{businessObj.business.beauticians}}">
+          <view class="beautiitem {{currentIndex==index?'selected':currentIndex+1==index?'selected1':''}}" data-currentindex="{{currentIndex}}" data-index="{{index}}">
+            <image class="serviceitem-headimage {{currentIndex==index?'selected':''}}" mode="widthFix" src="{{item.headerImg}}"></image>
+            <view class="headcontent {{currentIndex==index?'selected':''}}">
+              <text class="headname {{currentIndex==index?'selected':''}}">{{item.beauticianName}}</text>
+              <image src=""></image>
+            </view>
+            <view class="level {{currentIndex==index?'selected':''}}">{{item.title}}</view>
+          </view>
+        </swiper-item>
+      </swiper>
+    </scroll-view>
+    <view class="workercontent">
+      <view class="top">
+        <view bindtap="changeTab" class="top-item {{selectedTab==1?'selected':''}}" data-tab="1">简介
+        </view>
+        <view bindtap="changeTab" class="top-item {{selectedTab==2?'selected':''}}" data-tab="2">作品
+        </view>
+        <view bindtap="changeTab" class="top-item {{selectedTab==3?'selected':''}}" data-tab="3">评价
+        </view>
+      </view>
+      <scroll-view class="bottom" data-workerid="{{workerId}}" scrollY="true" style="height: {{bottomHeight}}rpx;" wx:if="{{selectedTab==1}}">
+        <view class="workerinfo" data-id="{{item.id}}" wx:if="{{currentIndex==index?true:false}}" wx:for="{{businessObj.business.beauticians}}" wx:key="beauticianID">
+          <view class="workerlabel">
+            <view class="labelitem">
+              <view class="content">{{item.title}}</view>
+              <view class="title">到店服务</view>
+            </view>
+            <view class="labelitem">
+              <view class="content">{{item.serverNum}}</view>
+              <view class="title">服务单量</view>
+            </view>
+            <view class="labelitem">
+              <view class="content">{{item.favorableRate}}%</view>
+              <view class="title">好评率</view>
+            </view>
+          </view>
+          <view class="instrodution">
+            {{item.describe?item.describe:instrodution}}
+          </view>
+          <view class="taglist" hidden>
+            <view class="tagitem" wx:for="{{item.expertise}}" wx:for-item="item1" wx:key="expertise">#{{item1}}#</view>
+          </view>
+        </view>
+      </scroll-view>
+      <scroll-view class="bottom" data-workerid="{{workerId}}" scrollY="true" style="height: {{bottomHeight-100}}rpx;" wx:elif="{{selectedTab==2}}">
+        <view class="zuopinbody" wx:if="{{currentIndex==index?true:false}}" wx:for="{{businessObj.business.beauticians}}" wx:key="beauticianID">
+          <view class="zuopinitem" wx:for="{{item.works}}" wx:key="workID">
+            <image class="pic" src="{{item.workImage}}"></image>
+            <view class="content">
+              <view class="name">{{item.server.serviceName}}</view>
+              <view bindtap="dianzan" class="zan" data-id="{{item.id}}" data-index="{{index}}" data-able="{{item.allowLike}}" data-workid="{{item.workID}}">
+                <image src="/resource/zanselect.png" wx:if="{{!item.allowLike}}"></image>
+                <image src="/resource/zanmoren.png" wx:else></image>
+                <view>{{item.likeNum}}</view>
+              </view>
+            </view>
+          </view>
+        </view>
+        <navigator class="checkZuopin" hoverClass="navigator-hover" url="" wx:if="{{zuopinList.length>0}}">查看全部作品
+          <image src="{{moreImageUrl}}"></image>
+        </navigator>
+      </scroll-view>
+      <scroll-view class="bottom" data-workerid="{{workerId}}" scrollY="true" style="height: {{bottomHeight-100}}rpx;" wx:elif="{{selectedTab==3}}">
+        <view class="comment-commentbody" wx:if="{{currentIndex==index?true:false}}" wx:for="{{businessObj.business.beauticians}}" wx:key="beauticianID">
+          <block wx:if="{{item.serviceAppraises&&item.serviceAppraises.length>0?true:false}}" wx:for="{{item.serviceAppraises}}" wx:key="serviceAppraiseID" wx:for-item='appraiseItem' wx:for-index='appraiseIndex'>
+            <view class="comment-line"></view>
+            <view class="comment-commentitem">
+              <view class="comment-op">
+                <view class="comment-top-left">
+                  <view class="comment-headimg">
+                    <image src="{{appraiseItem.business.headImg}}"></image>
+                  </view>
+                  <view class="comment-namelevel">
+                    <view class="comment-name">{{appraiseItem.business.businessName}}</view>
+                    <view class="comment-commentlecel">
+                      <image wx:for='{{5}}' wx:for-index='starIndex' src='{{starIndex+1 <=appraiseItem.grade?"/resource/starselect.png":"/resource/starmoren.png"}}'>
+                      </image>
+                    </view>
+                  </view>
+                </view>
+                <view class="comment-top-right" hidden>{{appraiseItem.created}}</view>
+              </view>
+              <view class="comment-bottom">
+                <view class="comment-comment">{{appraiseItem.content}}</view>
+                <view class="comment-commentimg" bindtap="yulantupian" data-tupian="{{appraiseItem.images}}" wx:if="{{appraiseItem.images&&appraiseItem.images.length>0?true:false}}">
+                  <image wx:for="{{appraiseItem.images}}" wx:for-item='imageItem' wx:for-index='imageIndex' wx:key='serviceAppraiseImageId' src="{{imageItem.imgUrl}}"></image>
+                </view>
+                <view class="comment-tag" hidden>
+                  <text wx:for="{{item.commentTags}}" wx:for-item="item3" wx:key="index">#{{item3}}</text>
+                </view>
+                <view class="comment-bottom-tom" hidden>
+                  <view class="comment-service">{{item.serviceName}}</view>
+                  <view bindtap="chakan" class="comment-itembtn" data-extraitems="{{item.extraItems}}" data-index="{{index}}" wx:if="{{item.extraItems&&item.extraItems.length>0?true:false}}">单项
+                    <image src="{{item.isup?'/resource/up.png':'/resource/down.png'}}"></image>
+                  </view>
+                  <view class="comment-servicedate">服务时间:{{item.appointment}}</view>
+                </view>
+                <view class="comment-extraItems" wx:if="{{item.showitem}}" hidden>
+                  <text wx:for="{{item.extraItems}}" wx:for-item="item2" wx:key="items">{{item2}}</text>
+                </view>
+                <view class="comment-reply" wx:if="{{item.commentWorkerContent?true:false}}" hidden>
+                  <view class="comment-reply-top">
+                    <image src="{{commentWorkerConfig.avatar}}"></image>{{commentWorkerConfig.nickname}}
+                  </view>
+                  <view class="comment-reply-bottom">{{item.commentWorkerContent}}</view>
+                </view>
+              </view>
+            </view>
+          </block>
+        </view>
+
+        <view class="commentline"></view>
+        <navigator class="checkComment" hoverClass="navigator-hover" url="" wx:if="{{item.serviceAppraises.length>0}}">查看全部评论
+          <image src="{{moreImageUrl}}"></image>
+        </navigator>
+      </scroll-view>
+    </view>
+  </view>
+</view>
+<view bindtap="apointment" class="yuyuebtn">{{apointmentText}}</view>
+<view bindtap="outBtn" class="yuyueToast" wx:if="{{showToast}}">
+  <view class="toastContent">
+    <view class="title">预约服务</view>
+    <view class="service">
+      <view catchtap="toReservation" wx:for='{{businessObj.business.serverTypes}}' wx:for-item='serverTypeItem' wx:for-index='serverTypeIndex' wx:key='serviceTypeNo' data-servertypeno='{{serverTypeItem.serviceTypeNo}}' data-index='{{serverTypeIndex}}'>
+        <view class="nav-item">
+          <image class="nav-image" src="{{serverTypeItem.icon}}"></image>
+        </view>
+        <view class="nav-des">{{serverTypeItem.serviceTypeName}}</view>
+      </view>
+    </view>
+    <view catchtap="cancel" class="cancel">
+      取消
+    </view>
+  </view>
+</view>

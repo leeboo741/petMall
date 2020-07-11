@@ -8,6 +8,8 @@ const PagePath = require("../../macros/pagePath.js");
 const SearchService = require("../../services/searchService.js");
 const LoadFootItemState = require("../../lee-components/leeLoadingFootItem/loadFootObj.js");
 
+const ShareManager = require("../../services/shareService");
+
 Page({
 
   /**
@@ -19,7 +21,7 @@ Page({
     naviHeight: app.globalData.naviHeight,
     searchHistory: [], // 搜索历史
     searchKeyword: null, // 搜索关键字
-    searchBrandResult: [], // 搜索品牌结果
+    searchBrandResult: [], // 搜索商品结果
     searchBreedResult: [], // 搜索品种结果
     searchStoreResult: [], // 搜索商家结果
   },
@@ -70,27 +72,27 @@ Page({
     this.setData({
       loadState: LoadFootItemState.Loading_State_Loading,
     })
-    this.requestSearchResult(this.data.offset, this.data.searchKeyword, 
+    this.requestSearchResult(this.data.searchKeyword, 
       function getResultCallback(result) {
         that.setData({
-          searchBrandResult: result.itemBrand,
-          searchBreedResult: result.petGenre,
-          searchStoreResult: result.business,
+          searchBrandResult: result.itemList,
+          searchBreedResult: result.petGenreList,
+          searchStoreResult: result.businesses,
         })
-        that.data.offset = that.data.offset + Limit;
-        if (result.business.length >= Limit) {
-          that.setData({
-            loadState: LoadFootItemState.Loading_State_Normal
-          })
-        } else if (result.business.length < Limit && result.business.length > 0) {
-          that.setData({
-            loadState: LoadFootItemState.Loading_State_End
-          })
-        } else {
-          that.setData({
-            loadState: LoadFootItemState.Loading_State_Empty
-          })
-        }
+        // that.data.offset = that.data.offset + Limit;
+        // if (result.business.length >= Limit) {
+        //   that.setData({
+        //     loadState: LoadFootItemState.Loading_State_Normal
+        //   })
+        // } else if (result.business.length < Limit && result.business.length > 0) {
+        //   that.setData({
+        //     loadState: LoadFootItemState.Loading_State_End
+        //   })
+        // } else {
+        //   that.setData({
+        //     loadState: LoadFootItemState.Loading_State_Empty
+        //   })
+        // }
         wx.stopPullDownRefresh();
       }
     )
@@ -100,39 +102,39 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    if (this.data.loadState == LoadFootItemState.Loading_State_End
-      || this.data.loadState == LoadFootItemState.Loading_State_Loading) {
-      return;
-    }
-    this.setData({
-      loadState: LoadFootItemState.Loading_State_Loading,
-    })
-    let that = this;
-    this.requestSearchResult(this.data.offset, this.data.searchKeyword,
-      function getResultCallback(result) {
-        let tempStoreList = that.data.searchStoreResult.concat(result.business);
-        that.setData({
-          searchStoreResult: tempStoreList
-        })
-        that.data.offset = that.data.offset + Limit;
-        if (result.business.length >= Limit) {
-          that.setData({
-            loadState: LoadFootItemState.Loading_State_Normal
-          })
-        } else {
-          that.setData({
-            loadState: LoadFootItemState.Loading_State_End
-          })
-        }
-      }
-    )
+    // if (this.data.loadState == LoadFootItemState.Loading_State_End
+    //   || this.data.loadState == LoadFootItemState.Loading_State_Loading) {
+    //   return;
+    // }
+    // this.setData({
+    //   loadState: LoadFootItemState.Loading_State_Loading,
+    // })
+    // let that = this;
+    // this.requestSearchResult(this.data.searchKeyword,
+    //   function getResultCallback(result) {
+    //     let tempStoreList = that.data.searchStoreResult.concat(result.business);
+    //     that.setData({
+    //       searchStoreResult: tempStoreList
+    //     })
+    //     // that.data.offset = that.data.offset + Limit;
+    //     // if (result.business.length >= Limit) {
+    //     //   that.setData({
+    //     //     loadState: LoadFootItemState.Loading_State_Normal
+    //     //   })
+    //     // } else {
+    //     //   that.setData({
+    //     //     loadState: LoadFootItemState.Loading_State_End
+    //     //   })
+    //     // }
+    //   }
+    // )
   },
 
   /**
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-
+    return ShareManager.getDefaultShareCard();
   },
 
   /**
@@ -177,11 +179,11 @@ Page({
   tapBreedItem: function (e) {
     let tempIndex = e.currentTarget.dataset.index;
     let tempBreed = this.data.searchBreedResult[tempIndex];
-    let tempBreedNo = e.currentTarget.dataset.breedno;
-    let tempBreedName = e.currentTarget.dataset.breedname;
+    let tempGenreNo = e.currentTarget.dataset.genreno;
+    let tempGenreName = e.currentTarget.dataset.genrename;
     let tempSortNo = e.currentTarget.dataset.sortno;
     wx.navigateTo({
-      url: PagePath.Page_Home_Nearby + "?breedno=" + tempBreedNo + "&requesttype=" + Enum.Nearby_RequestType_Enum.All + "&pagetitle=" + tempBreedName
+      url: PagePath.Page_Home_Nearby + "?genreno=" + tempGenreNo + "&requesttype=" + Enum.Nearby_RequestType_Enum.Genre + "&pagetitle=" + tempGenreName
     })
   },
 
@@ -190,10 +192,10 @@ Page({
    */
   tapBrandItem: function (e) {
     let tempIndex = e.currentTarget.dataset.index;
-    let tempBrand = this.data.searchBrandResult[tempIndex];
-    let tempBrandNo = e.currentTarget.dataset.brandno;
+    let tempItem = this.data.searchBrandResult[tempIndex];
+    let tempItemNo = e.currentTarget.dataset.itemno;
     wx.navigateTo({
-      url: PagePath.Page_Mall_Sstaplefood + '?brandno=' + tempBrandNo
+      url: PagePath.Page_Mall_CommodityInformation + "?itemno=" + tempItemNo
     })
   },
 
@@ -205,7 +207,7 @@ Page({
     let tempStore = this.data.searchStoreResult[tempIndex];
     let tempStoreNo = e.currentTarget.dataset.storeno;
     wx.navigateTo({
-      url: PagePath.Page_Store_StoreInforMation + '?storeno=' + tempStoreNo
+      url: PagePath.Page_Store_StoreInforMation + '?storeno=' + tempStoreNo +"&showtype="+0
     })
   },
 
@@ -215,13 +217,8 @@ Page({
    * @param searchKeyword
    * @param getResultCallback
    */
-  requestSearchResult: function (offset, searchKeyword, getResultCallback) {
-    SearchService.getSearchResult(
-      {
-        searchKey: searchKeyword,
-        offset: offset,
-        limit: Limit
-      },
+  requestSearchResult: function ( searchKeyword, getResultCallback) {
+    SearchService.getSearchResult(searchKeyword,
       function getSearchResultCallback(result) {
         if (Util.checkIsFunction(getResultCallback)) {
           getResultCallback(result.root)

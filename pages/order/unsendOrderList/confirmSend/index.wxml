@@ -22,18 +22,17 @@
           <view class="order-goods-box">
             <!-- 商品Item -->
             <view class="order-goods-item"
-                  wx:if='{{parse.showItemCell(orderData)}}'
                   catchtap="tapItem"
+                  wx:if='{{orderData.itemNo!=null}}'
                   data-index='{{orderIndex}}'
-                  data-itemno='{{orderData.item.itemNo}}'>
+                  data-itemno='{{orderData.itemNo}}'>
               <i-image i-class="order-goods-image"
-                      imageSrc='{{orderData.item.coverImg}}'
-                      >
+                      imageSrc='{{orderData.coverImg}}'>
               </i-image>
               <view class="order-goods-info">
                 <view class="order-goods-item-line">
                   <view class="order-goods-name">
-                  {{orderData.item.itemName}}
+                  {{orderData.itemName}}
                   </view>
                 </view>
                 <view class="order-goods-item-line"
@@ -42,28 +41,33 @@
                   x{{orderData.qty}}
                   </view>
                   <view class="order-goods-price">
-                  ￥{{orderData.item.retailPrice}}
+                  零售:￥{{orderData.retailPrice}}
+                  </view>
+                  <view class="order-goods-price">
+                  抵扣:￥{{orderData.couponAmount}}
+                  </view>
+                  <view class="order-goods-price">
+                  运费:￥{{orderData.carriage}}
                   </view>
                 </view>
               </view>
             </view>
             <!-- 宠物Item -->
             <view class="order-goods-item"
-                  wx:if='{{parse.showPetCell(orderData)}}'
+                  wx:else
                   catchtap="tapPet"
                   data-index='{{orderIndex}}'
-                  data-petno='{{orderData.pet.petNo}}'>
+                  data-petno='{{orderData.petNo}}'>
               <i-image i-class="order-goods-image"
-                      imageSrc='{{orderData.pet.coverMedia}}'
+                      imageSrc='{{orderData.petImg}}'
                       >
               </i-image>
               <view class="order-goods-info">
                 <view class="order-goods-item-line">
                   <view class="order-goods-name">
-                  {{orderData.pet.petName}}
+                  {{orderData.petName}}
                   </view>
-                  <view class="order-goods-sexy"
-                        wx:if='{{parse.showSexy(orderData)}}'>
+                  <view class="order-goods-sexy">
                   {{parse.getSexy(orderData)}}
                   </view>
                 </view>
@@ -73,7 +77,13 @@
                   x{{orderData.qty}}
                   </view>
                   <view class="order-goods-price">
-                  {{orderData.pet.retailPrice}}
+                  零售价:￥{{orderData.retailPrice}}
+                  </view>
+                  <view class="order-goods-price">
+                  抵扣:￥{{orderData.couponAmount}}
+                  </view>
+                  <view class="order-goods-price">
+                  运费:￥{{orderData.carriage}}
                   </view>
                 </view>
               </view>
@@ -90,24 +100,56 @@
           <view class="order-operate-box">
             <view class="order-store-box">
               <i-image i-class="order-store-image"
-                      imageSrc='{{orderData.customer.headerImage}}'
-                      >
+                      imageSrc='{{parse.showHeaderImg(orderData)}}'>
               </i-image>
               <view class="order-store-name">
-              {{orderData.customer.customerName}}
+              {{parse.showUserName(orderData)}}
               </view>
             </view>
           </view>
         </view>
     </i-cell>
-    <i-cell title='运单编号'>
-      <input class="normal-text"
-             slot='footer'
-             placeholder-class="placeholder-text"
-             placeholder="请输入运单编号"
-             bindinput="inputSendBillNo">
-      </input>
-    </i-cell>
+    <block wx:if='{{orderData.petNo != null}}'>
+      <i-cell title='运单编号'>
+        <input class="normal-text"
+              slot='footer'
+              placeholder-class="placeholder-text"
+              placeholder="请输入运单编号"
+              bindinput="inputSendBillNo"
+              value='{{sendBillNo}}'
+              disabled="{{!showInputBillNo}}">
+        </input>
+      </i-cell>
+    </block>
+    <block wx:else>
+      <i-cell title='取货方式'>
+        <view slot='footer' class="type-select-box">
+          <view class="type-select-item" wx:for="{{typeList}}" wx:key="value" bindtap="tapTypeItem" data-index='{{index}}'>
+            <image class="type-select-item-image" src='{{selectType.value == item.value? "/resource/selectred.png": "/resource/selectwhite.png"}}'></image>
+            <view class="type-select-item-text">
+              {{item.name}}
+            </view>
+          </view>
+        </view>
+      </i-cell>
+      <block wx:if='{{selectType.value==1}}'>
+        <i-cell title='快递公司'
+                value='{{expressName?expressName:"请选择快递公司"}}'
+                is-link
+                url='{{"/pages/order/unsendOrderList/confirmSend/expressSelected/index?express="+expressName}}'>
+        </i-cell>
+        <i-cell title='运单编号'>
+          <input class="normal-text"
+                slot='footer'
+                placeholder-class="placeholder-text"
+                placeholder="请输入运单编号"
+                bindinput="inputSendBillNo"
+                value='{{sendBillNo}}'
+                disabled="{{!showInputBillNo}}">
+          </input>
+        </i-cell>
+      </block>
+    </block>
     <i-cell>
       <view class="confirm-button"
             slot='header'
@@ -143,7 +185,7 @@
       return true;
     },
     getSexy: function (orderItem) {
-      if (orderItem.pet.petSex == 1) {
+      if (orderItem.petSex == 1) {
         return "公";
       }
       return "母";
@@ -153,6 +195,22 @@
     },
     showPetCell: function(order) {
       return order.pet != null;
+    },
+    showHeaderImg:function(res){
+      return res.shop.headImg
+    },
+
+    showUserName:function(res){
+      return res.shop.businessName;
+    },
+
+    showPrice:function(res){
+      if(res==null){
+        return '--';
+      }else{
+        return res;
+      }
     }
+
   }
 </wxs>

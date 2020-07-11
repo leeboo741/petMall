@@ -1,0 +1,342 @@
+.clear {
+    clear: both;
+}
+
+.container {
+    background: #F6F8FA;
+}
+
+.phcolor {
+    color: #CFD3DC;
+}
+
+.con {
+    box-shadow: 0 20rpx 40rpx 0 rgba(221,221,221,0.50);
+    background: #fff;
+    border-radius: 40rpx;
+    position: relative;
+    margin: 0 37rpx;
+    min-height: 736rpx;
+    margin-top: 200rpx;
+}
+
+.con .touxiang {
+    position: absolute;
+    left: 50%;
+    height: 240rpx;
+    width: 240rpx;
+    top: -120rpx;
+    margin-left: -120rpx;
+}
+
+.con .touxiang image {
+    display: block;
+    height: 240rpx;
+    width: 240rpx;
+    border-radius: 90rpx;
+}
+
+.con .list {
+    padding-top: 120rpx;
+}
+
+.con .list .li {
+    padding: 0 40rpx;
+    height: 88rpx;
+    line-height: 88rpx;
+    box-shadow: inset 0 -1rpx 0 0 #EEEEEE;
+}
+
+.con .list .linor {
+    box-shadow: inset 0 0rpx 0 0 #EEEEEE;
+}
+
+.con .list .li .l {
+    float: left;
+    font-size: 30rpx;
+    color: #002241;
+}
+
+.con .list .li .l text {
+    color: #FF3A1E;
+}
+
+.con .list .li .r {
+    float: right;
+    height: 48rpx!important;
+}
+
+.con .list .li .r image {
+    display: inline-block;
+    height: 22rpx;
+    width: 14rpx;
+    margin-top: 33rpx;
+    margin-left: 16rpx;
+}
+
+.con .list .li .nickName input {
+    font-size: 28rpx;
+    color: #717985;
+    text-align: right;
+    height: 88rpx;
+    line-height: 88rpx;
+}
+
+.con .list .li .r .sexl {
+    float: left;
+}
+
+.con .list .li .r .sexl image,.con .list .li .r .sexr image {
+    float: left;
+    display: block;
+    margin-right: 15rpx;
+    height: 40rpx;
+    width: 40rpx;
+    margin-top: 24rpx;
+}
+
+.con .list .li .r .sexl view,.con .list .li .r .sexr view {
+    float: left;
+    line-height: 88rpx;
+    font-size: 28rpx;
+    color: #717985;
+}
+
+.con .list .li .r .sexl view {
+    margin-right: 31rpx;
+}
+
+.con .list .li .r .sexr {
+    float: right;
+}
+
+.con .list .li .petType {
+    font-size: 28rpx;
+    color: #717985;
+}
+
+.con .list .li .brithday {
+    font-size: 28rpx;
+    color: #717985;
+}
+
+.con .list .li .color input {
+    font-size: 28rpx;
+    color: #717985;
+    text-align: right;
+    height: 88rpx;
+    line-height: 88rpx;
+}
+
+.con .list .li .r .heightl {
+    float: left;
+}
+
+.con .list .li .r .heightl image,.con .list .li .r .heightr image {
+    float: left;
+    display: block;
+    margin-right: 15rpx;
+    height: 40rpx;
+    width: 40rpx;
+    margin-top: 24rpx;
+}
+
+.con .list .li .r .heightl view,.con .list .li .r .heightr view {
+    float: left;
+    line-height: 88rpx;
+    font-size: 28rpx;
+    color: #717985;
+}
+
+.con .list .li .r .heightl view {
+    margin-right: 60rpx;
+}
+
+.con .list .li .r .remarkl view.mar {
+    margin-right: 50rpx;
+}
+
+.con .list .li .r .heightr {
+    float: right;
+}
+
+.remarkr {
+    margin-right: 16rpx;
+}
+
+.onebtn {
+    margin: 0 37rpx;
+    padding-bottom: 40rpx;
+    position: relative;
+    height: 88rpx;
+    margin-top: 106rpx;
+}
+
+.onebtn .savebtn .btn {
+    background: #FF3A1E;
+    border-radius: 32rpx;
+    font-size: 30rpx;
+    color: #FFFFFF;
+    letter-spacing: -0.24rpx;
+    text-align: center;
+    height: 88rpx;
+    width: 100%;
+    position: absolute;
+    line-height: 88rpx;
+    z-index: 200;
+}
+
+.onebtn .savebtn view.shadow {
+    position: absolute;
+    margin: 0 auto;
+    width: 85%;
+    height: 40rpx;
+    bottom: 50rpx;
+    left: 7.5%;
+    z-index: 100;
+    border-radius: 10rpx;
+    background-color: #FFFFFF;
+    box-shadow: 0 10rpx 40rpx #FF3A1E;
+}
+
+.twobtn {
+    padding-bottom: 40rpx;
+    height: 88rpx;
+    margin: 0rpx 37rpx;
+    margin-top: 76rpx;
+}
+
+.twobtn .savebtn,.twobtn .delbtn {
+    position: relative;
+    width: 46%;
+    height: 88rpx;
+}
+
+.twobtn .savebtn {
+    float: right;
+}
+
+.twobtn .delbtn {
+    float: left;
+}
+
+.twobtn .savebtn .btn {
+    background: #FF3A1E;
+    border-radius: 32rpx;
+    font-size: 30rpx;
+    color: #FFFFFF;
+    letter-spacing: -0.24rpx;
+    text-align: center;
+    height: 88rpx;
+    width: 100%;
+    position: absolute;
+    line-height: 88rpx;
+    z-index: 200;
+}
+
+.twobtn .savebtn view.shadow {
+    position: absolute;
+    margin: 0 auto;
+    width: 80%;
+    height: 40rpx;
+    bottom: 20rpx;
+    left: 10%;
+    z-index: 100;
+    border-radius: 10rpx;
+    background-color: #FFFFFF;
+    box-shadow: 0 10rpx 40rpx #FF3A1E;
+}
+
+.twobtn .delbtn .btn {
+    background: #384359;
+    border-radius: 32rpx;
+    font-size: 30rpx;
+    color: #FFFFFF;
+    letter-spacing: -0.24rpx;
+    text-align: center;
+    height: 88rpx;
+    width: 100%;
+    position: absolute;
+    line-height: 88rpx;
+    z-index: 200;
+}
+
+.twobtn .delbtn view.shadow {
+    position: absolute;
+    margin: 0 auto;
+    width: 80%;
+    height: 40rpx;
+    bottom: 20rpx;
+    left: 10%;
+    z-index: 100;
+    border-radius: 10rpx;
+    background-color: #FFFFFF;
+    box-shadow: 0 10rpx 40rpx #9FA7B9;
+}
+
+.modals {
+    position: fixed;
+    z-index: 999;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.modals-cancel {
+    position: absolute;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.bottom-dialog-body {
+    position: absolute;
+    z-index: 10001;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 30rpx;
+    height: 560rpx;
+    background-color: #fff;
+}
+
+.bottom-pos {
+    transform: translateY(100%);
+    background: #FFFFFF;
+    border-radius: 40rpx 40rpx 0 0;
+}
+
+.time_title .l {
+    font-size: 36rpx;
+    color: #002241;
+    font-weight: 800;
+    margin-bottom: 30rpx;
+    float: left;
+}
+
+.time_title .r {
+    font-size: 30rpx;
+    color: #002241;
+    margin-bottom: 30rpx;
+    float: right;
+    margin-top: 3rpx;
+}
+
+.view_picker {
+    height: 500rpx;
+}
+
+.view_picker_text {
+    text-align: center;
+    line-height: 100rpx;
+    font-size: 46rpx;
+    color: #002241;
+}
+
+modal {
+    position: relative;
+}

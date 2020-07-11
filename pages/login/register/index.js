@@ -2,8 +2,11 @@
 
 const intervalDuration = 60;
 const Util = require("../../../utils/util.js");
+const Utils = require("../../../utils/util")
 const UserService = require("../../../services/userService.js");
 const app = getApp();
+
+const ShareManager = require("../../../services/shareService");
 
 Page({
 
@@ -70,11 +73,12 @@ Page({
 
   },
 
+ 
   /**
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-
+    return ShareManager.getDefaultShareCard();
   },
 
   /**
@@ -107,7 +111,7 @@ Page({
         })
         return;
       }
-      console.log("开始倒计时");
+      Utils.logInfo("开始倒计时");
       this.interval();
       let that = this;
       UserService.getCode(this.data.phoneNumber,
@@ -119,7 +123,7 @@ Page({
         }
       )
     }
-    console.log("正在倒计时");
+    Utils.logInfo("正在倒计时");
   },
 
   /**
@@ -137,7 +141,7 @@ Page({
           intervalCount: tempCount,
           ableGetCode: false
         })
-        console.log("倒计时===> " + tempCount);
+        Utils.logInfo("倒计时===> " + tempCount);
         that.interval();
       } else {
         that.setData({
@@ -145,7 +149,7 @@ Page({
           intervalCount: intervalDuration,
           ableGetCode: true
         })
-        console.log("倒计时结束");
+        Utils.logInfo("倒计时结束");
         clearInterval(that.data.intervalID);
         that.data.intervalID = null;
       }

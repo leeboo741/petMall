@@ -1,0 +1,51 @@
+<!-- banner -->
+<i-navigation-bar title='秒杀专区' showBackButton='{{true}}'>
+</i-navigation-bar>
+
+<swiper class='banner' circular="{{true}}" indicator-dots="{{true}}" autoplay="{{true}}" interval="5000" duration="300" vertical="{{false}}" indicator-active-color="#7bbfea" indicator-color="#cccccc">
+  <swiper-item wx:for="{{groupSource}}" wx:for-item="groupItem" wx:for-index="groupIndex" wx:key="groupIndex">
+    <view class='banner-item' data-index="{{groupIndex}}" data-link="{{groupItem.link}}" data-imageurl="{{groupItem.imageUrl}}" bindtap='tapBanner'>
+      <i-image i-class='banner-item-image' mode='scaleToFill' lazy-load='{{true}}' imageSrc='{{groupItem.imageUrl}}'>
+      </i-image> 
+    </view>
+  </swiper-item>
+</swiper>
+
+<view class="group-box-sty"
+      wx:for="{{groupList}}" wx:for-item="item" wx:for-index="index" wx:key="index">
+  <view class="group-box-left-sty">
+    <image src="{{item.pet.petImg}}" class="group-box-left-image-sty"></image>
+  </view>
+  <view class="group-box-right-sty">
+    <view class="group-box-right-title-sty">
+      {{item.pet.petName}}
+    </view>
+    <view class="group-box-right-shopname-sty">
+      <view style="margin-right:6%">{{item.pet.evaluationQty}} 好评 </view>
+      <view hidden="{{item.pet.favorableRate==0?true:false}}">{{item.pet.favorableRate * 100}}% 好评率</view>
+    </view>
+    <view class="group-box-right-salesvolume-sty">
+      已出售{{item.pet.salesVolume}}份
+    </view>
+    <view class="group-box-right-discount-sty">
+      <view class="manjian-sty">
+         {{item.pet.business.businessName}} 
+      </view>
+      <view class="manjian-sty">
+         {{item.pet.business.province}} {{item.pet.business.city}}
+      </view>
+    </view>
+    <view class="group-box-right-price-sty">  
+      <view style="font-size:25rpx;color:#F63420;">团购价￥</view>
+      <view style="font-size:36rpx;color:#F63420;font-weight:bold;">{{item.petGrouponList[0].price}}</view>
+      <view style="font-size:25rpx;color:#F63420;">起</view>
+      <view class="ljyy-button-sty">
+        立即抢购
+      </view>
+    </view>
+  </view>
+</view>
+
+<!-- 加载块 -->
+<i-load-foot-item loadState='{{loadState}}'>
+</i-load-foot-item>

@@ -5,6 +5,7 @@
     "i-icon": "/lee-components/leeIcon/index",
     "i-image": "/lee-components/leePlaceholdImage/index",
     "i-cell": "/dist/cell/index",
-    "i-cell-group": "/dist/cell-group/index"
+    "i-cell-group": "/dist/cell-group/index",
+    "poster-maker": "/lee-components/postMaker/index"
   }
 }

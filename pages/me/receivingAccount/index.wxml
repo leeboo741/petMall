@@ -4,64 +4,95 @@
 </i-navigation-bar>
 
 <view class="explain-box">
-平台收取交易总额的10%作为平台手续费，买家确认收货或发货后10天，若双方无异议，平台将在一个工作日内打款到卖家指定收款账户。
+交易总额0.6%作为平台手续费(该费用由微信扣除,与平台无关)
 </view>
 
-<i-panel i-class='panel'
-         title='真实姓名（需和收款账户的名称一致）'>
-  <i-cell title='姓名'>
-    <input slot='footer'
-           class='normal-text'
-           placeholder-class="placeholder-text"
-           placeholder="真实姓名"
-           bindinput="inputName">
-    </input>
-  </i-cell>
-</i-panel>
-
-<i-panel i-class='panel'
-         title='收款账户（至少输入一项）'>
+<i-panel i-class='panel' title='新建账户'>
   <i-cell-group>
-    <i-cell>
-      <view slot='header'
-            class="header-box">
-        <i-icon type='zhifubao'
-                size="36"
-                color="#108ee9">
-        </i-icon>
-        <view class="header-title">
-        支付宝
+    <i-cell title='账户类型'>
+      <picker slot='footer' range="{{accountTypeList}}" range-key="accountTypeName" bindchange="selectAccountType" style="width: 300rpx;">
+        <view class="account-type selectAccountTypeName!=null?'':'placeholder'">
+          {{selectAccountTypeName!=null?selectAccountTypeName:"请选择账户类型"}}
         </view>
-      </view>
-      <input slot='footer'
-            class='normal-text'
-            placeholder-class="placeholder-text"
-            placeholder="支付宝账号"
-            bindinput="inputAliPayAccount">
+      </picker>
+    </i-cell>
+    <i-cell wx:if='{{selectAccountTypeName!=null}}' title='{{parse.getAccountNumTitle(newAccount.accountType)}}'>
+      <input slot='footer' class="account-number-input" value="{{newAccount.accountNum}}" placeholder="请输入{{parse.getAccountNumTitle(newAccount.accountType)}}" bindinput="inputAccountNumber">
+      </input>
+    </i-cell>
+    <i-cell title='收款人'>
+      <input slot='footer' class="receiving-name-input" value='{{newAccount.name}}' placeholder="请输入收款人姓名" bindinput="inputReceivingName">
+      </input>
+    </i-cell>
+    <i-cell title='银行名称' wx:if='{{newAccount.accountType!=null&&newAccount.accountType==3}}'>
+      <input slot='footer' class="bank-name-input" value='{{newAccount.bankName}}' placeholder="请输入银行名称" bindinput="inputBankName">
       </input>
     </i-cell>
     <i-cell>
-      <view slot='header'
-            class="header-box">
-        <i-icon type='weixinzhifu'
-                size="36"
-                color="#42B02B">
-        </i-icon>
-        <view class="header-title">
-        微信支付
-        </view>
+      <view class="submit-button" slot='header' bindtap="tapAdd">
+        新建账户
       </view>
-      <input slot='footer'
-            class='normal-text'
-            placeholder-class="placeholder-text"
-            placeholder="微信支付账号"
-            bindinput="inputWechatPayAccount">
-      </input>
     </i-cell>
   </i-cell-group>
 </i-panel>
 
+<i-panel title='我的收款账户' i-class='panel'>
+  <i-cell-group>
+    <i-cell wx:for='{{accountList}}'
+            wx:for-item='accountItem'
+            wx:for-index='accountIndex'
+            wx:key='accountNo'
+            title='{{accountItem.accountNum}}'
+            value='{{accountItem.name}}'
+            label='{{accountItem.bankName!=null?accountItem.bankName:parse.getAccountNumTitle(accountItem.accountType)}}'
+            bindtap='tapAccount'
+            data-index='{{accountIndex}}'>
+      <i-icon type='{{parse.getAccountIcon(accountItem.accountType)}}'
+              color='{{parse.getAccountIconColor(accountItem.accountType)}}'
+              size="36"
+              slot='icon'>
+      </i-icon>
+    </i-cell>
+  </i-cell-group>
+</i-panel>
 
-<view class="submit-button">
-确认提交
-</view>
+<wxs module='parse'>
+  module.exports={
+    getAccountIconColor: function(accountType) {
+      switch(accountType){
+        case 1: 
+          return "#108ee9";
+        case 2:
+          return "#04BE02";
+        case 3:
+          return "gold";
+        default: 
+          return "";
+      }
+    },
+    getAccountIcon: function(accountType) {
+      switch(accountType){
+        case 1: 
+          return "zhifubao";
+        case 2:
+          return "weixinzhifu";
+        case 3:
+          return "yinhangka";
+        default: 
+          return "";
+      }
+    },
+    getAccountNumTitle:function(accountType){
+      switch(accountType){
+        case 1: 
+          return "支付宝账号";
+        case 2:
+          return "微信账号";
+        case 3:
+          return "银行账户";
+        default: 
+          return "";
+      }
+    }
+  }
+</wxs>

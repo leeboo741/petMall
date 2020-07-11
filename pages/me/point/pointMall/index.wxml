@@ -1,0 +1,103 @@
+<!--pages/me/point/pointMall/index.wxml-->
+<i-navigation-bar title='积分商城' showBackButton>
+</i-navigation-bar>
+
+<view class="background-view">
+</view>
+
+<view class="front-view" style='position: relative;'>
+  <i-cell style='position: absolute; top: 0; left: 0; right: 0; z-index:1; height: 110rpx;'>
+    <view slot='header'
+          style="display: flex; flex-direction: row; align-item: center">
+      <view style='font-weight: blod;color: #4a555f; height: 60rpx; line-height: 60rpx;'> 
+      当前积分:
+      </view>
+      <view style="margin-left: 30rpx; font-size: 42rpx; font-weight: blod; color: gold; height: 60rpx; line-height: 60rpx;">
+      {{points}}
+      </view>
+    </view>
+  </i-cell>
+  <view style='height: 110rpx;'></view>
+  <i-panel i-class='panel'>
+    <i-cell wx:for='{{couponList}}' wx:for-item='couponItem' wx:for-index='couponIndex' wx:key='couponTypeID'>
+      <view slot='header' class="coupon-item">
+        <view class="coupon-item-header">
+          <view class="coupon-item-value {{couponItem.preferentialType != 3?'coupon-item-value-number':''}}">
+            {{parse.getCouponValue(couponItem)}}
+          </view>
+          <view class="coupon-item-unit" wx:if='{{couponItem.preferentialType != 3}}'>
+            {{parse.getCouponUnit(couponItem)}}
+          </view>
+        </view>
+        <view class="coupon-item-body">
+          <view class="coupon-item-title">
+            {{couponItem.title}}
+          </view>
+          <view class="coupon-item-price" style="padding-right: 15rpx;">
+            {{couponItem.couponCredit}}积分
+          </view>
+          <view class="coupon-item-describe">
+            {{parse.getCouponDescribe(couponItem)}}
+          </view>
+        </view>
+        <view class="coupon-item-footer" style="padding: 5rpx 10rpx; border-radius: 8rpx;background: red;" bindtap="tapExchangeAction" data-index='{{couponIndex}}'>
+          <view class="receiver-button" style="color: white;">
+            兑换
+          </view>
+        </view>
+      </view>
+    </i-cell>
+  </i-panel>
+</view>
+
+
+
+<wxs module='parse'>
+  module.exports = {
+    getCouponValue: function(couponItem) {
+      switch (couponItem.preferentialType) {
+        case 1:
+          var discount = couponItem.discount / 10.0;
+          return discount;
+        case 2:
+          return couponItem.value;
+        case 3:
+          return "领用券";
+        default:
+          return '0.0';
+      }
+    },
+    getCouponUnit: function(couponItem) {
+      switch (couponItem.preferentialType) {
+        case 1:
+          return "折";
+        case 2:
+          return "元";
+        default:
+          return "";
+      }
+    },
+    getCouponDescribe: function(couponItem) {
+      var describe = "";
+      if (couponItem.rangeType != null) {
+        if (couponItem.rangeType == 'PART') {
+          describe = describe + '仅部分商品和服务可用';
+        } else if (couponItem.rangeType == 'ALL') {
+          describe = describe + '全部商品和服务可用'
+        }
+      }
+      if (describe.length > 0) {
+        describe = describe + "，";
+      }
+      if (couponItem.businessType != null) {
+        if (couponItem.businessType == 'PART') {
+          describe = describe + '仅部分商家可用';
+        } else if (couponItem.businessType == 'ALL') {
+          describe = describe + '全部商家可用'
+        }
+      }
+      describe = describe + '。';
+      return describe;
+    },
+  }
+</wxs>

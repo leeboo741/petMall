@@ -1,0 +1,166 @@
+/* pages/assess/assessList/index.wxss */
+.head-top-box{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 600rpx;
+}
+
+.banner{
+  width: 100%;
+  height:100%;
+}
+
+.head-item{
+  width: 100%;
+  height: 95%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.head-item-content{
+  width: 90%;
+  height: 90%;
+  border-radius: 15rpx;
+  box-shadow: 0rpx 0rpx 30rpx 5rpx #dad9d9;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow:hidden;
+}
+
+.head-item-image{
+  width: 100%;
+  height: 330rpx;
+}
+
+.head-item-info-box{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 15rpx;
+}
+.head-item-info-box-left{
+  display: flex;
+  flex-direction: column;
+  padding: 15rpx;
+  flex-grow: 1;
+}
+
+.head-item-info-box-left-row{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15rpx;
+}
+
+.head-item-info-title{
+  font-size: 33rpx;
+}
+
+.head-item-info-value{
+  font-size: 23rpx;
+  color: lightgray;
+}
+
+.head-item-info-box-right{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15rpx;
+}
+
+.head-item-info-button{
+  width: 150rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
+  font-size: 26rpx;
+}
+
+.list-box{
+  display: flex;
+  flex-direction: column;
+}
+
+.list-box-title-row{
+  padding: 15rpx 20rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  line-height: 50rpx;
+  height: 50rpx;
+  font-size: 28rpx;
+}
+
+.list-box-title{
+  margin-left: 15rpx;
+}
+
+.list-box-content{
+  display: flex;
+  flex-direction: column;
+}
+
+.assess-item{
+  display: flex;
+  flex-direction: row;
+  padding: 15rpx 30rpx;
+}
+
+.assess-item-right{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.assess-item-image{
+  width: 150rpx;
+  height: 150rpx;
+}
+
+.assess-item-left{
+  display: flex;
+  flex-direction: column;
+  margin-left: 15rpx;
+  flex-grow: 1;
+}
+
+.assess-item-left-row{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 15rpx;
+}
+
+.assess-item-title{
+  font-size: 30rpx;
+}
+
+.assess-item-value-box{
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.assess-item-value{
+  font-size: 24rpx;
+  color: lightgray;
+  margin-bottom: 10rpx;
+}
+
+.assess-item-button-box{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.assess-item-button{
+  width: 150rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  text-align: center;
+  font-size: 24rpx;
+}

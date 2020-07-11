@@ -18,10 +18,16 @@ const {
 } = require("../utils/requestParamObj.js");
 const UrlPath = require("../macros/urlPath.js");
 const Util = require("../utils/util.js");
+const Utils = require("../utils/util.js");
 
 const Login_Success = 0;
 const Login_Fail = 1;
 const Login_Register = 2;
+
+const BusinessObj=require("../entity/businessObj.js");
+const CouponObj=require("../entity/couponObj.js");
+
+
 
 /**
  * 存储当前角色
@@ -41,11 +47,20 @@ function saveCurrentRole(role) {
  */
 function getCurrentRole() {
   try {
-    let userInfo = wx.getStorageSync(Key_CurrentRole);
-    if (userInfo == null) {
-      return 0;
+    let userRole = wx.getStorageSync(Key_CurrentRole);
+    if (Util.checkEmpty(userRole)) {
+      let businessNo = this.getBusinessNo();
+      if (Util.checkEmpty(businessNo)) {
+        return 0;
+      } else {
+        if(getBusinessAuthType() > 0) {
+          return 1;
+        } else {
+          return 0;
+        }
+      }
     }
-    return userInfo;
+    return userRole;
   } catch (e) {
     return null;
   }
@@ -55,11 +70,11 @@ function getCurrentRole() {
  * 获取卖家编号
  */
 function getBusinessNo() {
-  let businessInfo = getLocalBusinessInfo();
-  if (businessInfo == null || businessInfo.businessNo == null || businessInfo.businessNo.length <= 0) {
+  let businessInfo = getLocalUserInfo();
+  if (Util.checkEmpty(businessInfo) || Util.checkEmpty(businessInfo.business) || Util.checkEmpty(businessInfo.business.businessNo)) {
     return null;
   }
-  return businessInfo.businessNo;
+  return businessInfo.business.businessNo;
 }
 
 /**
@@ -67,47 +82,37 @@ function getBusinessNo() {
  * @param businessInfo 卖家信息
  */
 function saveLocalBusinessInfo(businessInfo) {
-  let businessInfoStr = JSON.stringify(businessInfo);
-  try {
-    wx.setStorageSync(Key_BusinessInfo, businessInfoStr)
-  } catch(e) {
-
-  }
+  let userInfo = getLocalUserInfo();
+  userInfo.business = businessInfo;
+  saveLocalUserInfo(userInfo);
 }
 
-/**
- * 删除本地卖家信息
- * @param deleteCallback
- */
-function deleteLocalBusinessInfo(deleteCallback) {
-  wx.removeStorage({
-    key: Key_BusinessInfo,
-    success(res) {
-      console.log("删除卖家 success: \n" + JSON.stringify(res));
-      if (deleteCallback && typeof deleteCallback == "function") {
-        deleteCallback(true)
-      }
-    },
-    fail(res) {
-      console.log("删除卖家 fail: \n" + JSON.stringify(res));
-      if (deleteCallback && typeof deleteCallback == "function") {
-        deleteCallback(false)
-      }
-    }
-  })
-}
+
 
 /**
  * 获取本地卖家信息
  * @return businessInfo
  */
 function getLocalBusinessInfo() {
-  try {
-    let businessInfo = JSON.parse(wx.getStorageSync(Key_BusinessInfo));
-    return businessInfo;
-  } catch (e) {
+  let userInfo = getLocalUserInfo();
+  if (userInfo == null) {
     return null;
   }
+  return userInfo.business;
+}
+
+/**
+ * 获取认证级别
+ */
+function getBusinessAuthType(){
+  let business = getLocalBusinessInfo();
+  if (business == null) {
+    return 0;
+  } 
+  if (business.authType == null) {
+    return 0;
+  }
+  return business.authType;
 }
 
 /**
@@ -131,13 +136,13 @@ function deleteLocalUserInfo(deleteCallback) {
   wx.removeStorage({
     key: Key_UserInfo,
     success(res) {
-      console.log("删除用户 success: \n" + JSON.stringify(res));
+      Utils.logInfo("删除用户 success: \n" + JSON.stringify(res));
       if (deleteCallback && typeof deleteCallback == "function") {
         deleteCallback(true)
       }
     },
     fail(res) {
-      console.log("删除用户 fail: \n" + JSON.stringify(res));
+      Utils.logInfo("删除用户 fail: \n" + JSON.stringify(res));
       if (deleteCallback && typeof deleteCallback == "function") {
         deleteCallback(false)
       }
@@ -164,7 +169,7 @@ function getLocalUserInfo() {
  */
 function getPhone() {
   let userInfo = getLocalUserInfo();
-  if (userInfo == null || userInfo.phone == null || userInfo.phone.length <= 0) {
+  if (Util.checkEmpty(userInfo) || Util.checkEmpty(userInfo.phone)) {
     return null;
   }
   return userInfo.phone;
@@ -176,10 +181,10 @@ function getPhone() {
  */
 function getOpenId() {
   let userInfo = getLocalUserInfo();
-  if (userInfo == null || userInfo.openId == null || userInfo.openId.length <= 0) {
+  if (Util.checkEmpty(userInfo) || Util.checkEmpty(userInfo.unionId)) {
     return null;
   }
-  return userInfo.openId;
+  return userInfo.unionId;
 }
 
 /**
@@ -188,22 +193,82 @@ function getOpenId() {
  */
 function getCustomerNo() {
   let userInfo = getLocalUserInfo();
-  if (userInfo == null || userInfo.customerNo == null || userInfo.customerNo.length <= 0) {
+  if (Util.checkEmpty(userInfo) || Util.checkEmpty(userInfo.customerNo)) {
     return null;
   }
-  return userInfo.customerNo;
+  return userInfo.customerNo ;
+}
+
+/**
+ * 获取 积分
+ * @return 积分
+ */
+function getPoints(){
+  let userInfo = getLocalUserInfo();
+  if (Util.checkEmpty(userInfo) || Util.checkEmpty(userInfo.points)) {
+    return 0;
+  }
+  return userInfo.points;
+}
+
+/**
+ * 更新用户积分
+ */
+function updatePoints(points) {
+  let userInfo = getLocalUserInfo();
+  if (!Util.checkEmpty(userInfo)) {
+    userInfo.points = points;
+    saveLocalUserInfo(userInfo);
+  }
+}
+
+/**
+ * 获取 余额
+ * @return 余额
+ */
+function getBalance() {
+  let userInfo = getLocalUserInfo();
+  if (Util.checkEmpty(userInfo) || Util.checkEmpty(userInfo.balance)) {
+    return 0;
+  }
+  return userInfo.balance;
+}
+
+/**
+ * 更新用户余额
+ */
+function updateBalance(balance) {
+  let userInfo = getLocalUserInfo();
+  if (Util.checkEmpty(userInfo)) {
+    userInfo.balance = balance;
+    saveLocalUserInfo(userInfo);
+  }
 }
 
 /**
  * 是否登陆
+ * @param isLoginCallback 已经登录回调
+ * @param notLoginCallback 没有登录回调
  * @return true 已登录 false 未登录
  */
-function isLogin() {
-  let openId = getOpenId();
-  if (openId == null) {
+function isLogin(isLoginCallback, notLoginCallback) {
+  let businessNo = getBusinessNo();
+  if (Util.checkEmpty(businessNo)) {
+    if (notLoginCallback && typeof notLoginCallback == 'function') {
+      notLoginCallback();
+    } else {
+      wx.showToast({
+        title: '请先登录',
+        icon: 'none'
+      })
+    }
     return false;
+  } else {
+    if (isLoginCallback && typeof isLoginCallback == 'function') {
+      isLoginCallback();
+    }
+    return true;
   }
-  return true;
 }
 
 /**
@@ -211,16 +276,17 @@ function isLogin() {
  * @param customerNo
  * @param getBusinessInfoCallback
  */
-function requestBusinessInfo(customerNo, getBusinessInfoCallback) {
+function requestBusinessInfo(businessNo, businessInfoCallback) {
   let requestParam = new RequestParamObj({
-    url: UrlPath.Url_Base + UrlPath.Url_LoginBusiness,
+    url: UrlPath.Url_Base + UrlPath.Url_LoginBusiness + businessNo,
     data: {
-      customerNo: customerNo
+     
     },
     success (res) {
-      if (Util.checkIsFunction(getBusinessInfoCallback)) {
+      if (Util.checkIsFunction(businessInfoCallback)) {
         saveLocalBusinessInfo(res.root);
-        getBusinessInfoCallback();
+        businessInfoCallback(res.root);
+        Utils.logInfo("BusinessInfo==> \n" + JSON.stringify(res.root));
       }
     }
   })
@@ -228,100 +294,52 @@ function requestBusinessInfo(customerNo, getBusinessInfoCallback) {
 }
 
 /**
- * 开始登陆
- * 先微信登陆 --》 成功后 调用 自有服务器登陆方法
- * @param loginCallback 登陆回调
+ * 获取商家认证信息
+ * @param customerNo
+ * @param getBusinessInfoCallback
  */
-function startLogin(loginCallback) {
-  let that = this;
-  wx.showLoading({
-    title: '请稍等...',
-  })
-  wx.login({
+function requestAuthByAuthNo(businessNo, getBusinessInfoCallback) {
+  let requestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_Auth_ByAuthNo + businessNo,
+    data: {
+      
+    },
     success(res) {
-      console.log("微信login success => " + res.code);
-      // 发送 res.code 到后台换取 openId, sessionKey, unionId
-      let wxCode = res.code;
-      // 查看是否授权
-      wx.getSetting({
-        success(res) {
-          console.log("获取授权成功")
-          if (res.authSetting['scope.userInfo']) {
-            console.log("获取 scope.userInfo 授权成功")
-            // 已经授权，可以直接调用 getUserInfo 获取头像昵称
-            wx.getUserInfo({
-              success(res) {
-                console.log("微信登陆 => \n" + JSON.stringify(res));
-                // 微信用户基本信息
-                let userInfo = res.userInfo;
-                // 向服务器请求登陆，返回 本微信 在服务器状态，注册|未注册，
-                _requestLogin(wxCode, res.encryptedData, res.iv,
-                  function loginRequestCallback(loginSuccess, data) {
-                    if (loginSuccess) {
-                      let tempUserInfo = data.root;
-                      userInfo.customerNo = tempUserInfo.customerNo
-                      userInfo.openId = tempUserInfo.openid
-                      userInfo.phone = tempUserInfo.phone
-                      userInfo.nickName = tempUserInfo.customerName
-                      userInfo.avatarUrl = tempUserInfo.headerImage
-                      userInfo.gender = tempUserInfo.sex
-                      userInfo.lastLoginTime = tempUserInfo.lastLoginTime
-                      userInfo.registrationDate = tempUserInfo.registrationDate
-                      userInfo.registrationTime = tempUserInfo.registrationTime
-                      userInfo.points = tempUserInfo.points
-                      userInfo.balance = tempUserInfo.balance
-                      userInfo.unionId = tempUserInfo.unionId
-                      saveLocalUserInfo(userInfo);
-                      if (Util.checkIsFunction(loginCallback)) {
-                        loginCallback(Login_Success);
-                      }
-                    } else {
-                      if (data.code == ResponseEnum.Res_Code.NOT_EXIST) {
-                        loginCallback(Login_Register);
-                        app.globalData.tempUserInfo = userInfo;
-                        let errUserInfo = JSON.parse(data.errMsg);
-                        app.globalData.unionId = errUserInfo.unionId;
-                        app.globalData.openId = errUserInfo.openid
-                      } else {
-                        loginCallback(Login_Fail);
-                      }
-                    }
-                  }
-                )
-              },
-              fail(res) {
-                wx.showToast({
-                  title: '获取基础信息失败',
-                  icon: 'none'
-                })
-              }
-            })
-          } else {
-            wx.showToast({
-              title: '请先授权',
-              icon: 'none'
-            })
-          }
-        },
-        fail(res) {
-          console.log("获取授权失败");
-          wx.showToast({
-            title: '获取授权失败',
-            icon: 'none'
-          })
-        },
-      })
-    },
-    fail(res) {
-      console.log("微信login fail => " + JSON.stringify(res));
-      wx.showToast({
-        title: '微信登陆失败',
-        icon: 'none'
-      })
-    },
+      if (Util.checkIsFunction(getBusinessInfoCallback)) {
+        getBusinessInfoCallback(res.root);
+      }
+    }
   })
+  RequestUtil.RequestGET(requestParam);
 }
 
+
+function _requestPhone(wxCode, encryptedData, iv, dataInfo, loginCallback) {
+  let requestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_Decode,
+    data: {
+      code: wxCode,
+      encryptedData: encryptedData,
+      iv: iv,
+      wxUserInfo: dataInfo
+    },
+    method: "POST",
+    header: {
+      "Content-Type": "application/json"
+    },
+    success: function (res) {
+      if (typeof loginCallback == "function" && loginCallback) {
+        loginCallback(true, res)
+      }
+    },
+    fail: function (res) {
+      if (typeof loginCallback == "function" && loginCallback) {
+        loginCallback(false, res)
+      }
+    }
+  });
+  RequestUtil.RequestPOST(requestParam);
+}
 /**
  * 自有服务器 登陆 请求
  * @param wxCode 微信登陆成功后拿到的code
@@ -337,16 +355,17 @@ function _requestLogin(wxCode, encryptedData, iv, loginCallback) {
     },
     method: "POST",
     header: {
-      "Content-Type": "application/json"
+      'content-type': 'application/json'
     },
+    
     success: function(res) {
       if (typeof loginCallback == "function" && loginCallback) {
-        loginCallback(true, res)
+        loginCallback(res,true)
       }
     },
     fail: function(res) {
       if (typeof loginCallback == "function" && loginCallback) {
-        loginCallback(false, res)
+        loginCallback(res,false)
       }
     }
   });
@@ -416,19 +435,7 @@ function getCode(phone, getCodeCallback) {
 function authenticate(param, authenticateResultCallback) {
   let requestParam = new RequestParamObj({
     url: UrlPath.Url_Base + UrlPath.Url_Auth,
-    data: {
-      "businessAuthType": param.type,
-      "business": param.business,
-      "realName": param.name,
-      "idCard": param.identifier,
-      "legalImg": param.identifierImagePath,
-      "licenseNo": param.license,
-      "licenseImg": param.licenseImagePath,
-      "shopName": param.storeName,
-      "shopAddress": param.region,
-      "detailAddress": param.detailAddress,
-      "shopImg": param.storeFontImagePath,
-    },
+    data: param,
     success(res) {
       if (authenticateResultCallback && typeof authenticateResultCallback == "function") {
         authenticateResultCallback(res);
@@ -439,23 +446,17 @@ function authenticate(param, authenticateResultCallback) {
 }
 
 /**
- * 缴纳保证金
+ * 提交保证金申请
  * @param param(billNo, authNo, authType, businessNo, amount)
  * @param bondResultCallback
  */
 function addBond(param, bondResultCallback) {
   let requestParam = new RequestParamObj({
-    url: UrlPath.Url_Base + UrlPath.Url_Add_Bond,
+    url: UrlPath.Url_Base + UrlPath.Url_BusinessBond,
     data: {
-     billNo: param.billNo,
      business: {
-       auth: {
-         billNo: param.authNo,
-         businessAuthType: param.authType,
-       },
-       businessNo: param.businessNo,
-     },
-     paymentAmount: param.amount
+        businessNo: param.businessNo,
+     }
     },
     success(res) {
       if (Util.checkIsFunction(bondResultCallback)) {
@@ -466,27 +467,265 @@ function addBond(param, bondResultCallback) {
   RequestUtil.RequestPOST(requestParam);
 }
 
+/**
+ * 获得保证金对象
+ */
+function getBusinessBond(businessNo, bondResultCallback){
+  let reuqestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_GetBusinessBond + businessNo,
+    data: {
+    },
+    success(res) {
+      if (Util.checkIsFunction(bondResultCallback)) {
+        bondResultCallback(res);
+      }
+    }
+  })
+  RequestUtil.RequestGET(reuqestParam);
+}
+
+/**
+ * 获取保证金支付金额
+ */
+function getBusinessBondPrice(bondResultCallback) {
+  let reuqestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_QueryBondAmout,
+    data: {
+    },
+    success(res) {
+      if (Util.checkIsFunction(bondResultCallback)) {
+        bondResultCallback(res);
+      }
+    }
+  })
+  RequestUtil.RequestGET(reuqestParam);
+}
+
+/**
+ * 支付保证金
+ */
+function payBond(businessNo, bondResultCallback) {
+  let reuqestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_Bond_PayParam,
+    data: {
+      businessNo: businessNo
+    },
+    success(res) {
+      if (Util.checkIsFunction(bondResultCallback)) {
+        bondResultCallback(res);
+      }
+    }
+  })
+  RequestUtil.RequestGET(reuqestParam);
+}
+
+
+/**
+ * 本月交易额
+ */
+function getThisMonthAmountOfMoney(businessNo, bondResultCallback){
+  let reuqestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_TotalMonth,
+    data: {
+      businessNo: businessNo
+    },
+    success(res) {
+      if (Util.checkIsFunction(bondResultCallback)) {
+        bondResultCallback(res);
+      }
+    }
+  })
+  RequestUtil.RequestGET(reuqestParam);
+} 
+
+
+/**
+ * 商家关注对象（校验）
+ *  Url_BusinessFollow , //获取关注对象（可作为校验）
+ */
+function getBusinessFollowAndFs(businessFollowPoj, resultCallback){
+  let reuqestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_BusinessFollow +"?paramStr="+ encodeURIComponent(JSON.stringify(BusinessObj.businessFollow(businessFollowPoj)), 'utf-8'),
+    data: {},
+    success(res) {
+      if (Util.checkIsFunction(resultCallback)) {
+        resultCallback(res);
+      }
+    }
+  })
+  RequestUtil.RequestGET(reuqestParam);
+}
+
+/**
+ * 添加关注或者收藏
+ *     Url_AddFollow , //添加关注或收藏
+ */
+function addBusinessFollow(businessFollowPoj, resultCallback){
+  let reuqestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_AddFollow + "?paramStr=" + encodeURIComponent(JSON.stringify(BusinessObj.businessFollow(businessFollowPoj)), 'utf-8'),
+    data: {},
+    method: "PUT",
+    header: {
+      'content-type': 'application/json'
+    },
+    success(res) {
+      if (Util.checkIsFunction(resultCallback, resultCallback)) {
+        resultCallback(res);
+      }
+    }
+  })
+  RequestUtil.RequestPUT(reuqestParam);
+}
+
+/**
+ * 查看粉丝
+ */
+function getBusinessFansList(bussinessFansObj, resultCallback){
+  let reuqestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_Get_BusinessFans + "?queryParam=" + encodeURIComponent(JSON.stringify(bussinessFansObj), 'utf-8'),
+    data: {},
+    success(res) {
+      if (Util.checkIsFunction(resultCallback)) {
+        resultCallback(res);
+      }
+    }
+  })
+  RequestUtil.RequestGET(reuqestParam);
+}
+
+/**
+ * 获取商家关注或收藏列表
+ * Url_BusinessFollowList , //关注或收藏列表
+ */
+function getBusinessFollowList(businessFollowPoj, resultCallback){
+  let reuqestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_BusinessFollowList + "?queryParam=" + encodeURIComponent(JSON.stringify(BusinessObj.businessFollowList(businessFollowPoj)), 'utf-8'),
+    data: {},
+    success(res) {
+      if (Util.checkIsFunction(resultCallback)) {
+        resultCallback(res);
+      }
+    }
+  })
+  RequestUtil.RequestGET(reuqestParam);
+}
+
+/**
+ * 取消关注或收藏
+ * Url_BusinessUnfollow ,  //取消关注或收藏
+ */
+function businessUnFollow(businessFollowPoj, resultCallback){
+  let reuqestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_BusinessUnfollow + "?paramStr=" + encodeURIComponent(JSON.stringify(BusinessObj.businessFollow(businessFollowPoj)), 'utf-8'),
+    data: {},
+    method: "PUT",
+    header: {
+      'content-type': 'application/json'
+    },
+    success(res) {
+      if (Util.checkIsFunction(resultCallback)) {
+        resultCallback(res);
+      }
+    }
+  })
+  RequestUtil.RequestPUT(reuqestParam);
+}
+
+/**
+ * 更新商家信息
+ */
+function updateBusinessInfo(submissionObject, resultCallback){
+  let reuqestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_BusinessDetail,
+    data: submissionObject,
+    method:"PUT",
+    header: {
+      'content-type': 'application/json'
+    },
+    success(res) {
+      if (Util.checkIsFunction(resultCallback)) {
+        resultCallback(res);
+      }
+    }
+  })
+  RequestUtil.RequestPUT(reuqestParam);
+}
+
+
+/**
+ * 获取积分流水
+ */
+function getBusinessCreditFlow(param, resultCallback){
+  let reuqestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_BusinessCreditFlow + "?queryParam=" + encodeURIComponent(JSON.stringify(param), 'utf-8'),
+    data: {},
+    success(res) {
+      if (Util.checkIsFunction(resultCallback)) {
+        resultCallback(res.root);
+      }
+    }
+  })
+  RequestUtil.RequestGET(reuqestParam);
+}
+
+
+/**
+ * 优惠券列表
+ */
+function getCouponList(param, resultCallback){
+  let reuqestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_BusinessCouponList + "?queryParam=" + encodeURIComponent(JSON.stringify(CouponObj.couponObj(param)), 'utf-8'),
+    data: {},
+    success(res) {
+      if (Util.checkIsFunction(resultCallback)) {
+        resultCallback(res.root);
+      }
+    }
+  })
+  RequestUtil.RequestGET(reuqestParam);
+}
+
+
+
 module.exports = {
   saveCurrentRole: saveCurrentRole, // 存储当前角色 买家 卖家
   getCurrentRole: getCurrentRole, // 获取当前存储角色 买家 卖家
   getBusinessNo: getBusinessNo, // 获取卖家编号
   requestBusinessInfo: requestBusinessInfo, // 请求卖家信息
   saveLocalBusinessInfo: saveLocalBusinessInfo, // 保存 卖家对象
-  deleteLocalBusinessInfo: deleteLocalBusinessInfo, // 删除 卖家对象
   getLocalBusinessInfo: getLocalBusinessInfo, // 获取 卖家对象
+  getBusinessAuthType: getBusinessAuthType, // 获取认证级别
   saveLocalUserInfo: saveLocalUserInfo, // 保存用户对象
   deleteLocalUserInfo: deleteLocalUserInfo, // 删除用户对象
   getLocalUserInfo: getLocalUserInfo, // 获取用户对象
   getPhone: getPhone, // 获取用户电话
   getCustomerNo: getCustomerNo, // 获取用户客户编号
+  getPoints: getPoints, // 获取积分数目
+  updatePoints: updatePoints, // 更新积分
+  getBalance: getBalance, // 获取余额数目
+  updateBalance: updateBalance, // 更新余额
   getOpenId: getOpenId, // 获取用户 openId
   isLogin: isLogin, // 用户是否已登录
-  startLogin: startLogin, // 用户请求登陆
   register: register, // 用户注册
   getCode: getCode, // 用户注册获取 短信验证
   Login_Success, // 登陆成功标识
   Login_Fail, // 登陆失败标识
   Login_Register, // 登陆未注册标识
   authenticate: authenticate, // 商家认证
-  addBond: addBond, // 缴纳保证金
+  addBond: addBond, // 提交保证金申请
+  getBusinessBond: getBusinessBond, //获得保证金额
+  getThisMonthAmountOfMoney: getThisMonthAmountOfMoney, //本月交易额
+  requestAuthByAuthNo: requestAuthByAuthNo,  //获取商家认证信息
+  getBusinessFollowAndFs: getBusinessFollowAndFs , //商家关注对象校验
+  updateBusinessInfo: updateBusinessInfo, //更新商家信息
+  addBusinessFollow: addBusinessFollow, //添加关注或收藏
+  getBusinessFollowList: getBusinessFollowList, //获得商家关注或收藏列表
+  getBusinessFansList: getBusinessFansList, //用户粉丝
+  businessUnFollow: businessUnFollow, //取消关注或者收藏
+  _requestLogin: _requestLogin, //获取用户基本信息
+  _requestPhone: _requestPhone, //获得手机号码
+  getBusinessCreditFlow: getBusinessCreditFlow, //获得用户积分流水
+  getCouponList: getCouponList, //获得优惠券列表
+  getBusinessBondPrice: getBusinessBondPrice, //获得保证金额
+  payBond: payBond, //保证金参数
 }

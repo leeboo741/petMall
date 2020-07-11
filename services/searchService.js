@@ -11,6 +11,7 @@ const {
 const RequestUtil = require("../utils/requestUtil.js");
 const UrlPath = require("../macros/urlPath.js");
 const Util = require("../utils/util.js");
+const Utils = require("../utils/util.js");
 
 const Key_SearchHistory = "searchHistory"
 
@@ -56,13 +57,13 @@ function deleteSearchHistory(deleteCallback){
   wx.removeStorage({
     key: Key_SearchHistory,
     success(res) {
-      console.log("删除用户 success: \n" + JSON.stringify(res));
+      Utils.logInfo("删除用户 success: \n" + JSON.stringify(res));
       if (deleteCallback && typeof deleteCallback == "function") {
         deleteCallback(true)
       }
     },
     fail(res) {
-      console.log("删除用户 fail: \n" + JSON.stringify(res));
+      Utils.logInfo("删除用户 fail: \n" + JSON.stringify(res));
       if (deleteCallback && typeof deleteCallback == "function") {
         deleteCallback(false)
       }
@@ -75,13 +76,10 @@ function deleteSearchHistory(deleteCallback){
  * @param param (searchKey, offset, limit)
  * @param getSearchResultCallback
  */
-function getSearchResult(param, getSearchResultCallback) {
+function getSearchResult(searchKey, getSearchResultCallback) {
   let requestParam = new RequestParamObj({
-    url: UrlPath.Url_Base + UrlPath.Url_Search,
+    url: UrlPath.Url_Base + UrlPath.Url_Search + searchKey,
     data: {
-      search: param.searchKey,
-      offset: param.offset,
-      limit: param.limit,
     },
     success(res) {
       if (Util.checkIsFunction(getSearchResultCallback)) {

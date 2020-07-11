@@ -1,288 +1,448 @@
 <!--pages/order/orderDetail/index.wxml-->
-<i-navigation-bar title='订单详情'
-                  showBackButton>
+<i-navigation-bar title='订单详情' showBackButton>
 </i-navigation-bar>
 
 <i-panel i-class='panel'>
-  <i-cell-group>
-    <i-cell>
-      <view class="store-box"
-            slot='header'>
-        <view class="store-info">
-          <view class="store-logo-box">
-            <i-image i-class="store-logo"
-                     imageSrc='{{parse.getStoreLogo(order)}}'
-                     >
-            </i-image>
-          </view>
-          <view class="store-name">
-          {{parse.getStoreName(order)}}
-          </view>
-        </view>      
-        <view class="store-line-v"></view>
-        <view class="store-call-box"
-              bindtap="callStorePhone">
-          <i-icon type='phone'
-                  size="36">
-          </i-icon>
-          <view class="store-call-title">
-          联系商家
-          </view>
-        </view>
-      </view>
-    </i-cell>
-    <!-- 商品信息 -->
-    <block wx:if='{{order.item != null}}'>
-      <i-cell>
-        <view class="goods-box"
-              slot='header'>
-          <view class="goods-image-box">
-            <i-image i-class="goods-image"
-                    imageSrc='{{order.item.coverImg}}'
-                    >
-            </i-image>
-          </view>
-          <view class="goods-info-box">
-            <view class="goods-info-line">
-              <view class="goods-info-name">
-              {{order.item.itemName}}
-              </view>
-              <view class="goods-info-count">
-              x{{order.qty}}
-              </view>
-            </view>
-            <view class="goods-info-line">
-              <view class="goods-info-price">
-              ￥{{order.paymentAmount}}
-              </view>
-            </view>
-          </view>      
-        </view>
-      </i-cell>
+	<i-cell-group>
+		<i-cell>
+			<view class="store-box" slot='header'>
+				<view class="store-info">
+					<view class="store-logo-box">
+						<i-image i-class="store-logo" imageSrc='{{parse.getStoreLogo(order)}}'>
+						</i-image>
+					</view>
+					<view class="store-name">
+						{{parse.getStoreName(order)}}
+					</view>
+				</view>
+				<view class="store-line-v"></view>
+				<view class="store-call-box" bindtap="tapShopCall" data-phone='{{order.shop.contactPhone}}'>
+					<i-icon type='phone' size="36">
+					</i-icon>
+					<view class="store-call-title">
+						联系商家
+					</view>
+				</view>
+			</view>
+		</i-cell>
+		<!-- 商品信息 -->
+		<block wx:if='{{order.itemNo != null}}'>
+			<i-cell>
+				<view class="goods-box" slot='header' bindtap="tapItemDetail" data-itemno='{{order.itemNo}}'>
+					<view class="goods-image-box">
+						<i-image i-class="goods-image" imageSrc='{{order.coverImg}}'>
+						</i-image>
+					</view>
+					<view class="goods-info-box">
+						<view class="goods-info-line">
+							<view class="goods-info-name">
+								{{order.itemName}}
+							</view>
+							<view class="goods-info-count">
+								x{{order.qty}}
+							</view>
+						</view>
+						<view class="goods-info-line">
+							<view class="goods-info-price">
+								￥{{order.paymentAmount}}
+							</view>
+						</view>
+					</view>
+				</view>
+			</i-cell>
 
-      <i-cell>
-        <view class="price-box"
-              slot='header'>
-          <view class="price-title-box">
-            <view class="price-title">
-            价格明细
-            </view>
-          </view>
-          <view class='price-content-box'>
-            <view class="price-content-item">
-              <view class="price-content-item-title">
-              价格
-              </view>
-              <view class="price-content-item-value">
-              {{order.item.retailPrice}} X {{order.qty}}
-              </view>
-            </view>
-            <!-- <view class="price-content-item">
-              <view class="price-content-item-title">
-              运费
-              </view>
-              <view class="price-content-item-value">
-              {{order.price.freight}}
-              </view>
-            </view>
-            <view class="price-content-item">
-              <view class="price-content-item-title">
-              优惠券抵扣
-              </view>
-              <view class="price-content-item-value">
-              -{{order.price.couponOffset}}
-              </view>
-            </view>
-            <view class="price-content-item">
-              <view class="price-content-item-title">
-              积分抵扣
-              </view>
-              <view class="price-content-item-value">
-              -{{order.price.pointOffset}}
-              </view>
-            </view> -->
-          </view>
-        </view>
-      </i-cell>
-    </block>
-    <!-- 宠物信息 -->
-    <block wx:if='{{order.pet != null}}'>
-      <i-cell>
-        <view class="goods-box"
-              slot='header'>
-          <view class="goods-image-box">
-            <i-image i-class="goods-image"
-                    imageSrc='{{orderItem.pet.coverMedia}}'
-                    >
-            </i-image>
-          </view>
-          <view class="goods-info-box">
-            <view class="goods-info-line">
-              <view class="goods-info-name">
-              {{order.pet.petName}}
-              </view>
-              <view class="goods-info-sexy"
-                    wx:if='{{parse.showSexy(order)}}'>
-              {{parse.getSexy(order)}}
-              </view>
-              <view class="goods-info-count">
-              x{{order.qty}}
-              </view>
-            </view>
-            <view class="goods-info-line">
-              <view class="goods-info-price">
-              ￥{{order.paymentAmount}}
-              </view>
-            </view>
-          </view>      
-        </view>
-      </i-cell>
+			<i-cell>
+				<view class="price-box" slot='header'>
+					<view class="price-title-box">
+						<view class="price-title">
+							价格明细
+						</view>
+					</view>
+					<view class='price-content-box'>
+						<view class="price-content-item">
+							<view class="price-content-item-title">
+								价格
+							</view>
+							<view class="price-content-item-value">
+								{{order.retailPrice}} X {{order.qty}}
+							</view>
+						</view>
+						<view class="price-content-item" wx:if='{{order.coupon}}'>
+							<view class="price-content-item-title">
+								优惠券抵扣
+							</view>
+							<view class="price-content-item-value">
+								-{{order.couponAmount}}
+							</view>
+						</view>
+					</view>
+				</view>
+			</i-cell>
+		</block>
+		<!-- 宠物信息 -->
+		<block wx:if='{{order.petNo != null}}'>
+			<i-cell>
+				<view class="goods-box" slot='header' bindtap="tapPetDetail" data-petno='{{order.petNo}}'>
+					<view class="goods-image-box">
+						<i-image i-class="goods-image" imageSrc='{{order.petImg}}'>
+						</i-image>
+					</view>
+					<view class="goods-info-box">
+						<view class="goods-info-line">
+							<view class="goods-info-name">
+								{{order.petName}}
+							</view>
+							<view class="goods-info-sexy" wx:if='{{parse.showSexy(order)}}'>
+								{{parse.getSexy(order)}}
+							</view>
+							<view class="goods-info-count">
+								x{{order.qty}}
+							</view>
+						</view>
+						<view class="goods-info-line">
+							<view class="goods-info-price">
+								￥{{order.retailPrice}}
+							</view>
+						</view>
+					</view>
+				</view>
+			</i-cell>
 
-      <i-cell>
-        <view class="price-box"
-              slot='header'>
-          <view class="price-title-box">
-            <view class="price-title">
-            价格明细
-            </view>
-          </view>
-          <view class='price-content-box'>
-            <view class="price-content-item">
-              <view class="price-content-item-title">
-              价格
-              </view>
-              <view class="price-content-item-value">
-              {{order.item.retailPrice}} X {{order.qty}}
-              </view>
-            </view>
-            <!-- <view class="price-content-item">
-              <view class="price-content-item-title">
-              运费
-              </view>
-              <view class="price-content-item-value">
-              {{order.price.freight}}
-              </view>
-            </view>
-            <view class="price-content-item">
-              <view class="price-content-item-title">
-              优惠券抵扣
-              </view>
-              <view class="price-content-item-value">
-              -{{order.price.couponOffset}}
-              </view>
-            </view>
-            <view class="price-content-item">
-              <view class="price-content-item-title">
-              积分抵扣
-              </view>
-              <view class="price-content-item-value">
-              -{{order.price.pointOffset}}
-              </view>
-            </view> -->
-          </view>
-        </view>
-      </i-cell>
-    </block>
-    
-    <i-cell>
-      <view class="detail-box"
-            slot='header'>
-        <view class="detail-item">
-          <view class="detail-title">
-          联系人
-          </view>
-          <view class="detail-value">
-          {{order.customer.customerName}}
-          </view>
-        </view>
-        <view class="detail-item">
-          <view class="detail-title">
-          联系电话
-          </view>
-          <view class="detail-value">
-          {{order.customer.phone}}
-          </view>
-        </view>
-        <view class="detail-item">
-          <view class="detail-title">
-          收货地址
-          </view>
-          <view class="detail-value">
-          {{order.receivingAddress.province}} {{order.receivingAddress.city}} {{order.receivingAddress.county}} {{order.receivingAddress.detailedAddress}}
-          </view>
-        </view>
-        <view class="detail-item">
-          <view class="detail-title">
-          卖家名称
-          </view>
-          <view class="detail-value">
-          {{parse.getStoreName(order)}}
-          </view>
-        </view>
-        <view class="detail-item">
-          <view class="detail-title">
-          订单编号
-          </view>
-          <view class="detail-value">
-          {{order.orderNo}}
-          </view>
-        </view>
-        <view class="detail-item">
-          <view class="detail-title">
-          下单时间
-          </view>
-          <view class="detail-value">
-          {{order.createDate}} {{order.createTime}}
-          </view>
-        </view>
-      </view>
-    </i-cell>
-  </i-cell-group>
+			<i-cell>
+				<view class="price-box" slot='header'>
+					<view class="price-title-box">
+						<view class="price-title">
+							价格明细
+						</view>
+					</view>
+					<view class='price-content-box'>
+						<view class="price-content-item">
+							<view class="price-content-item-title">
+								价格
+							</view>
+							<view class="price-content-item-value">
+								{{order.paymentAmount}} X {{order.qty}}
+							</view>
+						</view>
+						<view class="price-content-item" wx:if='{{order.coupon}}'>
+							<view class="price-content-item-title">
+								优惠券抵扣
+							</view>
+							<view class="price-content-item-value">
+								-{{order.couponAmount}}
+							</view>
+						</view>
+					</view>
+				</view>
+			</i-cell>
+		</block>
+
+		<i-cell>
+			<view class="detail-box" slot='header'>
+				<view class="detail-item">
+					<view class="detail-title">
+						买家名称
+					</view>
+					<view class="detail-value">
+						{{order.buyer.businessName}}
+					</view>
+				</view>
+				<view class="detail-item">
+					<view class="detail-title">
+						买家电话
+					</view>
+					<view class="detail-value" style="color: blue;text-decoration: underline;text-decoration-color: blue;" bindtap="tapContact" data-phone='{{order.buyer.contactPhone}}'>
+						{{order.buyer.contactPhone}}
+					</view>
+				</view>
+				<view class="detail-item">
+					<view class="detail-title">
+						收货地址
+					</view>
+					<view class="detail-value">
+						{{order.receivingAddress}}
+					</view>
+				</view>
+				<view class="detail-item">
+					<view class="detail-title">
+						卖家名称
+					</view>
+					<view class="detail-value">
+						{{parse.getStoreName(order)}}
+					</view>
+				</view>
+				<view class="detail-item">
+					<view class="detail-title">
+						订单编号
+					</view>
+					<view class="detail-value">
+						{{order.orderNo}}
+					</view>
+				</view>
+				<view class="detail-item">
+					<view class="detail-title">
+						下单时间
+					</view>
+					<view class="detail-value">
+						{{order.createDate}} {{order.createTime}}
+					</view>
+				</view>
+			</view>
+		</i-cell>
+	</i-cell-group>
 </i-panel>
 
+<block wx:if='{{transport}}'>
+  <i-panel i-class='panel' title='宠物托运-订单信息'>
+    <i-cell-group>
+      <i-cell title='运单编号' value='{{transport.orderNo}}'>
+      </i-cell>
+      <i-cell title='下单时间' value='{{transport.orderDate}} {{transport.orderTime}}'>
+      </i-cell>
+      <i-cell title='运输区间' value='{{transport.transport.transportName}}'>
+      </i-cell>
+      <i-cell title='运输状态' value='{{transport.state}}'></i-cell>
+      <i-cell title='运输价格' value='￥{{transport.paymentAmount}}'></i-cell>
+      <i-cell title='运输方式' value='{{parse.transportType(transport.transport.transportType)}}'>
+      </i-cell>
+      <block wx:if='{{transport.orderTransport != null && transport.orderTransport.transportNum != null}}'>
+        <i-cell title='航班号/车次号' value='{{transport.orderTransport.transportNum}}'></i-cell>
+        <i-cell title='快递单号' value='{{transport.orderTransport.expressNum}}'></i-cell>
+      </block>
+      <i-cell wx:if='{{transport.num!=null}}'
+              title='宠物数量'
+              value='{{transport.num}}'></i-cell>
+      <i-cell wx:if='{{transport.weight!=null}}'
+              title='宠物重量' 
+              value='{{transport.weight}}kg'></i-cell>
+      <i-cell wx:if='{{transport.petSort.petSortName!=null}}'
+              title='宠物种类' 
+              value='{{transport.petSort.petSortName}}'></i-cell>
+      <i-cell wx:if='{{transport.petGenre.petGenreName!=null}}'
+              title='宠物品种' 
+              value='{{transport.petGenre.petGenreName}}'></i-cell>
+    </i-cell-group>
+  </i-panel>
+  <i-panel i-class='panel'
+          title='宠物托运-提货信息'
+          wx:if='{{transport.orderTakeDetail}}'>
+    <i-cell-group>
+      <i-cell title='联系人'
+              label='{{transport.orderTakeDetail.contact}}'
+              is-link>
+        <view slot='footer'
+              bindtap='callContact'
+              data-phone='{{transport.orderTakeDetail.phone}}'>
+          {{transport.orderTakeDetail.phone!=null?transport.orderTakeDetail.phone:""}}
+        </view>  
+      </i-cell>
+      <i-cell title='提货地址'
+              label='{{transport.orderTakeDetail.province}}{{transport.orderTakeDetail.city}}{{transport.orderTakeDetail.region}}'
+              value='{{transport.orderTakeDetail.detailAddress}}'
+              bindtap='tapTakeAddress'
+              is-link>
+      </i-cell>
+      <i-cell title='提货时间'
+              value='{{transport.orderTakeDetail.takeTime}}'>
+      </i-cell>
+    </i-cell-group>
+  </i-panel>
+  <i-panel i-class="panel" 
+          title='宠物托运-增值服务'>
+    <i-cell-group>
+      <i-cell title='购买航空箱' 
+              value='{{(transport.addedWeightCage==null)?"否":transport.addedWeightCage.cageName}}'
+              label="{{(transport.addedWeightCage==null|| transport.addedWeightCage.cagePrice == null ||transport.addedWeightCage.cagePrice==0)?'':'￥'+transport.addedWeightCage.cagePrice}}"></i-cell>
+      <i-cell title='上门接宠' 
+              value='{{(transport.receiptAddress==null||transport.receiptAddress.length<=0)?"否":"是"}}' 
+              label="{{transport.receiptAddress}}"
+              data-address='{{transport.receiptAddress}}'></i-cell>
+      <i-cell title='送宠到家' 
+              value='{{(transport.sendAddress==null||transport.sendAddress.length<=0)?"否":"是"}}' 
+              label="{{transport.sendAddress}}"
+              data-address='{{transport.sendAddress}}'></i-cell>
+      <i-cell title='保价' 
+              value='{{(transport.petAmount==null||transport.petAmount==0)?"否":"是"}}' 
+              label="{{(transport.petAmount==null||transport.petAmount==0)?'':'￥'+transport.petAmount}}"></i-cell>
+      <i-cell title='中介担保' 
+              value='{{(transport.guarantee==null||transport.guarantee=="否")?"否":"是"}}'></i-cell>
+    </i-cell-group>
+  </i-panel>
+  <i-panel i-class='panel'
+          title='临时派送信息'
+          wx:if='{{transport.orderTempDelivers && transport.orderTempDelivers.length>0}}'>
+    <i-cell-group>
+      <i-cell title='收件人' 
+              value='{{parse.getTempDeliverName(transport)}}'></i-cell>
+      <i-cell title='手机号'
+              is-link>
+        <view slot='footer'
+              bindtap='callContact'
+              data-phone='{{parse.getTempDeliverPhone(transport)}}'>
+        {{parse.getTempDeliverPhone(transport)}}
+        </view>         
+      </i-cell>
+      <i-cell title='地址' 
+              label="{{parse.getTempDeliverAddress(transport)}}"></i-cell>
+    </i-cell-group>
+  </i-panel>
+  <i-panel wx:if='{{(transport.senderName!=null || transport.senderPhone!=null || transport.receiverPhone!=null || transport.receiverName!=null)}}'
+          i-class="panel" 
+          title='收寄人信息'>
+    <i-cell-group>
+      <i-cell title='寄件人'
+              label='{{transport.senderName!=null?transport.senderName:""}}'
+              is-link>
+        <view slot='footer'
+              bindtap='callContact'
+              data-phone='{{transport.senderPhone}}'>
+          {{transport.senderPhone!=null?transport.senderPhone:""}}
+        </view> 
+      </i-cell>
+      <i-cell title='收件人' 
+              label='{{transport.receiverName!=null?transport.receiverName:""}}'
+              is-link>
+        <view slot='footer'
+              bindtap='callContact'
+              data-phone='{{transport.receiverPhone}}'>
+          {{transport.receiverPhone!=null?transport.receiverPhone:""}}
+        </view>       
+      </i-cell>
+    </i-cell-group>
+  </i-panel>
+  <i-panel i-class="panel" 
+          title='备注'
+          wx:if="{{(transport.remarks!=null && transport.remarks.length > 0) || (transport.orderRemarksList!=null && transport.orderRemarksList.length > 0) }}">
+    <i-cell title='{{transport.remarks}}'>
+    </i-cell>
+    <i-cell wx:for='{{transport.orderRemarksList}}'
+            wx:for-item='remarkItem'
+            wx:for-index='remarkIndex'
+            wx:key='{{remarkIndex}}'
+            title='{{remarkItem.remarks}}'>
+    </i-cell>
+  </i-panel>
+  <i-panel i-class="panel"
+          title='订单进度'
+          wx:if='{{transport.orderStates && transport.orderStates.length>0}}'>
+    <i-steps i-class='steps'
+            direction="vertical">
+      <i-step wx:for='{{transport.orderStates}}'
+              wx:for-item='stepItem'
+              wx:for-index='stepIndex'
+              wx:key='{{stepIndex}}'
+              status="finish">
+        <view slot="title" 
+              class="step-title-area">
+          <view class="step-title-content">
+          {{stepItem.currentPosition}}
+          </view>
+          <view class="step-title-time">
+          {{stepItem.date}} {{stepItem.time}}
+          </view> 
+        </view>
+        <view slot="content" 
+              class="step-content-area">
+          <view class="step-content-image-area">
+            <view wx:for='{{stepItem.pictureList}}'
+                  wx:for-item='stepImageItem'
+                  wx:for-index='stepImageIndex'
+                  wx:key='{{stepImageIndex}}'
+                  class="step-content-image-box">
+              <image class="step-content-image"
+                    src="{{stepImageItem.viewAddress}}"
+                    lazy-load="{{true}}"
+                    mode="scaleToFit"
+                    bindtap="tapImage"
+                    data-stepindex='{{stepIndex}}'
+                    data-imageurl='{{stepImageItem.viewAddress}}'>
+              </image>
+            </view>
+          </view>
+          <view class="step-content-video-area"
+                wx:if="{{parse.showVideo(stepItem.videoList)}}">
+            <video wx:for="{{stepItem.videoList}}"
+                  wx:for-item='videoItem'
+                  wx:for-index='videoIndex'
+                  wx:key='{{videoIndex}}'
+                  src="{{videoItem.viewAddress}}" 
+                  data-videoindex="{{videoIndex}}"
+                  data-stepindex='{{stepIndex}}'
+                  class='video'
+                  objectFit='contain'
+                  controls>
+            </video>
+          </view>
+        </view>
+      </i-step>
+    </i-steps>
+  </i-panel>
+  <i-panel i-class="panel">
+    <i-cell>
+      <view slot='header'
+            class='confirm-button'
+            bindtap="tapConfirmOrder">
+      前往托运小程序 查看|签收
+      </view>
+    </i-cell>
+  </i-panel>
+</block>
 <wxs module='parse'>
-  module.exports={
-    getStoreName: function(orderItem) {
-      if (orderItem.item != null) {
-        return orderItem.item.business.businessName;
+	module.exports = {
+    getTempDeliverPhone: function(order){
+      if (order.orderTempDelivers != null && order.orderTempDelivers.length > 0) {
+        return order.orderTempDelivers[order.orderTempDelivers.length-1].recipientPhone;
       }
-      if (orderItem.pet != null) {
-        return orderItem.pet.business.businessName;
-      }
+      return "";
     },
-    getStoreLogo: function(orderItem) {
-      if (orderItem.item != null) {
-        return ""
+    getTempDeliverAddress: function(order){
+      if (order.orderTempDelivers != null && order.orderTempDelivers.length > 0) {
+        return order.orderTempDelivers[order.orderTempDelivers.length-1].address;
       }
-      if (orderItem.pet != null) {
-        return orderItem.pet.business.headerImg;
-      }
+      return "";
     },
-    getSotreName: function(orderItem) {
-      if (orderItem.item != null) {
-        return "自营"
+    getTempDeliverName: function(order){
+      if (order.orderTempDelivers != null && order.orderTempDelivers.length > 0) {
+        return order.orderTempDelivers[order.orderTempDelivers.length-1].recipientName;
       }
-      if (orderItem.pet != null) {
-        return orderItem.pet.business.businessName;
-      }
+      return "";
     },
-    showSexy: function(orderItem) {
-      if (orderItem.pet == null || orderItem.pet.petSex != null || orderItem.pet.petSex.length <= 0) {
-        return false;
-      }
-      return true;
-    },
-    getSexy: function (orderItem) {
-      if (orderItem.pet.petSex == 1) {
-        return "公";
-      }
-      return "母";
-    },
-    showItemCell: function(order) {
-      return order.item != null;
-    },
-    showPetCell: function(order) {
-      return order.pet != null;
-    }
-  }
+		transportType: function(type) {
+			if (type == 1) {
+				return "专车";
+			} else if (type == 2) {
+				return "铁路";
+			} else if (type == 3) {
+				return "单飞";
+			} else if (type == 4) {
+				return "随机";
+			} else {
+				return "大巴";
+			}
+		},
+		getStoreName: function(orderItem) {
+			return orderItem.shop.businessName;
+		},
+		getStoreLogo: function(orderItem) {
+			return orderItem.shop.headImg;
+		},
+		showSexy: function(orderItem) {
+			if (orderItem.pet == null || orderItem.pet.petSex != null || orderItem.pet.petSex.length <= 0) {
+				return false;
+			}
+			return true;
+		},
+		getSexy: function(orderItem) {
+			if (orderItem.petSex == 1) {
+				return "公";
+			}
+			return "母";
+		},
+		showItemCell: function(order) {
+			return order.itemNo != null;
+		},
+		showPetCell: function(order) {
+			return order.petNo != null;
+		}
+	}
 </wxs>

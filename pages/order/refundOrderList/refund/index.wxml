@@ -24,7 +24,7 @@
         <view class="order-goods-box">
           <!-- 商品Item -->
           <view class="order-goods-item"
-                wx:if='{{parse.showItemCell(order)}}'
+                wx:if='{{order.item != null}}'
                 catchtap="tapItem"
                 data-itemno='{{order.item.itemNo}}'>
             <i-image i-class="order-goods-image"
@@ -42,18 +42,18 @@
                 x{{order.qty}}
                 </view>
                 <view class="order-goods-price">
-                ￥{{order.item.retailPrice}}
+                ￥{{parse.showRetailPrice(order.item.retailPrice)}}
                 </view>
               </view>
             </view>
           </view>
           <!-- 宠物Item -->
           <view class="order-goods-item"
-                wx:if='{{parse.showPetCell(order)}}'
+                wx:if='{{order.pet!=null}}'
                 catchtap="tapPet"
                 data-petno='{{order.pet.petNo}}'>
             <i-image i-class="order-goods-image"
-                    imageSrc='{{order.pet.coverMedia}}'
+                    imageSrc='{{order.pet.coverMedia[0].coverImg}}'
                     >
             </i-image>
             <view class="order-goods-info">
@@ -72,7 +72,7 @@
                 x{{order.qty}}
                 </view>
                 <view class="order-goods-price">
-                {{order.pet.retailPrice}}
+                ￥{{parse.showRetailPrice(order.pet.retailPrice)}}
                 </view>
               </view>
             </view>
@@ -173,6 +173,14 @@
     },
     showPetCell: function(order) {
       return order.pet != null;
+    },
+
+    showRetailPrice:function(res){
+      if(res==null){
+        return "--"
+      }else{
+        return res
+      }
     }
   }
 </wxs>

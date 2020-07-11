@@ -1,0 +1,151 @@
+<!--pages/me/serverList/serverList.wxml-->
+<i-navigation-bar title='已预约' showBackButton>
+</i-navigation-bar>
+
+<i-cell-group>
+  <i-cell wx:for='{{dataSource}}' 
+          wx:for-item='serverItem' 
+          wx:for-index='serverIndex' 
+          wx:key='orderNo'>
+    <view slot='header' 
+          class="server-item">
+      <view class="server-item-row">
+        <view class="server-item-no">
+        订单号:{{serverItem.orderNo}}
+        </view>
+      </view>
+      <view class="server-item-row">
+        <view class="server-item-time">
+        {{serverItem.createDate}} {{serverItem.createTime}}
+        </view>
+      </view>
+      <view class="server-item-row">
+        <view class="server-item-server-box">
+          <view class="server-item-server-item">
+            <view class="server-item-server-name">
+            {{serverItem.service.serviceName}}
+            </view>
+            <view class="server-item-server-price">
+            ￥{{serverItem.servicePrice.servicePrice}}
+            </view>
+          </view>
+          <view class="server-item-server-item">
+            <view class="server-item-server-time">
+            服务时间:{{serverItem.visitorTime}}
+            </view>
+          </view>
+
+          <view class="server-item-server-item" 
+                style="">
+            <view class="server-item-server-pet-name">
+            {{serverItem.servicePrice.petSort.petSortName}}
+            </view>
+            <view class="server-item-server-pet-value" 
+                  wx:if='{{serverItem.servicePrice.petSort.petSortNo != 10001}}'>
+            {{serverItem.servicePrice.petHair.hairLengthName}} | {{serverItem.servicePrice.startWeight}}~{{serverItem.servicePrice.endWeight}}kg
+            </view>
+            <view class="server-item-server-pet-value" 
+                  wx:else>
+            {{serverItem.servicePrice.startAge}}~{{serverItem.servicePrice.endAge}}月
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="server-item-row" 
+            wx:if='{{serverItem.beautician!=null}}'>
+        <view class="server-item-user-box">
+          <view class="server-item-user-title">
+          美容师:
+          </view>
+          <view class="server-item-user-content">
+            <i-image i-class="server-item-user-avater" 
+                   imageSrc="{{serverItem.beautician.headerImg}}">
+            </i-image>
+            <view class="server-item-user-info">
+              <view class="server-item-user-name">
+              {{serverItem.beautician.beauticianName}}
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="server-item-row" bindtap="tapStore" data-businessno='{{serverItem.shop.businessNo}}'>
+        <view class="server-item-user-box">
+          <view class="server-item-user-title">
+          商家:
+          </view>
+          <view class="server-item-user-content">
+            <i-image i-class="server-item-user-avater" 
+                   imageSrc="{{serverItem.shop.headImg}}">
+            </i-image>
+            <view class="server-item-user-info">
+              <view class="server-item-user-name">
+              {{serverItem.shop.businessName}}
+              </view>
+              <view class="server-item-user-phone">
+              {{serverItem.shop.contactPhone}}
+              </view>
+              <view class="server-item-user-address">
+              {{serverItem.shop.province}}{{serverItem.shop.city}}{{serverItem.shop.area}}{{serverItem.shop.detailAddress}}
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="server-item-row">
+        <view class="server-item-user-box">
+          <view class="server-item-user-title">
+          客户:
+          </view>
+          <view class="server-item-user-content">
+            <i-image i-class="server-item-user-avater" 
+                   imageSrc="{{serverItem.buyer.headImg}}">
+            </i-image>
+            <view class="server-item-user-info">
+              <view class="server-item-user-name">
+              {{serverItem.buyer.contact}}
+              </view>
+              <view class="server-item-user-phone">
+              {{serverItem.buyer.contactPhone}}
+              </view>
+              <view class="server-item-user-address" 
+                    hidden>
+              {{serverItem.buyer.province}}{{serverItem.buyer.city}}{{serverItem.buyer.area}}{{serverItem.buyer.detailAddress}}
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="server-item-row" style="justify-content: flex-end;">
+        <view class="server-item-paystate {{serverItem.paymentState==0?'paystate-unpay':''}}"
+              wx:if='{{serverItem.paymentState==0}}'>
+        {{serverItem.paymentState==0?'未付款':'已支付'}}
+        </view>
+        <view class="server-item-verifystate {{serverItem.verifyState==0?'verifystate-unverify':'verifystate-verify'}}"
+              wx:else>
+        {{serverItem.verifyState==0?'待核销':'已核销'}}
+        </view>
+        <view class="server-item-button" bindtap='toPay' data-orderno='{{serverItem.orderNo}}' data-index='{{serverIndex}}' wx:if='{{serverItem.paymentState==0 && currentRole == 0}}'>
+          去支付
+        </view>
+        <view class="server-item-button yellow-button"
+              bindtap="tapQRCode"
+              data-index='{{serverIndex}}'
+              data-orderno='{{serverItem.orderNo}}'
+              wx:if='{{serverItem.paymentState!=0&&serverItem.verifyState==0&&currentRole==0}}'>
+        二维码
+        </view>
+        <view class="server-item-button yellow-button"
+              bindtap="tapEvaluate"
+              data-index='{{serverIndex}}'
+              data-orderno='{{serverItem.orderNo}}'
+              wx:if='{{serverItem.paymentState!=0&&serverItem.verifyState!=0&&currentRole==0}}'>
+        评价      
+        </view>
+      </view>
+    </view>
+  </i-cell>
+</i-cell-group>
+
+<i-load-foot-item loadState='{{loadState}}'>
+</i-load-foot-item>

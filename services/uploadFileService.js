@@ -12,6 +12,7 @@ const {
 } = require("../utils/uploadFileParamObj.js");
 const UrlPath = require("../macros/urlPath.js");
 const Util = require("../utils/util.js");
+const Utils = require("../utils/util.js");
 
 /**
  * 上传文件
@@ -28,18 +29,18 @@ function fileUpload(fileAddress, uploadCallback, onProgressCallback) {
     name: "multipartFile", 
     header: { "Content-Type": "multipart/form-data" },
     success(res) {
-      console.log("upload success\n" + JSON.stringify(res));
+      Utils.logInfo("upload success\n" + JSON.stringify(res));
       if (uploadCallback != null && typeof uploadCallback == "function") {
         uploadCallback(res);
       }
     },
     fail(res) {
-      console.log("upload fail\n" + JSON.stringify(res));
+      Utils.logInfo("upload fail\n" + JSON.stringify(res));
     },
     complete(res) {
       uploadTask.offProgressUpdate(
         function offProgressCallback(res) {
-          console.log("cancel progress: \n" + fileAddress);
+          Utils.logInfo("cancel progress: \n" + fileAddress);
         } 
       );
     },

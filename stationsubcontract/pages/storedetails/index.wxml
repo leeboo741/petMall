@@ -1,0 +1,60 @@
+<i-navigation-bar title='门店详情' showBackButton='{{true}}' backgroundColor="white">
+</i-navigation-bar>
+<view class="container">
+  <view class="banner">
+    <swiper autoplay="true" class="swiper" duration="800" indicatorActiveColor="#fff" indicatorColor="#BBBBBB" indicatorDots="true" interval="2000">
+      <swiper-item wx:for="{{bannerList}}" wx:for-index="id" wx:for-item="itme">
+        <image class="slide-image" mode="widthFix" src="{{itme.img}}"></image>
+      </swiper-item>
+    </swiper>
+  </view>
+  <view class="con">
+    <view class="shopName weight">{{businessObj.business.businessName}}</view>
+    <view class="list">
+      <view class="li">
+        <view class="l weight">营业时间</view>
+        <view class="r weight">{{businessObj.business.startHours}} - {{businessObj.business.endHours}}</view>
+      </view>
+      <view class="li" hidden>
+        <view class="l weight">店铺评价</view>
+        <view bindtap="godppj" class="r">
+          <text class="weight">{{goodRate}}</text>好评率</view>
+      </view>
+      <view class="li">
+        <view class="l weight">店铺地址</view>
+        <view class="r">{{businessObj.business.province}}{{businessObj.business.city}}{{businessObj.business.area}}{{businessObj.business.detailAddress}}</view>
+      </view>
+      <view class="li">
+        <view class="r dist">距离你{{parse.getDistanceStr(businessObj.distance)}}</view>
+      </view>
+      <view class="clear"></view>
+    </view>
+    <view class="bot">
+      <view bindtap="phonecall" class="call" data-phonenumber='{{businessObj.business.contactPhone}}'>
+        <image src="/resource/phone.png"></image>
+        <text>联系门店</text>
+      </view>
+      <view bindtap="navigation" class="navigation" data-latitude="{{businessObj.business.latitude}}" data-longitude='{{businessObj.business.longitude}}' data-businessname='{{businessObj.business.businessName}}'>
+        <image src="/resource/dh.png"></image>
+        <text>导航到店</text>
+      </view>
+    </view>
+  </view>
+  <view bindtap="choseshop" class="btn {{notopen?'notopen':''}}" data-id="{{shopId}}" wx:if="{{!source}}" hidden>
+    {{notopen?notopen:'选择门店'}}
+  </view>
+</view>
+
+<wxs module='parse'>
+  module.exports={
+  
+    getDistanceStr:function(distance){
+      if (distance / 1000 > 1) {
+        distance = distance / 1000;
+        distance = distance.toFixed(1);
+        return distance + "km";
+      } else {
+        return distance.toFixed(2) + "m";
+      }
+    },}
+</wxs>

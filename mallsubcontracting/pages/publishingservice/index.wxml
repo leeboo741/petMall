@@ -1,0 +1,175 @@
+<!--pages/me/releaseManager/releaseNew/index.wxml-->
+<i-navigation-bar title='{{title}}' showBackButton>
+</i-navigation-bar>
+
+<i-panel i-class='panel' title='基本信息'>
+  <i-cell-group>
+    <i-cell title='服务名称'>
+      <view slot='footer' class="input-box">
+        <input placeholder="请输入服务名称" placeholder-class="placeholder-text" value='{{serverName}}' class="normal-text" style="flex-grow: 1;" bindinput="inputServerName" type="text">
+        </input>
+      </view>
+    </i-cell>
+
+    <i-cell title='服务类型' is-link>
+      <picker slot='footer' range="{{serverTypeList}}" range-key="serviceTypeName" bindchange="selectServerType" value="{{objectIndex}}">
+        <view class="{{selectedServerType==null?'placeholder-text':'normal-text'}}">
+          {{selectedServerType==null? "请选择服务类型":selectedServerType.serviceTypeName}} </view>
+      </picker>
+    </i-cell>
+
+    <i-cell title='服务基础价格'>
+      <view slot='footer' class="input-box">
+        <input placeholder="请输入服务基础价格" placeholder-class="placeholder-text" value='{{serverPrice}}' class="normal-text" style="flex-grow: 1;" bindinput="inputServerPrice" type="number">
+        </input>
+        <view style='margin-left:10rpx'>起</view>
+      </view>
+    </i-cell>
+  </i-cell-group>
+</i-panel>
+
+<i-panel i-class='panel' title='服务价格列表' wx:if='{{serverList!=null && serverList.length > 0}}'>
+  <i-cell wx:for='{{serverList}}' wx:for-item='serverItem' wx:for-index='serverIndex' wx:key='index'>
+    <view class='server-item' slot='header'>
+      <view class='server-item-content'>
+        <view class="server-item-line">
+          <view class="server-item-sortname">{{serverItem.petSort.petSortName}}</view>
+          <view class="server-item-price">￥{{serverItem.servicePrice}}</view>
+        </view>
+        <block wx:if='{{serverItem.petSort.petSortNo != 10001}}'>
+          <view class="server-item-line" wx:if='{{serverItem.petHair!=null}}'>
+            宠物毛长:{{serverItem.petHair.hairLengthName}}
+          </view>
+          <view class="server-item-line" wx:if='{{serverItem.startWeight!=null && serverItem.endWeight!=null}}'>
+            宠物重量:{{serverItem.startWeight}} - {{serverItem.endWeight}} Kg
+          </view>
+        </block>
+        <block wx:else> 
+          <view class="server-item-line" wx:if='{{serverItem.ageType!=null||serverItem.ageType!=0}}'>
+            猫猫大小:{{parse.getAgeType(serverItem.ageType)}}
+          </view>
+        </block>
+      </view>
+      <view class="server-item-delete-button" bindtap="deleteServerItem" data-index='{{serverIndex}}'>
+        <i-icon i-class='delete-icon'
+                type="delete"
+                size="36"
+                color="#ee2c2c">
+        </i-icon>
+      </view>
+    </view>
+  </i-cell>
+</i-panel>
+
+<i-panel i-class='panel' title='新建服务价格'>
+  <i-cell-group>
+    <i-cell title='品种' is-link>
+      <view slot='footer' class="{{tempServerItem.petSort==null?'placeholder-text':'normal-text'}}" bindtap="selectedPetSort">
+        {{tempServerItem.petSort==null? "请选择宠物种类":tempServerItem.petSort.petSortName}}
+      </view>
+    </i-cell>
+
+    <block wx:if='{{tempServerItem.petSort && tempServerItem.petSort.petSortNo!=10001}}'>
+      <i-cell title='最低体重(单位:Kg)'>
+        <view slot='footer' class="input-box">
+          <input placeholder="请输入最低体重" placeholder-class="placeholder-text" value='{{tempServerItem.startWeight}}' class="normal-text" style="flex-grow: 1;" bindinput="inputPetWeightStart" type="digit">
+
+          </input>
+          <view class="normal-text" style="margin-left: 10rpx;">
+          </view>
+        </view>
+      </i-cell>
+
+      <i-cell title='最高体重(单位:Kg)'>
+        <view slot='footer' class="input-box">
+          <input placeholder="请输入最高体重" placeholder-class="placeholder-text" value='{{tempServerItem.endWeight}}' class="normal-text" style="flex-grow: 1;" bindinput="inputPetWeightEnd" type="digit">
+
+          </input>
+          <view class="normal-text" style="margin-left: 10rpx;">
+          </view>
+        </view>
+      </i-cell>
+
+      <i-cell title='毛量' is-link>
+        <picker slot='footer' range="{{petHairList}}" bindchange="selectedPetHairLength" value="{{objectIndex}}" range-key="hairLengthName">
+          <view class="{{tempServerItem.petHair==null?'placeholder-text':'normal-text'}}">
+            {{tempServerItem.petHair==null? "请选择毛长":tempServerItem.petHair.hairLengthName}} </view>
+        </picker>
+      </i-cell>
+    </block>
+
+    <block wx:if='{{tempServerItem.petSort && tempServerItem.petSort.petSortNo==10001}}'>
+      <i-cell title='猫猫大小' is-link>
+        <picker slot='footer' range='{{ageTypeList}}' range-key="name" bindchange="selectPetAgeType">
+          <view class="{{tempServerItem.ageType==null||tempServerItem.ageType==0?'placeholder-text':'normal-text'}}">
+            {{tempServerItem.ageType==null||tempServerItem.ageType==0?"请选择猫猫大小":parse.getAgeType(tempServerItem.ageType)}}
+          </view>
+        </picker>
+      </i-cell>
+    </block>
+
+    <i-cell title='价格'>
+      <view slot='footer' class="input-box">
+        <input placeholder="请输入价格" placeholder-class="placeholder-text" value='{{tempServerItem.servicePrice}}' class="normal-text" style="flex-grow: 1;" bindinput="inputPetRetailPrice" type="digit">
+
+        </input>
+        <view class="normal-text" style="margin-left: 10rpx;">
+          元
+        </view>
+      </view>
+    </i-cell>
+    <i-cell>
+      <view class="add-button" slot='header' bindtap="addServerItem">添加服务价格</view>
+    </i-cell>
+  </i-cell-group>
+</i-panel>
+
+<!-- <i-panel i-class='panel' title='上传照片（1~9张）'>
+  <i-image-upload uploadUrl='{{uploadUrl}}' name='multipartFile' formData='{{}}' startUpload='{{false}}' autoUpload='{{true}}' bind:upload-complete='uploadComplete' bind:delete-image='deleteImage' bind:addnew='addNewImage' ableDelete='{{true}}' selectMode='append'
+    maxImageCount='{{9}}' videoMaxLength='{{10}}' imageSourceType="{{['album', 'camera']}}" videoSourceType="{{['album', 'camera']}}" showAddNewButton='{{true}}' ableVideo="{{false}}" imagePathList="{{serviceImagePathList}}">
+  </i-image-upload>
+</i-panel> -->
+
+<i-panel i-class='panel' title='添加描述'>
+  <i-cell>
+    <textarea slot='header' auto-height class="normal-text input-textarea" placeholder-class='placeholder-text' placeholder='描述中不得包含微信相关信息，违者封号处理' value="{{describe}}" bindinput="inputDescribe">
+    </textarea>
+  </i-cell>
+</i-panel>
+
+<view style="height:49px;width:100%;"></view>
+
+<view class="add-new-button" bindtap="tapToRelease">
+发布服务
+</view>
+
+
+<wxs module='parse'>
+  module.exports = {
+    getAgeType: function(type) {
+      if (type == null || type == 0) {
+        return "";
+      } else if (type == 1) {
+        return "小猫(0~6个月)"
+      } else {
+        return "大猫(6个月以上)"
+      }
+    },
+    getRegionStr: function(region) {
+      if (region != null && region != '') {
+        return region
+      } else {
+        if (region == null || region.length <= 0) {
+          return '请选择省市区';
+        }
+        return region[0] + "-" + region[1] + "-" + region[2];
+      }
+    },
+    getRegionClass: function(region) {
+      if (region == null || region.length <= 0) {
+        return "placeholder-text";
+      }
+      return "normal-text";
+    }
+  }
+</wxs>

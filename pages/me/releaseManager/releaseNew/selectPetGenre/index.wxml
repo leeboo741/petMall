@@ -1,0 +1,21 @@
+<!--pages/me/releaseManager/releaseNew/selectPetGenre/index.wxml-->
+<i-navigation-bar title='{{title}}'
+                  showBackButton>
+</i-navigation-bar>
+
+<i-panel i-class='panel'>
+  <view class="input-box">
+    <input placeholder="宠物品种搜索" class="input" placeholder-class="input-placeholder" bindinput="searchInput" bindconfirm="searchConfirm">
+    </input>
+  </view>
+</i-panel>
+<i-panel i-class='panel'>
+  <i-cell-group>
+    <i-cell wx:for='{{petGenreList}}' wx:key='index' bindtap='tapItem' data-index='{{index}}'>
+      <view slot='header' class="gener-item">
+        <i-image i-class='gener-item-image' src="{{item.petGenreImg}}"></i-image>
+        <view class="gener-item-title">{{item.petGenreName}}</view>
+      </view>
+    </i-cell>
+  </i-cell-group>
+</i-panel>

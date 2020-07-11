@@ -8,8 +8,9 @@
     <i-cell title='修改店铺Logo'>
       <image class="avatar"
              slot='footer'
-             src='{{parse.getAvatarPath(newAvatarPath, userInfo)}}'
+             src='{{userInfo.avatarUrl}}'
              bindtap="selectStoreLogo">
+             <!-- src='{{parse.getAvatarPath(newAvatarPath, userInfo)}}' -->
       </image>
     </i-cell>
     
@@ -38,18 +39,18 @@
     </i-cell>
   </i-cell-group>
 </i-panel>
-
+<!-- 
 <view class="login-out-button"
       style="height: 50px; line-height:50px;"
       bindtap="tapLoginOut">
 退出登陆
-</view>
+</view> -->
 
 <wxs module='parse'>
   module.exports={
     getAvatarPath: function(newAvatarPath, userInfo) {
       if (newAvatarPath == null || newAvatarPath.length <= 0) {
-        return userInfo.avatar;
+        return userInfo.avatarUrl;
       } 
       return newAvatarPath;
     }

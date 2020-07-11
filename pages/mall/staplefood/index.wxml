@@ -1,5 +1,5 @@
 <!--pages/mall/ff/index.wxml-->
-<i-navigation-bar title='商城' showBackButton='{{true}}'>
+<i-navigation-bar title='{{pageTitle}}' showBackButton='{{true}}'>
 </i-navigation-bar>
 
 <!-- 头部信息 -->
@@ -9,31 +9,118 @@
     {{titleSelectItem.selectInfo}}
     <i-icon type="{{titleSelectItem.showSelect?'unfold':'packup'}}" size="20" />
   </view>
+  <swiper wx:if='{{listType=="group" && itemList && itemList.length > 0}}' class="sale-notice-box" autoplay interval='3000' duration='100' circular vertical>
+    <swiper-item wx:for='{{itemList}}' wx:key='index' item-id='{{index}}'>
+      <view class='sale-notice-item' bindtap="tapNotice" data-index='{{index}}'>
+        <view class="sale-notice-item-content">
+        {{item.item.groupTitle}}
+        </view>
+        <view class="sale-notice-item-detail-box">
+          <view class="sale-notice-item-detail-title">
+          查看
+          </view>
+          <image class="sale-notice-item-detail-image" src="/resource/arrow-right.png"></image>
+        </view>
+      </view>
+    </swiper-item>
+  </swiper>
 </view>
 
 <!-- 图片展示信息 -->
-<view class="foodgrain-page">
-  <view class="foodgrain-page-formation" wx:for='{{itemList}}' wx:for-item="dataSourceItem" wx:for-index="dataSourceIndex" wx:key='{{dataSourceIndex}}' bindtap="commodityInforMationTap" data-key="{{dataSourceItem}}" data-itemno='{{dataSourceItem.itemNo}}'>
-    <i-image i-class="foodgrain-page-formation-head" imageSrc="{{dataSourceItem.coverImg}}">
-    </i-image>
-    <view class="foodgrain-page-formation-middle">
-      {{dataSourceItem.itemName}}
-    </view>
-    <view class="foodgrain-page-formation-introduce">
-      {{dataSourceItem.itemStage}}
-    </view>
-    <view class="foodgrain-page-formation-down">
-      <view class="foodgrain-page-formation-down-left">
-        <view class="foodgrain-page-formation-down-price">
-          ￥{{dataSourceItem.retailPrice}}
-        </view>
-        <view class="foodgrain-page-formation-down-member">
-          会员价
-        </view>
+<view class="content-view" style="margin-top: {{(listType=='group'&&itemList&&itemList.length>0)?70:0}}rpx">
+  <view class="business-pets-page">
+    <view class="business-pets-information" wx:for='{{itemList}}' wx:for-item="dataSourceItem" wx:for-index="dataSourceIndex" wx:key='{{dataSourceIndex}}' bindtap="commodityInforMationTap" data-key="{{dataSourceItem}}" data-itemno='{{dataSourceItem.item.itemNo}}'>
+      <view class="business-pets-information-image-styhead">  
+        <i-image imageSrc="{{dataSourceItem.item.coverImg}}" i-class="business-pets-image">
+        </i-image>
       </view>
-      <view class="foodgrain-page-formation-down-originalPrice">
-        ￥{{dataSourceItem.marketPrice}}
+      <view class="business-pets-bottom">
+        <!-- <view class="shopcart-sty-right-icon" catchtap="addShopCatTap" data-shopinfo="{{itemList[dataSourceIndex]}}">
+            <image class="shopcart-sty" src="/resource/spcar.png">
+            </image>
+        </view> -->
+        <view class="business-pets-bottom-namesty">
+          {{dataSourceItem.item.itemName}}
+        </view>
+        <view class="business-pets-bottom-netcontent">{{dataSourceItem.item.itemProfile}}</view>
+        <view class="business-pets-bottom-price">
+          ￥
+          <view style="font-size:32rpx;font-weight:bold;font-family: sans-serif;">{{dataSourceItem.item.retailPrice}}</view>
+          <view style="color:#B0B0B0;margin-left:10%;">
+          已有{{dataSourceItem.item.salesVolume}}人付款
+          </view>
+        </view>
+        <view class="leab-sty">
+          <view class="business-pets-discount" hidden="{{dataSourceItem.item.freeShipping==1?false:true}}">
+          <view class="business-pets-discount-box">商家包邮</view>
+          </view>
+          <view class="business-pets-discount" hidden="{{dataSourceItem.item.business.authType<=0?true:false}}">
+            <view class="business-pets-discount-box">{{parse.showAuthType(dataSourceItem.item.business.authType)}}</view>
+          </view>
+          <view class="business-pets-discount" hidden="{{dataSourceItem.item.business.payBond==0?true:false}}">
+            <view class="business-pets-discount-box">已缴保证金</view>
+          </view>
+        </view>
+
+
+        <view class="business-pets-addresssty">
+            <view class="business-pets-addresssty-bussname">
+              {{dataSourceItem.item.evaluationQty}}条评论
+            </view>
+            <view class="business-pets-addresssty-addressbox">
+              {{dataSourceItem.item.favorableRate*100}}% 好评率
+            </view>
+        </view>
+
+        <view class="business-pets-addresssty">
+          <view class="business-pets-addresssty-bussname">
+            {{dataSourceItem.item.business.businessName}}
+          </view>
+          <view class="business-pets-addresssty-addressbox">
+            {{dataSourceItem.item.business.province}} {{dataSourceItem.item.business.city}}
+          </view>
+          <view class="enter-shop-sty" catchtap="enterShopTap" data-businessno="{{dataSourceItem.item.business.businessNo}}">
+            进店
+            <image src="/resource/yellowright.png" style="width:20rpx;height:25rpx;padding-left:10rpx;"></image>
+          </view>
+        </view>
+
       </view>
+    </view>
+  </view>
+</view>
+
+<view class="add-shopcar-mask" bindtap="showShopMask"  hidden="{{showShopMask==0?true:false}}">
+</view>
+<view class="add-shopcar-mask-quantity-added" hidden="{{showShopMask==0?true:false}}">
+  <view class="add-shopcar-mask-quantity-added-head">
+    <view class="add-shopcar-mask-quantity-added-head-image">
+      <image src="{{shopCarinf.image}}" class="shopcar-head-img"></image>
+    </view>
+    <view class="add-shopcar-mask-quantity-added-head-info">
+      <view class="add-shopcar-mask-quantity-added-head-info-name">
+        {{shopCarinf.itemName}}
+      </view>
+      <view class="add-shopcar-mask-quantity-added-head-info-price">
+        ￥{{shopCarinf.itemPrice?shopCarinf.itemPrice:0}}
+      </view>
+    </view>
+  </view>
+  <view class="add-shopcar-mask-quantity-added-number">
+    <view class="quantity-added-number-top">
+      购买数量：
+    </view>
+    <view class="quantity-added-number-down">
+      <view class='stepper'>
+          <view class='subtract {{goodcount == 1 ? "disabled": ""}}' data-index='{{index}}' catchtap='subtracttap'>-</view>
+          <input class='count' type='number' value='{{goodcount}}' bindinput="shoppingCartinput"></input>
+          <view class='add' data-index="{{index}}" catchtap='addtap'>+</view>
+        </view>
+    </view>
+  </view>
+  <view class="add-shopcar-mask-quantity-added-button">
+    <view class="quantity-buttonsty" bindtap="determineTap">
+      确定
     </view>
   </view>
 </view>
@@ -73,11 +160,21 @@
 
     showTitleInfor: function(res, resIndex) {
       if (resIndex == 0) {
-        return res.itemClassifyName
+        return res.petSortName
       } else if (resIndex == 1) {
         return res.itemTypeName
       } else {
         return res.itemBrandName
+      }
+    },
+
+    showAuthType: function(res){
+      if(res==1){
+        return "个人认证";
+      }else if(res==2){
+        return "商家认证";
+      }else{
+        return "平台认证";
       }
     }
   }

@@ -139,10 +139,43 @@ function dateFormat(date, format) {
   return format;       
 }
 
+/**
+ * 获取某天开始一周的时间
+ */
+function getWeekDayList(startDate) {
+  var list = [];
+  var week = {
+    "0": "日",
+    "1": "一",
+    "2": "二",
+    "3": "三",
+    "4": "四",
+    "5": "五",
+    "6": "六"
+  };
+  for (var i = 0; i < 7; i++) {
+    var obj = {};
+    var date = getDate(new Date(),0,0,0,i,0,0,0);
+    obj.date = date;
+    obj.dateStr = dateFormat(date,"yyyy-MM-dd");
+    obj.day = dateFormat(date,"MM-dd");
+    if (i==0) {
+      obj.week = "今天";
+    } else if(i == 1) {
+      obj.week = "明天";
+    } else {
+      obj.week = "周" + week[date.getDay()+""];
+    }
+    list.push(obj);
+  }
+  return list;
+}
+
 module.exports = {
   getDate: getDate, // 获取时间
   dateFormat: dateFormat, // 获取格式化时间
   getStartDayForMonth: getStartDayForMonth, // 获取当月第一天
   getEndDayForMonth: getEndDayForMonth, // 获取当月最后一天
   getDayCountForMonth: getDayCountForMonth, // 获取当月天数
+  getWeekDayList: getWeekDayList,
 }

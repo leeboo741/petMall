@@ -2,6 +2,9 @@
 
 const OrderService = require("../../../../../services/orderService.js");
 const Util = require("../../../../../utils/util.js");
+const Utils = require("../../../../../utils/util.js");
+
+const ShareManager = require("../../../../../services/shareService");
 
 Page({
 
@@ -15,7 +18,9 @@ Page({
     orderNo: null,
     type: null,
 
-    backTimeOut: null
+    backTimeOut: null,
+
+    refundNo:null
   },
 
   /**
@@ -24,7 +29,8 @@ Page({
   onLoad: function (options) {
     this.setData({
       orderNo: options.orderno,
-      type: options.type
+      type: options.type,
+      refundNo: options.refundno
     })
   },
 
@@ -75,7 +81,7 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-
+    return ShareManager.getDefaultShareCard();
   },
 
   /**
@@ -103,7 +109,7 @@ Page({
           that.requestConfirmRefund(
             function resultCallback(result) {
               wx.hideLoading();
-              console.log("驳回请求：\n" + JSON.stringify(result));
+              Utils.logInfo("驳回请求：\n" + JSON.stringify(result));
               if (result > 0) {
                 wx.showToast({
                   title: '驳回退款成功',
@@ -140,7 +146,8 @@ Page({
         {
           orderNo: this.data.orderNo,
           refundState: -1,
-          rejectReason: this.data.rejectReason
+          rejectReason: this.data.rejectReason,
+          refundNo: this.data.refundNo
         },
         function callback(res) {
           if (Util.checkIsFunction(resultCallback)) {
@@ -153,7 +160,8 @@ Page({
         {
           orderNo: this.data.orderNo,
           refundState: -1,
-          rejectReason: this.data.rejectReason
+          rejectReason: this.data.rejectReason,
+          refundNo: this.data.refundNo
         },
         function callback(res) {
           if (Util.checkIsFunction(resultCallback)) {

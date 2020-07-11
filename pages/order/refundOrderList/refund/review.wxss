@@ -16,11 +16,14 @@
 .order-info-number{
   font-size: 28rpx;
   color: #778899;
+  width: 90%;
+  align-items: flex-start;
 }
 
 .order-info-time{
   font-size: 22rpx;
   color: gray;
+  align-items: flex-end;
 }
 
 .order-goods-box{

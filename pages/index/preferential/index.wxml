@@ -12,21 +12,25 @@
         bindtap="tapPets"
         data-petno='{{petsItem.petNo}}'>
     <view class="business-pets-information">
-      <i-image imageSrc="{{petsItem.petsImage}}"
+      <i-image imageSrc="{{petsItem.coverMedia[0].coverImg}}"
                i-class="business-pets-image">
 
       </i-image>
     </view>
     <view class="business-pets-bottom">
       <view class="body-list-one">
+        <view class="body-list-namesty">
         {{petsItem.petName}}
-        <view style="color:#ccc;margin-left:30%;color:red;">
+        </view>
+        <view class="body-list-pricesty">
           ￥{{petsItem.retailPrice}}
         </view>
       </view>
       <view class="body-list-two">
-        {{petsItem.petsAddress}}
-        <view style="margin-left:30%;text-decoration:line-through">
+        <view class="body-list-addresssty">
+          {{petsItem.petsAddress}}
+        </view>
+        <view class="body-list-marketpricesty" hidden>
           ￥{{petsItem.marketPrice}}
         </view>
       </view>

@@ -16,8 +16,35 @@
   padding-bottom: 200rpx;
 }
 
+.recharge-middle-box{
+  width: 100%;
+  height: 100rpx;
+  display: flex;
+  flex-flow: nowrap;
+}
+
+.recharge-middle-box-left{
+  width: 50%;
+  height: 100rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 27rpx;
+  color: #D10409;
+}
+
+.recharge-middle-box-right{
+  width: 50%;
+  height: 100rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 27rpx;
+  color: #007FFF;
+}
+
 .balance{
-  font-size: 38rpx;
+  font-size: 35rpx;
   color: lightgray;
 }
 
@@ -41,6 +68,8 @@
   flex-grow: 1;
   font-size: 50rpx;
   font-weight: bold;
+  height: 100%;
+  vertical-align:middle;
 }
 
 .recharge-input-placeholder{
@@ -57,4 +86,14 @@
   color: white;
   font-size: 36rpx;
   text-align: center;
+}
+
+.pipelined-minz-bottom{
+  width: 100%;
+  height: 100rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #DBA060;
+  font-size: 27rpx;
 }

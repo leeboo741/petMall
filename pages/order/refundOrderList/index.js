@@ -7,8 +7,11 @@ const PagePath = require("../../../macros/pagePath.js");
 const Config = require("../../../macros/config.js");
 const Enum = require("../../../utils/enum.js");
 const Util = require("../../../utils/util.js");
+const Utils = require("../../../utils/util.js");
 const app = getApp();
 const Limit = 20;
+
+const ShareManager = require("../../../services/shareService");
 
 Page({
 
@@ -70,7 +73,7 @@ Page({
     })
     this.requestData(this.data.offset,
       function getDataCallback(data) {
-        console.log("获取退货订单： \n" + JSON.stringify(data));
+        Utils.logInfo("获取退货订单： \n" + JSON.stringify(data));
         that.setData({
           dataSource: data,
         })
@@ -107,7 +110,7 @@ Page({
     let that = this;
     this.requestData(this.data.offset,
       function getDataCallback(data) {
-        console.log("获取退货订单： \n" + JSON.stringify(data));
+        Utils.logInfo("获取退货订单： \n" + JSON.stringify(data));
         let tempList = that.data.dataSource.concat(data);
         that.setData({
           dataSource: tempList
@@ -130,7 +133,7 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-
+    return ShareManager.getDefaultShareCard();
   },
   /**
      * 点击单据
@@ -171,9 +174,9 @@ Page({
    */
   tapStore: function (e) {
     let tempOrder = this.data.dataSource[e.currentTarget.dataset.index];
-    let tempStoreNo = e.currentTarget.dataset.storeno;
+    let tempStoreNo = tempOrder.shop.businessNo;
     wx.navigateTo({
-      url: PagePath.Page_Store_StoreInforMation + '?storeno=' + tempStoreNo,
+      url: PagePath.Page_Store_StoreInforMation + '?storeno=' + tempStoreNo + '&showtype=' + tempOrder.petNo?"0":"1",
     })
   },
 
@@ -192,9 +195,10 @@ Page({
   tapReview: function (e) {
     let tempOrder = this.data.dataSource[e.currentTarget.dataset.index];
     let tempOrderNo = e.currentTarget.dataset.orderno;
+    let refundNo = e.currentTarget.dataset.refundno;
     app.globalData.refundReviewOrder = tempOrder;
     wx.navigateTo({
-      url: PagePath.Page_Order_Refund_Review + "?orderno=" + tempOrderNo,
+      url: PagePath.Page_Order_Refund_Review + "?orderno=" + tempOrderNo + "&refundno=" + refundNo,
     })
   },
 
@@ -209,24 +213,31 @@ Page({
       limit: Limit,
       orderType: Enum.Order_Type_Enum.Refund,
     }
-    if (this.data.currentRole == 0) {
-      param.customerNo = UserService.getCustomerNo();
-      OrderService.customerQueryOrderList(param,
-        function queryResultCallback(result) {
-          if (Util.checkIsFunction(getDataCallback)) {
-            getDataCallback(result.root)
+    let that = this;
+    UserService.isLogin(function isLoginCallback(){
+      if (that.data.currentRole == 0) {
+        param.customerNo = UserService.getCustomerNo();
+        OrderService.customerQueryOrderList(param,
+          function queryResultCallback(result) {
+            if (Util.checkIsFunction(getDataCallback)) {
+              getDataCallback(result.root)
+            }
           }
-        }
-      )
-    } else {
-      param.businessNo = UserService.getBusinessNo();
-      OrderService.businessQueryOrderList(param,
-        function queryResultCallback(result) {
-          if (Util.checkIsFunction(getDataCallback)) {
-            getDataCallback(result.root)
+        )
+      } else {
+        param.businessNo = UserService.getBusinessNo();
+        OrderService.businessQueryOrderList(param,
+          function queryResultCallback(result) {
+            if (Util.checkIsFunction(getDataCallback)) {
+              getDataCallback(result.root)
+            }
           }
-        }
-      )
-    }
+        )
+      }
+    }, function notLoginCallback() {
+      if (Util.checkIsFunction(getDataCallback)) {
+        getDataCallback([])
+      }
+    })
   },
 })

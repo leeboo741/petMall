@@ -1,0 +1,47 @@
+/* pages/me/releaseManager/eleaseproducts/index.wxss */
+.product-box-sty{
+  width: 96%;
+  height: 200rpx;
+  margin-top: 2%;
+  margin-left: 2%;
+  display: flex;
+  flex-flow: nowrap;
+  background: linear-gradient(to right, rgb(255,147,87) , rgb(255, 51, 59));
+  border-radius: 15rpx;
+}
+
+.product-box-shownr-sty{
+  width: 100%;
+  height:200rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: white;
+}
+
+.product-acount{
+  display: flex;
+  flex-flow: column;
+  width: 96%;
+  height: 250rpx;
+  margin-left: 2%;
+  color: #BE621E;
+  margin-bottom: 5%;
+  font-weight: bold;
+}
+
+/* .product-box-select-sty{
+  width: 15%;
+  height:120rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-box-select-yuan-sty{
+  width: 30rpx;
+  height: 30rpx;
+  border: 1rpx solid #ccc;
+  border-radius: 50% 50%;
+} */

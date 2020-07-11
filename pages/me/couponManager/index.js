@@ -1,4 +1,6 @@
 // pages/me/couponManager/index.js
+const ShareManager = require("../../../services/shareService");
+
 Page({
 
   /**
@@ -86,6 +88,6 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-
-  }
+    return ShareManager.getDefaultShareCard();
+  },
 })

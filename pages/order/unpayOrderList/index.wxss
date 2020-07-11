@@ -8,7 +8,7 @@
 .order-info-box{
   padding: 10rpx 15rpx;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: space-between;
 }
@@ -16,11 +16,17 @@
 .order-info-number{
   font-size: 28rpx;
   color: #778899;
+  width: 90%;
+  align-items: flex-start;
 }
 
 .order-info-time{
   font-size: 22rpx;
   color: gray;
+  display: flex;
+  flex-direction: row-reverse;
+  width: 90%;
+  align-items: flex-end;
 }
 
 .order-goods-box{

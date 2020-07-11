@@ -1,0 +1,55 @@
+.zuopinbody {
+    width: 100%;
+    background-color: #ffffff;
+    padding: 40rpx 40rpx 0;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.zuopinitem {
+    display: inline-block;
+    width: 315rpx;
+    margin-bottom: 40rpx;
+}
+
+.zuopinitem .pic {
+    display: block;
+    width: 315rpx;
+    height: 315rpx;
+    border-radius: 30rpx;
+}
+
+.content {
+    margin-top: 24rpx;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.name {
+    font-family: PingFangSC-Regular;
+    font-size: 28rpx;
+    color: #717985;
+}
+
+.zan {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.zan image {
+    width: 28rpx;
+    height: 30rpx;
+    float: left;
+}
+
+.zan view {
+    font-family: DINAlternate-Bold;
+    color: #717985;
+    display: inline-block;
+    margin-left: 15rpx;
+    float: right;
+}

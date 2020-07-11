@@ -2,6 +2,8 @@
 const UserService = require("../../../services/userService.js");
 const PagePath = require("../../../macros/pagePath.js");
 const app = getApp();
+const ShareManager = require("../../../services/shareService");
+
 Page({
 
   /**
@@ -9,7 +11,8 @@ Page({
    */
   data: {
     pageHeight: null,
-
+    businessInfo: null,
+    
     userInfo: null,
 
     newAvatarPath: null, 
@@ -23,7 +26,6 @@ Page({
    */
   onLoad: function (options) {
     this.setData({
-      userInfo: UserService.getLocalUserInfo(),
       managerAddressUrl: PagePath.Page_Me_AddressManager + "?ableselect=1",
       pageHeight: app.globalData.pageHeight
     })
@@ -40,6 +42,18 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    let that=this;
+    this.setData({
+      userInfo: UserService.getLocalUserInfo(),
+      // businessInfo:UserService.getLocalBusinessInfo()
+    })
+    UserService.isLogin(function isLoginCallback(){
+      UserService.requestBusinessInfo(UserService.getBusinessNo(), function (dataSource) {
+        that.setData({
+          businessInfo: dataSource
+        })
+      })
+    }, function notLoginCallback(){})
 
   },
 
@@ -71,11 +85,12 @@ Page({
 
   },
 
+  
   /**
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-
+    return ShareManager.getDefaultShareCard();
   },
 
   /**
@@ -93,15 +108,11 @@ Page({
    */
   selectUserAvatar: function () {
     let that = this;
-    wx.chooseImage({
-      count: 1,
-      success: function(res) {
-        that.setData({
-          newAvatarPath: res.tempFilePaths[0]
-        })
-      },
+    wx.navigateTo({
+      url:"../../../mallsubcontracting/pages/businessimprovement/index?type="+2
     })
   },
+  
 
   /**
    * 输入用户名称

@@ -1,0 +1,45 @@
+<i-navigation-bar title='我的优惠券' showBackButton='{{true}}' backgroundColor="white">
+</i-navigation-bar>
+<view class="container">
+  <view class="top">
+    <view bindtap="getCouponList" class="l">
+      <view class="{{use?'hover':''}}">可用</view>
+      <image src="/resource/Fill.png" wx:if="{{use}}"></image>
+    </view>
+    <view bindtap="getusedCouponList" class="r">
+      <view class="{{used?'hover':''}}">已失效</view>
+      <image src="/resource/Fill.png" wx:if="{{used}}"></image>
+    </view>
+  </view>
+  <scroll-view bindscrolltolower="lower" scrollY="true" style="height:100vh;transform:translateZ(0); ">
+    <view class="list" wx:for="{{couponList}}" wx:for-index="id" wx:for-item="itme">
+      <view class="li">
+        <view class="t">
+          <view class="l {{used?'usedcss':''}}" wx:if="{{itme.couponType.preferentialType==2}}">
+            <text>￥</text>{{itme.couponType.value}}</view>
+          <view class="l {{used?'usedcss':''}}" wx:if="{{itme.couponType.preferentialType==1}}">{{itme.couponType.discount/10}}
+            <text>折</text>
+          </view>
+
+          <view class="r {{used?'usedcss':''}}">
+            <view class="name {{used?'usedcss':''}}">{{itme.couponType.title}}</view>
+
+            <view class=" {{used?'usedcss':''}}" wx:if="{{itme.couponType.rangeType=='PART'}}">部分商品可用</view>
+            <view class=" {{used?'usedcss':''}}" wx:if="{{itme.couponType.rangeType=='ALL'}}">全部商品可用</view>
+            <view class=" {{used?'usedcss':''}}" wx:if="{{itme.couponType.businessType=='PART'}}">部分商家可用</view>
+            <view class=" {{used?'usedcss':''}}" wx:if="{{itme.couponType.businessType=='ALL'}}">全部商家可用</view>
+          </view>
+          <view class="clear"></view>
+        </view>
+        <view bindtap="showinfo" class="b {{used?'usedcss':''}}" data-id="{{id}}">
+          <text>使用说明</text>
+          <image src="/resource/bwcdwon.png"></image>
+        </view>
+      </view>
+      <view class="info" hidden="{{currtindex==id? false : true}}">
+        . ---------------
+      </view>
+    </view>
+    <view class="bottombox" wx:if="{{couponList.length>0}}"></view>
+  </scroll-view>
+</view>

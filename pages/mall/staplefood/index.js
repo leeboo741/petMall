@@ -6,8 +6,14 @@ const app = getApp();
 const Page_path = require("../../../macros/pagePath.js");
 const MallService = require("../../../services/mallService.js");
 const Util = require("../../../utils/util.js");
+const Utils = require("../../../utils/util")
+const UserService=require("../../../services/userService.js");
+const ShoppingCartService=require("../../../services/shoppingCartService.js");
+const PetService=require("../../../services/petService.js");
 
 const Limit = 20;
+
+const ShareManager = require("../../../services/shareService");
 
 Page({
 
@@ -15,6 +21,9 @@ Page({
    * 页面的初始数据
    */
   data: {
+    listType: null, // 列表类型 group是团购商品  别的都是普通商品
+    pageTitle: "商城", 
+
     selectClassifyNo: null, // 选中的品种
     selectTypeNo: null, // 选中的类型
     selectBrandNo: null, // 选中的品牌
@@ -51,6 +60,9 @@ Page({
     showDropDownMessage: true, //是隐藏下拉框信息
 
     itemList: [], // 商品列表
+    showShopMask: 0, //显示添加数量信息
+    shopCarinf: {},  //购物车添加信息
+    goodcount: 0,  //添加商品的数量
   },
 
   /**
@@ -60,11 +72,17 @@ Page({
 
     let that = this;
     that.setData({
+      listType: options.listtype,
       pageHeight: app.globalData.pageHeight,
       selectClassifyNo: options.classifyno,
       selectTypeNo: options.typeno,
       selectBrandNo: options.brandno
     })
+    if (this.data.listType == "group") {
+      that.setData({
+        pageTitle: "团购商城"
+      })
+    }
 
     wx.showLoading({
       title: '请稍等...',
@@ -73,29 +91,26 @@ Page({
     this.getVarietiesInfo(
       function getClassifyResultCallback(classifyData) {
         that.setData({
-          varieties: classifyData
+          varieties: classifyData.root
         })
-        // 查询 品牌 brand 下拉列表
-        that.getPesBrandInfo(
-          function getBrandResultCallback(brandData) {
+        // 查询 类型 下拉列表
+        that.getItemType(function (typeData) {
+          that.setData({
+            favoriteGrain: typeData
+          })
+
+          // 查询 品牌 下拉列表
+          that.getItemBrand(function (brandData) {
             that.setData({
               brand: brandData
             })
-            // 查询 类型 type 下拉列表
-            that.getPetsTypeInfo(
-              function getTypeResultCallback(typeData) {
-                that.setData({
-                  favoriteGrain: typeData
-                })
-                that.initSelect();
-                wx.hideLoading();
-                wx.startPullDownRefresh();
-              }
-            );
-          }
-        );
+            that.initSelect();
+          })
+
+        })
       }
     );
+   
   },
 
   /**
@@ -104,12 +119,12 @@ Page({
   initSelect: function() {
     let that = this;
     if (!Util.checkEmpty(this.data.selectClassifyNo) && !Util.checkEmpty(this.data.varieties)) {
-      for (let index = 0; index < this.data.varieties.length; index++) {
-        let tempClassify = this.data.varieties[index];
-        if (tempClassify.itemClassifyNo == this.data.selectClassifyNo) {
+      for (let index = 0; index < that.data.varieties.length; index++) {
+        let tempClassify = that.data.varieties[index];
+        if (tempClassify.itemClassifyNo == that.data.selectClassifyNo) {
           let titleSelectOne = "titleSelectList[" + 0 + "].selectInfo";
           let objSelectOne = "titleSelectList[" + 0 + "].selectObject";
-          this.setData({
+          that.setData({
             [titleSelectOne]: tempClassify.itemClassifyName,
             [objSelectOne]: tempClassify
           })
@@ -117,31 +132,34 @@ Page({
       }
     }
     if (!Util.checkEmpty(this.data.selectTypeNo) && !Util.checkEmpty(this.data.favoriteGrain)) {
-      for (let index = 0; index < this.data.favoriteGrain.length; index++) {
-        let tempType = this.data.favoriteGrain[index];
-        if (tempType.itemTypeNo == this.data.selectTypeNo) {
+      for (let index = 0; index < that.data.favoriteGrain.length; index++) {
+        let tempType = that.data.favoriteGrain[index];
+        if (tempType.itemTypeNo == that.data.selectTypeNo) {
           let titleSelectTwo = "titleSelectList[" + 1 + "].selectInfo";
           let objSelectOne = "titleSelectList[" + 1 + "].selectObject";
-          this.setData({
+          that.setData({
             [titleSelectTwo]: tempType.itemTypeName,
             [objSelectOne]: tempType
           })
-        }
+        }     
       }
     }
     if (!Util.checkEmpty(this.data.selectBrandNo) && !Util.checkEmpty(this.data.brand)) {
-      for (let index = 0; index < this.data.brand.length; index++) {
-        let tempBrand = this.data.brand[index];
-        if (tempBrand.itemBrandNo == this.data.selectBrandNo) {
+      for (let index = 0; index < that.data.brand.length; index++) {
+        let tempBrand = that.data.brand[index];
+        if (tempBrand.itemBrandNo == that.data.selectBrandNo) {
           let titleSelectThree = "titleSelectList[" + 2 + "].selectInfo";
           let objSelectOne = "titleSelectList[" + 2 + "].selectObject";
-          this.setData({
+          that.setData({
             [titleSelectThree]: tempBrand.itemBrandName,
             [objSelectOne]: tempBrand
           })
         }
       }
     }
+    wx.hideLoading();
+    wx.startPullDownRefresh();
+
   },
 
   /**
@@ -237,8 +255,8 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function() {
-
+  onShareAppMessage: function () {
+    return ShareManager.getDefaultShareCard();
   },
 
   /**
@@ -420,13 +438,22 @@ Page({
   },
 
   /**
+   * 点击商品消息
+   */
+  tapNotice: function(e) {
+    const tempItem = this.data.itemList[e.currentTarget.dataset.index].item;
+    wx.navigateTo({
+      url: Page_path.Page_Mall_CommodityInformation + "?itemno=" + tempItem.itemNo
+    })
+  },
+
+  /**
    * 点击商品详情
    */
   commodityInforMationTap: function(e) {
     wx.navigateTo({
       url: Page_path.Page_Mall_CommodityInformation + "?itemno=" + e.currentTarget.dataset.itemno
     })
-
   },
 
   /**
@@ -450,7 +477,11 @@ Page({
    */
   getPesBrandInfo: function (getBrandResultCallback) {
     let that = this;
-    MallService.getBrandInfo(
+    let obj = {
+      offset: 0,
+      limit: 30
+    }
+    MallService.getBrandInfo(obj,
       function returnData(data) {
         if (Util.checkIsFunction(getBrandResultCallback)) {
           getBrandResultCallback(data)
@@ -460,18 +491,45 @@ Page({
   },
 
   /**
-   * 请求品种下拉信息
+   * 请求品种下拉品种信息
    * @param getClassifyResultCallback
    */
   getVarietiesInfo: function (getClassifyResultCallback) {
     let that = this;
-    MallService.getVarieties(
-      function returnData(data) {
+    PetService.getSort(function returnData(data) {
         if (Util.checkIsFunction(getClassifyResultCallback)) {
           getClassifyResultCallback(data)
         }
       }
     );
+  },
+
+  /**
+   * 获得类型
+   */
+  getItemType:function(callBack){
+    let obj={
+      offset:0,
+      limit:30
+    }
+    MallService.getMallPetType(obj,function(typeData){
+      Utils.logInfo("类型" + JSON.stringify(typeData));
+      callBack(typeData)
+    })
+  },
+
+  /**
+   * 获得品牌
+   */
+  getItemBrand: function (callBack){
+    let obj = {
+      offset: 0,
+      limit: 30
+    }
+    MallService.getBrandInfo(obj, function (brandData) {
+      Utils.logInfo("品牌"+ JSON.stringify(brandData));
+      callBack(brandData)
+    })
   },
 
   /**
@@ -484,12 +542,13 @@ Page({
     let param = {
       offset: offset,
       limit: Limit,
-      itemClassifyNo: "",
+      itemState: 1,
+      petSortNo: "",
       itemTypeNo: "",
       itemBrandNo: "",
     }
     if (!Util.checkEmpty(this.data.titleSelectList[0].selectObject)) {
-      param.itemClassifyNo = this.data.titleSelectList[0].selectObject.itemClassifyNo;
+      param.petSortNo = this.data.titleSelectList[0].selectObject.petSortNo;
     }
     if (!Util.checkEmpty(this.data.titleSelectList[1].selectObject)) {
       param.itemTypeNo = this.data.titleSelectList[1].selectObject.itemTypeNo;
@@ -497,12 +556,137 @@ Page({
     if (!Util.checkEmpty(this.data.titleSelectList[2].selectObject)) {
       param.itemBrandNo = this.data.titleSelectList[2].selectObject.itemBrandNo;
     }
-    MallService.getItemList(param,
-      function getResultCallback(result) {
+    if (this.data.listType == 'group') {
+      MallService.getGroupItemList(param, function getResultCallback(result) {
         if (Util.checkIsFunction(getItemListCallback)) {
           getItemListCallback(result.root)
         }
+      })
+    } else {
+      MallService.getItemList(param,
+        function getResultCallback(result) {
+          if (Util.checkIsFunction(getItemListCallback)) {
+            getItemListCallback(result.root)
+          }
+        }
+      )
+    }
+  },
+  
+  /**
+   * 加入购物车
+   */
+  addShopCatTap: function (res) {
+    // Utils.logInfo(JSON.stringify(res))
+    let that = this;
+    UserService.isLogin(function isLoginCallback(){
+      that.setData({
+        goodcount: 0
+      });
+      let shopCarinf = {};
+      let info = res.currentTarget.dataset.shopinfo
+      shopCarinf.image = info.coverImg;
+      shopCarinf.itemName = info.itemName;
+      shopCarinf.itemPrice = info.retailPrice;
+      shopCarinf.itemNo = info.itemNo;
+      that.setData({
+        showShopMask: 1,
+        shopCarinf: shopCarinf
+      })
+    },null)
+  },
+
+  /**
+   * 进店
+   */
+  enterShopTap: function (res) {
+    wx.navigateTo({
+      url: "../../../oldstore/pages/storeinformation/index?storeno=" + res.currentTarget.dataset.businessno+"&showtype=1"
+    })
+  },
+
+  /**
+   * 是否显示添加数量
+   */
+  showShopMask: function () {
+    this.setData({
+      showShopMask: 0
+    })
+  },
+  /**
+   * 用户点击商品减1
+   */
+  subtracttap: function (e) {
+    var index = e.target.dataset.index;
+    var count = this.data.goodcount;
+    if (count <= 1) {
+      return;
+    } else {
+      count--;
+      this.setData({
+        goodcount: count
+      });
+    }
+  },
+
+  /**
+   * 用户点击商品加1
+   */
+  addtap: function (e) {
+    var index = e.target.dataset.index;
+    var count = this.data.goodcount;
+    count++;
+    this.setData({
+      goodcount: count
+    });
+  },
+
+  /**
+   * 输入框
+   */
+  shoppingCartinput:function(e){
+    Utils.logInfo(JSON.stringify(e));
+    let goodcount = e.detail.value;
+    this.setData({
+      goodcount: goodcount
+    })
+  },
+
+  /**
+   * 点击确定 
+   * getCustomerNo //买家no
+   */
+  determineTap: function () {
+    let that = this;
+    UserService.isLogin(function isLoginCallback(){
+      let businessNo = UserService.getBusinessNo(); //买家id
+      let qty = that.data.goodcount;  //添加数量
+      let goodsNo = that.data.shopCarinf.itemNo; //宠物id
+      let goodsType = 1; //添加购物车商品
+
+      if (qty == 0) {
+        wx.showToast({
+          title: '请添加数量！',
+          icon: "none"
+        })
+        return;
       }
-    )
+
+      Utils.logInfo(businessNo + "---" + qty + "---" + "---" + goodsNo + "---" + goodsType);
+      ShoppingCartService.addShoppingCart(qty, goodsNo, businessNo, goodsType, function callBakc(dataSource) {
+        if (dataSource.root > 0) {
+          wx.showToast({
+            title: '添加成功！',
+            icon: "success"
+          })
+        } else {
+          wx.showToast({
+            title: '添加失败！',
+            icon: "none"
+          })
+        }
+      })
+      that.showShopMask();
+    })
   }
 })

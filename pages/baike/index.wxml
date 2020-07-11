@@ -1,0 +1,21 @@
+<!--pages/baike/index.wxml-->
+<i-navigation-bar title='宠物百科' showBackButton='{{true}}'>
+</i-navigation-bar>
+<view class="background-view content">
+  <view class="content-button-box">
+    <view class="content-button"
+          bindtap="tapButton"
+          data-type='10000'>
+      <i-image i-class="content-button-image" imageSrc='/resource/dog.png'>
+      </i-image>
+      <view class="content-button-title">狗狗百科</view>
+    </view>
+    <view class="content-button"
+          bindtap="tapButton"
+          data-type='10001'>
+      <i-image i-class="content-button-image" imageSrc='/resource/cat.png'>
+      </i-image>
+      <view class="content-button-title">猫猫百科</view>
+    </view>
+  </view>
+</view>

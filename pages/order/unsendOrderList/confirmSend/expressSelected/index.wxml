@@ -1,0 +1,25 @@
+<!--pages/order/unsendOrderList/confirmSend/expressSelected/index.wxml-->
+<i-navigation-bar title='快递公司'
+                  showBackButton>
+</i-navigation-bar>
+
+<i-panel i-class='panel'
+         title='快递公司'>
+
+  <i-cell-group>
+    <i-cell wx:for='{{expressList}}' wx:key='index' bindtap='tapExpress' data-index='{{index}}'>
+      <view class="list-item"
+            slot='header'>
+        <image class="list-item-image" src='{{currentExpress==item?"/resource/selectred.png":"/resource/selectwhite.png"}}'>
+        </image>
+        <view class="list-item-name">
+        {{item}}
+        </view>
+      </view>
+    </i-cell>
+  </i-cell-group>
+</i-panel>
+<view style="height: 80rpx"></view>
+<view class='confirm-button' bindtap="tapConfirm">
+  确定
+</view>

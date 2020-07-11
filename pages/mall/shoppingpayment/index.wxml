@@ -3,8 +3,8 @@
 </i-navigation-bar>
 
 <!-- 头部选择收货地址 -->
-<view class="shoopingpay-head-page">
-  <view class="shoppingpay-head-selectAddress-item" bindtap="receivingAddressTap">
+<view class="shoopingpay-head-page" bindtap="receivingAddressTap">
+  <view class="shoppingpay-head-selectAddress-item" hidden='{{receiveAddress!=null?true:false}}'>
     <view class="shoppingpay-head-selectAddress-item-title">
       请选择收货地址
     </view>
@@ -13,127 +13,101 @@
   <view class="shoppingpay-head-receiveAddress-item-column" wx:if='{{receiveAddress!=null}}'>
     <view class="receive-line">
       <view class="receive-name">
-      {{receiveAddress.contacts}}
+        {{receiveAddress.contacts}}
       </view>
       <view class="receive-phone">
-      {{receiveAddress.phone}}
+        {{receiveAddress.phone}}
       </view>
     </view>
     <view class="receive-line">
-    {{receiveAddress.province}} {{receiveAddress.city}} {{receiveAddress.county}} {{receiveAddress.detailedAddress}}
+      {{receiveAddress.province}} {{receiveAddress.city}} {{receiveAddress.county}} {{receiveAddress.detailedAddress}}
     </view>
   </view>
 </view>
 
 <!-- 商品信息、加减框 -->
-<view class="shoopingpay-head-showinfo"
-      wx:if='{{shopDataSource!=null}}'>
-  <i-image imageSrc="{{shopDataSource.imageUrl}}" i-class="showinfo-image">
+<view class="shoopingpay-head-showinfo" wx:if='{{shopDataSource!=null}}'>
+  <i-image imageSrc="{{shopDataSource.pet.petImg || shopDataSource.coverImg}}" i-class="showinfo-image">
   </i-image>
-  <view>
+  <view style="margin-left:5%;">
     <view class="shoopingpay-head-showtext">
-    {{parse.getName(shopDataSource, type)}}
+      {{shopDataSource.pet.petName || shopDataSource.itemName}}
     </view>
     <view class="shoopingpay-head-showtext">
       <view style="color:#DC512C;">
-      ￥{{parse.getPrice(shopDataSource, type)}}
+        ￥{{shopDataSource.pet.retailPrice || shopDataSource.retailPrice}}
       </view>
-      <view>
-        <view class='stepper sum' style="margin-left:280rpx;">
-          <text class='{{minusStatus}}' type='number' bindtap='bindMinus'>-</text>
-          <input bindinput='bindManual' type="number" value='{{num}}'>
-          </input>
-          <text bindtap='bindPlus'>+</text>
-        </view>
-      </view>
+    </view>
+  </view>
+  <view class="stepper-big-box">
+    <view class='stepper sum'>
+      <text class='{{minusStatus}}' type='number' bindtap='bindMinus'>-</text>
+      <input bindinput='bindManual' type="number" value='{{num}}'>
+      </input>
+      <text bindtap='bindPlus'>+</text>
     </view>
   </view>
 </view>
 
 <!-- 卖家名称、地址 -->
-<view class="show-selleraddress-name"
-      wx:if='{{shopDataSource.business!=null}}'>
-  <view style="display: flex;flex-wrap: nowrap;">
+<view class="show-selleraddress-name" wx:if='{{shopDataSource!=null}}'>
+  <view style="display: flex;flex-wrap: nowrap;font-size:28rpx;">
     卖家名称
-    <view style="color:black;padding-left:20rpx;padding-right20rpx;">
-      {{shopDataSource.business.businessName}}
+    <view style="color:black;padding-left:20rpx;padding-right:20rpx;color:#80848f;">
+      {{shopDataSource.pet.business.businessName || shopDataSource.business.businessName}}
     </view>
   </view>
-  <view style="display: flex;flex-wrap: nowrap;">
+  <view style="display: flex;flex-wrap: nowrap;font-size:28rpx;">
     卖家地址
-    <view style="color:black;padding-left:20rpx;padding-right20rpx;">
-    {{shopDataSource.business.province}} {{shopDataSource.business.city}} {{shopDataSource.business.county}} {{shopDataSource.business.detailAddress}}
+    <view style="color:black;padding-left:20rpx;padding-right:20rpx;color:#80848f; ">
+      {{shopDataSource.pet.business.province || shopDataSource.business.province}} {{shopDataSource.pet.business.city || shopDataSource.business.city}} {{shopDataSource.pet.business.area || shopDataSource.business.area}} {{shopDataSource.pet.business.detailAddress || shopDataSource.business.detailAddress}}
     </view>
   </view>
 </view>
 
-<block wx:if='{{shopDataSource.petTransport!=null}}'>
-  <view class="page-text">
-    物流配送
-  </view>
-  <view class="transport-box">
-    <view class="transport-item {{selectTransport=='航空'?'transport-selected':''}}"
-          wx:if='{{shopDataSource.petTransport.airport!=null}}'
-          bindtap="tapTransport"
-          data-name='航空'>
-    航空
+<block wx:if="{{type=='pet' && shopDataSource.pet.freeShipping == 0}}">
+  <i-cell-group>
+    <i-cell title="" i-class="peisongsty">
+      <view slot='header'>选择配送方式:</view>
+      <view slot='footer' style='color:red'>(物流由斑马速运承运)</view>
+    </i-cell>
+    <view class="transpor-sty" wx:if="{{typeOfShipping.length>0}}">
+      <view class="transpor-sty-box" wx:for="{{typeOfShipping}}" wx:for-item="transporItem" wx:for-index="transporIndex" wx:key="transporItem" data-index="{{transporIndex}}" data-transportype="{{transporItem}}" bindtap="selectTransporTap">
+        <image src="{{selectTransportIndex==transporIndex?'/resource/selectred.png':'/resource/selectwhite.png'}}" style="width:40rpx;height:40rpx;"></image>
+        <view style="font-size:29rpx;color:{{selectTransportIndex==transporIndex?'#FF3A1E':'#80848f'}};padding-left:10rpx;">
+          {{parse.showTranspor(transporItem)}}
+        </view>
+      </view>
     </view>
-    <view class="transport-item {{selectTransport=='铁路'?'transport-selected':''}}"
-          wx:if='{{shopDataSource.petTransport.railway!=null}}'
-          bindtap="tapTransport"
-          data-name='铁路'>
-    铁路
+    <view class="no-transpor-sty" wx:else>
+       {{receiveAddress==null?'请选择收货地址！':'暂无运输方式！'}} 
     </view>
-    <view class="transport-item {{selectTransport=='专车'?'transport-selected':''}}"
-          wx:if='{{shopDataSource.petTransport.shuttleBus!=null}}'
-          bindtap="tapTransport"
-          data-name='专车'>
-    专车
-    </view>
-    <view class="transport-item {{selectTransport=='大巴'?'transport-selected':''}}"
-          wx:if='{{shopDataSource.petTransport.coach!=null}}'
-          bindtap="tapTransport"
-          data-name='大巴'>
-    大巴
-    </view>
-    <view class="transport-item {{selectTransport=='自提'?'transport-selected':''}}"
-          wx:if='{{shopDataSource.petTransport.takeTheir!=null}}'
-          bindtap="tapTransport"
-          data-name='自提'>
-    自提
-    </view>
-  </view>
-
-  <view class="page-text">
-    配送费
-    <view style="padding-left:10%;color:#DC512C;">
-      {{selectTransportPrice}}
-    </view>
-    元
-  </view>
+  </i-cell-group>
 </block>
 
-<!-- <view class="page-text">
-  选择积分优惠券
-</view>
-
-<view class="page-text" bindtap="clipCouponsTap">
-  优惠券
-  <view style="padding-left:10%;">
-    {{couponList.length}}
-  </view>
-  张可用
-  <i-icon style="padding-left:50%;" type="enter" size="23" />
-</view>
-
 <i-cell-group>
-  <i-cell title="积分  可用{{integral}}积分，抵用{{integral}}元">
-    <i-switch value="{{switch1}}" size="large" bind:change="onChange" slot="footer">
-      <view slot="open">开启</view>
-      <view slot="close">关闭</view>
-    </i-switch>
+  <i-cell title="选择优惠券" i-class="peisongsty" is-link>
+    <view class="page-text" bindtap="clipCouponsTap" slot="footer" wx:if="{{selectCoupon==null}}">
+      <block wx:if="{{showCoupon==false}}">
+          优惠券
+          <view style="padding-left:10%;">
+            {{couponList.length}}
+          </view>
+          张
+
+      </block>
+      <block wx:else>
+        该优惠券不可用
+      </block>
+    </view>
+
+    <view class="page-text" bindtap="clipCouponsTap" slot="footer" wx:else>
+        已选 {{selectCoupon.couponType.title}}
+    </view>
   </i-cell>
-</i-cell-group> -->
+</i-cell-group>
+
+
 
 <!--商品购买、分享、收藏固定框-->
 <view class="goshopbottom">
@@ -141,23 +115,27 @@
     <view style="display:flex;flex-wrap: nowrap;">
       合计
       <view style="color:#DC512C;">
-        {{numPrice}}
+        {{priceInformation.paymentAmount!=null?priceInformation.paymentAmount:0}}
       </view>
     </view>
-    <view style="display:flex;flex-wrap: nowrap;font-size:27rpx;">
+    <view style="display:flex; flex-direction: row;flex-wrap: nowrap;font-size:27rpx;">
+      <view style='margin-right: 10rpx;'>
       运费
-      <view style="color:#DC512C;">
-        {{selectTransportPrice}}
       </view>
-      <!-- 抵扣
-      <view style="color:#DC512C;">
-        {{showIntegral}}
-      </view> -->
+      <view style="color:#DC512C;margin-right: 10rpx;">
+      {{priceInformation.transportAmount}}
+      </view>
+      <view style='margin-right: 10rpx;'>
+      抵扣
+      </view>
+      <view style="color:#DC512C;margin-right: 10rpx;">
+      {{priceInformation.couponDiscountAmount}}
+      </view>
     </view>
   </view>
   <view class="bottom-icon-page">
     <view class="bottom-button-type-two" bindtap="shopPayTap">
-      担保支付
+      提交订单
     </view>
   </view>
 </view>
@@ -172,7 +150,7 @@
     <view style="font-weight:bold;">
       请选择优惠券
     </view>
-    <view style="color:#ccc;">
+    <view style="color:#ccc;font-size:24rpx;">
       领券后可在下单页面选择并使用
     </view>
   </view>
@@ -180,8 +158,15 @@
   <scroll-view class="scroll-view-page" scroll-y>
     <view class="couponList-info-page" wx:for="{{couponList}}" wx:for-item="couponListItem" wx:for-index="couponListIndex" wx:key="couponListIndex" bindtap="couponListTap" data-index="{{couponListIndex}}">
       <view class="couponList-info-left-page">
-        <view class="couponList-left-price-page">
-          {{couponListItem.couponPrice}}
+        <view class="couponList-left-price-page" wx:if="{{couponListItem.couponType.preferentialType==1}}">
+          {{couponListItem.couponType.discount}}
+          <view style="color:black;font-size:27rpx;">
+           折
+          </view>
+        </view>
+
+        <view class="couponList-left-price-page" wx:else>
+          {{couponListItem.couponType.value}}
           <view style="color:black;font-size:27rpx;">
             元
           </view>
@@ -189,25 +174,22 @@
       </view>
       <view class="couponList-info-right-page">
         <view style="font-weight:bold;">
-          {{couponListItem.couponIntroduce}}
+          {{couponListItem.couponType.title}}
         </view>
 
         <view style="color:#ccc;">
-          {{couponListItem.couponMethod}}
+          {{couponListItem.couponType.rangeType=='PART'?'部分商品可用':'全部商品可用'}}
         </view>
 
-        <view style="color:#ccc;">
-          {{couponListItem.effectiveTime}}
-        </view>
       </view>
     </view>
   </scroll-view>
 </view>
 
 <wxs module='parse'>
-  module.exports={
+  module.exports = {
     getName: function(data, type) {
-      if (type=="item") {
+      if (type == "item") {
         return data.itemName;
       } else {
         return data.petName;
@@ -219,6 +201,28 @@
       } else {
         return data.retailPrice;
       }
+    },
+    showPeisongfei: function(res, rest) {
+      if (res != null) {
+        if (res.pinkage == 1) {
+          return 0;
+        } else {
+          return rest;
+        }
+      }
+    },
+    showTranspor: function(res){
+        if(res==1){
+            return "专车"
+        }else if(res==2){
+            return "铁路"
+        }else if(res==3){
+            return "单飞"
+        }else if(res==4){
+            return "随机"
+        }else if(res==5){
+            return "大巴"
+        }
     }
   }
 </wxs>

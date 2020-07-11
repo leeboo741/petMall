@@ -1,0 +1,37 @@
+/* pages/order/unsendOrderList/confirmSend/expressSelected/index.wxss */
+.list{
+  display: flex;
+  flex-direction: column;
+}
+
+.list-item{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.list-item-image{
+  width: 40rpx;
+  height: 40rpx;
+  margin-right: 35rpx;
+}
+
+.list-item-name{
+  font-size: 30rpx;
+  color: #778899;
+  flex-grow: 1;
+}
+
+.confirm-button{
+  position: fixed;
+  bottom: 0rpx;
+  left: 0rpx;
+  right: 0rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
+  background-color: red;
+  color: white;
+  font-size: 35rpx;
+  letter-spacing: 30rpx;
+}

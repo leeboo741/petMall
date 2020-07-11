@@ -14,15 +14,31 @@ const Util = require("../utils/util.js");
 const { AddressObj } = require("../entity/addressObj.js");
 
 /**
+ * 获取默认收货地址
+ * @param businessNo
+ * @param getDefaultAddressCallback
+ */
+function getDefaultAddressByBusinessNo(businessNo, getDefaultAddressCallback){
+  let requestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_GetAddressList + businessNo,
+    success(res) {
+      if (Util.checkIsFunction(getDefaultAddressCallback)) {
+        getDefaultAddressCallback(res)
+      }
+    }
+  })
+  RequestUtil.RequestGET(requestParam);
+}
+
+/**
  * 通过用户编号获取用户收货地址列表
  * @param customerNo 用户编号
  * @param getDataCallback 获取数据回调
  */
-function getAddressListByCustomerNo(customerNo, getDataCallback) {
+function getAddressListByCustomerNo(businessNo, getDataCallback) {
   let requestParam = new RequestParamObj({
-    url: UrlPath.Url_Base + UrlPath.Url_GetAddressList,
+    url: UrlPath.Url_Base + UrlPath.Url_GetAddressList + businessNo,
     data: {
-      customerNo : customerNo
     },
     success(res) {
       if (Util.checkIsFunction(getDataCallback)){
@@ -34,7 +50,7 @@ function getAddressListByCustomerNo(customerNo, getDataCallback) {
 }
 
 /**
- * 添加买家收货地址
+ * 添加收货地址
  * @param addressObj 地址对象
  * @param addCallback 添加结果回调
  */
@@ -90,9 +106,9 @@ function editAddress(addressObj, editCallback) {
  * @param addressNo 待删除 收货地址 编号
  * @param deleteCallback 删除结果回调
  */
-function deleteAddress(addressNo, deleteCallback) {
+function deleteAddress(receivingNo, deleteCallback) {
   let requestParam = new RequestParamObj({
-    url: UrlPath.Url_Base + UrlPath.Url_DeleteAddress + addressNo,
+    url: UrlPath.Url_Base + UrlPath.Url_DeleteAddress + receivingNo,
     success(res) {
       if (Util.checkIsFunction(deleteCallback)) {
         deleteCallback(res)
@@ -103,6 +119,7 @@ function deleteAddress(addressNo, deleteCallback) {
 }
 
 module.exports={
+  getDefaultAddressByBusinessNo: getDefaultAddressByBusinessNo,
   getAddressListByCustomerNo: getAddressListByCustomerNo,
   addNewAddress: addNewAddress,
   editAddress: editAddress,

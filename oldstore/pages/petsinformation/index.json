@@ -1,0 +1,10 @@
+{
+  "usingComponents": {
+    "i-navigation-bar": "/lee-components/leeNavigationBar/index",
+    "i-icon": "/dist/icon/index",
+    "i-image": "/lee-components/leeImageView/index",
+    "i-image-upload": "/lee-components/leeImageUpload/index",
+    "poster-maker": "/lee-components/postMaker/index"
+  },
+  "enablePullDownRefresh": true
+}

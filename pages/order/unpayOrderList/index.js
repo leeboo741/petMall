@@ -8,8 +8,11 @@ const PagePath = require("../../../macros/pagePath.js");
 const Config = require("../../../macros/config.js");
 const Enum = require("../../../utils/enum.js");
 const Util = require("../../../utils/util.js");
+const Utils = require("../../../utils/util.js");
 const app = getApp();
 const Limit = 20;
+
+const ShareManager = require("../../../services/shareService");
 
 Page({
 
@@ -20,7 +23,12 @@ Page({
     offset: 0, // 页码
     loadState: LoadFootItemState.Loading_State_Empty, // 底部状态
     dataSource: [],
-    currentRole: null,
+    currentRole: null, //0 是买家  1.是卖家
+    tabList: [
+      "宠物",
+      "商品"
+    ],
+    currentTabIndex:0,
   },
 
   /**
@@ -70,7 +78,7 @@ Page({
     })
     this.requestData(this.data.offset,
       function getDataCallback(data) {
-        console.log("获取未支付订单： \n" + JSON.stringify(data));
+        Utils.logInfo("获取未支付订单： \n" + JSON.stringify(data));
         that.setData({
           dataSource: data,
         })
@@ -107,7 +115,7 @@ Page({
     let that = this;
     this.requestData(this.data.offset,
       function getDataCallback(data) {
-        console.log("获取未支付订单： \n" + JSON.stringify(data));
+        Utils.logInfo("获取未支付订单： \n" + JSON.stringify(data));
         let tempList = that.data.dataSource.concat(data);
         that.setData({
           dataSource: tempList
@@ -130,7 +138,7 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-
+    return ShareManager.getDefaultShareCard();
   },
 
   /**
@@ -143,8 +151,6 @@ Page({
     wx.navigateTo({
       url: PagePath.Page_Order_Detail + "?orderno=" + tempOrderNo,
     })
-
-    
   },
 
   /**
@@ -174,9 +180,9 @@ Page({
    */
   tapStore: function (e) {
     let tempOrder = this.data.dataSource[e.currentTarget.dataset.index];
-    let tempStoreNo = e.currentTarget.dataset.storeno;
+    let tempStoreNo = tempOrder.shop.businessNo;
     wx.navigateTo({
-      url: PagePath.Page_Store_StoreInforMation + '?storeno=' + tempStoreNo,
+      url: PagePath.Page_Store_StoreInforMation + '?storeno=' + tempStoreNo + '&showtype=' + this.data.currentTabIndex,
     })
   },
 
@@ -205,13 +211,13 @@ Page({
               })
             }
           } else if (res.tapIndex == 1) {
-            if (tempOrder.item != null) {
+            if (tempOrder.itemNo != null) {
               wx.navigateTo({
-                url: PagePath.Page_Mall_CommodityInformation + "?itemno=" + tempOrder.item.itemNo,
+                url: PagePath.Page_Mall_CommodityInformation + "?itemno=" + tempOrder.itemNo,
               })
-            } else if (tempOrder.pet != null) {
+            } else if (tempOrder.petNo != null) {
               wx.navigateTo({
-                url: PagePath.Page_Store_PetsInforMation + '?petno=' + tempOrder.pet.petNo,
+                url: PagePath.Page_Store_PetsInforMation + '?petno=' + tempOrder.petNo,
               })
             } else {
               wx.showToast({
@@ -256,7 +262,7 @@ Page({
     let tempOrderNo = e.currentTarget.dataset.orderno;
 
     let payType = 0;
-    if (tempOrder.pet != null) {
+    if (tempOrder.petNo != null) {
       payType = 1;
     }
     this.requestPayInfo(payType, tempOrderNo,
@@ -323,29 +329,69 @@ Page({
    * @param getDataCallback
    */
   requestData: function (offset, getDataCallback) {
-    let param = {
-      offset: offset,
-      limit: Limit,
-      orderType: Enum.Order_Type_Enum.UnPay,
-    }
-    if (this.data.currentRole == 0) {
-      param.customerNo = UserService.getCustomerNo();
-      OrderService.customerQueryOrderList(param,
-        function queryResultCallback(result) {
-          if (Util.checkIsFunction(getDataCallback)) {
-            getDataCallback(result.root)
-          }
+    let that = this;
+    UserService.isLogin(function isLoginCallback(){
+      let param = {
+        offset: offset,
+        limit: Limit,
+        businessNo: UserService.getBusinessNo()
+      }
+      if (that.data.currentRole == 0) { //买家
+        if (that.data.currentTabIndex == 0) {  //宠物
+          OrderService.customerQueryOrderList(param,
+            function queryResultCallback(result) {
+              if (Util.checkIsFunction(getDataCallback)) {
+                getDataCallback(result.root)
+              }
+            }
+          )
+        } else {    //商品
+          OrderService.userGoodsOrderUnpaid(param,
+            function queryResultCallback(result) {
+              if (Util.checkIsFunction(getDataCallback)) {
+                getDataCallback(result.root)
+              }
+            }
+          )
         }
-      )
-    } else {
-      param.businessNo = UserService.getBusinessNo();
-      OrderService.businessQueryOrderList(param,
-        function queryResultCallback(result) {
-          if (Util.checkIsFunction(getDataCallback)) {
-            getDataCallback(result.root)
-          }
+
+      } else {    //卖家
+        if (that.data.currentTabIndex == 0) {  //宠物
+          OrderService.businessPetQueryOrderList(param,
+            function queryResultCallback(result) {
+              if (Util.checkIsFunction(getDataCallback)) {
+                getDataCallback(result.root)
+              }
+            }
+          )
+        } else {//商品
+          OrderService.businessGoodsOrderUnpaid(param,
+            function queryResultCallback(result) {
+              if (Util.checkIsFunction(getDataCallback)) {
+                getDataCallback(result.root)
+              }
+            }
+          )
         }
-      )
-    }
+      }
+    },function notLoginCallback(){
+
+      if (Util.checkIsFunction(getDataCallback)) {
+        getDataCallback([])
+      }
+    })
+    
   },
+
+  /**
+  * 选择tab
+  */
+  handleTabChange: function (e) {
+    this.setData({
+      currentTabIndex: e.detail.key,
+      loadState: LoadFootItemState.Loading_State_Empty,
+    })
+    wx.startPullDownRefresh();
+  },
+  
 })

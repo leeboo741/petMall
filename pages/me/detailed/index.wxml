@@ -1,0 +1,22 @@
+<!--pages/me/detailed/index.wxml-->
+<i-navigation-bar title='明细'
+                  showBackButton>
+</i-navigation-bar>
+
+<i-cell-group>
+  <view wx:for="{{businessDetailed}}"
+        wx:for-item='businessDetailedItem'
+        wx:for-index='businessDetailedIndex'
+        wx:key='{{businessDetailedIndex}}'
+        hidden="{{businessDetailedItem.shopAmount==null?true:false}}">
+       <i-cell title=" + {{businessDetailedItem.shopAmount}}" 
+               label="{{businessDetailedItem.createDate}} {{businessDetailedItem.createTime}}"
+               is-link>
+               <view bindtap="showDetail" slot="footer" >点击查看</view>
+       </i-cell>
+  </view>
+</i-cell-group>
+
+<!-- 加载块 -->
+<i-load-foot-item loadState='{{loadState}}'>
+</i-load-foot-item>

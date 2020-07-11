@@ -3,6 +3,17 @@
                   showBackButton>
 </i-navigation-bar>
 
+<i-tabs current="{{currentTabIndex}}" 
+        bindchange="handleTabChange"
+        color="#f3ba33">
+  <i-tab wx:for='{{tabList}}'
+          wx:for-item='tabItem'
+          wx:for-index='tabIndex'
+          wx:key='{{tabIndex}}'
+          key="{{tabIndex}}" 
+          title="{{tabItem}}">
+  </i-tab>
+</i-tabs>
 <!-- 买家版 -->
 <block wx:if='{{currentRole == 0}}'>
   <!-- 订单Item -->
@@ -27,18 +38,18 @@
     <view class="order-goods-box">
       <!-- 商品Item -->
       <view class="order-goods-item"
-            wx:if='{{parse.showItemCell(orderItem)}}'
+            wx:if='{{currentTabIndex==1}}'
             catchtap="tapItem"
             data-index='{{orderIndex}}'
-            data-itemno='{{orderItem.item.itemNo}}'>
+            data-itemno='{{orderItem.itemNo}}'>
         <i-image i-class="order-goods-image"
-                 imageSrc='{{orderItem.item.coverImg}}'
+                 imageSrc='{{orderItem.coverImg}}'
                  >
         </i-image>
         <view class="order-goods-info">
           <view class="order-goods-item-line">
             <view class="order-goods-name">
-            {{orderItem.item.itemName}}
+            {{orderItem.itemName}}
             </view>
           </view>
           <view class="order-goods-item-line"
@@ -47,28 +58,27 @@
             x{{orderItem.qty}}
             </view>
             <view class="order-goods-price">
-            ￥{{orderItem.item.retailPrice}}
+            ￥{{parse.showRetailRice(orderItem.retailPrice)}}
             </view>
           </view>
         </view>
       </view>
       <!-- 宠物Item -->
       <view class="order-goods-item"
-            wx:if='{{parse.showPetCell(orderItem)}}'
+            wx:if='{{currentTabIndex==0}}'
             catchtap="tapPet"
             data-index='{{orderIndex}}'
-            data-petno='{{orderItem.pet.petNo}}'>
+            data-petno='{{orderItem.petNo}}'>
         <i-image i-class="order-goods-image"
-                 imageSrc='{{orderItem.pet.coverMedia}}'
+                 imageSrc='{{orderItem.petImg}}'
                  >
         </i-image>
         <view class="order-goods-info">
           <view class="order-goods-item-line">
             <view class="order-goods-name">
-            {{orderItem.pet.petName}}
+            {{orderItem.petName}}
             </view>
-            <view class="order-goods-sexy"
-                  wx:if='{{parse.showSexy(orderItem)}}'>
+            <view class="order-goods-sexy">
             {{parse.getSexy(orderItem)}}
             </view>
           </view>
@@ -78,7 +88,7 @@
             x{{orderItem.qty}}
             </view>
             <view class="order-goods-price">
-            {{orderItem.pet.retailPrice}}
+            ￥{{parse.showRetailRice(orderItem.retailPrice)}}
             </view>
           </view>
         </view>
@@ -96,9 +106,9 @@
       <view class="order-store-box"
             catchtap="tapStore"
             data-index='{{orderIndex}}'
-            data-storeno='{{orderItem.pet.business.businessNo}}'>
+            data-storeno='{{orderItem.shop.businessNo}}'>
         <i-image i-class="order-store-image"
-                 imageSrc='{{parse.getStoreLogo(orderItem)}}'
+                 imageSrc='{{orderItem.shop.headImg}}'
                  >
         </i-image>
         <view class="order-store-name">
@@ -106,7 +116,7 @@
         </view>
       </view>
       <view class="order-operate-button-box">
-        <view class="order-operate-button"
+        <!-- <view class="order-operate-button"
               catchtap="tapRefund"
               data-index='{{orderIndex}}'
               wx:if="{{orderItem.refundsState != 1}}">
@@ -115,7 +125,7 @@
         <view class="refund-state"
               wx:else>
         退款中
-        </view>
+        </view> -->
         <view class="order-operate-button"
               catchtap="tapMore"
               data-index='{{orderIndex}}'
@@ -160,18 +170,18 @@
     <view class="order-goods-box">
       <!-- 商品Item -->
       <view class="order-goods-item"
-            wx:if='{{parse.showItemCell(orderItem)}}'
+            wx:if='{{currentTabIndex==1}}'
             catchtap="tapItem"
             data-index='{{orderIndex}}'
-            data-itemno='{{orderItem.item.itemNo}}'>
+            data-itemno='{{orderItem.itemNo}}'>
         <i-image i-class="order-goods-image"
-                 imageSrc='{{orderItem.item.coverImg}}'
+                 imageSrc='{{orderItem.coverImg}}'
                  >
         </i-image>
         <view class="order-goods-info">
           <view class="order-goods-item-line">
             <view class="order-goods-name">
-            {{orderItem.item.itemName}}
+            {{orderItem.itemName}}
             </view>
           </view>
           <view class="order-goods-item-line"
@@ -180,28 +190,27 @@
             x{{orderItem.qty}}
             </view>
             <view class="order-goods-price">
-            ￥{{orderItem.item.retailPrice}}
+            ￥{{parse.showRetailRice(orderItem.retailPrice)}}
             </view>
           </view>
         </view>
       </view>
       <!-- 宠物Item -->
       <view class="order-goods-item"
-            wx:if='{{parse.showPetCell(orderItem)}}'
+            wx:if='{{currentTabIndex==0}}'
             catchtap="tapPet"
             data-index='{{orderIndex}}'
-            data-petno='{{orderItem.pet.petNo}}'>
+            data-petno='{{orderItem.petNo}}'>
         <i-image i-class="order-goods-image"
-                 imageSrc='{{orderItem.pet.coverMedia}}'
+                 imageSrc='{{orderItem.petImg}}'
                  >
         </i-image>
         <view class="order-goods-info">
           <view class="order-goods-item-line">
             <view class="order-goods-name">
-            {{orderItem.pet.petName}}
+            {{orderItem.petName}}
             </view>
-            <view class="order-goods-sexy"
-                  wx:if='{{parse.showSexy(orderItem)}}'>
+            <view class="order-goods-sexy">
             {{parse.getSexy(orderItem)}}
             </view>
           </view>
@@ -211,7 +220,7 @@
             x{{orderItem.qty}}
             </view>
             <view class="order-goods-price">
-            {{orderItem.pet.retailPrice}}
+            ￥{{parse.showRetailRice(orderItem.retailPrice)}}
             </view>
           </view>
         </view>
@@ -228,11 +237,11 @@
     <view class="order-operate-box">
       <view class="order-store-box">
         <i-image i-class="order-store-image"
-                 imageSrc='{{orderItem.customer.headerImage}}'
+                 imageSrc='{{orderItem.buyer.headImg}}'
                  >
         </i-image>
         <view class="order-store-name">
-        {{orderItem.customer.customerName}}
+        {{orderItem.buyer.businessName}}
         </view>
       </view>
       <view class="order-operate-button-box">
@@ -256,36 +265,34 @@
   </view>
 </block>
 
+
 <!-- 加载块 -->
 <i-load-foot-item loadState='{{loadState}}'>
 </i-load-foot-item>
+
 
 <wxs module='parse'>
   module.exports={
     getStoreLogo: function(orderItem) {
       if (orderItem.item != null) {
-        return ""
+        return orderItem.item.business.headerImg
       }
       if (orderItem.pet != null) {
         return orderItem.pet.business.headerImg;
       }
     },
     getSotreName: function(orderItem) {
-      if (orderItem.item != null) {
-        return "自营"
-      }
-      if (orderItem.pet != null) {
-        return orderItem.pet.business.businessName;
+      if (orderItem != null) {
+        if(orderItem.shop.businessName==null){
+          return "--"
+        }else{
+          return orderItem.shop.businessName;
+        }
       }
     },
-    showSexy: function(orderItem) {
-      if (orderItem.pet == null || orderItem.pet.petSex != null || orderItem.pet.petSex.length <= 0) {
-        return false;
-      }
-      return true;
-    },
+    
     getSexy: function (orderItem) {
-      if (orderItem.pet.petSex == 1) {
+      if (orderItem.petSex == 1) {
         return "公";
       }
       return "母";
@@ -295,6 +302,23 @@
     },
     showPetCell: function(order) {
       return order.pet != null;
+    },
+    showRetailRice:function(res){
+      if(res==null){
+        return "--"
+      }else{
+        return res
+      }
+    },
+
+    showImageBs:function(res){
+      if(res.item!=null){
+        return res.shop.headImg
+      }
+
+      if(res.pet!=null){
+        return res.pet.business.headerImg
+      }
     }
   }
 </wxs>

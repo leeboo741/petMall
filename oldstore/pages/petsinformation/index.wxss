@@ -1,0 +1,426 @@
+/* pages/store/petsinformation/index.wxss */
+.banner{
+  width: 100%;
+  height: 550rpx;
+}
+
+.banner-item{
+  position: absolute;
+  top: 0rpx;
+  left: 0rpx;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.banner-item-image{
+  width: 100vw;
+  height: 550rpx;
+  margin: auto;
+  border-radius: 10rpx;
+}
+
+.pets-informaction-page{
+  width:100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.pets-informaction-tabs{
+   display: flex;
+   flex-direction: row;
+   margin-left: 3%;
+   margin-top:3%;
+   font-size:27rpx;
+}
+
+.pets-informaction-list{
+  display: flex;
+  flex-direction: column;
+}
+
+.pets-informaction-list-item{
+  margin-bottom: 8rpx;
+}
+
+.pets-informaction-parents-box{
+  display: flex;
+  flex-direction: row;
+}
+
+.pets-informaction-parents-item{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
+  margin-right: 15rpx;
+}
+
+.pets-information-parents-image{
+  width: 200rpx;
+  height: 180rpx;
+}
+
+.pets-information-parents-label{
+  position: absolute;
+  top: 0rpx;
+  left: 0rpx;
+  background: linear-gradient(to right, rgb(255,147,87) , rgb(255, 51, 59));
+  color: white;
+  line-height: 40rpx;
+  height: 40rpx;
+  width: 100rpx;
+  border-bottom-right-radius: 20rpx;
+  border-top-right-radius: 20rpx;
+  text-align: center;
+  z-index: 2;
+}
+
+.pets-information-parents-name{
+  width: 100%;
+  height: 40rpx;
+  line-height: 40rpx;
+  text-align: center;
+  color: goldenrod;
+}
+
+.pets-information-transport-box{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  flex-grow: 1;
+}
+
+.pets-information-transport-item{
+  display: flex;
+  padding: 5rpx 12rpx;
+  background-color:#F9A513;
+  font-size: 20rpx;
+  border-radius: 15rpx;
+  color: white;
+  margin-left: 2%;
+}
+
+.pets-sexmu{
+  background-color:#FB1337;
+  color:white;
+  width:55rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20rpx;
+  padding-right: 2%;
+  margin-left: 30%;
+}
+
+.pets-sexgong{
+  background-color:blue;
+  color:white;
+  width:55rpx;
+  display: flex;
+  align-items: center; 
+  justify-content: center;
+  border-radius: 20rpx;
+  margin-left: 20%;
+}
+
+.divLine{
+ background: #E0E3DA;
+ width: 87%;
+ height: 2rpx;
+ margin-top:2%;
+ margin-left:13%;
+}
+
+
+.business-head-page{
+  width: 100%;
+  height: 190rpx;
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  border-top: 3rpx solid #E0E3DA;
+  margin-top:3%;
+}
+
+.business-head-inleft{
+  width: 20%;
+  height: 190rpx;
+  display: flex;
+  align-items: center;
+  justify-content:center;
+}
+
+.business-image{
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50% 50%;
+}
+
+.business-head-inright{
+  width: 55%;
+  height: 190rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content:center;
+  font-size: 28rpx;
+}
+
+.business-head-right-button-page{
+  width: 25%;
+  height: 190rpx;
+  display: flex;
+  justify-content:center;
+  align-items: center;
+}
+
+.right-button{
+  width: 150rpx;
+  height:60rpx;
+  display: flex;
+  justify-content:center;
+  align-items: center;
+  border-radius: 20rpx;
+  background-color: #FB363B;
+  font-size: 27rpx;
+  color: white;
+}
+
+.userevaluate-content-page{
+   width: 100%;
+   display: flex;
+   align-items: center;
+   flex-direction: column; 
+}
+
+.userevaluate-content-tables-page{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.userevaluate-content-head{
+  display: flex;
+  flex-wrap: nowrap;
+  width: 96%;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.userevaluate-content-head-customername{
+  width: 45%;
+  font-weight:bold;
+  font-size:28rpx;
+  padding-left: 2%;
+}
+
+.userevaluate-content-head-appraiseTime{
+  width: 45%;
+  font-size:24rpx;
+  color:#ccc;
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.image-sty{
+  width: 50rpx;
+  height: 50rpx;
+  border: 1rpx solid #ccc;
+  border-radius: 50% 50%;
+}
+
+
+.userevaluate-head-page{
+  width: 100%;
+  height: 100rpx;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  border-top: 3rpx solid #E0E3DA;
+  margin-top: 2%;
+}
+
+.goshopbottom{
+  z-index: 3;
+  border-top:2rpx solid #ccc;
+  position: fixed; 
+  width: 100%;
+  height: 120rpx;
+  bottom: 0rpx;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+}
+
+.bottom-button-type-one{
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 50% 50%;
+  margin-bottom: 8rpx;
+}
+
+.bottom-button-type-two{
+  background: linear-gradient(to right, rgb(255,147,87) , rgb(255, 51, 59));
+  width: 200rpx;
+  height: 80%;
+  border-radius:50rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.bottom-icon-page{
+  height: 98%;
+  width: 120rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-left: 15%;
+}
+
+button::after {
+  border-style: none;
+}
+
+button{
+  padding: 0rpx;
+  background: white;
+}
+
+.bottom-showinfor{
+  width: 50%;
+  height: 120rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.label-pagecs{
+  display: flex;
+  align-items: center;
+  justify-content:center;
+  font-size: 16rpx;
+  color:white;
+  background-color: #C7AB56;
+  margin-left: 16rpx;
+  width: 80rpx;
+  height: 30rpx;
+}
+
+.mask-page{
+  position: fixed; 
+  top:0rpx;
+  width: 100%;
+  height: 100%;
+  background:black;
+  z-index: 2;
+  opacity:0.7;
+}
+
+.share-sty{
+  width: 100%;
+  height: 400rpx;
+  bottom: 0rpx;
+  position: fixed;
+  display: flex;
+  align-items: center;
+  flex-flow: column;
+  z-index: 5;
+  background-color: white;
+  border-radius: 20rpx 20rpx 0 0;
+}
+
+.share-sty-head{
+  width: 100%;
+  height: 100rpx;
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse;
+}
+
+.share-sty-head-wrong{
+  width: 80rpx;
+  height: 80rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.share-sty-head-wrong-image{
+  width: 55rpx;
+  height: 55rpx;
+}
+
+.share-sty-box{
+  width: 100%;
+  height:300rpx;
+  display: flex;
+  flex-flow: nowrap;
+  align-content: center;
+}
+
+.share-sty-box-single{
+  width: 50%;
+  height: 200rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column;
+  background-color: white;
+}
+
+.share-sty-box-single-icon{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 120rpx;
+  height: 120rpx;
+
+}
+
+.share-sty-box-single-icon-image{
+   width: 80rpx;
+  height: 80rpx;
+}
+
+.share-sty-box-single-text{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 80rpx;
+  font-size: 28rpx;
+}
+
+.share-sty-box-single::after{ 
+  border: none; 
+} 
+
+.noevluatelist{
+  width: 100%;
+  height: 100rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+}
+
+.evaluation-img{
+  display: flex;
+  flex-flow: wrap;
+  padding: 20px;
+}
+
+
+.evaluate-image {
+  width: 150rpx;
+  height: 180rpx;
+}

@@ -4,9 +4,6 @@
     "pages/index/preferential/index",
     "pages/index/nearby/index",
     "pages/index/petstype/index",
-    "pages/store/index",
-    "pages/store/storeinformation/index",
-    "pages/store/petsinformation/index",
     "pages/me/index",
     "pages/me/addressManager/index",
     "pages/me/addressManager/addNewAddress",
@@ -45,7 +42,73 @@
     "pages/order/refundOrderList/refund/reject/index",
     "pages/order/refundOrderList/refund/approve/index",
     "pages/search/index",
-    "pages/order/unsendOrderList/confirmSend/index"
+    "pages/order/unsendOrderList/confirmSend/index",
+    "pages/me/detailed/index",
+    "pages/index/usersmanual/index",
+    "pages/me/distribution/index",
+    "pages/certification/index",
+    "pages/me/releaseManager/eleaseproducts/index",
+    "pages/poststation/index",
+    "pages/poststation/map/map",
+    "pages/poststation/order/index",
+    "pages/tsfwlist/tsfwlist",
+    "lee-components/popup/popup",
+    "pages/poststation/order/serviceTimeSelected/index",
+    "pages/poststation/order/beauticianSelected/index",
+    "pages/poststation/order/couponSelected/index",
+    "pages/me/serverList/serverList",
+    "pages/me/serverList/serverQR",
+    "pages/me/point/pointMall/index",
+    "pages/assess/assessList/index",
+    "pages/assess/assessDetail/index",
+    "pages/baike/index",
+    "pages/baike/list",
+    "pages/baike/articleDetail",
+    "pages/poststation/serverList/index",
+    "pages/order/unsendOrderList/confirmSend/expressSelected/index",
+    "pages/me/releaseManager/releaseNew/selectPetGenre/index"
+  ],
+  "subpackages": [
+    {
+      "root": "stationsubcontract",
+      "pages": [
+        "pages/beautician/index",
+        "pages/storedetails/index",
+        "pages/coupon/index",
+        "pages/appointment/index",
+        "pages/mypet/index",
+        "pages/mypet/upmypet/index",
+        "pages/mypet/upmypet/choosePetGenre"
+      ]
+    },
+    {
+      "root": "oldstore",
+      "pages": [
+        "pages/petsinformation/index",
+        "pages/storeinformation/index",
+        "pages/index"
+      ]
+    },
+    {
+      "root": "grouppurchase",
+      "pages": [
+        "pages/grouplist/index"
+      ]
+    },
+    {
+      "root": "mallsubcontracting",
+      "pages": [
+        "pages/productreleasedetails/index",
+        "pages/publishingservice/index",
+        "pages/shoppingcart/index",
+        "pages/agreement/index",
+        "pages/businessimprovement/index",
+        "pages/businessfollow/index",
+        "pages/Integralflow/index",
+        "pages/productreleasedetails/itemTypeSelect/index",
+        "pages/productreleasedetails/itemTypeSelect/menuTypeSelect"
+      ]
+    }
   ],
   "tabBar": {
     "color": "#80848f",
@@ -57,26 +120,31 @@
       {
         "pagePath": "pages/index/index",
         "text": "首页",
-        "iconPath": "resource/tabbar_home_unselected.png",
-        "selectedIconPath": "resource/tabbar_home_selected.png"
+        "iconPath": "resource/sy.png",
+        "selectedIconPath": "resource/sy_s.png"
       },
       {
-        "pagePath": "pages/store/index",
-        "text": "商家",
-        "iconPath": "resource/tabbar_store_unselected.png",
-        "selectedIconPath": "resource/tabbar_store_selected.png"
+        "pagePath": "pages/poststation/index",
+        "text": "驿站",
+        "iconPath": "resource/yz.png",
+        "selectedIconPath": "resource/yz_s.png"
+      },
+      {
+        "pagePath": "pages/me/releaseManager/eleaseproducts/index",
+        "iconPath": "resource/center.png",
+        "selectedIconPath": "resource/center_s.png"
       },
       {
         "pagePath": "pages/mall/index",
         "text": "商城",
-        "iconPath": "resource/tabbar_mall_unselected.png",
-        "selectedIconPath": "resource/tabbar_mall_selected.png"
+        "iconPath": "resource/sc.png",
+        "selectedIconPath": "resource/sc_s.png"
       },
       {
         "pagePath": "pages/me/index",
         "text": "我的",
-        "iconPath": "resource/tabbar_me_unselected.png",
-        "selectedIconPath": "resource/tabbar_me_selected.png"
+        "iconPath": "resource/wd.png",
+        "selectedIconPath": "resource/wd_s.png"
       }
     ]
   },
@@ -84,7 +152,7 @@
     "backgroundTextStyle": "light",
     "backgroundColor": "#F0F0F0",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "WeChat",
+    "navigationBarTitleText": "淘宠惠",
     "navigationBarTextStyle": "black",
     "navigationStyle": "custom"
   },
@@ -93,5 +161,8 @@
       "desc": "你的位置信息将用于提供周边商家和服务"
     }
   },
-  "sitemapLocation": "sitemap.json"
+  "sitemapLocation": "sitemap.json",
+  "navigateToMiniProgramAppIdList": [
+    "wxcbdaa290fc45a263"
+  ]
 }

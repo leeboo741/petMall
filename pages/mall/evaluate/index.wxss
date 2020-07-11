@@ -34,8 +34,41 @@
 .userevaluate-content-head{
   display: flex;
   flex-wrap: nowrap;
-  width: 100%;
+  width:98%;
   align-items: center;
+  margin-left:2%;
+}
+
+.head-image-sty{
+  width: 10%;
+  display: flex;
+  justify-content: cente;
+  align-items: center;
+}
+
+.head-coustomerName-sty{
+  width: 45%;
+  font-weight:bold;
+  font-size:32rpx;
+  display:-webkit-box;
+  -webkit-line-clamp:1;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  -webkit-box-orient:vertical;
+  word-break:break-all;
+}
+
+.head-date-time-sty{
+  width: 42%;
+  font-size:28rpx;
+  color:#ccc;
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.head-content-sty{
+  margin-left:12%;
+  font-size:28rpx;
 }
   
 .image-sty{
@@ -43,4 +76,10 @@
   height: 50rpx;
   border: 1rpx solid #ccc;
   border-radius: 50% 50%;
+}
+
+.evaluation-img{
+  display: flex;
+  flex-flow: wrap;
+  padding: 20px;
 }

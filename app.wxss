@@ -1,6 +1,57 @@
 /**app.wxss**/
 
 .panel{
-  background: rgb(245, 245, 245);
+  background: rgb(250, 250, 250);
 }
 
+.background-view{
+  position: fixed;
+  top: 0rpx;
+  left: 0rpx;
+  right: 0rpx;
+  bottom: 0rpx;
+  background:rgb(250, 250, 250);
+  z-index: -1;
+}
+
+.front-view{
+  z-index: 0;
+  /* position: relative; */
+}
+
+.space-zone{
+  height: 100rpx;
+}
+
+.top-zone{
+  position: fixed;
+  height: 100rpx;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 100;
+  background: white;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.bottom-zone{
+  position: fixed;
+  height: 100rpx;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 100;
+  background: white;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+}
+
+@font-face {    
+  font-family: 'FZSuXSLSJW';  
+  src: url("https://s3.devfuyi.com/common/font/MHeiPRC-Bold.ttf")
+}

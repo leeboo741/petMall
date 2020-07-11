@@ -42,6 +42,15 @@ Component({
    * 属性监听
    */
   observers: {
+    // "type": function(type) {
+    //   console.log("type" + type)
+    // },
+    // "size": function(size) {
+    //   console.log("size" + size)
+    // },
+    // "color": function(color) {
+    //   console.log("color" + color)
+    // }
   },
 
   /** ==================================================== */

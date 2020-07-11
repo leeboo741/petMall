@@ -1,0 +1,45 @@
+
+<i-navigation-bar title='我的宠物' showBackButton='{{true}}'backgroundColor="white">
+</i-navigation-bar>
+<view class="background-view" style="background: #F6F8FA;">
+
+</view>
+<view class="front-view" style="display:flex; flex-direction: column;">
+  <scroll-view class="my-pet-box" scroll-x style='height: 300rpx; width:100%;' enable-flex='true'>
+    <view class="my-pet-item" bindtap="tapAddNewPet">
+      <view class="my-pet-item-content">
+        <image class="my-pet-item-image" src='/resource/jia.png'></image>
+        <view class="my-pet-item-title" style="color:#002241;">添加宠物</view>
+      </view>
+    </view>
+    <view class="my-pet-item" wx:for='{{myPetList}}' wx:key='petNo' wx:for-item='petItem' wx:for-index='petIndex' bindtap='tapMyPet' data-index='{{petIndex}}' bindlongtap="longTapMyPetAction">
+      <view class="my-pet-item-content">
+        <image class="my-pet-item-image" src='{{petItem.petImg}}'></image>
+        <view class="my-pet-item-title">{{petItem.petName}}</view>
+      </view>
+    </view>
+  </scroll-view>
+  <view class="pet-type-tab-box">
+    <i-tabs current="{{currentTabIndex}}" 
+            bindchange="handleTabChange"
+            color="#f3ba33"
+            i-class='pet-type-tab'>
+      <i-tab wx:for='{{petSortList}}'
+              wx:for-item='petSortItem'
+              wx:for-index='petSortIndex'
+              wx:key='petSortNo'
+              key="{{petSortIndex}}" 
+              title="{{petSortItem.petSortName}}">
+      </i-tab>
+    </i-tabs>
+  </view>
+  <view class="pet-type-list">
+    <view class="pet-type-item">
+      <input class="pet-type-input" value='{{keyword}}' bindconfirm="confirmSearch" placeholder="宠物品种搜索" placeholder-style="color: lightgray"></input>
+    </view>
+    <view class="pet-type-item" wx:for='{{petGenreList}}' wx:for-item='petGenreItem' wx:for-index='petGenreIndex' wx:key='petGenreNo' bindtap="tapPetGenre" data-index='{{petGenreIndex}}'>
+      <image class="pet-type-item-image" src='{{petGenreItem.petGenreImg}}' lazy-load></image>
+      <view class="pet-type-item-title">{{petGenreItem.petGenreName}}</view>
+    </view>
+  </view>
+</view>

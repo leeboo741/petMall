@@ -1,0 +1,137 @@
+<i-navigation-bar title='驿站' showBackButton='{{false}}' backgroundColor="#FF3A1E" titleColor="white">
+</i-navigation-bar>
+<scroll-view scrollY class="container" enableBackToTop="true">
+  <view class="navtop">
+    <view bindtap="gobackMap" class="navtop-left">
+      <image class="location" src="/resource/whitemap.png"></image>
+      <view class="shopname" wx:if='{{businessObj}}'>{{businessObj.business.province}}{{businessObj.business.city}}{{businessObj.business.area}}{{businessObj.business.detailAddress}}</view>
+      <view class="shopname" wx:else>{{currentAddress}}</view>
+      <image class="downimg" src="/resource/whitedow.png"></image>
+    </view>
+  </view>
+  <view class="bigbgc">
+    <view class="swiperbox">
+      <image class="swiperbgc" src="/resource/rw.png"></image>
+      <swiper autoplay="true" circular="true" class="swiper" current="{{current}}" duration="1000" indicatorActiveColor="#FFFFFF" indicatorColor="rgba(255,255,255,0.5)" indicatorDots="true" interval="2000">
+        <swiper-item wx:for="{{bannerList}}" wx:key='index'>
+          <navigator hoverClass="none" openType="navigate" url="">
+            <image class="slide-image" src="{{item.imgUrl}}"></image>
+          </navigator>
+        </swiper-item>
+      </swiper>
+    </view>
+    <view class="nav">
+      <view wx:for='{{businessServerList}}'
+            wx:for-item='serverItem'
+            wx:for-index='serverIndex'
+            wx:key='serviceID'
+            bindtap="tapServerType"
+            data-servertypeno='{{serverItem.serviceTypeNo}}'
+            data-servertypename='{{serverItem.serviceTypeName}}'
+            data-index='{{serverIndex}}'
+            class='nav-item-box'>
+        <view class="nav-item">
+          <image class="nav-image" src="{{parse.getServerIcon(serverItem.serviceTypeNo)}}"></image>
+        </view>
+        <view class="nav-des">
+          {{serverItem.serviceTypeName}}
+        </view>   
+      </view>
+    </view>
+    
+    <view class="shopdetail">
+      <view class="service-top">
+        <view class="service-top-left">
+          <image class="sign" src="{{signImageUrl}}"></image>
+          门店信息
+        </view>
+      </view>
+      <view class="shopbox">
+        <view class="head">
+          <view class="left">
+            <image src="{{businessObj.business.headImg}}"></image>
+          </view>
+          <view class="right">
+            <view class="right-top">
+              <view>{{businessObj.business.businessName}}</view>
+              <image bindtap="callshop" src="{{phoneImageUrl}}" data-phonenumber='{{businessObj.business.contactPhone}}'></image>
+            </view>
+            <view class="right-bottom">
+              <image src="{{huitimeImageUrl}}"></image>
+              <view>{{businessObj.business.startHours}} - {{businessObj.business.endHours}}</view>
+            </view>
+          </view>
+        </view>
+        <view class="shopitem">
+          <view class="top">
+            <view class="left">
+              <view>{{businessObj.business.province}}{{businessObj.business.city}}{{businessObj.business.area}}{{businessObj.business.detailAddress}}</view>
+              <view>距离你{{parse.getDistanceStr(businessObj.distance)}}</view>
+              <view style="text-decoration: underline; color: blue; font-size: 28rpx;" bindtap="tapWXQRCode">
+                商家微信二维码
+              </view>
+            </view>
+            <view bindtap="openLocation" class="right"  data-latitude="{{businessObj.business.latitude}}" data-longitude='{{businessObj.business.longitude}}' data-businessname='{{businessObj.business.businessName}}'>
+              <image src="{{daohangImageUrl}}"></image>
+            </view>
+          </view>
+          <view bindtap="goshopDetail" class="bottom">查看门店详情</view>
+        </view>
+      </view>
+    </view>
+  </view>
+</scroll-view>
+
+<wxs module='parse'>
+  module.exports={
+    getServerIcon: function(serverNo) {
+			if (serverNo == 1) {
+				return "/resource/t2.png";
+			} else if (serverNo == 2) {
+				return "/resource/t1.png";
+			} else if (serverNo == 3) {
+				return "/resource/aquatic.png";
+			} else if (serverNo == 4) {
+				return "/resource/t3.png";
+			} else if (serverNo == 5) {
+				return "/resource/t4.png";
+			} else {
+				return "/resource/aquatic.png";
+			}
+    },
+    getSpecialServerTypeIndex: function(serverTypes){
+      for (var i = 0; i < serverTypes.length; i++) {
+        var serverType = serverTypes[i];
+        if (serverType.serviceTypeNo == '3') {
+          return i;
+        }
+      }
+      return -1;
+    },
+    getSpecialServers:function(serverTypes){
+      for (var i = 0; i < serverTypes.length; i++) {
+        var serverType = serverTypes[i];
+        if (serverType.serviceTypeNo == '3') {
+          return serverType.child;
+        }
+      }
+      return null;
+    },
+    getBeauticianList: function(beauticianList) {
+      if (!beauticianList || beauticianList.length <=0 ) {
+        return null;
+      } else {
+        return beauticianList;
+      }
+    },
+    getDistanceStr:function(distance){
+      if (distance / 1000 > 1) {
+        distance = distance / 1000;
+        distance = distance.toFixed(1);
+        return distance + "km";
+      } else {
+        return distance.toFixed(2) + "m";
+      }
+    },
+  }
+</wxs>

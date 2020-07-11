@@ -1,0 +1,54 @@
+<!--pages/poststation/order/serviceTimeSelected/index.wxml-->
+<i-navigation-bar title='预约时间' 
+                  showBackButton='{{true}}' 
+                  backgroundColor="white">
+</i-navigation-bar>
+<view class="background-view">
+</view>
+<view class="front-view">
+  <view class="header-box">
+    <i-image i-class="header-icon" imageSrc='{{business.icon}}'>
+    </i-image>
+    <view class="header-content-box">
+      <view class="header-name">{{business.businessName}}</view>
+      <view class="header-time">{{business.startTime}} - {{business.endTime}}</view>
+    </view>
+  </view>
+  <scroll-view class="scroll-view-H" scroll-x="true" style="width: 100%">
+      <view class="week-day-item" wx:for='{{weekDayList}}' wx:for-index='weekDayIndex' wx:for-item='weekDayItem' bindtap="tapWeekDayItem" data-index='{{weekDayIndex}}'>
+        <view class="week-day-item-content {{parse.getWeekDayItemColor(selectWeekDayIndex,weekDayIndex)}}">
+          <view class="week-day-item-content-week">{{weekDayItem.week}}</view>
+          <view class="week-day-item-content-day">{{weekDayItem.day}}</view>
+        </view>
+      </view>
+  </scroll-view>
+  <view class="time-select-box">
+    <view class="time-item" wx:for='{{timeListForDay}}' bindtap='tapTimeItem' data-index='{{index}}'>
+      <view class="time-item-content {{parse.getTimeItemColor(selectTime,selectWeekDayIndex,index)}}">
+      {{item}}
+      </view>
+    </view>
+  </view>
+</view>
+<view class="button" bindtap="tapConfirm" hidden>
+确定
+</view>
+
+<wxs module='parse'>
+  module.exports={
+    getWeekDayItemColor:function(selectIndex, index) {
+      if (selectIndex == index) {
+        return 'week-day-item-color-select';
+      } else {
+        return 'week-day-item-color-unselect';
+      }
+    },
+    getTimeItemColor: function(selectTimeObj, selectWeekIndex, itemIndex) {
+      if (selectTimeObj.dayWeekIndex == selectWeekIndex && selectTimeObj.timeIndex == itemIndex) {
+        return 'time-item-color-select';
+      } else {
+        return 'time-item-color-unselect';
+      }
+    }
+  }
+</wxs>

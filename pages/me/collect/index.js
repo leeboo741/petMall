@@ -4,10 +4,14 @@ const LoadFootItemState = require("../../../lee-components/leeLoadingFootItem/lo
 const PageSize = 20;
 const PagePath = require("../../../macros/pagePath.js");
 const Util =  require("../../../utils/util.js");
+const Utils = require("../../../utils/util")
 const PetService = require("../../../services/petService.js");
 const UserService = require("../../../services/userService.js");
 const MallService = require("../../../services/mallService.js");
 const app = getApp();
+const Limit = 20;
+
+const ShareManager = require("../../../services/shareService");
 
 Page({
 
@@ -25,6 +29,7 @@ Page({
       "宠物",
       "商品"
     ],
+    offset:0,
   },
 
   /**
@@ -68,9 +73,18 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
+    this.data.offset = 0;
     let that = this;
+    let followObj = {
+      businessNo: UserService.getBusinessNo(),
+      queryType: null,
+      offset: that.data.offset,
+      limit: Limit
+    } //关注接口对象
+
     if (this.data.currentTabIndex == 0) {
-      this.requestGetPetCollectionList(UserService.getCustomerNo(),
+      followObj.queryType=2
+      this.requestGetPetCollectionList(followObj,
         function getPetCollectionCallback(data) {
           that.setData({
             collectionList: data,
@@ -88,7 +102,8 @@ Page({
         }
       )
     } else {
-      this.requestGetItemCollection(UserService.getCustomerNo(),
+      followObj.queryType = 3
+      this.requestGetItemCollection(followObj,
         function getItemCollectionCallback(data) {
           that.setData({
             itemCollectionList: data,
@@ -113,14 +128,71 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
+    if (this.data.loadState == LoadFootItemState.Loading_State_End) {
+      return;
+    }
+    this.setData({
+      loadState: LoadFootItemState.Loading_State_Loading,
+    })
+    let that = this;
+    let followObj = {
+      businessNo: UserService.getBusinessNo(),
+      queryType: null,
+      offset: that.data.offset,
+      limit: Limit
+    } //
+    if (this.data.currentTabIndex == 0) {
+      followObj.queryType = 2
+      this.requestGetPetCollectionList(followObj,
+        function getPetCollectionCallback(data) {
+          let tempList = that.data.collectionList.concat(data);
+          that.setData({
+            collectionList: tempList,
+          })
+          that.data.offset = that.data.offset + Limit;
+          if (data.length > 0) {
+            that.setData({
+              loadState: LoadFootItemState.Loading_State_End
+            })
+          } else {
+            that.setData({
+              loadState: LoadFootItemState.Loading_State_Empty
+            })
+          }
+          wx.stopPullDownRefresh();
+        }
+      )
+    } else {
+      followObj.queryType = 3
+      this.requestGetItemCollection(followObj,
+        function getItemCollectionCallback(data) {
+          let tempList = that.data.itemCollectionList.concat(data);
+          that.setData({
+            itemCollectionList: tempList,
+          })
+          that.data.offset = that.data.offset + Limit;
+          if (data.length > 0) {
+            that.setData({
+              loadState: LoadFootItemState.Loading_State_End
+            })
+          } else {
+            that.setData({
+              loadState: LoadFootItemState.Loading_State_Empty
+            })
+          }
+          wx.stopPullDownRefresh();
+        }
+      )
+    }
     
   },
 
+  
   /**
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-
+    return ShareManager.getDefaultShareCard();
   },
 
   /**
@@ -129,7 +201,7 @@ Page({
   handleTabChange: function(e) {
     this.setData({
       currentTabIndex: e.detail.key,
-      loadState: LoadFootItemState.Loading_State_Empty
+      loadState: LoadFootItemState.Loading_State_Empty,
     })
     wx.startPullDownRefresh();
   },
@@ -156,9 +228,20 @@ Page({
    * 点击宠物取消收藏
    */
   cancelPetCollection: function(e) {
-    this.requestDeletePetCollection(e.currentTarget.dataset.petno, UserService.getCustomerNo(),
+    let followObj={
+      business: {
+        businessNo: UserService.getBusinessNo(),
+      },
+      followBusiness: null,
+      pet: {
+        petNo: e.currentTarget.dataset.petno,
+      },
+      item: null,
+      followType: 2
+    }
+    this.requestDeletePetCollection(followObj,
       function deletePetCollectionCallback(result) {
-        console.log("Delete collection :\n" + JSON.stringify(result));
+        Utils.logInfo("Delete collection :\n" + JSON.stringify(result));
         wx.showToast({
           title: result,
         })
@@ -171,9 +254,19 @@ Page({
    * 点击商品取消收藏
    */
   cancelItemCollection: function (e) {
-    this.requestDeleteItemCollection(e.currentTarget.dataset.itemno, UserService.getCustomerNo(),
-      function deleteItemCollectionCallback(result) {
-        console.log("Delete collection :\n" + JSON.stringify(result));
+    let followObj = {
+      business: {
+        businessNo: UserService.getBusinessNo(),
+      },
+      followBusiness: null,
+      pet:null,
+      item: {
+        itemNo: e.currentTarget.dataset.itemno,
+      },
+      followType: 3
+    }
+    this.requestDeleteItemCollection(followObj,function deleteItemCollectionCallback(result) {
+        Utils.logInfo("Delete collection :\n" + JSON.stringify(result));
         wx.showToast({
           title: result,
         })
@@ -187,8 +280,8 @@ Page({
    * @param customerNo
    * @param getPetCollectionCallback
    */
-  requestGetPetCollectionList: function (customerNo, getPetCollectionCallback) {
-    PetService.getPetCollection(customerNo,
+  requestGetPetCollectionList: function (followObj, getPetCollectionCallback) {
+    UserService.getBusinessFollowList(followObj,
       function getResultCallback(result) {
         if (Util.checkIsFunction(getPetCollectionCallback)) {
           getPetCollectionCallback(result.root)
@@ -203,12 +296,8 @@ Page({
    * @param customerNo
    * @param deletePetCollectionCallback
    */
-  requestDeletePetCollection: function (petNo, customerNo, deletePetCollectionCallback) {
-    PetService.deletePetCollection(
-      {
-        customerNo: customerNo,
-        petNo: petNo
-      },
+  requestDeletePetCollection: function (followObj, deletePetCollectionCallback) {
+    UserService.businessUnFollow(followObj,
       function deleteResultCallback(result) {
         if (Util.checkIsFunction(deletePetCollectionCallback)) {
           deletePetCollectionCallback(result.root)
@@ -222,8 +311,8 @@ Page({
    * @param customerNo
    * @param getItemCollectionCallback
    */
-  requestGetItemCollection: function (customerNo, getItemCollectionCallback) {
-    MallService.getItemCollection(customerNo,
+  requestGetItemCollection: function (followObj, getItemCollectionCallback) {
+    UserService.getBusinessFollowList(followObj,
       function getResultCallback(result) {
         if (Util.checkIsFunction(getItemCollectionCallback)) {
           getItemCollectionCallback(result.root)
@@ -238,16 +327,16 @@ Page({
    * @param customerNo
    * @param deleteItemCollectionCallback
    */
-  requestDeleteItemCollection: function (itemNo, customerNo, deleteItemCollectionCallback) {
-    MallService.deleteItemCollection(
-      {
-        customerNo: customerNo,
-        itemNo: itemNo
-      },
-      function deleteResultCallback(result) {
-        if (Util.checkIsFunction(deleteItemCollectionCallback)) {
-          deleteItemCollectionCallback(result.root)
+  requestDeleteItemCollection: function (obj, deleteItemCollectionCallback) {
+    UserService.businessUnFollow(obj,
+      function addResultCallback(result) {
+        wx.hideLoading();
+        if (result.root == "操作成功") {
+          wx.showToast({
+            title: '取消成功',
+          })
         }
+        wx.startPullDownRefresh();
       }
     )
   },

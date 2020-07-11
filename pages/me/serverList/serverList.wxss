@@ -1,0 +1,174 @@
+/* pages/me/serverList/serverList.wxss */
+
+.server-item{
+  display: flex;
+  flex-direction: column;
+}
+
+.server-item-row{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 8rpx;
+}
+
+.server-item-no{
+  font-size: 32rpx;
+  color: #778899;
+  font-weight: bold;
+}
+
+.server-item-time{
+  font-size: 24rpx;
+  color: lightgray;
+}
+
+.server-item-server-box{
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.server-item-server-item{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 8rpx;
+}
+
+.server-item-server-name{
+  color: black;
+  font-size: 26rpx;
+  flex-grow: 1;
+}
+
+.server-item-server-price{
+  color: red;
+  font-size: 26rpx;
+}
+
+.server-item-server-time{
+  font-size: 26rpx;
+  color: goldenrod;
+}
+
+.server-item-server-pet-name{
+  color: #778899;
+  font-size: 26rpx;
+}
+
+.server-item-server-pet-value{
+  color: gray;
+  font-size: 26rpx;
+  flex-grow: 1;
+  text-align: center;
+}
+
+.server-item-user-box{
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+.server-item-user-title{
+  font-size: 26rpx;
+  color: black;
+}
+
+.server-item-user-content{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.server-item-user-avater{
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 10rpx;
+  margin: 10rpx;
+}
+
+.server-item-user-info{
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.server-item-user-name{
+  font-size: 26rpx;
+  color: #778899;
+}
+
+.server-item-user-phone{
+  font-size: 26rpx;
+  color:gold;
+}
+
+.server-item-user-address{
+  font-size: 26rpx;
+  color: lightgray;
+}
+
+.server-item-paystate{
+  font-size: 32rpx;
+  font-weight: bold;
+  margin: 10rpx 20rpx;
+  text-align: right;
+}
+
+.paystate-unpay{
+  color: red;
+}
+
+.paystate-pay{
+  color: green;
+}
+
+.server-item-verifystate{
+  font-size: 32rpx;
+  font-weight: bold;
+  margin: 10rpx 20rpx;
+}
+
+.server-item-button{
+  width: 120rpx;
+  height: 50rpx;
+  line-height: 50rpx;
+  background: red;
+  color: white;
+  font-size: 28rpx;
+  text-align: center;
+  border-radius: 15rpx;
+  margin: 10rpx 20rpx;
+}
+
+.verifystate-verify{
+  color: rgb(81, 238, 107);
+}
+
+.verifystate-unverify{
+  color: rgb(82, 124, 240);
+}
+
+.server-item-button-box{
+  flex-grow: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.server-item-button{
+  margin: 10rpx;
+  padding: 15rpx 25rpx;
+  border-radius: 15rpx;
+  font-size: 26rpx;
+}
+
+.yellow-button{
+  background: gold;
+  color: white;
+}
+
+.red-button{
+  background: #ee2c2c;
+  color: white;
+}

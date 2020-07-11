@@ -1,0 +1,129 @@
+<!--pages/assess/assessDetail/index.wxml-->
+<i-navigation-bar title='{{pageTitle}}' showBackButton='{{true}}'>
+</i-navigation-bar>
+<view class="front-view" style="position: relative">
+  <view class="goods-box">
+    <swiper class="banner"
+            circular="{{true}}" 
+            indicator-dots="{{true}}" 
+            autoplay="{{true}}" 
+            interval="5000" 
+            duration="300" 
+            vertical="{{false}}" 
+            indicator-active-color="#7bbfea" 
+            indicator-color="#cccccc">
+      <swiper-item wx:for='{{itemObj.itemCoverList}}'
+                    wx:for-item='coverImgItem'
+                    wx:for-index='coverImgIndex'>
+        <view class="banner-item">
+          <i-image i-class='banner-item-image'
+                  imageSrc='{{coverImgItem.coverAddress}}' 
+                  clearImagePadding='{{true}}'>
+          </i-image>
+        </view>
+      </swiper-item>
+    </swiper>
+    <view class="info-box">
+      <view class="info-box-row">
+        <view class="info-title">
+          {{assessObj.title}}
+        </view>
+      </view>
+      <view class="info-box-row">
+        <view class="info-detail">
+          测试数量: {{assessObj.num}}
+        </view>
+        <view class="info-detail">
+          已有 {{assessObj.applyNum!=null?assessObj.applyNum:0}} 人申请
+        </view>
+      </view>
+      <view class="info-box-row">
+        <view class="info-detail">
+          <view class="info-detail">
+          市场价:
+          </view>
+          <view class="info-price">
+          ￥{{assessObj.price}}
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="assess-box">
+    <view class="assess-box-title-row">
+      <i-icon type="bubble"
+              size="33"
+              color='#ee2c2c'>
+      </i-icon>
+      <view class="assess-box-title">
+      测评反馈
+      </view>
+    </view>
+    <view class="assess-item"
+          wx:for='{{assessFeedbackList}}'
+          wx:for-item='evaluateItem'
+          wx:for-index='evaluateIndex'
+          wx:key='evaluateNo'>
+      <view class="assess-item-content">
+        <view class="assess-item-row">
+          <view class="assess-item-title">
+            {{evaluateItem.feedback.title}}
+          </view>
+        </view>
+        <view class="assess-item-row">
+          <i-image i-class='assess-auth-logo'
+                  imageSrc='{{evaluateItem.feedback.business.headImg}}'>
+          </i-image>
+          <view class="assess-auth-box">
+            <view class="assess-auth-name">
+              {{evaluateItem.feedback.business.businessName}}
+            </view>
+            <view class="assess-time">
+              {{evaluateItem.feedback.createAt}}
+            </view>
+          </view>
+        </view>
+        <view class="assess-item-content-content">
+          <view class="assess-item-row">
+            <view class="assess-item-evaluate-content">
+              {{evaluateItem.feedback.content}}
+            </view>
+          </view>
+          <i-image-upload showAddNewButton='{{false}}'
+                          i-class='assess-evaluate-image-box'
+                          imagePathList='{{evaluateItem.feedbackImgs}}'
+                          wx:if='{{evaluateItem.feedbackImgs!=null&&evaluateItem.feedbackImgs.length>0}}'>
+          </i-image-upload>
+        </view>
+      </view>
+    </view>
+  </view>
+  <!-- 加载块 -->
+  <i-load-more loadState='{{loadState}}'>
+  </i-load-more>
+  <view class="space-zone">
+  </view>
+</view>
+<view class="bottom-zone" 
+      style="background: rgba(0,0,0,0)">
+  <view class="bottom-item">
+  </view>
+  <view class="bottom-item" 
+        style="justify-content: flex-end">
+    <view class="order-button"
+          catchtap="tapOrderButton">
+      <i-icon type='basket'
+              size='32'
+              color="#fff">
+      </i-icon>
+      <view class="order-button-title">
+        前往购买
+      </view>
+    </view>
+  </view>
+</view>
+
+
+
+

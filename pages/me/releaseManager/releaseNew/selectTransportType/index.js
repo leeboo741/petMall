@@ -1,7 +1,10 @@
 // pages/me/releaseManager/releaseNew/selectTransportType/index.js
 
 const Util = require("../../../../../utils/util.js");
+const Utils = require("../../../../../utils/util")
 const app = getApp();
+
+const ShareManager = require("../../../../../services/shareService");
 
 Page({
 
@@ -106,7 +109,7 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-
+    return ShareManager.getDefaultShareCard();
   },
 
   /**
@@ -138,7 +141,7 @@ Page({
    * 确认选择
    */
   confirmSelected: function () {
-    console.log("确定选择: \n" + JSON.stringify(this.data.transportList));
+    Utils.logInfo("确定选择: \n" + JSON.stringify(this.data.transportList));
     let selectTransportList = this.getSelectTransportList();
     if (!Util.checkEmpty(selectTransportList)) {
       app.globalData.selectTransportList = selectTransportList;

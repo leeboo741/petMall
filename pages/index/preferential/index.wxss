@@ -31,16 +31,49 @@
 }
 
 .body-list-one{
-  margin-left:6%;
+  width: 100%;
   font-weight:bold;
   display:flex;
   flex-wrap:nowrap;
+  align-items: center;
+}
+
+.body-list-namesty{
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.body-list-pricesty{
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color:red;
+}
+
+.body-list-addresssty{
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.body-list-marketpricesty{
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration:line-through;
 }
 
 .body-list-two{
-  margin-left:5%;
+  width: 100%;
   display:flex;
   flex-wrap:nowrap;
   font-size:27rpx;
   color:#ccc;
+  align-items: center;
 }

@@ -1,0 +1,96 @@
+
+.my-pet-box{
+  white-space: nowrap;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.my-pet-item{
+  display: inline-block;
+  width: 200rpx;
+  height: 100%;
+}
+
+.my-pet-item-content{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.my-pet-add-new-image-box{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 40rpx;
+  box-shadow: 0rpx 30rpx 30rpx -30rpx #9FA7B9;
+  width: 160rpx;
+  height: 160rpx;
+  background: #002241;
+}
+
+.my-pet-add-new-image{
+  width: 80rpx;
+  height: 80rpx;
+}
+
+.my-pet-item-image{
+  width: 140rpx;
+  height: 140rpx;
+  border-radius: 40rpx;
+  box-shadow: 0rpx 30rpx 30rpx -30rpx #9FA7B9;
+}
+
+.my-pet-item-title{
+  margin-top: 10rpx;
+  font-size: 28rpx;
+  color: lightgray;
+}
+
+.pet-type-tab-box{
+  width: 100%;
+  height: 80rpx;
+}
+
+.pet-type-tab{
+  width: 100%;
+  height: 80rpx;
+}
+
+.pet-type-list{
+  display: flex;
+  flex-direction: column;
+}
+
+.pet-type-item{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background: white;
+}
+
+.pet-type-input{
+  margin: 10rpx 20rpx;
+  border: 1rpx solid lightgray;
+  border-radius: 8rpx;
+  height: 50rpx;
+  line-height: 50rpx;
+  width: 100%;
+  padding: 8rpx 10rpx;
+}
+
+.pet-type-item-image{
+  margin: 25rpx 40rpx;
+  width: 90rpx;
+  height: 90rpx;
+  border-radius: 20rpx;
+}
+
+.pet-type-item-title{
+  font-size: 28rpx;
+  color: lightgray;
+}
+

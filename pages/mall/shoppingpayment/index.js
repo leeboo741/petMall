@@ -1,12 +1,16 @@
 // pages/mall/shoppingpayment/index.js
+const AddressService = require("../../../services/addressManagerService.js")
 const OrderService = require("../../../services/orderService.js");
 const UserService = require("../../../services/userService.js");
 const PayService = require("../../../services/payService.js");
 const Page_path = require("../../../macros/pagePath.js");
 const Util = require("../../../utils/util.js");
+const Utils = require("../../../utils/util")
 const app = getApp();
 const Shop_Type_Item = "item";
 const Shop_Type_Pet = "pet";
+
+const ShareManager = require("../../../services/shareService");
 
 Page({
 
@@ -20,17 +24,27 @@ Page({
     num: 1, //商品数量
     integral: 0, // 可兑换积分
     showIntegral: 0, // 积分可兑换金额
-    numPrice: 0, //总金额
+    priceInformation:null,  //总价信息返回值
     couponList: [], //优惠券列表
     selectCoupon: null, // 选中的优惠券
     receiveAddress: null, // 收货地址
     selectTransport: null, // 选中的运输方式
-    selectTransportPrice: 0, // 选中的运输价格
 
     minusStatus: 'disable', //是否禁用减号
     switch1: false, //是否用积分
     showMask: true, //是否隐藏蒙版
     showCouponList: true, //是否隐藏优惠券列表
+    typeOfShipping: [
+
+    ], //运输方式
+
+    realPrice: null, //真实配送费
+    realInfo: '',
+    selectTransportIndex: null, //所选中的配送方式下标
+    couponID: null, //所选优惠券的id
+    showCoupon:false, //是否提示优惠券不可用
+
+    itemGroupPriceList: [], // 团购商品阶梯价格
   },
 
   /**
@@ -42,17 +56,31 @@ Page({
       type: options.type
     })
     if (this.data.type == Shop_Type_Item) {
-      console.log("app.globalData.shopItem: \n" + JSON.stringify(app.globalData.shopItem));
+      Utils.logInfo("app.globalData.shopItem: \n" + JSON.stringify(app.globalData.shopItem));
       this.setData({
-        shopDataSource: app.globalData.shopItem
+        shopDataSource: app.globalData.shopItem.item,
+        itemGroupPriceList: app.globalData.shopItem.itemGrouponList,
       })
     } else {
-      console.log("app.globalData.shopPet: \n" + JSON.stringify(app.globalData.shopPet));
+      Utils.logInfo("app.globalData.shopPet: \n" + JSON.stringify(app.globalData.shopPet));
       this.setData({
         shopDataSource: app.globalData.shopPet
       })
     }
-    this.countPrice();
+    UserService.isLogin(function isLoginCallback(){
+      that.getDefaultReceivingAddress(UserService.getBusinessNo(), function callback(res) {
+        Utils.logInfo(JSON.stringify(res));
+        that.setData({
+          receiveAddress: res.root[0]
+        })
+        if (that.data.type == Shop_Type_Pet) {
+          that.queryListTransportType(
+            that.data.shopDataSource.pet.business.city, that.data.receiveAddress.city);
+        } else {
+          that.queryItemTotalItemPrice()
+        }
+      })
+    })
   },
 
   /**
@@ -66,12 +94,34 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
+    let that = this;
     if (app.globalData.selectReceiveAddress != null) {
       this.setData({
         receiveAddress: app.globalData.selectReceiveAddress
       })
+      if (that.data.type == Shop_Type_Pet) {
+        that.queryListTransportType(
+          that.data.shopDataSource.pet.business.city, that.data.receiveAddress.city);
+      }
       app.globalData.selectReceiveAddress = null;
+
     }
+    UserService.isLogin(function isLoginCallback(){
+      if (that.data.type == 'pet') {
+        that.getAbleCouponList(UserService.getBusinessNo(), that.data.shopDataSource.pet.business.businessNo, 1, that.data.shopDataSource.petNo)
+      } else {
+        that.getAbleCouponList(UserService.getBusinessNo(), that.data.shopDataSource.business.businessName, 2, that.data.shopDataSource.itemNo)
+      }
+    }, function notLoginCallback(){})
+    
+    if (this.data.receiveAddress!=null){
+      if (that.data.type == 'pet') {
+        // that.queryFreightRates();
+      }else{
+        that.queryItemTotalItemPrice();
+      }
+    }
+
   },
 
   /**
@@ -105,34 +155,10 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function() {
-
+  onShareAppMessage: function () {
+    return ShareManager.getDefaultShareCard();
   },
 
-  /**
-   * 选择运输方式
-   */
-  tapTransport: function (e) {
-    let selectTransport = e.currentTarget.dataset.name;
-    let selectTransportPrice = 0;
-    if (selectTransport == "航空") {
-      selectTransportPrice = this.data.shopDataSource.petTransport.airport;
-    } else if (selectTransport == "铁路") {
-      selectTransportPrice = this.data.shopDataSource.petTransport.railway;
-    } else if (selectTransport == "大巴") {
-      selectTransportPrice = this.data.shopDataSource.petTransport.coach;
-    } else if (selectTransport == "专车") {
-      selectTransportPrice = this.data.shopDataSource.petTransport.shuttleBus;
-    } else if (selectTransport == "自提") {
-      selectTransportPrice = this.data.shopDataSource.petTransport.takeTheir;
-    }
-    this.setData({
-      selectTransport: selectTransport,
-      selectTransportPrice: selectTransportPrice
-    })
-    this.countPrice();
-  },
-  
 
   /**
    * 点击减号
@@ -149,7 +175,12 @@ Page({
       minusStatus: minusStatus,
     })
 
-    this.countPrice();
+    // this.countPrice();
+    if (this.data.selectTransport != null && this.data.type == "pet") {
+      that.queryFreightRates();
+    }else{
+      that.queryItemTotalItemPrice();
+    }
   },
   /** 
    * 点击加号
@@ -164,7 +195,13 @@ Page({
       minusStatus: minusStatus,
     })
 
-    this.countPrice();
+    // this.countPrice();
+    if (this.data.selectTransport != null && this.data.type == "pet") {
+      that.queryFreightRates();
+    }else{
+      that.queryItemTotalItemPrice();
+    }
+
   },
   /** 
    * 输入框事件
@@ -178,46 +215,48 @@ Page({
       minusStatus: minusStatus,
     })
 
-    this.countPrice();
-  },
-
-  /**
-   * 是否使用积分
-   */
-  onChange(event) {
-    let that = this;
-    //是否使用积分兑换开关
-    const detail = event.detail;
-    this.setData({
-      'switch1': detail.value,
-      // numPrice: that.data.num * that.data.shopDataSource.price - that.data.integral + that.data.showIntegral
-    })
-
-    if (that.data.switch1 == true) {
-      that.setData({
-        showIntegral: that.data.integral
-      })
+    // this.countPrice();
+    if (this.data.selectTransport != null && this.data.type == "pet") {
+      that.queryFreightRates();
+    }else{
+      that.queryItemTotalItemPrice()
     }
-
-    if (that.data.switch1 == false) {
-      that.setData({
-        showIntegral: 0
-      })
-    }
-
-    that.setData({
-      numPrice: that.data.num * that.data.shopDataSource.price - that.data.showIntegral + that.data.freight
-    })
   },
 
   /**
    * 点击可用优惠券
    */
   clipCouponsTap: function() {
-    this.setData({
-      showMask: false,
-      showCouponList: false
-    })
+    let that = this;
+    if (this.data.type == "pet") {
+      if (this.data.receiveAddress == null) {
+        wx.showToast({
+          title: '请选择收货地址！',
+          icon: "none"
+        })
+        return;
+      }
+
+      that.setData({
+        showMask: false,
+        showCouponList: false
+      })
+
+    } else {
+      if (this.data.receiveAddress == null) {
+        wx.showToast({
+          title: '请选择收货地址！',
+          icon: "none"
+        })
+        return;
+      }
+
+      that.setData({
+        showMask: false,
+        showCouponList: false
+      })
+    }
+
   },
 
   /**
@@ -234,42 +273,69 @@ Page({
    * 点击优惠券
    */
   couponListTap: function(res) {
+    let that = this;
     var actionIndex = res.currentTarget.dataset.index
-    console.log(actionIndex);
+    wx.showModal({
+      title: '提示',
+      content: '您确定要使用该优惠券吗？',
+      success(res) {
+        if (res.confirm) {
+          that.setData({
+            showCouponList: true,
+            showMask: true,
+            selectCoupon: that.data.couponList[actionIndex]
+          })
+          if (that.data.type == "pet") {
+            that.queryFreightRates();
+          } else {
+            that.queryItemTotalItemPrice();
+          }
+
+        } else if (res.cancel) {
+          Utils.logInfo('用户点击取消')
+        }
+      }
+    })
+
   },
 
   /**
    * 点击收货地址
    */
   receivingAddressTap: function() {
+    this.setData({
+      typeOfShipping: []
+    })
     wx.navigateTo({
-      url: Page_path.Page_Me_AddressManager +"?ableselect=1"
+      url: Page_path.Page_Me_AddressManager + "?ableselect=1"
+    })
+    this.setData({
+      realInfo: ''
     })
   },
 
-  /**
-   * 计算总价
-   */
-  countPrice: function() {
-    this.setData({
-      numPrice: (parseFloat(this.data.shopDataSource.retailPrice) * parseInt(this.data.num)) + parseFloat(this.data.selectTransportPrice)
-    })
-  },
+
 
   /**
    * 点击担保支付
    */
-  shopPayTap: function () {
-    console.log("点击支付，应支付：" + this.data.numPrice);
+  shopPayTap: function() {
+    let that = this;
+    if (this.data.receiveAddress == null) {
+      wx.showToast({
+        title: '请选择收货地址！',
+        icon: "none"
+      })
+      return;
+    }
     wx.showLoading({
       title: '下单中...',
     })
-    let that = this;
     this.requestAddNewOrder(
       function requestAddNewOrderCallback(result) {
         wx.hideLoading();
         if (!Util.checkEmpty(result)) {
-          console.log("下单成功");
+          Utils.logInfo("下单成功");
           wx.showModal({
             title: '下单成功',
             content: '是否立即支付',
@@ -284,7 +350,7 @@ Page({
                       })
                       return;
                     }
-                    console.log("支付信息： \n" + JSON.stringify(payInfoData));
+                    Utils.logInfo("支付信息： \n" + JSON.stringify(payInfoData));
                     wx.requestPayment({
                       timeStamp: payInfoData.timeStamp,
                       nonceStr: payInfoData.nonceStr,
@@ -292,9 +358,24 @@ Page({
                       signType: payInfoData.signType,
                       paySign: payInfoData.paySign,
                       success(res) {
-                        wx.navigateBack({
+                        if (that.data.selectTransport == null && that.data.type == "pet") {
+                          wx.showModal({
+                            title: '提示',
+                            content: '斑马速运将为您提供物流支持,请前往斑马速运小程序查看',
+                            showCancel: false,
+                            success(res) {
+                              if (res.confirm) {
+                                wx.navigateBack({
 
-                        })
+                                })
+                              }
+                            }
+                          })
+                        } else {
+                          wx.navigateBack({
+
+                          })
+                        }
                       },
                       fail(res) {
                         wx.showToast({
@@ -305,6 +386,10 @@ Page({
                     })
                   }
                 )
+              } else {
+                wx.navigateBack({
+                  
+                })
               }
             }
           })
@@ -316,52 +401,85 @@ Page({
         }
       }
     )
+    
   },
 
   /**
    * 提交订单
    * @param requestAddNewOrderCallback
    */
-  requestAddNewOrder: function (requestAddNewOrderCallback) {
-    let param = {};
-    param.customer = {
-      customerNo: UserService.getCustomerNo()
-    }
-    param.paymentAmount = this.data.numPrice;
-    param.qty = this.data.num;
-    param.receivingAddress = this.data.receiveAddress;
-    param.carriage = this.data.selectTransportPrice; // 只要金额 不要知道运输方式吗？
+  requestAddNewOrder: function(requestAddNewOrderCallback) {
+    let that = this;
+    UserService.isLogin(function isLoginCallback(){
+      let param = { //订单对象
+        qty: that.data.num,   //数量
+        business: {
+          businessNo: UserService.getBusinessNo(),     //用户id
+        },
+        receivingAddress: {
+          receivingNo: that.data.receiveAddress.receivingNo,  //所选地址的id
+        },
 
-    // param.coupon = null;
-    // param.couponAmount = null;
-    // param.pointAmount = null;
-    // param.usePoint = null;
-
-    if (this.data.type == Shop_Type_Item) {
-      param.item = {
-        itemNo: this.data.shopDataSource.itemNo
+        transportType: null,
+        shareBusiness: null,
+        couponDisCountAmount: 0,
+        paymentAmount: 0,
+        transportAmount: 0,
+        coupon: null,
       }
-      OrderService.addNewItemOrder(param,
-        function addNewOrderResultCallback(result) {
-          console.log("新增商品订单 ：\n" + JSON.stringify(result));
-          if (Util.checkIsFunction(requestAddNewOrderCallback)) {
-            requestAddNewOrderCallback(result.root);
+
+      if (that.data.selectCoupon != null) {
+        param.coupon = {
+          couponID: that.data.selectCoupon.couponID   //优惠券id
+        }
+      }
+
+      if (that.data.selectTransport != null) {
+        param.transportType = that.data.selectTransport   //选择的配送方式类型
+      } else {
+        param.transportType = null;
+      }
+
+      if (that.data.priceInformation != null) {
+        param.couponDisCountAmount = that.data.priceInformation.couponDiscountAmount; //优惠券金额
+        param.paymentAmount = that.data.priceInformation.paymentAmount; // 支付金额
+
+        param.transportAmount = that.data.priceInformation.transportAmount;     //运输价格
+      }
+
+      if (that.data.type == Shop_Type_Item) {   //商品
+        param.item = {
+          itemNo: that.data.shopDataSource.itemNo
+        }
+        if (that.data.selectCoupon != null) {
+          param.coupon = {
+            couponID: that.data.selectCoupon.couponID
           }
         }
-      )
-    } else {
-      param.pet = {
-        petNo: this.data.shopDataSource.petNo
-      }
-      OrderService.addNewPetOrder(param,
-        function addNewOrderResultCallback(result) {
-          console.log("新增宠物订单 ：\n" + JSON.stringify(result));
-          if (Util.checkIsFunction(requestAddNewOrderCallback)) {
-            requestAddNewOrderCallback(result.root);
+        OrderService.addNewItemOrder(param,
+          function addNewOrderResultCallback(result) {
+            Utils.logInfo("新增商品订单 ：\n" + JSON.stringify(result));
+            if (Util.checkIsFunction(requestAddNewOrderCallback)) {
+              requestAddNewOrderCallback(result.root);
+            }
           }
+        )
+      } else {  //宠物
+        param.pet = {
+          petNo: that.data.shopDataSource.pet.petNo,
+          weight: that.data.shopDataSource.pet.weight
         }
-      )
-    }
+
+        OrderService.addNewPetOrder(param,
+          function addNewOrderResultCallback(result) {
+            Utils.logInfo("新增宠物订单 ：\n" + JSON.stringify(result));
+            if (Util.checkIsFunction(requestAddNewOrderCallback)) {
+              requestAddNewOrderCallback(result.root);
+            }
+          }
+        )
+      }
+    })
   },
 
   /**
@@ -369,7 +487,7 @@ Page({
    * @param orderNo
    * @param getPayInfoCallback
    */
-  requestPayInfo: function (orderNo, getPayInfoCallback) {
+  requestPayInfo: function(orderNo, getPayInfoCallback) {
     if (this.data.type == Shop_Type_Item) {
       PayService.getItemOrderPayInfo(orderNo,
         function getResultCallback(result) {
@@ -389,6 +507,182 @@ Page({
     }
   },
 
+  //获取运输方式
+  queryListTransportType: function (startCity, endCity) {
+    let that = this;
+    if (this.data.shopDataSource.pet.freeShipping == 1) {
+      this.queryFreightRates();
+      return;
+    }
+    OrderService.queryListTransportType(startCity, endCity, function callback(dataSource) {
+      if (!Util.checkEmpty(dataSource.root)) {
+        that.setData({
+          typeOfShipping: dataSource.root
+        })
+      } else {
+        that.setData({
+          typeOfShipping: [],
+        })
+        that.queryFreightRates();
+      }
+
+    })
+  },
+
+
+  //  宠物合计价格以及运费
+  queryFreightRates: function() {
+    let that = this;
+    UserService.isLogin(function isLoginCallback(){
+      let param = {
+        pet: {
+          petNo: that.data.shopDataSource.pet.petNo,
+          weight: that.data.shopDataSource.pet.weight
+        },
+        qty: that.data.num,
+        business: {
+          businessNo: UserService.getBusinessNo()
+        },
+        receivingAddress: {
+          receivingNo: that.data.receiveAddress.receivingNo
+        },
+        transportType: null,
+        coupon: null,
+        shareBusiness: null
+      }
+      if (that.data.selectCoupon != null) {
+        param.coupon = {
+          couponID: that.data.selectCoupon.couponID
+        }
+      }
+
+      if (that.data.selectTransport != null) {
+        param.transportType = that.data.selectTransport
+      }
+
+      OrderService.getPetOrderPrice(param, function callback(dataSource) {
+        Utils.logInfo("获得总价信息==>" + JSON.stringify(dataSource))
+        if (dataSource.root.priceState == 0) {
+          that.setData({
+            priceInformation: dataSource.root
+          })
+        } else if (dataSource.root.priceState == -2) {
+          that.setData({
+            selectCoupon: null,
+            showCoupon: true,
+          })
+          wx.showToast({
+            title: '该优惠券不可用',
+            icon: "none"
+          })
+        } else {
+          wx.showToast({
+            title: '获取价格出错',
+            icon: "none"
+          })
+        }
+      })
+    })
+  },
+
+  /**
+   * 获取商品合计价格
+   */
+  queryItemTotalItemPrice:function(){
+    let that = this;
+    UserService.isLogin(function isLoginCallback(){
+      let param = {
+        item: {
+          itemNo: that.data.shopDataSource.itemNo
+        },
+        qty: that.data.num,
+        business: {
+          businessNo: UserService.getBusinessNo()
+        },
+        receivingAddress: null,
+        // transportType: null,
+        coupon: null,
+        shareBusiness: null
+      }
+
+      if (that.data.selectCoupon != null) {
+        param.coupon = {
+          couponID: that.data.selectCoupon.couponID
+        }
+      }
+
+      if (that.data.receiveAddress != null) {
+        param.receivingAddress = {
+          receivingNo: that.data.receiveAddress.receivingNo
+        }
+      }
+      Utils.logInfo(JSON.stringify(param));
+      OrderService.getItemOrderPrice(param, function callback(dataSource) {
+        Utils.logInfo("获得总价信息==>" + JSON.stringify(dataSource))
+        if (dataSource.root.priceState == 0) {
+          that.setData({
+            priceInformation: dataSource.root
+          })
+        } else if (dataSource.root.priceState == -2) {
+          that.setData({
+            selectCoupon: null,
+            showCoupon: true,
+          })
+          wx.showToast({
+            title: '该优惠券不可用',
+            icon: "none"
+          })
+        } else {
+          wx.showToast({
+            title: '获取价格出错',
+            icon: "none"
+          })
+        }
+      })
+    })
+  },
+
+  /**
+   * 选择配送方式
+   */
+  selectTransporTap: function(e) {
+    var index = e.currentTarget.dataset.index;
+    var transportype = e.currentTarget.dataset.transportype;
+    this.setData({
+      selectTransportIndex: index,
+      selectTransport: transportype
+    })
+    this.queryFreightRates();
+  },
+
+
+  /**
+   * 获得本单据可用的优惠券
+   */
+  getAbleCouponList: function(businessNo, shopNo, type, key) {
+    let that = this;
+    OrderService.getAbleCouponList(businessNo, shopNo, type, key, function(dataSource) {
+      Utils.logInfo("获得本单据可用的优惠券：=>" + JSON.stringify(dataSource))
+      that.setData({
+        couponList: dataSource
+      })
+    })
+  },
+
+  /**
+   * 获得默认地址
+   */
+  getDefaultReceivingAddress: function (businessNo, getDefaultAddressCallback) {
+    let that = this;
+    wx.showLoading({
+      title: '请稍等...',
+    })
+    AddressService.getDefaultAddressByBusinessNo(businessNo, function callback(res){
+      wx.hideLoading();
+      if (Util.checkIsFunction(getDefaultAddressCallback)) {
+        getDefaultAddressCallback(res)
+      }
+    })
+  }
 
 })
-

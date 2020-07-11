@@ -5,21 +5,14 @@
 <view class="content"
       style="height: {{pageHeight-50}}px">
   <i-panel>
-    <i-cell-group>
-      <i-cell title='修改头像'>
+    <i-cell-group  bindtap="selectUserAvatar">
+      <i-cell title='修改信息'>
         <image class="avatar"
               slot='footer'
-              src='{{parse.getAvatarPath(newAvatarPath, userInfo)}}'
-              bindtap="selectUserAvatar">
+              src='{{parse.showHeadImage(userInfo.headerImage,businessInfo.headImg)}}'>
         </image>
       </i-cell>
-      <i-cell title='修改昵称'>
-        <input slot='footer'
-              placeholder="{{userInfo.name}}"
-              value='{{newNameStr}}'
-              bindinput="inputUserName">
-        </input>
-      </i-cell>
+
       <i-cell title='管理收货地址'
               is-link
               url='{{managerAddressUrl}}'
@@ -36,11 +29,12 @@
 
 <wxs module='parse'>
   module.exports={
-    getAvatarPath: function(newAvatarPath, userInfo) {
-      if (newAvatarPath == null || newAvatarPath.length <= 0) {
-        return userInfo.avatar;
-      } 
-      return newAvatarPath;
-    }
+    showHeadImage:function(res,rest){
+      if(rest==null || rest==''){
+        return res;
+      }else{
+        return rest;
+      }
+    },
   }
 </wxs>

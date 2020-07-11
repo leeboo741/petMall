@@ -14,7 +14,8 @@
            value='{{searchKeyword}}'
            placeholder-class="placeholder-text"
            bindconfirm="searchAction"
-           placeholder="搜宠物、商家、品牌">
+           placeholder="搜宠物、商家、品牌"
+           confirm-type='search'>
     </input>
   </view>
 </view>
@@ -54,27 +55,27 @@
           wx:if='{{parse.showSearchBrand(searchBrandResult)}}'>
   <view class="panel-title-box">
     <view class="panel-title">
-    品牌
+    推荐商品
     </view>
   </view>
   <i-cell-group>
     <i-cell wx:for='{{searchBrandResult}}'
             wx:for-item='brandItem'
             wx:for-index='brandIndex'
-            wx:key='itemBrandNo'
+            wx:key='itemNo'
             bindtap='tapBrandItem'
             data-index='{{brandIndex}}'
-            data-brandno='{{brandItem.itemBrandNo}}'>
+            data-itemno='{{brandItem.itemNo}}'>
       <view class="result-item"
             slot='header'>
         <view class="result-item-image-box">
           <i-image i-class='result-item-image'
-                    imageSrc='{{brandItem.itemBrandImg}}'>
+                    imageSrc='{{brandItem.coverImg}}'>
           </i-image>
         </view>
         <view class="result-item-info-box">
           <view class="result-item-name">
-          {{brandItem.itemBrandName}}
+          {{brandItem.itemName}}
           </view>
         </view>
       </view>
@@ -85,7 +86,7 @@
           wx:if='{{parse.showSearchBreed(searchBreedResult)}}'>
   <view class="panel-title-box">
     <view class="panel-title">
-    品种
+    宠物品种
     </view>
   </view>
   <i-cell-group>
@@ -95,8 +96,8 @@
             wx:key='petGenreNo'
             bindtap='tapBreedItem'
             data-index='{{breedIndex}}'
-            data-breedno='{{breedItem.petGenreNo}}'
-            data-breedname='{{breedItem.petGenreName}}'
+            data-genreno='{{breedItem.petGenreNo}}'
+            data-genrename='{{breedItem.petGenreName}}'
             data-sortno='{{breedItem.petSortNo}}'>
       <view class="result-item"
             slot='header'>
@@ -133,7 +134,7 @@
             slot='header'>
         <view class="result-item-image-box">
           <i-image i-class='result-item-image'
-                   imageSrc='{{storeItem.headerImg}}'>
+                   imageSrc='{{storeItem.headImg}}'>
           </i-image>
         </view>
         <view class="result-item-info-box">

@@ -1,0 +1,116 @@
+<!--pages/assess/assessList/index.wxml-->
+<i-navigation-bar title='产品测评' 
+                  showBackButton='{{true}}'>
+</i-navigation-bar>
+<view class="head-top-box">
+  <swiper class='banner' 
+          circular="{{true}}" 
+          indicator-dots="{{true}}" 
+          autoplay="{{true}}" 
+          interval="5000" 
+          duration="300" 
+          vertical="{{false}}" 
+          indicator-active-color="#7bbfea" 
+          indicator-color="#cccccc">
+    <swiper-item wx:for='{{recommondAssessList}}' 
+                 wx:for-item='recommondItem' 
+                 wx:for-index='recommondIndex' 
+                 wx:for-key='goodsNo'>
+      <view class="head-item"
+            bindtap="tapRecommondAssessItem" 
+            data-index='{{recommondIndex}}'
+            data-assessid='{{recommondItem.assessNo}}'
+            data-itemno='{{recommondItem.item.itemNo}}'>
+        <view class="head-item-content">
+          <i-image i-class='head-item-image' 
+                   imageSrc='{{recommondItem.coverImg}}' 
+                   clearImagePadding='{{true}}'>
+          </i-image>
+          <view class="head-item-info-box">
+            <view class="head-item-info-box-left">
+              <view class="head-item-info-box-left-row">
+                <view class='head-item-info-title'>
+                  {{recommondItem.title}}
+                </view>
+              </view>
+              <view class="head-item-info-box-left-row">
+                <view class="head-item-info-value">
+                  市场价: ￥{{recommondItem.price}}
+                </view>
+                <view class="head-item-info-value">
+                  数量: {{recommondItem.num}}
+                </view>
+              </view>
+            </view>
+            <view class="head-item-info-box-right">
+              <button class="head-item-info-button"
+                      type="warn" 
+                      disabled="{{recommondItem.num<=0}}" 
+                      catchtap="tapRecommondAssessOrder" 
+                      data-index='{{recommondIndex}}'
+                      data-assessid='{{recommondItem.assessNo}}'>
+                {{recommondItem.num<=0?'已结束':'申请'}}
+              </button>
+            </view>
+          </view>
+        </view>
+      </view>
+    </swiper-item>
+  </swiper>
+</view>
+<view class="list-box">
+  <view class="list-box-title-row">
+    <i-icon type='fire' 
+            size='32' 
+            color='#ee2c2c'>
+    </i-icon>
+    <view class="list-box-title">热门众测</view>
+  </view>
+  <view class="list-box-content">
+    <view class="assess-item" 
+          wx:for='{{assessList}}' 
+          wx:for-item='assessItem' 
+          wx:for-index='assessIndex' 
+          wx:key='goodsNo'
+          bindtap="tapAssessItem" 
+          data-index='{{assessIndex}}'
+          data-assessid='{{assessItem.assessItem}}'
+            data-itemno='{{assessItem.item.itemNo}}'>
+      <view class="assess-item-right">
+        <i-image i-class='assess-item-image' 
+                 imageSrc='{{assessItem.coverImg}}'>
+        </i-image>
+      </view>
+      <view class="assess-item-left">
+        <view class="assess-item-left-row">
+          <view class="assess-item-title">
+            {{assessItem.title}}
+          </view>
+        </view>
+        <view class="assess-item-left-row">
+          <view class="assess-item-value-box">
+            <view class="assess-item-value">
+              数量: {{assessItem.num}}
+            </view>
+            <view class="assess-item-value">
+              市场价: ￥{{assessItem.price}}
+            </view>
+          </view>
+          <view class="assess-item-button-box">
+            <button class="assess-item-button" 
+                    type="warn" 
+                    disabled="{{assessItem.num<=0}}" 
+                    catchtap="tapAssessOrder" 
+                    data-index='{{assessIndex}}'
+                    data-assessid='{{assessItem.assessNo}}'>
+              {{assessItem.num<=0?'已结束':'申请'}}
+            </button>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <!-- 加载块 -->
+  <i-load-more loadState='{{loadState}}'>
+  </i-load-more>
+</view>

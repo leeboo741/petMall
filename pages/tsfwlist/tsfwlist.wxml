@@ -1,0 +1,66 @@
+<i-navigation-bar title='特色服务' showBackButton='{{true}}'>
+</i-navigation-bar>
+
+<view class="container-box">
+  <view wx:for='{{specialServerList}}'
+        wx:for-item='specialRowItem'
+        wx:for-index='specialRowIndex'
+        wx:key='{{specialRowIndex}}'
+        class="special-row">
+    <view class='item-row'>
+      <view wx:for='{{specialServerList[specialRowIndex]}}'
+            wx:for-item='specialItem'
+            wx:for-index='specialIndex'
+            wx:key='serviceTypeNo'
+            class="special-item">
+        <view class="special-item-content">
+          <image class="special-item-background" 
+                src='{{picMini}}'>
+          </image>
+          <view class="special-item-name">{{specialItem.serviceTypeName}}</view>
+          <view class="special-item-button" 
+                hidden='{{specialRowIndex==showRow&&specialIndex==showItemIndex}}'
+                bindtap="tapMore"
+                data-row='{{specialRowIndex}}'
+                data-index='{{specialIndex}}'>
+          查看更多
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="special-detail-box" 
+          hidden="{{specialRowIndex!=showRow}}">
+      <view class="detail-up-row">
+        <view class="special-detail-up">
+          <image src="/resource/sjxup.png"
+                class="special-detail-up-image" 
+                hidden="{{showItemIndex!=0}}"></image>
+        </view>
+        <view class="special-detail-up">
+          <image src="/resource/sjxup.png"
+                class="special-detail-up-image"  
+                hidden="{{showItemIndex==0}}"></image>
+        </view>
+      </view>
+      <view class="special-detail-content">
+        <view class="special-detail-item" 
+              wx:for='{{specialServerList[showRow][showItemIndex].services}}' 
+              wx:for-item='detailItem' 
+              wx:for-index='detailIndex' 
+              wx:key='serviceID'>
+          <view class="special-detail-name">
+          {{detailItem.serviceName}}
+          </view>
+          <view class="special-detail-price">
+          ￥{{detailItem.servicePrice}}
+          </view>
+          <view class='special-detail-button'
+                bindtap="tapOrder"
+                data-index='{{detailIndex}}'>
+          预约
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

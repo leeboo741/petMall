@@ -22,6 +22,10 @@ Component({
    * 组件的属性列表
    */
   properties: {
+    uploadImageId: {
+      type: String,
+      value: "",
+    },
     formData: {
       type: Object,
       value: null,
@@ -40,7 +44,7 @@ Component({
     }, // 最大上传图片数量 默认为 9
     selectMode: {
       type: String,
-      value: "cover", 
+      value: "cover",
     }, // 选择图片模式 cover 覆盖已选 | append 增量选择  权限高于abelDelete 当值为append时 ableDelete必然为true 不接受更改
     ableDelete: {
       type: Boolean,
@@ -74,12 +78,17 @@ Component({
       type: Boolean,
       value: true,
     }, // 是否展示 加新 按钮
+    ableVideo: {
+      type: Boolean,
+      value: true,
+    }
   },
 
   /**
    * 组件的初始数据 内部属性
    */
   data: {
+    serviceImageObjList: [], // 上传完成后返回的服务器对象列表
     serviceImagePathList: [], // 上传完成后返回的服务器地址列表
     uploadImageTask: null, // 上传图片任务
     uploadImageProgress: -1, // 当前上传图片进度
@@ -90,6 +99,9 @@ Component({
    * 属性监听
    */
   observers: {
+    "imagePathList": function (imagePathList) {
+      console.log(imagePathList);
+    },
     // 监听 startUpload 变化， 开始或停止上传
     "startUpload": function (startUpload) {
       if (startUpload) {
@@ -128,6 +140,17 @@ Component({
    */
   methods: {
     /**
+     * 检查是否是本地资源
+     * @param resourcePath 资源路径
+     * @return true 是本地资源 false 不是
+     */
+    checkIsLocationResource: function (resourcePath) {
+      if (resourcePath.indexOf("http://tmp") == -1 && resourcePath.indexOf("wxfile://tmp") == -1) {
+        return false;
+      }
+      return true;
+    },
+    /**
      * 点击预览图片
      */
     tapImageItem: function (e) {
@@ -135,7 +158,11 @@ Component({
       for (let i = 0; i < this.data.imagePathList.length; i++) {
         let tempImagePath = this.data.imagePathList[i];
         if (!Utils.checkIsVideo(tempImagePath)) {
-          tempPreviewImageList.push(tempImagePath);
+          if (Utils.checkIsObject(tempImagePath)) {
+            tempPreviewImageList.push(tempImagePath.fileAddress ? tempImagePath.fileAddress : tempImagePath.coverAddress);
+          } else {
+            tempPreviewImageList.push(tempImagePath);
+          }
         }
       }
       wx.previewImage({
@@ -166,7 +193,7 @@ Component({
      */
     deleteImageAction: function (e) {
       // 要删除的下标
-      let tempIndex= e.currentTarget.dataset.index;
+      let tempIndex = e.currentTarget.dataset.index;
       // 要删除的地址
       let tempImagePath = e.currentTarget.dataset.imagepath;
       // 选中图片中删除数据
@@ -175,21 +202,27 @@ Component({
       if (tempIndex < this.data.serviceImagePathList.length) {
         this.data.serviceImagePathList.splice(tempIndex, 1);
       }
+      if (tempIndex < this.data.serviceImageObjList.length) {
+        this.data.serviceImageObjList.splice(tempIndex, 1);
+      }
       // 如果已经上传过，上传的下标也要回退一格
-      if (tempIndex <= this.data.currentUploadIndex) {
+      if (tempIndex < this.data.currentUploadIndex) {
         this.data.currentUploadIndex--;
       }
       this.setData({
         imagePathList: this.data.imagePathList,
         serviceImagePathList: this.data.serviceImagePathList,
+        serviceImageObjList: this.data.serviceImageObjList,
         currentUploadIndex: this.data.currentUploadIndex
       })
 
       let callBackFunctionName = 'delete-image'; // 触发事件 方法名
       let myEventDetail = {
-        uploadReturnDataList: this.data.serviceImagePathList,
+        // uploadReturnDataList: this.data.serviceImagePathList,
+        uploadReturnDataList: this.data.serviceImageObjList,
         imagePathList: this.data.imagePathList,
         deleteIndex: tempIndex,
+        uploadImageId: this.data.uploadImageId,
       }; // detail对象，提供给事件监听函数
       let myEventOption = {
         'bubbles': false, // 事件是否冒泡
@@ -202,7 +235,7 @@ Component({
     /**
      * 点击添加新图
      */
-    tapAddNewUploadImage: function() {
+    tapAddNewUploadImage: function () {
       let count = 0;
       if (this.data.selectMode == "cover") {
         // 覆盖 可选择最大数量
@@ -223,8 +256,12 @@ Component({
         return;
       }
       let that = this;
+      let itemList = ["选择图片"];
+      if (this.data.ableVideo) {
+        itemList.push("选择视频");
+      }
       wx.showActionSheet({
-        itemList: ["选择图片","选择视频"],
+        itemList: itemList,
         success(res) {
           if (res.tapIndex == 0) {
             let tempImageParam = {};
@@ -239,6 +276,7 @@ Component({
                 that.setData({
                   imagePathList: res.tempFilePaths,
                   serviceImagePathList: [],
+                  serviceImageObjList: [],
                   currentUploadIndex: 0,
                 })
               } else if (that.data.selectMode == "append") {
@@ -255,7 +293,8 @@ Component({
               let callBackFunctionName = 'addnew'; // 触发事件 方法名
               let myEventDetail = {
                 imagePathList: that.data.imagePathList,
-                newPathList: res.tempFilePaths
+                newPathList: res.tempFilePaths,
+                uploadImageId: that.data.uploadImageId
               }; // detail对象，提供给事件监听函数
               let myEventOption = {
                 'bubbles': false, // 事件是否冒泡
@@ -283,6 +322,7 @@ Component({
                 that.setData({
                   imagePathList: [res.tempFilePath],
                   serviceImagePathList: [],
+                  serviceImageObjList: [],
                   currentUploadIndex: 0,
                 })
               } else if (that.data.selectMode == "append") {
@@ -295,7 +335,8 @@ Component({
               let callBackFunctionName = 'addnew'; // 触发事件 方法名
               let myEventDetail = {
                 imagePathList: that.data.imagePathList,
-                newPathList: [res.tempFilePath]
+                newPathList: [res.tempFilePath],
+                uploadImageId: that.data.uploadImageId
               }; // detail对象，提供给事件监听函数
               let myEventOption = {
                 'bubbles': false, // 事件是否冒泡
@@ -314,6 +355,7 @@ Component({
           }
         }
       })
+
     },
 
     /**
@@ -339,6 +381,9 @@ Component({
       if (this.data.serviceImagePathList == null) {
         this.data.serviceImagePathList = [];
       }
+      if (this.data.serviceImageObjList == null) {
+        this.data.serviceImageObjList = [];
+      }
       let that = this;
       // 为了安全 先取消之前的上传任务
       this.cancelUpload();
@@ -350,7 +395,20 @@ Component({
       // 上传地址
       tempParam.url = this.data.uploadUrl;
       // 图片地址
-      tempParam.filePath = this.data.imagePathList[this.data.currentUploadIndex];
+      let imagePathObj = this.data.imagePathList[this.data.currentUploadIndex];
+      console.log(JSON.stringify(this.data.imagePathList));
+      if (Utils.checkIsObject(imagePathObj)) {
+        this.uploadSuccess(imagePathObj.fileAddress ? imagePathObj.fileAddress : imagePathObj.coverAddress, imagePathObj);
+        return;
+      } else if (Utils.checkIsString(imagePathObj)){
+        // 不支持网络图片上传
+        // 网路图片默认已经上传过了，直接按上传成功处理
+        if (!this.checkIsLocationResource(imagePathObj)) {
+          this.uploadSuccess(imagePathObj, imagePathObj);
+          return;
+        }
+      }
+      tempParam.filePath = imagePathObj;
       if (this.data.name != null && this.data.name.length > 0) {
         tempParam.name = this.data.name;
       }
@@ -361,35 +419,14 @@ Component({
       if (this.data.formData != null && this.data.formData.length > 0) {
         tempParam.formData = this.data.formData;
       }
+
       // 上传成功回调
       tempParam.successCallback = function successCallback(res) {
         console.log("uploadimage success callback: \n" + JSON.stringify(res));
         /*
          * 这里需要根据自己需要去修改，返回自己需要的数据
          */
-        that.data.serviceImagePathList.push(res.root[0].fileAddress);
-        // 上传下标 +1
-        that.data.currentUploadIndex++;
-        that.setData({
-          serviceImagePathList: that.data.serviceImagePathList
-        })
-        if (that.data.currentUploadIndex >= that.data.imagePathList.length) {
-          // 下标超出 上传列表长度 上传完成
-          that.setData({
-            currentUploadIndex: that.data.currentUploadIndex,
-            uploadImageProgress: -1,
-            startUpload: false,
-          })
-          that.cancelUpload();
-          that.uploadComplete();
-        } else {
-          // 下标 没有超出 继续上传下一张图片
-          that.setData({
-            currentUploadIndex: that.data.currentUploadIndex,
-            uploadImageProgress: 0
-          })
-          that.uploadListImage()
-        }
+        that.uploadSuccess(res.root[0].fileAddress ? res.root[0].fileAddress : res.root[0].coverAddress, res.root[0]);
       };
       // 上传失败回调
       tempParam.failCallback = function failCallback(res) {
@@ -424,14 +461,47 @@ Component({
       // 发起请求
       that.data.uploadImageTask = UploadFileService.fileUpload(tempParam);
     },
-    
+
+    /**
+     * 上传成功处理
+     */
+    uploadSuccess: function (serviceResourcePath, serviceResourceObj) {
+      this.data.serviceImagePathList.push(serviceResourcePath);
+      this.data.serviceImageObjList.push(serviceResourceObj);
+      // 上传下标 +1
+      this.data.currentUploadIndex++;
+      this.setData({
+        serviceImagePathList: this.data.serviceImagePathList,
+        serviceImageObjList: this.data.serviceImageObjList
+      })
+      if (this.data.currentUploadIndex >= this.data.imagePathList.length) {
+        // 下标超出 上传列表长度 上传完成
+        this.setData({
+          currentUploadIndex: this.data.currentUploadIndex,
+          uploadImageProgress: -1,
+          startUpload: false,
+        })
+        this.cancelUpload();
+        this.uploadComplete();
+      } else {
+        // 下标 没有超出 继续上传下一张图片
+        this.setData({
+          currentUploadIndex: this.data.currentUploadIndex,
+          uploadImageProgress: 0
+        })
+        this.uploadListImage()
+      }
+    },
+
     /**
      * 上传完成
      */
     uploadComplete: function () {
       let callBackFunctionName = 'upload-complete'; // 触发事件 方法名
       let myEventDetail = {
-        uploadReturnDataList: this.data.serviceImagePathList
+        // uploadReturnDataList: this.data.serviceImagePathList
+        uploadReturnDataList: this.data.serviceImageObjList,
+        uploadImageId: this.data.uploadImageId,
       }; // detail对象，提供给事件监听函数
       let myEventOption = {
         'bubbles': false, // 事件是否冒泡

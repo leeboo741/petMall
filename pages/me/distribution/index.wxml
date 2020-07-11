@@ -1,0 +1,105 @@
+<!--pages/me/distribution/index.wxml-->
+<i-navigation-bar title='分销列表'
+                  showBackButton='{{true}}'>
+</i-navigation-bar>
+
+
+<view class="foodgrainmore-head" style="height:50px">
+  <view class="select-item">
+    <picker mode='date'
+            bindchange="selectStartDate"
+            style="width:100%">
+      <view class="select-area {{startDate==null||startDate.length<=0?'placeholder-text':'normal-text'}}">
+      {{startDate==null||startDate.length<=0?"开始时间":startDate}}
+      </view>
+    </picker>
+  </view>
+  <view class="select-item">
+    <picker mode='date'
+            bindchange="selectEndDate"
+            style="width:100%">
+      <view class="select-area {{endDate==null||endDate.length<=0?'placeholder-text':'normal-text'}}">
+      {{endDate==null||endDate.length<=0?"结束时间":endDate}}
+      </view>
+    </picker>
+  </view>
+  <view class="select-item" style="flex-grow:0; width: 140rpx; padding: 0rpx">
+    <view style='width:100%; height:35px; border-radius: 15rpx; text-align: center; line-height: 35px; background: red; color: white' bindtap="tapClear">清空</view>
+  </view>
+</view>
+
+<view class="content-view">
+  <i-panel>
+    <i-cell-group>
+      <i-cell wx:for='{{petsInforMation}}'
+              wx:for-item='item'
+              wx:for-index='index'
+              wx:key='distributionID'
+              bindtap='tapItem'
+              data-index='{{index}}'>
+        <view class='item'
+              slot='header'>
+          <view class="item-header">
+            <view class='item-number'>
+            订单号: {{item.linkNo}}
+            </view>
+            <view class="item-time">
+            {{item.createDate}}
+            </view>
+          </view>
+          <view class="item-body">
+            <view class="item-body-item">
+              <view class="item-buyer">
+              买家: {{item.buyer.businessName}}
+              </view>
+            </view>
+            <view class="item-body-item">
+              <view class="item-seller">
+              卖家: {{item.seller.businessName}}
+              </view>
+            </view>
+            <view class="item-body-item">
+              <view class="item-price-box">
+                <view class="item-price-original">
+                订单价格:￥{{item.originalAmount}}
+                </view>
+                <view class="item-price-getamount">
+                分销所得:￥{{item.getAmount}}
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </i-cell>
+    </i-cell-group>
+  </i-panel>
+  
+  <!-- 加载块 -->
+  <i-load-foot-item loadState='{{loadState}}'>
+  </i-load-foot-item>
+</view>
+
+
+<wxs module='parse'>
+  module.exports={
+
+    showText:function(res){
+      if(res==null || res.length<=0){
+          return '';
+      }else{
+          return res;
+      }
+    },
+
+    showPrice:function(res){
+      if(res==null){
+          return 0;
+      }else{
+          return res;
+      }
+    }
+  }
+</wxs>
+
+
+

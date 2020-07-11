@@ -1,0 +1,99 @@
+<!--pages/baike/list.wxml-->
+<i-navigation-bar title='{{naviTitle}}' showBackButton='{{true}}'>
+</i-navigation-bar>
+
+<view class="front-view">
+  <view class="top-zone button-zone" style="top: {{naviHeight}}px; height: 140rpx;">
+    <view class="button-item" wx:for='{{topButtonList}}' wx:for-item='topButtonItem' wx:for-index='topButtonIndex' wx:key='title' bindtap="tapTopButton" data-index='{{topButtonIndex}}'>
+      <i-image i-class='button-item-image {{tapButtonIndex==topButtonIndex?"button-item-image-selected":""}}' imageSrc='{{topButtonItem.imageSrc}}'>
+      </i-image>
+      <view class='button-item-title {{tapButtonIndex==topButtonIndex?"button-item-title-selected":""}}'>
+        {{topButtonItem.title}}
+      </view>
+    </view>
+  </view>
+
+  <view class="space-zone" style="height: 140rpx"></view>
+  <view class="splice-zone"></view>
+
+  <!-- 品种介绍 -->
+  <block wx:if='{{tapButtonIndex==0}}'>
+    <view class="breed-box">
+      <view class="breed-item" wx:for='{{breedList}}' wx:for-item='breedItem' wx:for-index='breedIndex' wx:key='breedNo' bindtap="tapBreedItem" data-index='{{breedIndex}}' data-breedno='{{breedItem.petGenreNo}}'>
+        <i-image i-class="breed-item-image" imageSrc='{{breedItem.petGenreImg}}' contentStyle='round'>
+        </i-image>
+        <view class="breed-item-title">
+          {{breedItem.petGenreName}}
+        </view>
+      </view>
+    </view>
+    <!-- 加载块 -->
+    <i-load-more loadState='{{breedLoadState}}'>
+    </i-load-more>
+    <view class="mask-view"
+          hidden="{{!showBreedMask}}"
+          catchtap="tapMask">
+      <view class="mask-content">
+        <view class="mask-content-image-box">
+          <i-image i-class='mask-content-image' imageSrc='{{maskBreedObj.petGenreImg}}' contentStyle='round'>
+          </i-image>
+        </view>
+        <view class="mask-content-title-box">
+          <view class="mask-content-title">
+            {{maskBreedObj.petGenreName}}
+          </view>
+        </view>
+        <view class="mask-content-describe-box">
+          <view class="mask-content-describe">
+            {{(maskBreedObj.describe!=null&&maskBreedObj.describe.length>0)?askBreedObj.describe:"哎呀!还没有品种介绍,请向管理员反映."}}
+          </view>
+        </view>
+      </view>
+    </view>
+  </block>
+
+  <!-- 养宠技巧 -->
+  <block wx:if='{{tapButtonIndex==1}}'>
+    <view class="article-box">
+      <view class="article-item" wx:for='{{skillList}}' wx:for-item='skillItem' wx:for-index='skillIndex' wx:key='skillNo' bindtap="tapSkill" data-index='{{skillIndex}}' data-url='{{skillItem.url}}'>
+        <view class="article-item-title">
+          {{skillItem.skillTitle}}
+        </view>
+      </view>
+    </view>
+    <!-- 加载块 -->
+    <i-load-more loadState='{{skillLoadState}}'>
+    </i-load-more>
+  </block>
+
+  <!-- 宠物知识 -->
+  <block wx:if='{{tapButtonIndex==2}}'>
+    <view class="article-box">
+      <view class="article-item" wx:for='{{knowledgeList}}' wx:for-item='knowledgeItem' wx:for-index='knowledgeIndex' wx:key='knowledgeNo' bindtap="tapKnowledge" data-index='{{knowledgeIndex}}' data-url='{{knowledgeItem.url}}'>
+        <view class="article-item-title">
+          {{knowledgeItem.knowledgeTitle}}
+        </view>
+      </view>
+    </view>
+    <!-- 加载块 -->
+    <i-load-more loadState='{{knowledgeLoadState}}'>
+    </i-load-more>
+  </block>
+
+  <!-- 宠物疾病 -->
+  <block wx:if='{{tapButtonIndex==3}}'>
+    <view class="article-box">
+      <view class="article-item" wx:for='{{diseaseList}}' wx:for-item='diseaseItem' wx:for-index='diseaseIndex' wx:key='diseaseNo' bindtap="tapDisease" data-index='{{diseaseIndex}}' data-url='{{diseaseItem.url}}'>
+        <view class="article-item-title">
+          {{diseaseItem.diseaseTitle}}
+        </view>
+      </view>
+    </view>
+    <!-- 加载块 -->
+    <i-load-more loadState='{{diseaseLoadState}}'>
+    </i-load-more>
+  </block>
+</view>
+
+
+

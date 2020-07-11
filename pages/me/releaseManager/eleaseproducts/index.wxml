@@ -1,0 +1,21 @@
+<i-navigation-bar title='发布产品'
+                  showBackButton="{{false}}">
+</i-navigation-bar>
+
+<view class="product-acount">
+  <view>1、发布宠物需申请认证（个人、商家、平台）</view>
+  <view>2、确保申请者是在上述需要认证范围之内</view>
+  <view>3、确保提供确切可验证的即时联系方式，如邮箱、单位和个人电话</view>
+  <view>4、确保提供准确详实的身份说明介绍</view>
+  <view>5、发布如下：</view>
+</view>
+
+<view class="product-box-sty"
+      wx:for="{{typeContext}}" 
+      wx:key="index"
+      bindtap="productTap"
+      data-index="{{index}}">
+  <view class="product-box-shownr-sty">
+      {{item}}
+  </view>
+</view>

@@ -10,6 +10,7 @@ var QQMapSDK = new QQMapWX({
   key: Config.Key_QQ_Map
 });
 const app = getApp();
+const Utils = require("../utils/util.js");
 
 /**
  * 获取当前地址信息
@@ -20,14 +21,15 @@ function getCurrentLocationInfo(getLocationInfoCallback) {
     wx.getLocation({
       type: "gcj02",
       success: function (res) {
-        console.log("------------ 定位成功 ------------");
-        console.log(res);
+        Utils.logInfo("------------ 定位成功 ------------");
+        Utils.logInfo(res);
         const latitude = res.latitude;
         const longitude = res.longitude;
         reverseGeocoder(latitude, longitude,
           function rgeoCallback(res) {
             if (getLocationInfoCallback != null && typeof getLocationInfoCallback == 'function') {
               app.globalData.currentLocationInfo = res.result;
+              
               getLocationInfoCallback(res.result);
             }
           }
@@ -63,7 +65,7 @@ function reverseGeocoder(lat, lgn, rgeoCallback) {
       longitude: lgn,
     },
     success(res) {
-      console.log(res);
+      Utils.logInfo(res);
       if (rgeoCallback != null && typeof rgeoCallback == "function") {
         rgeoCallback(res);
       }
@@ -74,7 +76,7 @@ function reverseGeocoder(lat, lgn, rgeoCallback) {
       wx.stopPullDownRefresh();
     },
     complete(res) {
-      console.log(res);
+      Utils.logInfo(res);
     }
   })
 }
@@ -89,7 +91,7 @@ function geocoder(address, geoCallback) {
     //获取表单传入地址
     address: address, //地址参数，例：固定地址，address: '北京市海淀区彩和坊路海淀西大街74号'
     success: function (res) {//成功后的回调
-      console.log(res);
+      Utils.logInfo(res);
       if (geoCallback != null && typeof geoCallback == "function") {
         geoCallback(res.result);
       }
@@ -100,7 +102,7 @@ function geocoder(address, geoCallback) {
       wx.stopPullDownRefresh();
     },
     complete: function (res) {
-      console.log(res);
+      Utils.logInfo(res);
     }
   })
 }

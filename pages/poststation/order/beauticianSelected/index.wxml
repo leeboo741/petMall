@@ -1,0 +1,45 @@
+<!--pages/poststation/order/beauticianSelected/index.wxml-->
+<i-navigation-bar title='预约美容师' 
+                  showBackButton='{{true}}' 
+                  backgroundColor="white">
+</i-navigation-bar>
+
+<view class="background-view">
+</view>
+
+<view class="front-view">
+  <view class="beautician-box">
+    <view class="beautician-item" bindtap="tapItem" data-index='-1'>
+      <view class="beautician-item-content">
+        <i-image i-class='beautician-item-icon' imageSrc=''>
+        </i-image>
+        <view class="beautician-item-title">
+        默认
+        </view>
+        <view class="beautician-item-button">
+        预约
+        </view>
+      </view>
+    </view>
+    <view class="beautician-item" wx:for='{{beauticianList}}' bindtap="tapItem" data-index='{{index}}'>
+      <view class="beautician-item-content">
+        <i-image i-class='beautician-item-icon' imageSrc='{{item.headerImg}}'>
+        </i-image>
+        <view class="beautician-item-title">
+        {{item.beauticianName}}
+        </view>
+        <view class="beautician-item-button">
+        {{parse.getItemButtonTitle(item)}}
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<wxs module='parse'>
+  module.exports={
+    getItemButtonTitle: function(item) {
+      return item.title;
+    }
+  }
+</wxs>

@@ -4,8 +4,8 @@
 
 <!-- 宠物分类 -->
 <view class="context-page">
-  <view class="image-context-page" wx:for='{{petsTypeData}}' wx:for-item="petsItem" wx:for-index="petsIndex" wx:key='{{petsIndex}}' bindtap="petsTap" data-index='{{petsIndex}}' data-breedno="{{petsItem.petGenreNo}}" data-name='{{petsItem.petGenreName}}'>
-    <i-image imageSrc="{{petsItem.petsImageUrl}}" i-class="image-context-head">
+  <view class="image-context-page" wx:for='{{petsTypeData}}' wx:for-item="petsItem" wx:for-index="petsIndex" wx:key='{{petsIndex}}' bindtap="petsTap" data-index='{{petsIndex}}' data-genreno="{{petsItem.petGenreNo}}" data-name='{{petsItem.petGenreName}}'>
+    <i-image imageSrc="{{petsItem.petGenreImg}}" i-class="image-context-head">
     </i-image>
     <view class="image-context-bottom">
       {{petsItem.petGenreName}}

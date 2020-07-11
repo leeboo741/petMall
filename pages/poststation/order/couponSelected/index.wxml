@@ -1,0 +1,26 @@
+<!--pages/poststation/order/couponSelected/index.wxml-->
+<i-navigation-bar title='优惠券' showBackButton='{{true}}' backgroundColor="white">
+</i-navigation-bar>
+<view class="background-view">
+</view>
+<view class="front-view flex-cloumn">
+  <view class="list" wx:for="{{couponList}}" wx:for-index="id" wx:for-item="item" wx:for-index='index' bindtap="selectCoupon" data-index='{{index}}'>
+    <view class="li">
+      <view class="t">
+        <view class="l" >
+          <text>￥</text>
+        {{item.couponType.value}}
+        </view>
+        <view class="r ">
+          <view class="name ">{{item.couponType.title}}</view>
+          <view class=" ">服务期间可用</view>
+        </view>
+        <view class="clear"></view>
+      </view>
+      <view bindtap="showinfo" class="b " data-id="{{id}}">
+        <text>选中使用</text>
+        <image src="/resource/bwcdwon.png"></image>
+      </view>
+    </view>
+  </view>
+</view>

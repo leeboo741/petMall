@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "zuopin": "/lee-components/zuopin/zuopin",
+    "comment": "/lee-components/comment/comment",
+    "i-navigation-bar": "/lee-components/leeNavigationBar/index"
+  }
+}

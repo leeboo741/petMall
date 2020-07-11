@@ -1,5 +1,7 @@
 /* pages/me/releaseManager/index.wxss */
 
+
+
 .add-new-button{
   width: 100%;
   height: 90rpx;
@@ -25,6 +27,7 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
+  position: relative;
 }
 
 .release-item{
@@ -226,4 +229,375 @@
 .release-goods-info-describe-content{
   font-size: 28rpx;
   color: gray;
+}
+
+.switch-sty{
+  color:white;
+  background: linear-gradient(to right, rgb(255,147,87) , rgb(255, 51, 59));
+  padding: 5rpx 10rpx;
+  border-radius: 20rpx;
+  position: absolute;
+  top: 25rpx;
+  right: 30rpx;
+  font-size: 27rpx;
+}
+
+.goods-box{
+  width: 100%;
+  /* height: 300rpx; */
+  display: flex;
+  flex-flow: column;
+  border-bottom: 1rpx solid #F7F7F7;
+}
+
+.goods-box-up{
+  width: 100%;
+  height: 200rpx;
+  display: flex;
+  flex-flow: nowrap;
+}
+
+.goods-box-up-left{
+  width: 30%;
+  height: 200rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.goods-box-up-left-image{
+  width: 180rpx;
+  height: 180rpx;
+  border-radius: 20rpx;
+}
+
+.goods-box-up-right{
+  width: 70%;
+  height: 180rpx;
+  display: flex;
+  flex-flow: column;
+}
+
+.goods-box-up-right-top{
+  height: 70rpx;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+}
+
+.goods-box-up-right-middle{
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+  color: #FF1F1F;
+  font-size: 28rpx;
+  font-weight: bold;
+}
+
+.goods-box-up-right-down{
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+  font-size: 25rpx;
+  color: #8E766B;
+}
+
+.goods-box-center{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.server-prices-item{
+  display: flex;
+  flex-direction: column;
+  margin: 15rpx 40rpx;
+  padding: 8rpx 15rpx;
+  box-shadow: 0px 15px 10px -15px #9FA7B9;
+}
+
+.server-prices-item-row{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: gray;
+  font-size: 26rpx;
+}
+
+.server-prices-item-sortname{
+  color: #778899;
+  font-weight: bold;
+  font-size: 28rpx;
+  flex-grow: 1;
+}
+
+.server-prices-item-price{
+  color: red;
+  font-size: 28rpx;
+}
+
+.goods-box-down{
+  width: 100%;
+  height: 100rpx;
+  display: flex;
+  justify-content: flex-end;
+  flex-flow: nowrap;
+  align-items: center;
+}
+
+.button-stys{
+  font-size: 27rpx;
+  border: 1rpx solid #778899;
+  border-radius: 15rpx;
+  padding: 15rpx 30rpx;
+  margin-left: 5%;
+  color: #778899;
+  margin-right: 30rpx;
+}
+
+.mask-page{
+  position: fixed; 
+  width: 100%;
+  height: 100%;
+  background:black;
+  z-index: 2;
+  opacity:0.3;
+}
+
+.box-show{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 85%;
+  position: fixed;
+  z-index: 3;
+}
+
+.pricerevision-sty{
+  position: relative;
+  z-index: 3;
+  width: 75%;
+  height:50%;
+  border-radius: 20rpx;
+  margin-bottom: 100rpx;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  font-family: KaiTi;
+}
+
+
+.pricerevision-dzgj-sty{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  bottom: 0;
+  z-index: 15;
+}
+
+.pricerevision-head-sty{
+  width: 78%;
+  height: 33%;
+  display: flex;
+  flex-flow: nowrap;
+  z-index: 15;
+}
+
+.pricerevision-head-left-sty{
+  width: 45%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pricerevision-left-imag-sty{
+  width: 190rpx;
+  height: 190rpx;
+  border-radius: 10rpx;
+}
+
+.pricerevision-right-sty{
+  width: 55%;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+  margin-left: 3%;
+  justify-content: center;
+  z-index: 15;
+}
+
+.pricerevision-right-up-sty{
+  height: 90rpx;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  color: #E6210F;
+  font-weight: bold;
+}
+
+.pricerevision-right-down-sty{
+  height: 90rpx;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  color: #E6210F;
+}
+
+.pricerevision-middle-sty{
+  width: 100%;
+  height: 35%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 15;
+}
+
+.pricerevision-middle-box-sty{
+  width: 70%;
+  height: 90%;
+  border-radius: 20rpx;
+  position: relative;
+}
+
+.pricerevision-middle-box-image-sty{
+  width: 70rpx;
+  height: 60rpx;
+  position: absolute;
+  top: 1rpx;
+}
+
+.pricerevision-middle-box-top-sty{
+  width: 100%;
+  height: 35%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #E6210F;
+  font-size: 28rpx;
+  font-weight: bold;
+}
+
+.pricerevision-middle-box-down-sty{
+  width: 100%;
+  height: 65%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  flex-flow: nowrap;
+  margin-top: 5%;
+}
+
+.pricerevision-middle-box-down-da-sty{
+  font-size: 34rpx;
+  font-weight: bold;
+  color: white;
+  padding: 0 25rpx;
+}
+
+.pricerevision-middle-box-down-input-sty{
+  width: 80rpx;
+  height: 60rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pricerevision-middle-box-down-input-sty input{
+  width: 80rpx;
+  height: 60rpx;
+  border-bottom: 1rpx solid white;
+  display: flex;
+  text-align:center;
+}
+
+.pricerevision-middle-box-down-zhe-sty{
+  font-size: 50rpx;
+  font-weight: bold;
+  color: white;
+  padding: 0 25rpx;
+}
+
+.pricerevision-button-sty{
+  width: 90%;
+  height: 10%;
+  display: flex;
+  flex-flow: nowrap;
+  z-index: 15;
+}
+
+.pricerevision-button-cancel-sty{
+  width: 50%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.pricerevision-button-determine-sty{
+  width: 50%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: yellow;
+}
+
+.pricerevision-right-down-sty input{
+  width: 100rpx;
+  border-bottom: 1rpx solid #E6210F;
+  
+}
+
+.select-release-sty{
+  width: 250rpx;
+  height:225rpx;
+  position: absolute;
+  top: 40px;
+  right: 0rpx;
+  z-index: 999;
+}
+
+.select-head-sty{
+  width: 280rpx;
+  height: 25rpx;
+  display: flex;
+  justify-content: center;
+
+}
+
+.select-release-image-sty{
+  width: 30rpx;
+  height: 25rpx;
+}
+
+.select-body-sty{
+  width: 100%;
+  height: 200rpx;
+  background: linear-gradient(to right, rgb(255,147,87) , rgb(255, 51, 59));
+  border-radius: 20rpx 0 0rpx 20rpx;
+}
+
+.select-body-box-sty{
+  height: 33.333%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 27rpx;
+  font-weight: bold;
+}
+
+.gotap{
+  position: fixed;
+  height: 80rpx;
+  width: 80rpx;
+  bottom: 150rpx;
+  right: 80rpx;
 }

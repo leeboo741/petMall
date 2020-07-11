@@ -32,6 +32,10 @@ Component({
     showBackground: {
       type: Boolean,
       value: true,
+    },
+    swhoBackgroundColor:{
+      type:String,
+      value:"white"
     }
   },
 

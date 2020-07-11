@@ -1,0 +1,18 @@
+<!--mallsubcontracting/pages/Integralflow/index.wxml-->
+<i-navigation-bar title='小鱼干流水'
+                  showBackButton>
+</i-navigation-bar>
+
+  
+  <view wx:for='{{creditFlowList}}' wx:key='list' wx:for-item="item">
+    <i-cell-group>
+        <i-cell title="{{item.dateTime}}"
+                value="{{item.credit>0?'+':''}} {{item.credit}} 个"
+                label='最后总计: {{item.totalCredit}} 个'>
+        </i-cell>
+    </i-cell-group>
+  </view>
+
+  <!-- 加载块 -->
+<i-load-foot-item loadState='{{loadState}}'>
+</i-load-foot-item>

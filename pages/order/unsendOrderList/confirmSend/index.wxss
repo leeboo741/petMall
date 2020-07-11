@@ -8,19 +8,21 @@
 .order-info-box{
   padding: 10rpx 15rpx;
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
 }
 
 .order-info-number{
   font-size: 28rpx;
   color: #778899;
+  width: 90%;
+  align-items: flex-start;
 }
 
 .order-info-time{
+  width: 90%;
   font-size: 22rpx;
   color: gray;
+  align-items: flex-end;
 }
 
 .order-goods-box{
@@ -157,4 +159,29 @@
   line-height: 90rpx;
   text-align: center;
   font-size: 32rpx;
+}
+
+.type-select-box{
+  flex-grow: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.type-select-item{
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  align-items: center;
+  min-width: 170rpx;
+}
+
+.type-select-item-image{
+  width: 50rpx;
+  height: 50rpx;
+}
+
+.type-select-item-text{
+  flex-grow: 1;
+  text-align: center;
 }

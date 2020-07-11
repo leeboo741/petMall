@@ -3,6 +3,18 @@
                   showBackButton>
 </i-navigation-bar>
 
+<i-tabs current="{{currentTabIndex}}" 
+        bindchange="handleTabChange"
+        color="#f3ba33">
+  <i-tab wx:for='{{tabList}}'
+          wx:for-item='tabItem'
+          wx:for-index='tabIndex'
+          wx:key='{{tabIndex}}'
+          key="{{tabIndex}}" 
+          title="{{tabItem}}">
+  </i-tab>
+</i-tabs>
+
 <!-- 买家版 -->
 <block wx:if='{{currentRole == 0}}'>
   <!-- 订单Item -->
@@ -27,18 +39,18 @@
     <view class="order-goods-box">
       <!-- 商品Item -->
       <view class="order-goods-item"
-            wx:if='{{parse.showItemCell(orderItem)}}'
+            wx:if='{{currentTabIndex==1}}'
             catchtap="tapItem"
             data-index='{{orderIndex}}'
-            data-itemno='{{orderItem.item.itemNo}}'>
+            data-itemno='{{orderItem.itemNo}}'>
         <i-image i-class="order-goods-image"
-                 imageSrc='{{orderItem.item.coverImg}}'
+                 imageSrc='{{orderItem.coverImg}}'
                  >
         </i-image>
         <view class="order-goods-info">
           <view class="order-goods-item-line">
             <view class="order-goods-name">
-            {{orderItem.item.itemName}}
+            {{orderItem.itemName}}
             </view>
           </view>
           <view class="order-goods-item-line"
@@ -47,25 +59,24 @@
             x{{orderItem.qty}}
             </view>
             <view class="order-goods-price">
-            ￥{{orderItem.item.retailPrice}}
+            ￥{{parse.showRetailPrice(orderItem.retailPrice)}}
             </view>
           </view>
         </view>
       </view>
       <!-- 宠物Item -->
       <view class="order-goods-item"
-            wx:if='{{parse.showPetCell(orderItem)}}'
+            wx:if='{{currentTabIndex==0}}'
             catchtap="tapPet"
             data-index='{{orderIndex}}'
-            data-petno='{{orderItem.pet.petNo}}'>
+            data-petno='{{orderItem.petNo}}'> 
         <i-image i-class="order-goods-image"
-                 imageSrc='{{orderItem.pet.coverMedia}}'
-                 >
+                 imageSrc='{{orderItem.petImg}}'>
         </i-image>
         <view class="order-goods-info">
           <view class="order-goods-item-line">
             <view class="order-goods-name">
-            {{orderItem.pet.petName}}
+            {{orderItem.petName}}
             </view>
             <view class="order-goods-sexy"
                   wx:if='{{parse.showSexy(orderItem)}}'>
@@ -78,7 +89,7 @@
             x{{orderItem.qty}}
             </view>
             <view class="order-goods-price">
-            {{orderItem.pet.retailPrice}}
+            ￥{{parse.showRetailPrice(orderItem.retailPrice)}}
             </view>
           </view>
         </view>
@@ -98,7 +109,7 @@
             data-index='{{orderIndex}}'
             data-storeno='{{orderItem.pet.business.businessNo}}'>
         <i-image i-class="order-store-image"
-                 imageSrc='{{parse.getStoreLogo(orderItem)}}'
+                 imageSrc='{{parse.showImageBs(orderItem)}}'
                  >
         </i-image>
         <view class="order-store-name">
@@ -149,18 +160,18 @@
     <view class="order-goods-box">
       <!-- 商品Item -->
       <view class="order-goods-item"
-            wx:if='{{parse.showItemCell(orderItem)}}'
+            wx:if='{{currentTabIndex==1}}'
             catchtap="tapItem"
             data-index='{{orderIndex}}'
-            data-itemno='{{orderItem.item.itemNo}}'>
+            data-itemno='{{orderItem.itemNo}}'>
         <i-image i-class="order-goods-image"
-                 imageSrc='{{orderItem.item.coverImg}}'
+                 imageSrc='{{orderItem.coverImg}}'
                  >
         </i-image>
         <view class="order-goods-info">
           <view class="order-goods-item-line">
             <view class="order-goods-name">
-            {{orderItem.item.itemName}}
+            {{orderItem.itemName}}
             </view>
           </view>
           <view class="order-goods-item-line"
@@ -169,25 +180,24 @@
             x{{orderItem.qty}}
             </view>
             <view class="order-goods-price">
-            ￥{{orderItem.item.retailPrice}}
+            ￥{{parse.showRetailPrice(orderItem.retailPrice)}}
             </view>
           </view>
         </view>
       </view>
       <!-- 宠物Item -->
       <view class="order-goods-item"
-            wx:if='{{parse.showPetCell(orderItem)}}'
+            wx:if='{{currentTabIndex==0}}'
             catchtap="tapPet"
             data-index='{{orderIndex}}'
-            data-petno='{{orderItem.pet.petNo}}'>
+            data-petno='{{orderItem.petNo}}'>
         <i-image i-class="order-goods-image"
-                 imageSrc='{{orderItem.pet.coverMedia}}'
-                 >
+                 imageSrc='{{orderItem.petImg}}'>
         </i-image>
         <view class="order-goods-info">
           <view class="order-goods-item-line">
             <view class="order-goods-name">
-            {{orderItem.pet.petName}}
+            {{orderItem.petName}}
             </view>
             <view class="order-goods-sexy"
                   wx:if='{{parse.showSexy(orderItem)}}'>
@@ -200,7 +210,7 @@
             x{{orderItem.qty}}
             </view>
             <view class="order-goods-price">
-            {{orderItem.pet.retailPrice}}
+            ￥{{parse.showRetailPrice(orderItem.retailPrice)}}
             </view>
           </view>
         </view>
@@ -217,11 +227,10 @@
     <view class="order-operate-box">
       <view class="order-store-box">
         <i-image i-class="order-store-image"
-                 imageSrc='{{orderItem.customer.headerImage}}'
-                 >
+                 imageSrc='{{orderItem.buyer.headImg}}'>
         </i-image>
         <view class="order-store-name">
-        {{orderItem.customer.customerName}}
+        {{parse.showCustomerName(orderItem.buyer.businessName)}}
         </view>
       </view>
       <view class="order-operate-button-box">
@@ -254,18 +263,26 @@
   module.exports={
     getStoreLogo: function(orderItem) {
       if (orderItem.item != null) {
-        return ""
+         return orderItem.item.business.headerImg;
       }
       if (orderItem.pet != null) {
         return orderItem.pet.business.headerImg;
       }
     },
     getSotreName: function(orderItem) {
-      if (orderItem.item != null) {
-        return "自营"
+      if (orderItem.itemNo != null) {
+        if(orderItem.shop.businessName==null){
+          return "--"
+        }else{
+         return orderItem.shop.businessName;
+        }
       }
-      if (orderItem.pet != null) {
-        return orderItem.pet.business.businessName;
+      if (orderItem.petNo != null) {
+        if(orderItem.shop.businessName==null){
+          return "--"
+        }else{
+         return orderItem.shop.businessName;
+        }
       }
     },
     showSexy: function(orderItem) {
@@ -275,16 +292,42 @@
       return true;
     },
     getSexy: function (orderItem) {
-      if (orderItem.pet.petSex == 1) {
+      if (orderItem.petSex == 1) {
         return "公";
       }
       return "母";
     },
     showItemCell: function(order) {
-      return order.item != null;
+      return order.itemNo != null;
     },
     showPetCell: function(order) {
-      return order.pet != null;
+      return order.petNo != null;
+    },
+
+    showRetailPrice:function(res){
+      if(res==null || res==''){
+        return "--";
+      }else{
+        return res;
+      }
+    },
+
+    showCustomerName:function(res){
+      if(res==null){
+        return "--"
+      }else{
+        return res
+      }
+    },
+
+    showImageBs:function(res){
+      if(res.itemNo!=null){
+        return res.shop.headImg
+      }
+
+      if(res.petNo!=null){
+        return res.shop.headImg
+      }
     }
   }
 </wxs>

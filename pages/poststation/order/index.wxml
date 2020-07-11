@@ -1,0 +1,112 @@
+<!--pages/poststation/order/index.wxml-->
+<i-navigation-bar title='预约' showBackButton='{{true}}' backgroundColor="white">
+</i-navigation-bar>
+<view class="background-view">
+</view>
+<view class="front-view">
+  <view class="order-header-box">
+    <view class="order-header-content-box">
+      <view class="order-header-content-business">
+        {{businessObj.business.businessName}}
+      </view>
+      <view class="order-header-content-service-box">
+        <view class="order-header-content-service-name">
+          {{petObj.petName}}
+        </view>
+        <view class="order-header-content-service-content">
+          <view class="order-header-content-service-content-name">
+            {{serverObj.serviceName}}
+          </view>
+          <view class="order-header-content-service-content-price">
+            ￥{{serverObj.servicePrice}}起
+          </view>
+        </view>
+        <view class="order-header-content-service-icon-box">
+          <i-image i-class='order-header-content-service-icon' mode='scaleToFill' lazy-load='{{true}}' imageSrc='{{petObj.petImg}}'>
+          </i-image>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="order-service-param-select-area">
+    <view wx:for='{{petObj.petSort.petSortNo!=10001?serviceParamSelectList:serviceParamCatSelectList}}' wx:for-item='item' wx:for-index='index' wx:key='{{index}}' class="order-service-param-select-item" bindtap="tapParamSelectItem" data-tapindex='{{index}}'>
+      <i-icon type='{{item.iconName}}' color="#778899" size="28" i-class="order-service-param-select-item-icon">
+      </i-icon>
+      <view class="order-service-param-select-item-title">
+        {{parse.getSelectParamItemTitle(index,item.title,param,petObj)}}
+      </view>
+    </view>
+  </view>
+</view>
+<view class="button" bindtap="tapConfirmOrder">
+  预约 (￥{{paymentAmount}})
+</view>
+<wxs module='parse'>
+  module.exports = {
+    getSelectParamItemTitle: function(index, title, param, pet) {
+      if (pet.petSort.petSortNo == 10001) {
+        if (index == 0) {
+          if (param.age != null) {
+            return title + "|" + param.age;
+          } else {
+            return title;
+          }
+        } else if (index == 1) {
+          if (param.serviceTime != null) {
+            return title + "|" + param.serviceTime;
+          } else {
+            return title;
+          }
+        } else if (index == 2) {
+          if (param.beautician != null) {
+            return title + "|" + param.beautician.beauticianName;
+          } else {
+            return title + "|默认";
+          }
+        } else if (index == 3) {
+          if (param.coupon != null) {
+            return "已选: " + param.coupon.couponType.title;
+          } else {
+            return title;
+          }
+        } else {
+          return "UnKnow";
+        }
+      } else {
+        if (index == 0) {
+          if (param.hairLength != null) {
+            return title + "|" + param.hairLength;
+          } else {
+            return title;
+          }
+        } else if (index == 1) {
+          if (param.startWeight != null) {
+            return title + "|" + param.startWeight;
+          } else {
+            return title;
+          }
+        } else if (index == 2) {
+          if (param.serviceTime != null) {
+            return title + "|" + param.serviceTime;
+          } else {
+            return title;
+          }
+        } else if (index == 3) {
+          if (param.beautician != null) {
+            return title + "|" + param.beautician.beauticianName;
+          } else {
+            return title + "|默认";
+          }
+        } else if (index == 4) {
+          if (param.coupon != null) {
+            return "已选: " + param.coupon.couponType.title;
+          } else {
+            return title;
+          }
+        } else {
+          return "UnKnow";
+        }
+      }
+    }
+  }
+</wxs>

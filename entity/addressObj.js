@@ -7,7 +7,7 @@ const Util = require("../utils/util.js");
  * @param data 参数对象
  */
 var AddressObj = function AddressObj(data) {
-  this.addressNo = null; // 地址 编号
+  this.receivingNo = null; // 地址 编号
   this.province = null; // 省
   this.city = null; // 市
   this.county = null; // 区县
@@ -17,11 +17,11 @@ var AddressObj = function AddressObj(data) {
   this.isDefault = 0; // 是否默认地址
   this.latitude = null; // 纬度
   this.longitude = null; // 经度
-  this.customer = null; // 地址 所属人
+  this.business = null; // 地址 所属人
 
   if (Util.checkIsObject(data)) {
-    if (Util.checkIsString(data.addressNo)) {
-      this.addressNo = data.addressNo
+    if (Util.checkIsString(data.receivingNo)) {
+      this.receivingNo = data.receivingNo
     }
     if (Util.checkIsString(data.province)) {
       this.province = data.province
@@ -57,8 +57,8 @@ var AddressObj = function AddressObj(data) {
     if (Util.checkIsNumber(data.longitude)) {
       this.longitude = data.longitude
     }
-    if (Util.checkIsObject(data.customer)) {
-      this.customer = data.customer
+    if (Util.checkIsObject(data.business)) {
+      this.business = data.business
     }
   }
 }

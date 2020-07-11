@@ -2,6 +2,11 @@
 const Page_path=require("../../macros/pagePath.js");
 const MallService=require("../../services/mallService.js");
 const Util = require("../../utils/util.js");
+const Utils = require("../../utils/util")
+const ShareManager = require("../../services/shareService");
+const Limit = 20;
+const UserService = require("../../services/userService");
+
 Page({
 
   /**
@@ -26,10 +31,14 @@ Page({
 
     ], 
     setMenuList: [], // 养宠套餐
-    
-    brandList:[] ,  //品牌
 
-    petsInforDrouce:[],  //页面数据
+    groupItemList:[], // 团购商品
+
+    itemList: [], // 商品列表
+
+    offset: 0,
+
+    businessInfo: null, // 商家信息
  
   },
 
@@ -37,39 +46,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    let that = this;
-    this.showPageInfor(
-      function getPageInfoCallback(data){
-        console.log("page info : \n" + JSON.stringify(data));
-        that.setData({
-          petsInforDrouce: data
-        })
-      }
-    );
-    this.getPetsTypeInfo(
-      function getPetTypeInfoCallback(data) {
-        console.log("pet type : \n" + JSON.stringify(data));
-        that.setData({
-          fastActionList: data
-        })
-      }
-    );
-    this.getItemBrand(
-      function getItemBrandCallback(data) {
-        console.log("item brand : \n" + JSON.stringify(data));
-        that.setData({
-          brandList: data
-        })
-      }
-    );
-    this.getSetMenu(
-      function getSetMenuCallback(data) {
-        console.log("set menu : \n" + JSON.stringify(data));
-        that.setData({
-          setMenuList: data
-        })
-      }
-    )
+
   },
 
   /**
@@ -83,7 +60,25 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    let that = this;
+    UserService.isLogin(function isLoginCallback(){
+      UserService.requestBusinessInfo(UserService.getBusinessNo(), function (dataSource) {
+        that.setData({
+          businessInfo: dataSource
+        })
+      })
+    }, function notLoginCallback(){});
+    this.showPageInfor();
+    this.requestGroupItemList();
+    this.getSetMenu(
+      function getSetMenuCallback(data) {
+        Utils.logInfo("set menu : \n" + JSON.stringify(data));
+        that.setData({
+          setMenuList: data
+        })
+      }
+    )
+    wx.startPullDownRefresh();
   },
 
   /**
@@ -104,20 +99,44 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
+    let that = this;
+    this.data.offset = 0;
+    this.requestItemList(this.data.offset, function getResultCallback(res) {
+      Utils.logInfo(res);
+      that.setData({
+        itemList: res
+      })
+    }, function completeCallback(res){
+      wx.stopPullDownRefresh();
+    })
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-
+    wx.showLoading({
+      title: '加载中...',
+    })
+    let that = this;
+    this.requestItemList(this.data.offset, function getResultCallback(res) {
+      Utils.logInfo(res);
+      let list = that.data.itemList.concat(res)
+      that.setData({
+        itemList: list
+      })
+    }, function completeCallback(res) {
+      wx.hideLoading({
+        complete: (res) => {},
+      })
+    });
   },
 
   /**
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-
+    return ShareManager.getDefaultShareCard();
   },
 
   /**
@@ -160,6 +179,15 @@ Page({
   },
 
   /**
+   * 点击查看团购商品更多
+   */
+  tapGroupItemMore: function () {
+    wx.navigateTo({
+      url: Page_path.Page_Mall_Sstaplefood + '?listtype=group'
+    })
+  },
+
+  /**
    * 点击详细更多
    */
   tapTypeDetail: function (e) {
@@ -169,41 +197,15 @@ Page({
   },
 
   /**
-   * 查询品牌
-   * @param getBrandDataCallback
-   */
-  getItemBrand: function (getBrandDataCallback){
-    let that = this;
-    MallService.getBrandInfo(
-      function getResultCallback(result) {
-        if (Util.checkIsFunction(getBrandDataCallback)) {
-          getBrandDataCallback(result)
-        }
-      }
-    )
-  },
-
-  /**
-   * 获得商品类型（主粮、零食、用品）
-   * @param getPetTypesInfoCallback
-   */
-  getPetsTypeInfo: function (getPetTypesInfoCallback){
-    let that=this;
-    MallService.getMallPetType(2, 4,
-      function returnData(data) {
-        if (Util.checkIsFunction(getPetTypesInfoCallback)) {
-          getPetTypesInfoCallback(data)
-        }
-      }
-    );
-  },
-
-  /**
    * 获得套餐分类
    * @param getSetMenuCallback
    */
   getSetMenu: function (getSetMenuCallback) {
-    MallService.getSetMealList(
+    let obj={
+      offset:0,
+      limit:4,
+    }
+    MallService.getSetMealList(obj,
       function getResultCallback(result) {
         if (Util.checkIsFunction(getSetMenuCallback)) {
           getSetMenuCallback(result.root)
@@ -213,17 +215,47 @@ Page({
   },
 
   /**
+   * 请求商品列表
+   * @param {*} offset 
+   * @param {*} getItemListCallback 
+   * @param {*} completeCallback
+   */
+  requestItemList: function(offset, getItemListCallback, completeCallback) {
+    let param = {
+      offset: offset,
+      limit: Limit,
+      itemState: 1,
+    }
+    let that = this;
+    MallService.getItemList(param, function returnData(data) {
+      that.data.offset+=Limit;
+      if (Util.checkIsFunction(getItemListCallback)) {
+        getItemListCallback(data.root);
+      }
+    }, function(res) {
+      if (Util.checkIsFunction(completeCallback)) {
+        completeCallback(res);
+      }
+    });
+  },
+
+  /**
    * 页面显示宠物（主粮、零食、用品）信息
    * @param getPageInfoCallback
    */
   showPageInfor: function (getPageInfoCallback){
     let that = this;
-    MallService.getMallPetTypeShowInfor(
-      function returnData(data) {
-        if (Util.checkIsFunction(getPageInfoCallback)) {
-          getPageInfoCallback(data)
-        }
-    });
+    let obj={
+      offset:0,
+      limit:6
+    }
+    MallService.getMallPetType(obj,function(datasource){
+        that.setData({
+          fastActionList: datasource
+        })
+    })
+
+
   },
 
   /**
@@ -231,9 +263,23 @@ Page({
    */
   foodgrainMoreTap:function(res){
     var actionKey = res.currentTarget.dataset.key;  //获得类型No
-    console.log(actionKey);
+    Utils.logInfo(actionKey);
     wx.navigateTo({
       url: Page_path.Page_Mall_Sstaplefood + '?resinfo=' + actionKey
     })
-  }
+  },
+
+  /**
+   * 请求团购商品
+   */
+  requestGroupItemList: function() {
+    let that = this;
+    MallService.getGroupItemList({},
+      function returnData(data) {
+        Utils.logInfo("团购商品==> \n" + JSON.stringify(data));
+        that.setData({
+          groupItemList: data.root,
+        })
+      });
+  },
 })

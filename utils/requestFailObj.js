@@ -8,7 +8,7 @@ var RequestFailObj = function RequestFailObj(obj) {
   this.cookies = null; // cookies
   this.errMsg = null; // 
   if (obj != null) {
-    if (obj.code != null && typeof obj.code == "number") {
+    if (obj.code != null) {
       this.code = obj.code;
     }
     if (obj.header != null && typeof obj.header == "object") {

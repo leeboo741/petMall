@@ -3,6 +3,9 @@
 const app = getApp();
 const UserService = require("../../../services/userService.js");
 
+const ShareManager = require("../../../services/shareService");
+const Utils = require("../../../utils/util.js");
+
 Page({
 
   /**
@@ -18,6 +21,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    Utils.logInfo(UserService.getLocalUserInfo())
     this.setData({
       userInfo: UserService.getLocalUserInfo(),
       pageHeight: app.globalData.pageHeight
@@ -70,6 +74,6 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-
-  }
+    return ShareManager.getDefaultShareCard();
+  },
 })

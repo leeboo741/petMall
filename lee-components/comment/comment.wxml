@@ -1,0 +1,46 @@
+<view class="comment-commentbody">
+    <block wx:if="{{commentList&&commentList.length>0?true:false}}" wx:for="{{commentList}}" wx:key="{{index}}">
+        <view class="comment-line"></view>
+        <view class="comment-commentitem">
+            <view class="comment-op">
+                <view class="comment-top-left">
+                    <view class="comment-headimg">
+                        <image src="{{item.user.avatar?item.user.avatar:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2667745264,1683773659&fm=26&gp=0.jpg'}}"></image>
+                    </view>
+                    <view class="comment-namelevel">
+                        <view class="comment-name">{{item.userName}}</view>
+                        <view class="comment-commentlecel">
+                            <image src="/resource/starselect.png" wx:for="{{item.gradeArr}}" wx:for-item="item3" wx:key="{{gradeArr}}"></image>
+                            <image src="/resource/starmoren.png" wx:if="{{item.blackArr.length>0?true:false}}" wx:for="{{item.blackArr}}" wx:for-item="item4" wx:key="{{blackArr}}"></image>
+                        </view>
+                    </view>
+                </view>
+                <view class="comment-top-right">{{item.created}}</view>
+            </view>
+            <view class="comment-bottom">
+                <view class="comment-comment">{{item.contents}}</view>
+                <view class="comment-commentimg" bindtap="yulantupian" data-tupian="{{item.imgList}}" wx:if="{{item.imgList&&item.imgList.length>0?true:false}}" >
+                    <image src="{{item1}}" wx:for="{{item.imgList}}" wx:for-item="item1" wx:key="img"></image>
+                </view>
+                <view class="comment-tag" >
+                    <text wx:for="{{item.commentTags}}" wx:for-item="item3" wx:key="index">#{{item3}}</text>
+                </view>
+                <view class="comment-bottom-tom">
+                    <view class="comment-service">{{item.serviceName}}</view>
+                    <view bindtap="chakan" class="comment-itembtn" data-extraitems="{{item.extraItems}}" data-index="{{index}}" wx:if="{{item.extraItems&&item.extraItems.length>0?true:false}}">单项 <image src="{{item.isup?'/resource/up.png':'/resource/down.png'}}"></image>
+                    </view>
+                    <view class="comment-servicedate">服务时间:{{item.appointment}}</view>
+                </view>
+                <view class="comment-extraItems" wx:if="{{item.showitem}}">
+                    <text wx:for="{{item.extraItems}}" wx:for-item="item2" wx:key="items">{{item2}}</text>
+                </view>
+                <view class="comment-reply" wx:if="{{item.commentWorkerContent?true:false}}">
+                    <view class="comment-reply-top">
+                        <image src="{{commentWorkerConfig.avatar}}"></image>{{commentWorkerConfig.nickname}}
+          </view>
+                    <view class="comment-reply-bottom">{{item.commentWorkerContent}}</view>
+                </view>
+            </view>
+        </view>
+    </block>
+</view>

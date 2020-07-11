@@ -5,15 +5,24 @@
  * @return true 是 false 不是
  */
 function checkIsVideo(fileAddress) {
-  let index = fileAddress.lastIndexOf(".");
-  let suffix = fileAddress.substring(index + 1);
-  if (suffix == "mp4" ||
-    suffix == "mov" ||
-    suffix == "m4v" ||
-    suffix == "3gp" ||
-    suffix == "avi" ||
-    suffix == "m3u8" ||
-    suffix == "webm") {
+  if (checkIsString(fileAddress)) {
+    let index = fileAddress.lastIndexOf(".");
+    let suffix = fileAddress.substring(index + 1);
+    return isVideoType(suffix);
+  } else if (checkIsObject(fileAddress)){
+    return isVideoType(fileAddress.fileTypeEnum?fileAddress.fileTypeEnum.toLowerCase():fileAddress.type.toLowerCase());
+  } 
+  return false;
+}
+
+function isVideoType(type) {
+  if (type == "mp4" ||
+    type == "mov" ||
+    type == "m4v" ||
+    type == "3gp" ||
+    type == "avi" ||
+    type == "m3u8" ||
+    type == "webm") {
     return true;
   }
   return false;

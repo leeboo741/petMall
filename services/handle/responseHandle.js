@@ -1,6 +1,7 @@
 
 const ResponseCodeEnum = require("../handle/ResponseCodeEnum.js");
 
+const Utils = require("../../utils/util.js");
 /**
  * request Success 时 处理方法
  * @param resource 返回数据
@@ -8,7 +9,7 @@ const ResponseCodeEnum = require("../handle/ResponseCodeEnum.js");
  * @param handleFailCallback 处理后 失败时 回调
  */
 function handleResponse(resource, handleSuccessCallback, handleFailCallback) {
-  console.log("handleResponse resource:\n" + JSON.stringify(resource));
+  Utils.logInfo("handleResponse resource:\n" + JSON.stringify(resource));
   if (resource.statusCode != ResponseCodeEnum.Status_Code.OK) {
     wx.showToast({
       title: '请求失败：' + resource.statusCode,

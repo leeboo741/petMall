@@ -1,0 +1,14 @@
+{
+  "usingComponents": {
+    "i-panel": "/dist/panel/index",
+    "i-image": "/lee-components/leePlaceholdImage/index",
+    "i-navigation-bar": "/lee-components/leeNavigationBar/index",
+    "i-icon": "/dist/icon/index",
+    "i-spin": "/dist/spin/index",
+    "i-grid": "/dist/grid/index",
+    "i-grid-item": "/dist/grid-item/index",
+    "i-load-foot-item": "/lee-components/leeLoadingFootItem/index"
+  },
+  "enablePullDownRefresh": true
+  
+}

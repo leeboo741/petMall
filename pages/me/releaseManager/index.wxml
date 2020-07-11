@@ -1,220 +1,381 @@
 <!--pages/me/releaseManager/index.wxml-->
-<i-navigation-bar title='已发布宠物'
-                  showBackButton>
+<i-navigation-bar title='已发布' showBackButton>
 </i-navigation-bar>
 
 <view class="page-content">
-  <i-panel title='已发布宠物列表'
-           i-class='panel'
-           style='width: 100%'>
-    <i-cell-group>
-      <i-cell wx:for='{{releaseList}}'
-              wx:for-item='releaseItem'
-              wx:for-index='releaseIndex'
-              wx:key='{{releaseIndex}}'>
-        <!-- item -->
-        <view class="release-item"
-              slot='header'>
-          <view class="release-item-content">
-            <!-- 图片 -->
-            <i-image i-class="release-goods-image"
-                    imageSrc='{{releaseItem.coverMedia[0].coverImg}}'
-                    >
-            </i-image>
-            <!-- 信息 -->
-            <view class="release-goods-info-box">
-              <!-- line -->
-              <view class="release-goods-info-line"
-                    style="justify-content: flex-start;">
-                <view class="release-goods-info-name">
-                {{parse.showName(releaseItem)}}
-                </view>
-                <view class="release-goods-info-sexy">
-                {{parse.getSexy(releaseItem.petSex)}}
-                </view>
-              </view>
-              <!-- line -->
-              <view class="release-goods-info-line">
-                <view class="release-goods-info-identifier">
-                {{releaseItem.petUniqueCode!=null?releaseItem.petUniqueCode:""}}
-                </view>
-                <view class="release-goods-info-price">
-                ￥{{releaseItem.retailPrice}}
-                </view>
-                <view class="release-goods-info-delet-price">
-                ￥{{releaseItem.marketPrice}}
-                </view>
-              </view>
-              <!-- line -->
-              <view class="release-goods-info-line">
-                <view class="release-goods-info-birthday">
-                生日：{{releaseItem.petBirthday}}
-                </view>
-                <view class="release-goods-info-sterilized">
-                {{parse.sterilizedInfo(releaseItem.petSterilization)}}
-                </view>
-              </view>
-              <!-- line -->
-              <view class="release-goods-info-line-column">
-                <view class="release-goods-info-line-column-title">
-                疫苗信息：
-                </view>
-                <view class="release-goods-info-vaccine-box"
-                      wx:for='{{releaseItem.petVaccineList}}'
-                      wx:for-item='vaccineItem'
-                      wx:for-index='vaccineIndex'
-                      wx:key='{{vaccineIndex}}'>
-                  <view class="release-goods-info-vaccine-title">
-                  第{{vaccineIndex+1}}次疫苗：
-                  </view>
-                  <view class="release-goods-info-vaccine-info">
-                    <view class="release-goods-info-vaccine-date">
-                    {{vaccineItem.vaccineDate}}
-                    </view>
-                    <view class="release-goods-info-vaccine-brand">
-                    {{vaccineItem.vaccineBrandName}}
-                    </view>
-                  </view>
-                </view>
-              </view>
-              <!-- line -->
-              <view class="release-goods-info-line-column">
-                <view class="release-goods-info-line-column-title">
-                驱虫信息：
-                </view>
-                <view class="release-goods-info-vaccine-box"
-                      wx:for='{{releaseItem.petKillList}}'
-                      wx:for-item='repellentItem'
-                      wx:for-index='repellentIndex'
-                      wx:key='{{repellentIndex}}'>
-                  <view class="release-goods-info-vaccine-title">
-                  第{{repellentIndex+1}}次驱虫：
-                  </view>
-                  <view class="release-goods-info-vaccine-info">
-                    <view class="release-goods-info-vaccine-date">
-                    {{repellentItem.killDate}}
-                    </view>
-                    <view class="release-goods-info-vaccine-brand">
-                    {{repellentItem.killBrandName}}
-                    </view>
-                  </view>
-                </view>
-              </view>
-              <!-- line -->
-              <view class="release-goods-info-line">
-                <view class="release-goods-info-parent-box">
-                  <view class="release-goods-info-parent-title">
-                  父母信息：
-                  </view>
-                  <view class="release-goods-info-parent-info">
-                    <view class="release-goods-info-parent-info-item">
-                      <view class="release-goods-info-parent-info-title">
-                      父亲：
-                      </view>
-                      <view class="release-goods-info-parent-info-name">
-                      {{releaseItem.fatherName}}
-                      </view>
-                      <i-image i-class="release-goods-info-parent-info-image"
-                              imageSrc='{{releaseItem.fatherImg}}'
-                              >
-                      </i-image>
-                    </view>
-                    <view class="release-goods-info-parent-info-item">
-                      <view class="release-goods-info-parent-info-title">
-                      母亲：
-                      </view>
-                      <view class="release-goods-info-parent-info-name">
-                      {{releaseItem.motherName}}
-                      </view>
-                      <i-image i-class="release-goods-info-parent-info-image"
-                              imageSrc='{{releaseItem.motherImg}}'
-                              >
-                      </i-image>
-                    </view>
-                  </view>
-                </view>
-              </view>
-              <!-- line -->
-              <view class="release-goods-info-line">
-                <view class="release-goods-info-describe">
-                  <view class="release-goods-info-describe-title">
-                  描述：
-                  </view>
-                  <view class="release-goods-info-describe-content">
-                  {{releaseItem.petDescription}}
-                  </view>
-                </view>
-              </view>
-            </view>
-          </view>
-          <view class="release-item-button-box">
-            <view class="release-item-button"
-                  bindtap='tapOnShelves'
-                  data-index='{{releaseIndex}}'
-                  wx:if='{{releaseItem.itemState==0}}'>
-            上架
-            </view>
-            <view class="release-item-button"
-                  bindtap='tapEdit'
-                  data-index='{{releaseIndex}}'
-                  wx:if='{{releaseItem.itemState==0}}'>
-            编辑
-            </view>
-            <view class="release-item-title"
-                  wx:if='{{releaseItem.itemState==1}}'>
-            审核中
-            </view>
-            <view class="release-item-button"
-                  bindtap='tapOffShelves'
-                  data-index='{{releaseIndex}}'
-                  wx:if='{{releaseItem.itemState==2}}'>
-            下架
-            </view>
-          </view>
-        </view>
-      </i-cell>
-    </i-cell-group>
-  </i-panel>
+	<i-panel title="{{parse.showTitleName(switchType)}}" i-class='panel' style='width: 100%'>
 
-  <!-- 加载块 -->
-  <i-load-foot-item loadState='{{loadState}}'>
-  </i-load-foot-item>
+		<!--已发布宠物列表-->
+		<view hidden="{{switchType==0?false:true}}" bindtap="hiddenSelectTap">
+			<i-cell-group>
+				<i-cell wx:for='{{releaseList}}' wx:for-item='releaseItem' wx:for-index='releaseIndex' wx:key='{{releaseIndex}}'>
+					<!-- item -->
+					<view class="release-item" slot='header' bindtap="tapPetItem" data-index='{{releaseIndex}}'>
+						<view class="release-item-content">
+							<!-- 图片 -->
+							<i-image i-class="release-goods-image" imageSrc='{{releaseItem.pet.petImg}}'>
+							</i-image>
+							<!-- 信息 -->
+							<view class="release-goods-info-box">
+								<!-- line -->
+								<view class="release-goods-info-line" style="justify-content: flex-start;">
+									<view class="release-goods-info-name">
+										{{parse.showName(releaseItem.pet.petName)}}
+									</view>
+									<view class="release-goods-info-sexy">
+										{{parse.getSexy(releaseItem.pet.petSex)}}
+									</view>
+									<view class="release-goods-info-sexy" hidden="{{releaseItem.pet.groupon==1?false:true}}">
+										{{parse.getGroupon(releaseItem.pet.groupon)}}
+									</view>
+								</view>
+								<!-- line -->
+								<view class="release-goods-info-line">
+									<view class="release-goods-info-identifier">
+										{{releaseItem.pet.petUniqueCode!=null?releaseItem.pet.petUniqueCode:""}}
+									</view>
+									<view class="release-goods-info-price">
+										￥{{releaseItem.pet.retailPrice}}
+									</view>
+									<view class="release-goods-info-delet-price" hidden>
+										￥{{releaseItem.pet.marketPrice}}
+									</view>
+								</view>
+								<!-- line -->
+								<view class="release-goods-info-line">
+									<view class="release-goods-info-birthday">
+										生日：{{releaseItem.pet.petBirthday}}
+									</view>
+									<!-- <view class="release-goods-info-sterilized">
+                  {{parse.sterilizedInfo(releaseItem.pet.petSterilization)}}
+                  </view> -->
+								</view>
+								<!-- line -->
+								<view class="release-goods-info-line" hidden='{{(releaseItem.pet.fatherImg==null||releaseItem.pet.fatherImg.length<=0)&&(releaseItem.pet.motherImg==null||releaseItem.pet.motherImg.length<=0)}}'>
+									<view class="release-goods-info-parent-box">
+										<view class="release-goods-info-parent-title">
+											父母信息：
+										</view>
+										<view class="release-goods-info-parent-info">
+											<view class="release-goods-info-parent-info-item">
+												<view class="release-goods-info-parent-info-title">
+													父亲：
+												</view>
+												<view class="release-goods-info-parent-info-name">
+													{{parse.showPetLastName(releaseItem.pet.fatherName)}}
+												</view>
+												<i-image i-class="release-goods-info-parent-info-image" imageSrc='{{releaseItem.pet.fatherImg}}'>
+												</i-image>
+											</view>
+											<view class="release-goods-info-parent-info-item">
+												<view class="release-goods-info-parent-info-title">
+													母亲：
+												</view>
+												<view class="release-goods-info-parent-info-name">
+													{{parse.showPetLastName(releaseItem.pet.motherName)}}
+												</view>
+												<i-image i-class="release-goods-info-parent-info-image" imageSrc='{{releaseItem.pet.motherImg}}'>
+												</i-image>
+											</view>
+										</view>
+									</view>
+								</view>
+								<!-- line -->
+								<view class="release-goods-info-line">
+									<view class="release-goods-info-describe">
+										<view class="release-goods-info-describe-title">
+											描述：
+										</view>
+										<view class="release-goods-info-describe-content">
+											{{parse.showPetLastName(releaseItem.pet.petDescription)}}
+										</view>
+									</view>
+								</view>
+							</view>
+						</view>
+						<view class="release-item-button-box">
+							<view class="release-item-button" catchtap='tapEdit' data-index='{{releaseIndex}}' wx:if='{{releaseItem.pet.petState==0}}'>
+								编辑
+							</view>
+							<view class="release-item-button" catchtap='tapOnShelves' data-index='{{releaseIndex}}' wx:if='{{releaseItem.pet.petState==0}}'>
+								上架
+							</view>
+							<view class="release-item-button" catchtap='tapOffShelves' data-index='{{releaseIndex}}' wx:if='{{releaseItem.pet.petState==1}}'>
+								下架
+							</view>
+						</view>
+					</view>
+				</i-cell>
+			</i-cell-group>
+		</view>
+
+		<!--已发布商品列表-->
+		<view hidden="{{switchType==1?false:true}}" catchtap="hiddenSelectTap">
+			<view class="goods-box" wx:for='{{goodsList}}' wx:for-item='goodsItem' wx:for-index='goodsIndex' wx:key='{{goodsIndex}}' bindtap="tapGoodsItem" data-index='{{goodsIndex}}'>
+				<view class="goods-box-up">
+					<view class="goods-box-up-left">
+						<image src="{{goodsItem.item.coverImg}}" class="goods-box-up-left-image"></image>
+					</view>
+					<view class="goods-box-up-right">
+						<view class="goods-box-up-right-top">
+							{{goodsItem.item.itemName}}
+						</view>
+						<view class="goods-box-up-right-middle">
+							￥ {{goodsItem.item.retailPrice}}
+						</view>
+						<view class="goods-box-up-right-down">
+							{{goodsItem.item.itemProfile}}
+						</view>
+					</view>
+				</view>
+				<view class="goods-box-down">
+					<view class="button-stys" catchtap="goodsOperation" data-goodsindex="{{goodsIndex}}" wx:if='{{goodsItem.item.itemState == 0}}'>
+						编辑
+					</view>
+					<view class="button-stys" catchtap="goodsUpperAndLower" data-goodsindex="{{goodsIndex}}" data-itemstate="{{goodsItem.item.itemState}}" data-itemno="{{goodsItem.item.itemNo}}">
+						{{goodsItem.item.itemState==1?'下架':'上架'}}
+					</view>
+				</view>
+			</view>
+		</view>
+
+		<!--已发布服务列表-->
+		<view hidden="{{switchType==2?false:true}}" bindtap="hiddenSelectTap">
+			<view class="goods-box" wx:for='{{serviceList}}' wx:for-item='serviceItem' wx:for-index='serviceIndex' wx:key='{{serviceIndex}}'>
+				<view class="goods-box-up">
+					<view class="goods-box-up-left">
+						<image src="{{serviceItem.imageUrl}}" class="goods-box-up-left-image"></image>
+					</view>
+					<view class="goods-box-up-right">
+						<view class="goods-box-up-right-top">
+							{{serviceItem.serviceName}}
+						</view>
+						<view class="goods-box-up-right-middle">
+							基础价格: ￥ {{serviceItem.servicePrice}}
+						</view>
+						<view class="goods-box-up-right-down">
+							所属分类: {{serviceItem.serviceType.serviceTypeName}}
+						</view>
+					</view>
+				</view>
+				<view class="goods-box-center">
+					<view class="server-prices-item" wx:for='{{serviceItem.prices}}' wx:for-item='pricesItem' wx:for-index='pricesIndex' wx:key='servicePriceID'>
+						<view class="server-prices-item-row">
+							<view class="server-prices-item-sortname">{{pricesItem.petSort.petSortName}}</view>
+							<view class="server-prices-item-price">￥{{pricesItem.servicePrice}}</view>
+						</view>
+						<view class="server-prices-item-row" wx:if='{{pricesItem.petSort.petSortNo != 10001}}'>
+							毛长:{{pricesItem.petHair.hairLengthName}}
+						</view>
+						<view class="server-prices-item-row" wx:if='{{pricesItem.petSort.petSortNo != 10001}}'>
+							体重:{{pricesItem.startWeight}} ~ {{pricesItem.endWeight}} kg
+						</view>
+						<view class="server-prices-item-row" wx:if='{{pricesItem.petSort.petSortNo == 10001}}'>
+							猫猫大小:{{parse.getAgeTypeTitle(pricesItem.ageType)}}
+						</view>
+					</view>
+				</view>
+				<view class="goods-box-down">
+					<view class="button-stys" catchtap="tapEditService" data-index='{{serviceIndex}}' hidden='{{serviceItem.state == 1}}'>
+						编辑
+					</view>
+					<view class="button-stys" catchtap="serviceUpAndDown" data-index='{{serviceIndex}}' data-serviceid='{{serviceItem.serviceID}}' data-state='{{serviceItem.state}}'>
+					{{serviceItem.state == 1?'下架':'上架'}}
+					</view>
+				</view>
+			</view>
+		</view>
+	</i-panel>
+
+	<!--蒙版-->
+	<view class="mask-page" hidden="{{showGoodsMask==1?false:true}}">
+	</view>
+
+	<!--商品改价-->
+	<view class="box-show" hidden="{{showGoodsMask==1?false:true}}">
+		<view class="pricerevision-sty" wx:if="{{switchType==1}}">
+			<image src="{{gjdzpng}}" class="pricerevision-dzgj-sty"></image>
+			<view class="pricerevision-head-sty">
+				<view class="pricerevision-head-left-sty">
+					<image src="{{afterPrice.imageUrl}}" class="pricerevision-left-imag-sty"></image>
+				</view>
+				<view class="pricerevision-right-sty">
+					<view class="pricerevision-right-up-sty">
+						现价: ￥ {{afterPrice.goodsPrice}}
+					</view>
+					<view class="pricerevision-right-down-sty">
+						改价:
+						￥<input type="digit" bindinput="gaiPriceTap" value="{{gaiPrice}}"></input>
+					</view>
+				</view>
+			</view>
+			<view class="pricerevision-middle-sty">
+				<view class="pricerevision-middle-box-sty">
+					<image src="/resource/dz.png" class="pricerevision-middle-box-image-sty"></image>
+					<view class="pricerevision-middle-box-top-sty">
+						输入折率
+					</view>
+					<view class="pricerevision-middle-box-down-sty">
+						<view class="pricerevision-middle-box-down-da-sty">打</view>
+						<view class="pricerevision-middle-box-down-input-sty">
+							<input type="digit" bindinput="zheTap"></input>
+						</view>
+						<view class="pricerevision-middle-box-down-zhe-sty">
+							折
+						</view>
+					</view>
+				</view>
+			</view>
+			<view class="pricerevision-button-sty">
+				<view class="pricerevision-button-cancel-sty" bindtap="cancelTap">
+					取消
+				</view>
+				<view class="pricerevision-button-determine-sty" bindtap="determineTap">
+					确定
+				</view>
+			</view>
+		</view>
+
+		<view class="pricerevision-sty" wx:if="{{switchType==2}}">
+			<image src="{{gjdzpng}}" class="pricerevision-dzgj-sty"></image>
+			<view class="pricerevision-head-sty">
+				<view class="pricerevision-head-left-sty">
+					<image src="{{serviceafterPrice.imageUrl}}" class="pricerevision-left-imag-sty"></image>
+				</view>
+				<view class="pricerevision-right-sty">
+					<view class="pricerevision-right-up-sty">
+						现价: ￥ {{serviceafterPrice.servicePrice}}
+					</view>
+					<view class="pricerevision-right-down-sty">
+						改价:
+						￥<input type="digit" bindinput="gaiPriceTap" value="{{gaiPrice}}"></input>
+					</view>
+				</view>
+			</view>
+			<view class="pricerevision-middle-sty">
+				<view class="pricerevision-middle-box-sty">
+					<image src="/resource/dz.png" class="pricerevision-middle-box-image-sty"></image>
+					<view class="pricerevision-middle-box-top-sty">
+						输入折率
+					</view>
+					<view class="pricerevision-middle-box-down-sty">
+						<view class="pricerevision-middle-box-down-da-sty">打</view>
+						<view class="pricerevision-middle-box-down-input-sty">
+							<input type="digit" bindinput="zheTap"></input>
+						</view>
+						<view class="pricerevision-middle-box-down-zhe-sty">
+							折
+						</view>
+					</view>
+				</view>
+			</view>
+			<view class="pricerevision-button-sty">
+				<view class="pricerevision-button-cancel-sty" bindtap="cancelTap">
+					取消
+				</view>
+				<view class="pricerevision-button-determine-sty" bindtap="determineTap">
+					确定
+				</view>
+			</view>
+		</view>
+	</view>
+
+
+
+	<!-- 加载块宠物发布列表 -->
+	<view>
+		<i-load-foot-item loadState='{{loadState}}'>
+		</i-load-foot-item>
+	</view>
+
+
+	<!--切换发布列表详情-->
+	<view class="switch-sty" bindtap="showSelectList">
+		切换发布列表
+	</view>
+
+	<view class="select-release-sty" hidden="{{showSelect}}">
+		<view class="select-head-sty">
+			<image src="/resource/selectredlist.png" class="select-release-image-sty"></image>
+		</view>
+		<view class="select-body-sty">
+			<view class="select-body-box-sty" bindtap="selectSignTap" data-index="0">
+				宠物发布列表
+			</view>
+			<view class="select-body-box-sty" bindtap="selectSignTap" data-index="1">
+				商品发布列表
+			</view>
+			<view class="select-body-box-sty" bindtap="selectSignTap" data-index="2">
+				服务发布列表
+			</view>
+		</view>
+	</view>
+
 </view>
 
 <view class="empty-zone">
 </view>
 
-<view class="add-new-button"
-      bindtap="tapAddNewRelease">
-+ 发布新宠
+<view class="add-new-button" bindtap="tapAddNewRelease">
+	+ 添加发布
 </view>
 
 
-<wxs module='parse'>
-  module.exports={
-    sterilizedInfo: function(sterilized) {
-      if (sterilized==1) {
-        return "已绝育";
-      } 
-      return "未绝育";
-    },
-    getSexy: function(sexy) {
-      if (sexy == 1) {
-        return "公";
-      } else {
-        return "母"
-      }
-    },
-    showName: function(item) {
-      var name = ""; 
-      if (item.petName!=null) {
-        name = name + item.petName;
-      }
-      if (item.petGenre!=null) {
-        name = name + item.petGenre.petGenreName;
-      }
-      return name;
-    }
-  }
-</wxs>
+<!--回到顶部-->
 
+<image src="/resource/returnTop.png" class="gotap" hidden="{{showTop}}" bindtap="goTop"></image>
+
+<wxs module='parse'>
+	module.exports = {
+		getAgeTypeTitle: function(ageType) {
+			if (ageType == 1) {
+				return "小猫(0~6个月)";
+			} else if (ageType == 2) {
+				return "大猫(6个月以上)";
+			}
+			return "";
+		},
+		sterilizedInfo: function(sterilized) {
+			if (sterilized == 1) {
+				return "已绝育";
+			}
+			return "未绝育";
+		},
+		getSexy: function(sexy) {
+			if (sexy == 1) {
+				return "公";
+			} else {
+				return "母"
+			}
+		},
+		showName: function(item) {
+			var name = "";
+			if (item != null) {
+				name = item;
+			}
+			return name;
+		},
+		showPetLastName: function(res) {
+			if (res == null) {
+				return ""
+			} else {
+				return res;
+			}
+		},
+		showTitleName: function(res) {
+			if (res == 0) {
+				return "已发布宠物列表";
+			} else if (res == 1) {
+				return "已发布商品列表";
+			} else {
+				return "已发布服务列表";
+			}
+		},
+
+		getGroupon: function(res) {
+			if (res != null) {
+				return "团购宠物";
+			}
+		}
+	}
+</wxs>

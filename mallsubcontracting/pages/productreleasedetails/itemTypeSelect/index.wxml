@@ -1,0 +1,22 @@
+<!--mallsubcontracting/pages/productreleasedetails/itemTypeSelect/index.wxml-->
+<i-navigation-bar title='产品分类选择'
+                  showBackButton>
+</i-navigation-bar>
+
+<i-panel i-class='panel'
+         title='产品分类选择'>
+  <i-cell-group>
+    <i-cell wx:for='{{itemTypeList}}' wx:key='itemTypeNo' title='{{item.itemTypeName}}' bindtap='tapItemType' data-index='{{index}}'>
+      <view slot='footer' style="display: flex; flex-direction: row; align-item: center; justify-content: flex-end" bindtap='tapItemType' data-index='{{index}}'>
+        <image style='width: 60rpx; height: 60rpx; margin: 10rpx 15rpx' src='{{item.selected?"/resource/selectred.png":"/resource/selectwhite.png"}}'>
+        </image>
+      </view>
+    </i-cell>
+  </i-cell-group>
+</i-panel>
+
+<view style='height: 80rpx'></view>
+
+<view class='bottom-button' bindtap="tapComfirm">
+确定
+</view>

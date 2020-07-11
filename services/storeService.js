@@ -3,7 +3,7 @@ const ResponseEnum = require("../services/handle/ResponseCodeEnum.js");
 const RequestUtil = require("../utils/requestUtil.js");
 const { RequestParamObj } = require("../utils/requestParamObj.js");
 const Util = require("../utils/util.js");
-
+const PetFilterObj=require("../entity/petFilterObj.js");
 
 /**
  * 获得商家信息
@@ -65,31 +65,9 @@ function getRecommendBusiness(param, getRecommendCallback){
  */
 function getStoreDetail(storeNo, getResultCallback) {
   let requestParam = new RequestParamObj({
-    url: UrlService.Url_Base + UrlService.Url_Business_Detail,
+    url: UrlService.Url_Base + UrlService.Url_Business_Detail + storeNo,
     data: {
-      business: storeNo
-    },
-    success(res) {
-      if (Util.checkIsFunction(getResultCallback)) {
-        getResultCallback(res);
-      }
-    }
-  })
-  RequestUtil.RequestGET(requestParam)
-}
-
-/**
- * 获取商家评价列表
- * @param param (storeNo, offset, limit)
- * @param getResultCallback
- */
-function getStoreEvaluateList(param, getResultCallback) {
-  let requestParam = new RequestParamObj({
-    url: UrlService.Url_Base + UrlService.Url_Business_EvaluateList,
-    data: {
-      businessNo: param.storeNo,
-      offset: param.offset,
-      limit: param.limit
+     
     },
     success(res) {
       if (Util.checkIsFunction(getResultCallback)) {
@@ -103,17 +81,20 @@ function getStoreEvaluateList(param, getResultCallback) {
 /**
  * 获取商家宠物信息
  */
-function getStorePetList(storeNo, getResultCallback) {
+function getStorePetList(paramPet, getResultCallback, completeCallback) {
   let requestParam = new RequestParamObj({
-    url: UrlService.Url_Base + UrlService.Url_Business_PetList,
-    data: {
-      businessNo: storeNo,
-    },
+    url: UrlService.Url_Base + UrlService.Url_Business_PetList + "?queryParamStr=" + encodeURIComponent(JSON.stringify(PetFilterObj.getPetList(paramPet)), 'utf-8'),
+    data: {},
     success(res) {
       if (Util.checkIsFunction(getResultCallback)) {
         getResultCallback(res);
       }
-    }
+    },
+    complete(res) {
+      if (Util.checkIsFunction(completeCallback)) {
+        completeCallback(res);
+      }
+    },
   })
   RequestUtil.RequestGET(requestParam)
 }
@@ -123,6 +104,5 @@ module.exports = {
   getStoreInfomation: getStoreInfomation,
   getRecommendBusiness: getRecommendBusiness,
   getStoreDetail: getStoreDetail,
-  getStoreEvaluateList: getStoreEvaluateList,
   getStorePetList: getStorePetList,
 }

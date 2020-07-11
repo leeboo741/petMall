@@ -5,6 +5,9 @@ const PagePath = require("../../../macros/pagePath.js");
 const AddressManagerService = require("../../../services/addressManagerService.js");
 const UserService = require("../../../services/userService.js");
 
+const ShareManager = require("../../../services/shareService");
+const Utils = require("../../../utils/util")
+
 Page({
 
   /**
@@ -57,15 +60,23 @@ Page({
    */
   onPullDownRefresh: function () {
     let that = this;
-    AddressManagerService.getAddressListByCustomerNo(UserService.getCustomerNo(),
-      function getResultCallback(result) {
-        console.log(result);
-        that.setData({
-          addressList: result.root
-        })
-        wx.stopPullDownRefresh();
-      }
-    )
+    UserService.isLogin(function isLoginCallback(){
+      AddressManagerService.getAddressListByCustomerNo(UserService.getBusinessNo(),
+        function getResultCallback(result) {
+          Utils.logInfo(result);
+          that.setData({
+            addressList: result.root
+          })
+          wx.stopPullDownRefresh();
+        }
+      )
+    }, function notLoginCallback(){
+      wx.showToast({
+        title: '请先登录',
+        icon:'none'
+      })
+      wx.stopPullDownRefresh();
+    })
   },
 
   /**
@@ -79,7 +90,7 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-
+    return ShareManager.getDefaultShareCard();
   },
 
   /**

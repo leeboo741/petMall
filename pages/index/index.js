@@ -3,148 +3,33 @@
 const app = getApp();
 const LoadFootItemState = require("../../lee-components/leeLoadingFootItem/loadFootObj.js");
 const PagePath = require("../../macros/pagePath.js");
-const ShareService = require("../../services/shareService.js");
 const UserService = require("../../services/userService.js");
 const Config = require("../../macros/config.js");
 const LocationService = require("../../services/locationService.js");
 const PetService = require("../../services/petService.js");
 const StoreService = require("../../services/storeService.js");
 const MallService = require("../../services/mallService.js");
+const GroupService=require("../../services/groupService.js");
 const {
   PetFilterObj
 } = require("../../entity/petFilterObj.js");
+
+const PetFilterUtil = require("../../entity/petFilterObj.js");
 const Limit = 10;
 const Enum = require("../../utils/enum.js");
+
+const ShareManager = require("../../services/shareService");
+const Utils = require("../../utils/util")
 
 Page({
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    wx.showLoading({
-      title: '定位中...',
+    this.setData({
+      navbarheight: app.globalData.naviHeightWithoutStatusbar
     })
-    let that = this;
-    LocationService.getCurrentLocationInfo(
-      function callback(res) {
-        console.log(JSON.stringify(res));
-        wx.hideLoading();
-        let city = res.address_component.city;
-        app.globalData.currentCity = city;
-
-        // 特惠抢购
-        let preferentialPetFilter = new PetFilterObj({
-          offset: 0,
-          limit: 6,
-        })
-        PetService.getPreferentialPet(preferentialPetFilter,
-          function getResultCallback(result) {
-            console.log("特惠抢购: \n" + JSON.stringify(result));
-            that.setData({
-              preferentialList: result.root
-            })
-          }
-        )
-
-        // 最新上架
-        let newestPetFilter = new PetFilterObj({
-          city: city,
-          offset: 0,
-          limit: 6,
-        })
-        PetService.getNewestPet(newestPetFilter,
-          function getResultCallback(result) {
-            console.log("最新上架: \n" + JSON.stringify(result));
-            that.setData({
-              newestList: result.root
-            })
-          }
-        )
-
-        // 精品馆
-        let finePetFilter = new PetFilterObj({
-          offset: 0,
-          limit: 6,
-        })
-        PetService.getFinePet(finePetFilter,
-          function getResultCallback(result) {
-            console.log("精品宠物: \n" + JSON.stringify(result));
-            that.setData({
-              fineList: result.root
-            })
-          }
-        )
-
-        // 高档馆
-        let upScalePetFilter = new PetFilterObj({
-          city: city,
-          offset: 0,
-          limit: 6,
-        })
-        PetService.getUpScalePet(upScalePetFilter,
-          function getResultCallback(result) {
-            console.log("高端宠物: \n" + JSON.stringify(result));
-            that.setData({
-              upscaleList: result.root
-            })
-          }
-        )
-
-        // 推荐商家
-        let recommendFilter = {
-          offset: 0,
-          limit: 6
-        }
-        StoreService.getRecommendBusiness(recommendFilter,
-          function getResultCallback(result) {
-            console.log("推荐商家: \n" + JSON.stringify(result));
-            that.setData({
-              recommendStoreList: result.root
-            })
-          }
-        )
-
-        let hotTypeFilter = {
-          offset: 0,
-          limit: 8,
-        }
-        PetService.getHotType(hotTypeFilter,
-          function getResultCallback(result) {
-            console.log("热门分类: \n" + JSON.stringify(result));
-            that.setData({
-              hotTypeList: result.root
-            })
-          }
-        )
-
-        // 为您推荐
-        that.data.pageIndex = 0;
-        let petFilter = new PetFilterObj({
-          offset: that.data.pageIndex,
-          limit: Limit,
-          city: city
-        })
-        PetService.getPetList(petFilter,
-          function getResultCallback(result) {
-            console.log("为您推荐: \n" + JSON.stringify(result));
-            that.setData({
-              recommendGoodsList: result.root,
-              pageIndex: that.data.pageIndex + Limit
-            })
-          }
-        )
-
-        // 套餐
-        MallService.getSetMealList(
-          function getResultCallback(result) {
-            console.log("养宠套餐 : \n" + JSON.stringify(result));
-            that.setData({
-              setMenuList: result.root
-            })
-          }
-        )
-      }
-    )
+    ShareManager.pageHandlerOptions(options);
   },
 
   /**
@@ -158,8 +43,110 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
+    wx.showLoading({
+      title: '定位中...',
+    })
+    let that = this;
+    // 更新商家信息? 为什么?
+    UserService.isLogin(function isLoginCallback(){
+      UserService.requestBusinessInfo(UserService.getBusinessNo(), function (dataSource) {
+        that.setData({
+          businessInfo: dataSource
+        })
+      })
+    }, function notLoginCallback(){});
 
-  },
+    // 先定位 再请求首页数据
+    LocationService.getCurrentLocationInfo(
+      function callback(res) {
+        Utils.logInfo(JSON.stringify(res));
+        wx.hideLoading();
+        let city = res.address_component.city;
+        app.globalData.currentCity = city;
+        app.globalData.addressInfomation = res.address_component
+
+        // 跳蚤市场
+        let newestPetFilter ={
+          offset:0,
+          limit: 6,
+        };
+        PetService.getNewestPet(encodeURIComponent(JSON.stringify(PetFilterUtil.utilObject(newestPetFilter)), 'utf-8'),function getResultCallback(result) {
+          Utils.logInfo("跳蚤市场: \n" + JSON.stringify(result));
+            that.setData({
+              newestList: result.root
+            })
+          }
+        )
+
+        // 高端宠物
+        PetService.getUpScalePet(encodeURIComponent(JSON.stringify(PetFilterUtil.utilObject(newestPetFilter)), 'utf-8'),function getResultCallback(result) {
+            Utils.logInfo("高端宠物: \n" + JSON.stringify(result));
+            that.setData({
+              upscaleList: result.root
+            })
+          }
+        )
+
+        // 推荐商家
+        let recommendFilter = {
+          offset: 0,
+          limit: 6
+        }
+        StoreService.getRecommendBusiness(recommendFilter,
+          function getResultCallback(result) {
+            Utils.logInfo("推荐商家: \n" + JSON.stringify(result));
+            that.setData({
+              recommendStoreList: result.root
+            })
+          }
+        )
+
+        // 热门分类
+        PetService.getBreed(null,function getResultCallback(result) {
+            Utils.logInfo("热门分类: \n" + JSON.stringify(result));
+            that.setData({
+              hotTypeList: result.root
+            })
+          }
+        )
+
+        // 套餐
+        let obj={
+          offset:0,
+          limit:30
+        }
+        MallService.getSetMealList(obj,
+          function getResultCallback(result) {
+            Utils.logInfo("养宠套餐 : \n" + JSON.stringify(result));
+            that.setData({
+              setMenuList: result.root
+            })
+          }
+        )
+
+        MallService.getGroupItemList({},function returnData(data) {
+          Utils.logInfo("团购商品==> \n" + JSON.stringify(data));
+          that.setData({
+            groupItemList: data.root,
+          })
+        });
+
+        /**
+         * 团购列表
+         */
+        // let groupObj = {
+        //   offset: 0,
+        //   limit: 4
+        // }
+        // GroupService.getGroupList(groupObj, function (result) {
+        //   Utils.logInfo("团购专区 : \n" + JSON.stringify(result));
+        //   that.setData({
+        //     groupPurchaseList: result
+        //   })
+        // })
+      }
+    )
+  }, 
 
   /**
    * 生命周期函数--监听页面隐藏
@@ -179,24 +166,9 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function() {
-    this.data.pageIndex = 0;
-    let petFilter = new PetFilterObj({
-      offset: this.data.pageIndex,
-      limit: Limit,
-      city: app.globalData.currentCity
-    })
-    let that = this;
-    PetService.getPetList(petFilter,
-      function getResultCallback(result) {
-        console.log("为您推荐: \n" + JSON.stringify(result));
-        wx.stopPullDownRefresh();
-        that.setData({
-          recommendGoodsList: result.root,
-          pageIndex: that.data.pageIndex + Limit,
-          loadState: LoadFootItemState.Loading_State_Normal
-        })
-      }
-    )
+    this.onShow();
+    wx.stopPullDownRefresh();
+
   },
 
   /**
@@ -205,47 +177,9 @@ Page({
    */
   onReachBottom: function() {
 
-    if (this.data.loadState == LoadFootItemState.Loading_State_End ||
-      this.data.loadState == LoadFootItemState.Loading_State_Loading) {
-      return;
-    }
-    this.setData({
-      loadState: LoadFootItemState.Loading_State_Loading,
-    })
-    let that = this;
-    let petFilter = new PetFilterObj({
-      offset: this.data.pageIndex,
-      limit: Limit,
-      city: app.globalData.currentCity
-    })
-    PetService.getPetList(petFilter,
-      function getResultCallback(result) {
-        console.log("为您推荐: \n" + JSON.stringify(result));
-        let tempRecommend = that.data.recommendGoodsList.concat(result.root);
-        that.data.pageIndex = that.data.pageIndex + Limit;
-        if (result.root.length < Limit) {
-          that.setData({
-            recommendGoodsList: tempRecommend,
-            loadState: LoadFootItemState.Loading_State_End
-          })
-        } else {
-          that.setData({
-            recommendGoodsList: tempRecommend,
-            loadState: LoadFootItemState.Loading_State_Normal
-          })
-        }
-      }
-    )
+
   },
 
-  /**
-   * 点击特惠抢购更多
-   */
-  preferentialTap: function() {
-    wx.navigateTo({
-      url: PagePath.Page_Home_Preferential
-    })
-  },
 
   /**
    * 点击(附近、狗狗、猫猫、小宠、水族)
@@ -253,45 +187,74 @@ Page({
   fastActionTap: function(res) {
     var actionIndex = res.currentTarget.dataset.index;
     let fastAction = this.data.fastActionList[actionIndex];
-    console.log(actionIndex);
-    if (actionIndex == 0) {
-      wx.navigateTo({
-        url: PagePath.Page_Home_Nearby + "?requesttype=" + Enum.Nearby_RequestType_Enum.All + "&pagetitle=附近"
-      })
-    } else if (actionIndex == 1) {
-      wx.navigateTo({
-        url: PagePath.Pate_Home_PetsType + "?type=" + fastAction.type
-      })
-    } else if (actionIndex == 2) {
-      wx.navigateTo({
-        url: PagePath.Pate_Home_PetsType + "?type=" + fastAction.type
-      })
-    } else if (actionIndex == 3) {
-      wx.navigateTo({
-        url: PagePath.Pate_Home_PetsType + "?type=" + fastAction.type
-      })
-    } else {
-      wx.navigateTo({
-        url: PagePath.Pate_Home_PetsType + "?type=" + fastAction.type
-      })
+    Utils.logInfo(actionIndex);
+    switch(actionIndex){
+      case 0: {
+        wx.navigateTo({
+          url: PagePath.Page_Home_Nearby + "?requesttype=" + Enum.Nearby_RequestType_Enum.All + "&pagetitle=附近"
+        })
+        break;
+      }
+      case 1: 
+      case 2: {
+        wx.navigateTo({
+          url: PagePath.Page_Home_Nearby + "?requesttype=" + Enum.Nearby_RequestType_Enum.Sort + "&sortno=" + fastAction.type + "&pagetitle=" + fastAction.actionName,
+        })
+        break;
+      }
+      case 3: {
+        wx.navigateTo({
+          url: PagePath.Page_Assess_List,
+        })
+        break;
+      }
+      case 4: {
+        wx.navigateTo({
+          url: PagePath.Page_Baike_Index,
+        })
+        break;
+      } 
+      case 5:
+      case 6:
+      case 7:{
+        wx.switchTab({
+          url: "/pages/poststation/index",
+        })
+        break;
+      }
+      case 8: {
+
+        wx.navigateTo({
+          url: PagePath.Page_Mall_Sstaplefood + '?typeno=10004'
+        })
+        break;
+      }
+      case 9: {
+        wx.navigateToMiniProgram({
+          appId: "wxcbdaa290fc45a263",
+          path: "pages/index/index2",
+          extraData: {
+            foo: "release"
+          },
+          envVersion: "release",
+          success(res) {
+            // 打开成功
+            Utils.logInfo(JSON.stringify(res))
+          },
+          fail(res) {
+            Utils.logInfo(JSON.stringify(res))
+          }
+        })
+      }
     }
   },
 
   /**
-   * 点击最新上架更多
+   * 点击跳蚤市场
    */
   newestTap: function() {
     wx.navigateTo({
-      url: PagePath.Page_Home_Nearby + "?requesttype=" + Enum.Nearby_RequestType_Enum.Newest + "&pagetitle=最新上架"
-    })
-  },
-
-  /**
-   * 点击进入精品馆
-   */
-  boutiqueTap: function() {
-    wx.navigateTo({
-      url: PagePath.Page_Home_Nearby + "?requesttype=" + Enum.Nearby_RequestType_Enum.Fine + "&pagetitle=精品馆"
+      url: PagePath.Page_Home_Nearby + "?requesttype=" + Enum.Nearby_RequestType_Enum.Newest + "&pagetitle=跳蚤市场"
     })
   },
 
@@ -318,8 +281,9 @@ Page({
    * 点击热门分类
    */
   hotTypeTap: function(e) {
+    Utils.logInfo(e.currentTarget.dataset.name);
     wx.navigateTo({
-      url: PagePath.Page_Home_Nearby + "?breedno=" + e.currentTarget.dataset.breedno + "&requesttype=" + Enum.Nearby_RequestType_Enum.All + "&pagetitle=" + e.currentTarget.dataset.name
+      url: PagePath.Page_Home_Nearby + "?genreno=" + e.currentTarget.dataset.genreno + "&requesttype=" + Enum.Nearby_RequestType_Enum.Genre + "&pagetitle=" + e.currentTarget.dataset.name
     })
   },
 
@@ -332,11 +296,35 @@ Page({
     })
   },
 
+
+  /**
+   * 点击商品详情
+   */
+  commodityInforMationTap:function(e){
+
+    wx.navigateTo({
+      url: PagePath.Page_Mall_CommodityInformation + "?itemno=" + e.currentTarget.dataset.itemno
+    })
+
+  },
+
+  /**
+   * 点击推荐商家
+   */
+  recommendTap:function(res){
+    Utils.logInfo(JSON.stringify(res));
+    let userInfo = res.currentTarget.dataset.value;
+    
+    wx.navigateTo({
+      url: PagePath.Page_Store_StoreInforMation + '?storeno=' + userInfo.businessNo +"&showtype=0"
+    })
+  },
+
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function() {
-
+  onShareAppMessage: function () {
+    return ShareManager.getDefaultShareCard();
   },
 
   /**
@@ -349,11 +337,58 @@ Page({
   },
 
   /**
+   * 点击tapBanner
+   */
+  tapBanner:function(res){
+    Utils.logInfo(JSON.stringify(res));
+    let index = res.currentTarget.dataset.index;
+    if(index==1){
+      wx.reLaunch({
+        url:""
+      })
+    } else if (index == 2){
+      wx.navigateTo({
+        url: PagePath.Page_Home_Usersmanual
+      })
+    } else if (index == 3){
+     
+    }else if(index==4){
+      wx.navigateTo({
+        url: PagePath.Page_Home_Usersmanual
+      })
+    }
+  },
+
+
+
+  /**
+   * 团购更多
+   */
+  groupTap:function(e){
+ 
+    wx.navigateTo({
+      url: PagePath.Page_Mall_Sstaplefood + '?listtype=group'
+    })
+
+  },
+
+  /**
+   * 团购详情
+   */
+  groupDetailsTap:function(e){
+    let goodId = e.currentTarget.dataset.goodsid;   
+    wx.navigateTo({
+      url:""
+    })
+  },
+
+  /**
    * 页面数据
    */
   data: {
     pageIndex: 0, // 页码
     loadState: LoadFootItemState.Loading_State_Normal, // 底部状态
+    businessInfo:null,  //商家信息
     bannerDataSource: [{
         imageUrl: "https://img.taochonghui.com/weapp/market/banner/banner01.png", // 图片地址
         link: "", // 内容地址
@@ -385,23 +420,53 @@ Page({
         actionName: "狗狗",
         iconPath: "../../resource/dog.png",
         link: "",
-        type: "01",
+        type: "10000",
       },
       {
         actionName: "猫猫",
         iconPath: "../../resource/cat.png",
         link: "",
-        type: "02",
+        type: "10001",
       },
       {
-        actionName: "小宠",
+        actionName: "产品测评",
         iconPath: "../../resource/minority.png",
         link: "",
         type: "04",
       },
       {
-        actionName: "水族",
+        actionName: "宠物百科",
         iconPath: "../../resource/aquatic.png",
+        link: "",
+        type: "03",
+      },
+      {
+        actionName: "洗澡",
+        iconPath: "../../resource/t2.png",
+        link: "",
+        type: "03",
+      },
+      {
+        actionName: "美容",
+        iconPath: "../../resource/t1.png",
+        link: "",
+        type: "03",
+      },
+      {
+        actionName: "寄养",
+        iconPath: "../../resource/t3.png",
+        link: "",
+        type: "03",
+      },
+      {
+        actionName: "保健",
+        iconPath: "../../resource/t4.png",
+        link: "",
+        type: "03",
+      },
+      {
+        actionName: "托运",
+        iconPath: "../../resource/t5.png",
         link: "",
         type: "03",
       },
@@ -414,5 +479,7 @@ Page({
     recommendStoreList: [], // 推荐商家
     hotTypeList: [], // 热门分类
     recommendGoodsList: [], // 为您推荐
+    groupPurchaseList:[], //团购专区
+    groupItemList: [],// 团购商品列表
   },
 })

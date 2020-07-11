@@ -5,6 +5,7 @@ const RequestUtil = require("../utils/requestUtil.js");
 const {
   RequestParamObj
 } = require("../utils/requestParamObj.js");
+const UserService=require("../services/userService.js");
 
 const Util = require("../utils/util.js");
 
@@ -14,12 +15,10 @@ const Util = require("../utils/util.js");
  * @param grade 宠粮类型
  * @param limit 显示数量
  */
-function getMallPetType(grade, limit, getDataCallback) {
+function getMallPetType(obj, getDataCallback) {
   let requestParam = new RequestParamObj({
-    url: UrlPath.Url_Base + UrlPath.Url_ItemType,
+    url: UrlPath.Url_Base + UrlPath.Url_ItemType + "?queryParam=" + encodeURIComponent(JSON.stringify(obj), 'utf-8'),
     data: {
-      grade: grade,
-      limit: limit
     },
     success(res) {
       if (typeof getDataCallback == "function" && getDataCallback) {
@@ -52,9 +51,9 @@ function getMallPetTypeShowInfor(getDataCallback) {
  * @param getDataCallback 获取数据回调
  */
 
-function getBrandInfo(getDataCallback) {
+function getBrandInfo(obj,getDataCallback) {
   let requestParam = new RequestParamObj({
-    url: UrlPath.Url_Base + UrlPath.Url_Item_Brand,
+    url: UrlPath.Url_Base + UrlPath.Url_Item_Brand +"?queryParam=" + encodeURIComponent(JSON.stringify(obj), 'utf-8'),
     data: {},
     success(res) {
       if (typeof getDataCallback == "function" && getDataCallback) {
@@ -87,11 +86,71 @@ function getVarieties(getDataCallback) {
  * 获取套餐类型
  * @param getResultCallback
  */
-function getSetMealList(getResultCallback) {
+function getSetMealList(obj,getResultCallback) {
   let requestParam = new RequestParamObj({
-    url: UrlPath.Url_Base + UrlPath.Url_Item_SetMeal,
+    url: UrlPath.Url_Base + UrlPath.Url_Item_SetMeal + "?queryParam=" + encodeURIComponent(JSON.stringify(obj), 'utf-8'),
     success(res) {
       if (Util.checkIsFunction(getResultCallback)) {
+        getResultCallback(res);
+      }
+    }
+  })
+  RequestUtil.RequestGET(requestParam)
+}
+
+/**
+ * 获取团购商品列表
+ */
+function getGroupItemList(param, getResultCallback) {
+  let data = {
+    offset: 0,
+    limit: 4,
+    itemState: 1,
+  };
+
+  if (!Util.checkEmpty(param.limit)) {
+    data.limit = param.limit;
+  }
+
+  if (!Util.checkEmpty(param.itemState)) {
+    data.itemState = param.itemState;
+  }
+
+  if (!Util.checkEmpty(param.businessNo)) {
+    data.businessNo = param.businessNo;
+  }
+
+  if (!Util.checkEmpty(param.itemNo)) {
+    data.itemNo = param.itemNo;
+  }
+
+  if (!Util.checkEmpty(param.petSortNo)) {
+    data.petSortNo = param.petSortNo;
+  }
+
+  if (!Util.checkEmpty(param.itemTypeNo)) {
+    data.itemTypeNo = param.itemTypeNo;
+  }
+
+  if (!Util.checkEmpty(param.itemBrandNo)) {
+    data.itemBrandNo = param.itemBrandNo;
+  }
+  if (!Util.checkEmpty(param.offset)) {
+    data.offset = param.offset;
+  }
+  if (!Util.checkEmpty(param.limit)) {
+    data.limit = param.limit;
+  }
+
+  if (!Util.checkEmpty(param.itemPackNo)) {
+    data.itemPackNo = param.itemPackNo;
+  }
+
+  let requestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_Item_Group + "?queryParam=" + encodeURIComponent(JSON.stringify(data), 'utf-8'),
+    data: {},
+    success(res) {
+      if (typeof getResultCallback == "function" && getResultCallback) {
         getResultCallback(res);
       }
     }
@@ -103,56 +162,77 @@ function getSetMealList(getResultCallback) {
  * 查询商品列表
  * @param param (itemTypeNo, itemClassifyNo, itemPackNo, itemBrandNo, page, number)
  * @param getResultCallback
+ * @param completeCallback
  */
-function getItemList(param, getResultCallback) {
+function getItemList(param, getResultCallback, completeCallback) {
   let data = {
-    page: 0,
-    number: 0,
+    offset: 0,
+    limit:4,
   };
+
+  if (!Util.checkEmpty(param.limit)) {
+    data.limit = param.limit;
+  }
+
+  if (!Util.checkEmpty(param.itemState)){
+    data.itemState = param.itemState;
+  }
+
+  if (!Util.checkEmpty(param.businessNo)){
+    data.businessNo = param.businessNo;
+  }
+  
+  if (!Util.checkEmpty(param.itemNo)){
+    data.itemNo = param.itemNo;
+  }
+
+  if (!Util.checkEmpty(param.petSortNo)) {
+    data.petSortNo = param.petSortNo;
+  }
+
   if (!Util.checkEmpty(param.itemTypeNo)) {
     data.itemTypeNo = param.itemTypeNo;
   }
-  if (!Util.checkEmpty(param.itemClassifyNo)) {
-    data.itemClassifyNo = param.itemClassifyNo;
-  }
-  if (!Util.checkEmpty(param.itemSetMealNo)) {
-    data.itemPackNo = param.itemSetMealNo;
-  }
+
   if (!Util.checkEmpty(param.itemBrandNo)) {
     data.itemBrandNo = param.itemBrandNo;
   }
   if (!Util.checkEmpty(param.offset)) {
-    data.page = param.offset;
+    data.offset = param.offset;
   }
   if (!Util.checkEmpty(param.limit)) {
-    data.number = param.limit;
+    data.limit = param.limit;
+  }
+
+  if (!Util.checkEmpty(param.itemPackNo)) {
+    data.itemPackNo = param.itemPackNo;
   }
 
   let requestParam = new RequestParamObj({
-    url: UrlPath.Url_Base + UrlPath.Url_Item_List,
-    data: data,
+    url: UrlPath.Url_Base + UrlPath.Url_Item_List + "?queryParam=" + encodeURIComponent(JSON.stringify(data), 'utf-8') ,
+    data: {},
     success(res) {
       if (typeof getResultCallback == "function" && getResultCallback) {
         getResultCallback(res);
       }
-    }
+    },
+    complete(res){
+      if (completeCallback && typeof completeCallback == 'function') {
+        completeCallback(res);
+      }
+    },
   })
   RequestUtil.RequestGET(requestParam)
 }
 
 /**
  * 获取商品详情
- * @param param (itemNo, limit)
+ * @param itemNo 
  * @param getResultCallback
  */
-function getItemDetail(param, getResultCallback) {
+function getItemDetail(itemNo, getResultCallback) {
   let requestParam = new RequestParamObj({
-    url: UrlPath.Url_Base + UrlPath.Url_Item_Detail,
-    data: {
-      itemNo: param.itemNo,
-      limit: param.limit,
-      customerNo: param.customerNo
-    },
+    url: UrlPath.Url_Base + UrlPath.Url_Item_Detail + itemNo,
     success(res) {
       if (Util.checkIsFunction(getResultCallback)) {
         getResultCallback(res);
@@ -230,11 +310,11 @@ function deleteItemCollection(param, deleteResultCallback) {
  */
 function getMoreItemEvaluate(param, getResultCallback) {
   let requestParam = new RequestParamObj({
-    url: UrlPath.Url_Base + UrlPath.Url_Item_More_Evaluate,
+    url: UrlPath.Url_Base + UrlPath.Url_ItemEvaluateInformation,
     data: {
       itemNo: param.itemNo,
-      page: param.offset,
-      number: param.limit
+      offset: param.offset,
+      limit: param.limit
     },
     success(res) {
       if (Util.checkIsFunction(getResultCallback)) {
@@ -252,7 +332,7 @@ function getMoreItemEvaluate(param, getResultCallback) {
  */
 function addNewItemEvaluate(param, addNewEvaluateCallback) {
   let requestParam = new RequestParamObj({
-    url: UrlPath.Url_Base + UrlPath.Url_Pet_AddNew_Evaluate,
+    url: UrlPath.Url_Base + UrlPath.Url_Pet_Addpj_Info,
     data: {
       billNo: param.orderNo,
       content: param.content,
@@ -260,9 +340,14 @@ function addNewItemEvaluate(param, addNewEvaluateCallback) {
         customerNo: param.customerNo,
       },
       item: {
-        itemNo: param.itemNo,
+        itemName: param.itemName,
+        itemNo:param.itemNo
       },
-      petAppraiseImgList: param.imageList,
+      pet:{
+        petName: param.petName,
+        petNo: param.petNo
+      },
+      appraiseImgList: param.imageList,
       praiseDegree: param.degree
     },
     success(res) {
@@ -284,6 +369,7 @@ module.exports = {
 
   getSetMealList: getSetMealList, // 获取套餐列表
   getItemList: getItemList, // 获取商品列表
+  getGroupItemList: getGroupItemList, // 获取团购商品列表
   getItemDetail: getItemDetail, // 获取商品详情
 
   addNewItemCollection: addNewItemCollection, // 新增商品收藏

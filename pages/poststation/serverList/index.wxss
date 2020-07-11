@@ -1,0 +1,43 @@
+/* pages/poststation/serverList/index.wxss */
+
+.server-item-box{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.server-item{
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.server-item-content{
+  margin: 30rpx;
+  width: 85%;
+  flex-direction: column;
+  border-radius: 15rpx;
+  box-shadow: 0px 15px 10px -15px #9FA7B9;
+  justify-content: space-around;
+}
+
+.server-item-row{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 24rpx;
+  color: #717985;
+  padding: 15rpx;
+}
+
+.server-item-name{
+  font-size: 28rpx;
+  color: #002241;
+}
+
+.server-item-price{
+  font-size: 34rpx;
+  color: #ee2c2c;
+}

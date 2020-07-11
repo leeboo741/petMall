@@ -1,0 +1,14 @@
+/* mallsubcontracting/pages/productreleasedetails/itemTypeSelect/index.wxss */
+.bottom-button{
+  position: fixed; 
+  left: 0; 
+  right: 0; 
+  bottom: 0; 
+  height: 80rpx; 
+  background: linear-gradient(to right, rgb(255,147,87) , rgb(255, 51, 59)); 
+  text-align: center; 
+  line-height: 80rpx; 
+  font-size: 35rpx; 
+  letter-spacing: 10rpx;
+  color: white;
+}

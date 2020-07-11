@@ -1,0 +1,54 @@
+/* pages/poststation/order/beauticianSelected/index.wxss */
+
+.beautician-box{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.beautician-item{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 33.333333333%;
+}
+
+.beautician-item-content{
+  width: 85%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20rpx;
+  box-shadow: 0px 15px 10px -15px #9FA7B9;
+  background: white;
+  margin: 25rpx;
+  padding: 25rpx 0rpx;
+
+}
+
+.beautician-item-icon{
+  width: 120rpx;
+  height: 120rpx;
+  margin: 10rpx;
+  border-radius: 25rpx;
+}
+
+.beautician-item-title{
+  font-size: 32rpx;
+  color: #778899;
+  font-weight: bold;
+}
+
+.beautician-item-button{
+  font-size: 26rpx;
+  background: #FF3A1E;
+  color: white;
+  text-align: center;
+  height: 45rpx;
+  line-height: 45rpx;
+  border-radius: 15rpx;
+  padding: 5rpx 25rpx;
+  margin: 10rpx;
+}

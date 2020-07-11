@@ -7,7 +7,15 @@
       style="height: {{pageHeight}}px">
   <view class="recharge-content">
     <view class="balance">
-    可提余额：{{balance}}元
+    余额：{{balanceInfo.totalAmount}}元
+    </view>
+    <view class="recharge-middle-box">
+        <view class="recharge-middle-box-left">
+          可提现金额：{{balanceInfo.useFulAmount}}元
+        </view>
+        <view class="recharge-middle-box-right">
+          冻结金额：{{balanceInfo.bufferAmount}}元
+        </view>
     </view>
     <view class="recharge-input-box">
       <view class="recharge-unit">
@@ -25,4 +33,21 @@
     提现
     </view>
   </view>
+  <view class="pipelined-minz-bottom"
+        bindtap="detailedTap">
+        余额明细...
+  </view>
 </view>
+
+
+<wxs module='parse'>
+  module.exports={
+      showText:function(res){
+          if(res==null || res.length<=0){
+             return 0;
+          }else{
+             return res;
+          }
+      }
+  }
+</wxs>

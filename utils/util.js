@@ -1,3 +1,6 @@
+
+const Config = require('../macros/config');
+
 /**
  * 获取 yyyy-mm-dd hh:MM:dd 时间
  */
@@ -91,7 +94,13 @@ function isPhoneAvailable(phone) {
  * @return true 空 false 非空
  */
 function checkEmpty(obj) {
-  if (obj == null || obj.length <= 0) {
+  if (obj == null || obj==undefined) {
+    return true;
+  }
+  if ((typeof obj == 'string' || obj instanceof Array) && obj.length <= 0) {
+    return true;
+  } 
+  if (typeof obj == 'object' && Object.keys(obj).length <= 0) {
     return true;
   }
   return false;
@@ -125,6 +134,15 @@ function checkIsString(checkObj) {
  */
 function checkIsObject(checkObj) {
   return checkObj != null && typeof checkObj == "object";
+}
+
+/**
+ * 检查是否是空对象
+ * @param checkObj 要检查的对象
+ * @return true 空 false 非空
+ */
+function checkObjectIsEmpty(checkObj) {
+  return !checkIsObject(checkObj) || Object.keys(checkObj).length <= 0;
 }
 
 /**
@@ -168,6 +186,23 @@ function replaceSpecialChar(string) {
   return string;
 }
 
+
+/**
+ * 初始化经纬度
+ */
+function BD09_GCJ02(t) {
+  t = t || {};
+  var e = +parseFloat(t.lat || t.latitude || 0), n = 52.35987755982988, o = +parseFloat(t.lng || t.longitude || 0) - .0065, a = e - .006, i = Math.sqrt(o * o + a * a) - 2e-5 * Math.sin(a * n), c = Math.atan2(a, o) - 3e-6 * Math.cos(o * n);
+  return t.longitude = i * Math.cos(c), t.latitude = i * Math.sin(c), t;
+}
+
+/**
+ * 内置导航
+ */
+function openBaiduLocation(t) {
+  t = t || {}, t = this.BD09_GCJ02(t), wx.openLocation(t);
+}
+
 /**
  * 恢复特殊字符
  */
@@ -203,6 +238,31 @@ function getUrlParamDict(url) {
 }
 
 
+ function getSystemInfo() {
+  var t = "", e = "", n = "";
+  return wx.getSystemInfo({
+    success: function (o) {
+      console.log(o.windowWidth);
+      var a = o.windowWidth;
+      n = o.windowHeight, t = (a / 750).toFixed(2), e = (750 / a).toFixed(2);
+    }
+  }), {
+      px: t,
+      rpx: e,
+      scrollHeight: n
+    };
+}
+
+/**
+ * 调试日志打印打印
+ */
+function logInfo(...args){
+  if (Config.Print_Console) {
+    console.log(...args);
+  }
+}
+
+
 module.exports = {
   formatTime: formatTime,
   dateLater: dateLater,
@@ -213,10 +273,15 @@ module.exports = {
   checkIsFunction: checkIsFunction,
   checkIsString: checkIsString,
   checkIsObject: checkIsObject,
+  checkObjectIsEmpty: checkObjectIsEmpty,
   checkIsBoolean: checkIsBoolean,
   checkIsNumber: checkIsNumber,
   checkIsUndefined: checkIsUndefined,
   replaceSpecialChar: replaceSpecialChar,
   recoverySpecialChar: recoverySpecialChar,
-  getUrlParamDict: getUrlParamDict
+  getUrlParamDict: getUrlParamDict,
+  openBaiduLocation: openBaiduLocation,
+  BD09_GCJ02: BD09_GCJ02,
+  getSystemInfo: getSystemInfo,
+  logInfo: logInfo
 }

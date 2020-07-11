@@ -1,13 +1,42 @@
 /* pages/index/nearby/index.wxss */
 
+.page-head-box{
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  width: 100%;
+  align-items: center;
+  background: white;
+  z-index: 3;
+}
+
+.page-head-search-box{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60rpx;
+  width: 100%;
+}
+
+.page-head-search-input{
+  padding: 5rpx 15rpx;
+  background: rgb(250, 250, 250);
+  border: 1rpx solid rgb(230, 230, 230);
+  border-radius: 10rpx;
+  width: 90%;
+  height: 80%;
+}
+
+.page-head-search-input-placeholder{
+  color: lightgray;
+}
+
 .foodgrainmore-head{
   width: 100%;
-  height: 50px;
+  height: 100rpx;
   display: flex;
   flex-direction: row;
   align-items: center;
-  border-bottom: 2rpx solid #ccc;
-  position: fixed;
   background: white;
   z-index: 3;
 }
@@ -25,7 +54,7 @@
 .content-view{
   display: flex;
   flex-direction: column;
-  padding: 50px 0px 0px 0px;
+  padding: 80px 0px 0px 0px;
 }
 
 .dropdownbox-infomation{
@@ -201,40 +230,314 @@
 }
 
 .business-pets-information{
-   width: 50%;
-   height: 420rpx;
+   width: 100%;
+   height: 260rpx;
    display:flex;
-   justify-content: center;
-   flex-direction: column;
+   flex-flow: nowrap;
    align-items: center;
    margin-top:3%;
    
 }
 
+.business-pets-information-image-styhead{
+  width: 38%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .business-pets-image{
-  height: 320rpx;
-  width: 320rpx;
+  height: 250rpx;
+  width: 250rpx;
   border-radius: 10rpx;
 }
 
 .business-pets-bottom{
-  width:100%;
-  height: 80rpx;
+  width:67%;
+  height:100%;
   display:flex;
   flex-direction: column;
+  position: relative;
+}
+
+.shopcart-sty{
+  width: 45rpx;
+  height: 50rpx;
+}
+
+.shopcart-sty-right-icon{
+  position: absolute;
+  right: 50rpx;
+  top: 38%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 50% 50%;
+  background-color: #F2F2F2;
 }
 
 .body-list-one{
-  margin-left:6%;
+  width: 50%;
   font-weight:bold;
   display:flex;
   flex-wrap:nowrap;
+  justify-content: center;
+  align-items: center;
 }
 
 .body-list-two{
-  margin-left:5%;
+  width: 100%;
   display:flex;
   flex-wrap:nowrap;
   font-size:27rpx;
   color:#ccc;
+}
+
+.body-list-two-price{
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.body-list-two-city{
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color:#ccc;
+}
+
+.business-pets-bottom-namesty{
+  height: 20%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  color: #2F2F2F;
+  font-weight: bold;
+  font-size: 28rpx;
+  z-index: 2;
+}
+
+.business-pets-bottom-netcontent{
+  height: 20%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  color: #B0B0B0;
+  font-size: 27rpx;
+  font-weight: bold;
+}
+
+.business-pets-bottom-price{
+  height: 20%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  color: #FB4E0C;
+  flex-flow: nowrap;
+  font-size: 25rpx;
+  font-weight: bold;
+}
+
+.business-pets-discount{
+  height: 20%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-flow: nowrap;
+}
+
+.business-pets-discount-box{
+  font-size: 20rpx;
+  padding: 3rpx 10rpx;
+  color: #FB4E0C;
+  border: 1rpx solid #FB4E0C;
+  border-radius: 10rpx;
+  margin-right: 2%;
+  font-weight: bold;
+}
+
+.business-pets-addresssty{
+  height: 20%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  color: #B0B0B0;
+  font-size: 27rpx;
+  flex-flow:nowrap;  
+  position: relative;
+}
+
+.business-pets-addresssty-bussname{
+  display:-webkit-box;
+  -webkit-line-clamp:1;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  -webkit-box-orient:vertical;
+  word-break:break-all;
+  width: 135rpx;
+}
+
+.business-pets-addresssty-addressbox{
+  display:-webkit-box;
+  -webkit-line-clamp:1;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  -webkit-box-orient:vertical;
+  word-break:break-all;
+  width: 200rpx; 
+}
+
+.enter-shop-sty{
+  position: absolute;
+  right: 30rpx;
+  display: flex;
+  flex-flow: nowrap;
+  align-items: center;
+  font-weight: bold;
+  color: black;
+}
+
+.add-shopcar-mask{
+  position: fixed; 
+  top:0rpx;
+  width: 100%;
+  height: 100%;
+  background:black;
+  z-index: 99;
+  opacity:0.7;
+  display: flex;
+}
+
+.add-shopcar-mask-quantity-added{
+  position: fixed;
+  width: 100%;
+  height: 350rpx;
+  bottom: 0rpx;
+  background-color: white;
+  z-index: 100;
+  display: flex;
+  flex-flow: column;
+}
+
+.add-shopcar-mask-quantity-added-head{
+  height: 34%;
+  width: 100%;
+  display: flex;
+  flex-flow: nowrap;
+}
+
+.add-shopcar-mask-quantity-added-head-image{
+  width: 40%;
+  height: 100%;
+  position: relative;
+}
+
+.shopcar-head-img{
+  position: absolute;
+  width: 200rpx;
+  height: 200rpx;
+  border-radius: 20rpx;
+  bottom: 10%;
+  left: 15%;
+}
+
+.add-shopcar-mask-quantity-added-head-info{
+  width: 60%;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+}
+
+.add-shopcar-mask-quantity-added-head-info-name{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+}
+
+.add-shopcar-mask-quantity-added-head-info-price{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  color: #FB4906;
+  font-weight: bold;
+}
+
+.add-shopcar-mask-quantity-added-number{
+  height: 33%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.quantity-added-number-top{
+  position: absolute;
+  left: 60rpx;
+  font-weight: bold;
+}
+
+.quantity-added-number-down{
+  display: flex;
+
+}
+
+.add-shopcar-mask-quantity-added-button{
+  height: 33%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quantity-buttonsty{
+  height: 80%;
+  width: 80%;
+  border-radius: 15rpx;
+  background-color: #F6412D;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.stepper{
+  display: flex;
+  position: absolute;
+  right: 50rpx;
+  bottom: 30rpx;
+  flex-direction: row;
+  text-align: center;
+}
+
+.stepper .add, .stepper .subtract {
+  width: 50rpx;
+  height: 50rpx;
+  line-height: 50rpx;
+  font-size: 28rpx;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.stepper .disabled {
+  color: #eee;
+}
+
+.stepper .count {
+  width: 60rpx;
+  height: 50rpx;
+  line-height: 50rpx;
+  border: 1px solid #ccc;
+  text-align: center;
+  box-sizing: border-box;
+  min-height: 1rem;
+  font-size: 28rpx;
+  border-right: 0;
+  border-left: 0;
 }

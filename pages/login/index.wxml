@@ -2,7 +2,7 @@
 <i-navigation-bar title='登录'
                   showBackButton>
 </i-navigation-bar>
-<view class="page-box-full">
+<!-- <view class="page-box-full">
   <view class="content-box">
     <view class="avatar-box">
       <open-data type='userAvatarUrl'
@@ -12,10 +12,22 @@
     <open-data type='userNickName'
                class='nick-name'>
     </open-data>
-    <button class="login-button"
-            open-type="getUserInfo"
-            bindtap="tapLoginOrRegister">
-     登陆|注册
-    </button>
+    <button class="login-button" open-type="getPhoneNumber" bindgetphonenumber="tapLoginOrRegister">获取手机号</button>
   </view>
+</view> -->
+
+<view class="container">
+    <view class="bgc">
+        <image src="/resource/tchlog.png"></image>
+    </view>
+    <view class="dibtn1"></view>
+    <!-- <view class="dibtn2" hidden="{{!userinfoScope}}"></view> -->
+    <button bindgetphonenumber="tapLoginOrRegister" open-type="getPhoneNumber" class="wxlogin" openType="getPhoneNumber" hidden="{{phoneScope}}">微信快捷登录</button>
+    <!-- <button bindtap="goLogin" class="phonelogin" hidden="{{showPhoneLogin}}">手机号码登录</button> -->
+
+    <button  class="wxlogin" bindgetuserinfo="bindGetUserInfo" hidden="{{userinfoScope}}" openType="getUserInfo">微信授权 </button>
+    <view class="tishi" hidden="{{userinfoScope}}">申请获取你的公开信息（昵称、头像等）</view>
 </view>
+
+
+

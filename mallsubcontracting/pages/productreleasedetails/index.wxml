@@ -1,0 +1,332 @@
+<!--pages/me/releaseManager/releaseNew/index.wxml-->
+<i-navigation-bar title='发布商品'
+                  showBackButton>
+</i-navigation-bar>
+
+<i-panel i-class='panel'
+         title='基本信息'>
+  <i-cell-group>
+    <i-cell title='商品名称'>
+      <view style='color: red'
+            slot='icon'>
+      *
+      </view>
+      <view slot='footer'
+            class="input-box">
+        <input placeholder="请输入商品名称"
+               placeholder-class="placeholder-text"
+               value='{{itemName}}'
+               class="normal-text"
+               style="flex-grow: 1;"
+               bindinput="inputGoodsName"
+               type="text">
+          
+        </input>
+      </view>
+    </i-cell>
+
+    <i-cell title='品牌'
+            is-link
+            wx:if='{{false}}'>
+      <picker slot='footer'
+              range="{{brandRange}}"
+              bindchange="brandRangeChange"
+              range-key="itemBrandName"
+              value="{{itemBrandNo}}">
+        <view class="{{brandRangeSelect==null||brandRangeSelect.length<=0?'placeholder-text':'normal-text'}}">
+          {{brandRangeSelect==''||brandRangeSelect==null?'请选择品牌':brandRangeSelect}}
+        </view>
+      </picker>
+    </i-cell>
+
+    <i-cell title='宠物分类'
+            is-link>
+      <view style='color: red'
+            slot='icon'>
+      *
+      </view>
+      <picker slot='footer'
+              range="{{petSort}}"
+              bindchange="selectSort"
+              range-key="petSortName">
+        <view class="{{goodsification==null||goodsification.length<=0?'placeholder-text':'normal-text'}}">
+        {{goodsification==null||goodsification.length<=0?"请选择宠物分类":goodsification}}
+        </view>
+      </picker>
+    </i-cell>
+
+
+
+    <i-cell title='产品分类'
+            is-link>
+      <view style='color: red'
+            slot='icon'>
+      *
+      </view>
+      <view slot='footer'
+            catchtap="selectItemType">
+        <view wx:if='{{itemType==null||itemType.length<=0}}'
+              class='placeholder-text'>
+        请选择产品分类
+        </view>
+        <view wx:else
+              class='normal-text'>
+        {{itemType}}
+        </view>
+      </view>
+    </i-cell>
+
+    <block wx:if="{{showMenu}}">
+      <i-cell title='套餐'
+              is-link>
+        <view style='color: red'
+              slot='icon'>
+        *
+        </view>
+        <view slot='footer' 
+              class="{{menu==null||menu.length<=0?'placeholder-text':'normal-text'}}"
+              catchtap="selectItemPack">
+        {{menu==null||menu.length<=0?"请选择套餐":menu}}
+        </view>
+      </i-cell>
+    </block>
+
+    <i-cell title='库存数量'>
+      <view style='color: red'
+            slot='icon'>
+      *
+      </view>
+      <view slot='footer'
+            class="input-box">
+        <input placeholder="请输入库存数量"
+               placeholder-class="placeholder-text"
+               value='{{qty}}'
+               class="normal-text"
+               style="flex-grow: 1;"
+               bindinput="inputQty"
+               type="digit">
+
+        </input>
+      </view>
+    </i-cell>
+    <i-cell title='零售价'>
+      <view style='color: red'
+            slot='icon'>
+      *
+      </view>
+      <view slot='footer'
+            class="input-box">
+        <input placeholder="请输入零售价"
+               placeholder-class="placeholder-text"
+               value='{{retailPrice}}'
+               class="normal-text"
+               style="flex-grow: 1;"
+               bindinput="inputPetRetailPrice"
+               type="digit">
+
+        </input>
+        <view class="normal-text"
+              style="margin-left: 10rpx;">
+        元
+        </view>
+      </view>
+    </i-cell>
+
+    <i-cell title='佣金比例'
+            label="{{parse.getCommission(commission)}}">
+      <view style='color: red'
+            slot='icon'>
+      *
+      </view>
+      <view slot='footer'
+            class="input-box">
+        <input placeholder="请输入佣金比例"
+               placeholder-class="placeholder-text"
+               value='{{commissionRatio}}'
+               class="normal-text"
+               style="flex-grow: 1;"
+               bindinput="commissiontap"
+               bindblur="blurCommissionRation"
+               type="digit">
+
+        </input>
+        <view style='margin-left:10rpx'>%</view>
+      </view>
+    </i-cell>
+
+
+    <i-cell title='是否包邮'>
+      <view slot='footer'
+            class="input-box">
+          <switch class='switch-view' checked="{{isChecked}}" bindchange="goodsChange" type='checkbox'/>
+      </view>
+    </i-cell>
+
+    <i-cell title='条码'>
+      <view slot='footer'
+            class="input-box">
+        <input placeholder="请输入条码"
+               placeholder-class="placeholder-text"
+               value="{{barCode==null?'':barCode}}"
+               class="normal-text"
+               style="flex-grow: 1;"
+               bindinput="barCodetap"
+               type="text">
+
+        </input>
+      </view>
+    </i-cell>
+  </i-cell-group>
+</i-panel>
+
+<!--添加团购梯度-->
+<i-cell title='是否设为团购商品'>
+  <view slot='footer'
+        class="input-box">
+      <switch class='switch-view' checked="{{groupIsChecked}}" bindchange="groupBindChange" />
+  </view>
+</i-cell>
+<block wx:if="{{groupIsChecked}}">
+  <i-panel i-class='panel'
+           title='团购标题'>
+    <i-cell title='团购标题'>
+      <view style='color: red'
+            slot='icon'>
+      *
+      </view>
+      <view slot='footer'
+            class="input-box">
+        <input placeholder="请输入团购标题"
+               placeholder-class="placeholder-text"
+               value='{{groupTitle}}'
+               class="normal-text"
+               style="flex-grow: 1;"
+               bindinput="inputGroupTitle"
+               type="text">
+          
+        </input>
+      </view>
+    </i-cell>
+  </i-panel>
+  <i-panel i-class='panel'
+          title='请输入团购价格梯度'>
+    <i-cell>
+      <view slot='header' >团购价格阶梯</view>
+      <view class="vaccine-repellent-item-box"
+            slot='footer'>
+        <view class="vaccine-repellent-item"
+              wx:for='{{addGroupPriceList}}'
+              wx:for-item='groupItem'
+              wx:for-index='groupIndex'
+              wx:key='{{groupIndex}}'>
+          <input class="vaccine-repellent-input normal-text"
+                  placeholder="阶梯数量"
+                  placeholder-class="placeholder-text"
+                  value='{{groupItem.qty}}'
+                  data-index='{{groupIndex}}'
+                  type="number"
+                  bindinput="inputStepNum"
+                  bindblur="lostFocusStepNum">
+          </input>
+          <view class="vaccine-repellent-horizontal-line-v"></view>
+          <input class="vaccine-repellent-input normal-text"
+                placeholder="输入价格"
+                placeholder-class="placeholder-text"
+                value='{{groupItem.price}}'
+                bindinput="priceInput"
+                data-index='{{groupIndex}}'
+                disabled="{{groupNumberCheck==true?'disabled':false}}"
+                type="digit">
+          </input>
+          <view hidden="{{delType==groupIndex?false:true}}" style="width:80rpx; height: 80rpx; line-height: 80rpx; text-align: center">
+              <i-icon type='cancel'
+                      color="#ee2c2c"
+                      size="35"
+                      bindtap="tapDeleteGroupPrice"
+                      data-index='{{groupIndex}}'
+                      style="width:80rpx; height:80rpx; line-height:80rpx; text-align: center">
+              </i-icon>
+          </view>
+        </view>
+        <view class="vaccine-repellent-item"
+              bindtap="addGroupPrice"
+              data-index='{{addGroupPriceList.length}}'>
+               + 新增价格阶梯
+        </view>   
+      </view>
+    </i-cell>
+  </i-panel>
+</block>
+
+<i-panel i-class='panel'
+         title='上传商品图片(1~9张)'>
+  <i-image-upload   uploadImageId='imageList'
+                    uploadUrl='{{uploadUrl}}'
+                    name='multipartFile'
+                    formData='{{}}'
+                    startUpload='{{false}}'
+                    autoUpload='{{true}}'
+                    bind:upload-complete='uploadCompletesert'
+                    bind:delete-image='deleteImage'
+                    bind:addnew='addNewImage'
+                    ableDelete='{{true}}'
+                    selectMode='append'
+                    maxImageCount='{{9}}'
+                    videoMaxLength='{{10}}'
+                    imageSourceType="{{['album', 'camera']}}"
+                    videoSourceType="{{['album', 'camera']}}"
+                    showAddNewButton='{{true}}'
+                    ableVideo="{{true}}"
+                    imagePathList="{{imagePathList}}">
+  </i-image-upload>
+</i-panel>
+
+<i-panel i-class='panel'
+         title='添加简介(必填)'>
+  <i-cell>
+    <textarea slot='header'
+              auto-height
+              class="normal-text input-textarea"
+              placeholder-class='placeholder-text'
+              placeholder='简介中不得包含微信相关信息，违者封号处理'
+              value="{{itemProfile}}"
+              bindinput="itemProfileTap">
+    </textarea>
+  </i-cell>
+</i-panel>
+
+<view style="height:49px;width:100%;"></view>
+
+<view class="add-new-button"
+      bindtap="tapToRelease">
+      {{buttonType==0?'发布':'编辑'}}
+</view>
+
+
+<wxs module='parse'>
+  module.exports={
+    getRegionStr: function(region) {
+      if(region!=null && region!=''){
+        return region
+      }else{
+        if(region == null || region.length <= 0) {
+            return '请选择省市区';
+          }
+          return region[0] + "-" + region[1] + "-" + region[2];  
+        }
+    },
+    getRegionClass: function(region) {
+      if(region == null || region.length <= 0) {
+        return "placeholder-text";
+      }
+      return "normal-text";
+    },
+    getCommission: function(commission) {
+      if (commission == null || commission.length < 0 || commission == 0) {
+        return "";
+      } else {
+        return "￥ "+commission;
+      }
+    }
+  }
+</wxs>

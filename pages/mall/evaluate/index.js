@@ -3,12 +3,14 @@
 const PetService = require("../../../services/petService.js");
 const MallService = require("../../../services/mallService.js");
 const Util = require("../../../utils/util.js");
+const Utils = require("../../../utils/util")
 const LoadFootItemState = require("../../../lee-components/leeLoadingFootItem/loadFootObj.js");
-
+const EvaluateService=require("../../../services/evaluateService.js");
 const Limit = 20;
 
 const Evaluate_Type_Pet = 0;
 const Evaluate_Type_Item = 1;
+const ShareManager = require("../../../services/shareService");
 
 Page({
 
@@ -33,6 +35,7 @@ Page({
   onLoad: function (options) {
     let tempPetNo = options.petno;
     let tempItemNo = options.itemno;
+    Utils.logInfo(tempPetNo + "----" + tempItemNo);
     if (Util.checkEmpty(tempPetNo) && Util.checkEmpty(tempItemNo)) {
       console.error("Evaluate petNo 和 Evaluate ItemNo 不能同时为空");
     }
@@ -83,6 +86,7 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
+    let that=this;
     this.data.offset = 0;
     this.getEvaluateData(this.data.offset, 
       function getDataCallback(data) {
@@ -144,7 +148,7 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-
+    return ShareManager.getDefaultShareCard();
   },
 
   /**
@@ -154,21 +158,21 @@ Page({
    */
   getEvaluateData: function (offset, getEvaluateCallback) {
     let that = this;
-    if (this.data.type == Evaluate_Type_Pet) {
-      this.requestPetEvaluate(this.data.offset,
+    if (that.data.type == Evaluate_Type_Pet) {
+      that.requestPetEvaluate(that.data.offset,
         function getPetEvaluateCallback(data) {
-          console.log("Pet More Evaluate: \n" + JSON.stringify(data));
+          Utils.logInfo("Pet More Evaluate: \n" + JSON.stringify(data));
           if (Util.checkIsFunction(getEvaluateCallback)) {
-            getEvaluateCallback(data.root)
+            getEvaluateCallback(data)
           }
         }
       )
-    } else if (this.data.type == Evaluate_Type_Item) {
-      this.requestItemEvaluate(this.data.offset,
+    } else if (that.data.type == Evaluate_Type_Item) {
+      that.requestItemEvaluate(that.data.offset,
         function getItemEvaluateCallback(data) {
-          console.log("Item More Evaluate: \n" + JSON.stringify(data));
+          Utils.logInfo("Item More Evaluate: \n" + JSON.stringify(data));
           if (Util.checkIsFunction(getEvaluateCallback)) {
-            getEvaluateCallback(data.root)
+            getEvaluateCallback(data)
           }
         }
       )
@@ -180,16 +184,17 @@ Page({
    * @param offset
    * @param getPetEvaluateCallback
    */
-  requestPetEvaluate: function (offset, getPetEvaluateCallback) {
-    PetService.getMorePetEvaluate(
+  requestPetEvaluate: function (offset, getEvaluateCallback) {
+    let that=this;
+    EvaluateService.petEvaluate(
       {
-        petNo: this.data.petNo,
+        petNo: that.data.petNo,
         offset: offset,
         limit: Limit
       },
       function getResultCallback(result) {
-        if (Util.checkIsFunction(getPetEvaluateCallback)) {
-          getPetEvaluateCallback(result.root)
+        if (Util.checkIsFunction(getEvaluateCallback)) {
+          getEvaluateCallback(result);
         }
       }
     )

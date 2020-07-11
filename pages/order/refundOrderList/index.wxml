@@ -27,7 +27,7 @@
     <view class="order-goods-box">
       <!-- 商品Item -->
       <view class="order-goods-item"
-            wx:if='{{parse.showItemCell(orderItem)}}'
+            wx:if='{{orderItem.item!= null}}'
             catchtap="tapItem"
             data-index='{{orderIndex}}'
             data-itemno='{{orderItem.item.itemNo}}'>
@@ -47,19 +47,19 @@
             x{{orderItem.qty}}
             </view>
             <view class="order-goods-price">
-            ￥{{orderItem.item.retailPrice}}
+            <!-- ￥{{parse.showRetailPrice(orderItem.item.retailPrice)}} -->
             </view>
           </view>
         </view>
       </view>
       <!-- 宠物Item -->
       <view class="order-goods-item"
-            wx:if='{{parse.showPetCell(orderItem)}}'
+            wx:if='{{orderItem.pet != null}}'
             catchtap="tapPet"
             data-index='{{orderIndex}}'
             data-petno='{{orderItem.pet.petNo}}'>
         <i-image i-class="order-goods-image"
-                 imageSrc='{{orderItem.pet.coverMedia}}'
+                 imageSrc='{{orderItem.pet.coverMedia[0].coverImg}}'
                 >
         </i-image>
         <view class="order-goods-info">
@@ -78,7 +78,7 @@
             x{{orderItem.qty}}
             </view>
             <view class="order-goods-price">
-            {{orderItem.pet.retailPrice}}
+            <!-- {{parse.showRetailPrice(orderItem.pet.retailPrice)}} -->
             </view>
           </view>
         </view>
@@ -131,12 +131,12 @@
         wx:for-item='orderItem'
         wx:for-index='orderIndex'
         wx:key='{{orderIndex}}'
-        bindtap="tapToOrderDetail"
-        data-index='{{orderIndex}}'
-        data-orderno='{{orderItem.orderNo}}'
         class="order-item">
     <!-- 订单信息 -->
-    <view class="order-info-box">
+    <view class="order-info-box"
+          bindtap="tapToOrderDetail"
+          data-index='{{orderIndex}}'
+          data-orderno='{{orderItem.orderNo}}'>
       <view class="order-info-number">
       订单编号：{{orderItem.orderNo}}
       </view>
@@ -148,7 +148,7 @@
     <view class="order-goods-box">
       <!-- 商品Item -->
       <view class="order-goods-item"
-            wx:if='{{parse.showItemCell(orderItem)}}'
+            wx:if='{{orderItem.item!= null}}'
             catchtap="tapItem"
             data-index='{{orderIndex}}'
             data-itemno='{{orderItem.item.itemNo}}'>
@@ -168,19 +168,19 @@
             x{{orderItem.qty}}
             </view>
             <view class="order-goods-price">
-            ￥{{orderItem.item.retailPrice}}
+            <!-- ￥{{orderItem.item.retailPrice}} -->
             </view>
           </view>
         </view>
       </view>
       <!-- 宠物Item -->
       <view class="order-goods-item"
-            wx:if='{{parse.showPetCell(orderItem)}}'
+            wx:if='{{orderItem.pet != null}}'
             catchtap="tapPet"
             data-index='{{orderIndex}}'
             data-petno='{{orderItem.pet.petNo}}'>
         <i-image i-class="order-goods-image"
-                 imageSrc='{{orderItem.pet.coverMedia}}'
+                 imageSrc='{{orderItem.pet.coverMedia[0].coverImg}}'
                 >
         </i-image>
         <view class="order-goods-info">
@@ -199,7 +199,7 @@
             x{{orderItem.qty}}
             </view>
             <view class="order-goods-price">
-            {{orderItem.pet.retailPrice}}
+            <!-- {{orderItem.pet.retailPrice}} -->
             </view>
           </view>
         </view>
@@ -224,11 +224,11 @@
         </view>
       </view>
       <view class="order-operate-button-box">
-        <view class="order-operate-button"
+        <!-- <view class="order-operate-button"
               catchtap="tapMore"
               data-index='{{orderIndex}}'>
         更多
-        </view>
+        </view> -->
         <view class="order-operate-button"
               hidden>
         联系买家
@@ -236,7 +236,8 @@
         <view class="order-operate-button"
               bindtap="tapReview"
               data-index='{{orderIndex}}'
-              data-orderno='{{orderItem.orderNo}}'>
+              data-orderno='{{orderItem.orderNo}}'
+              data-refundno='{{orderItem.refundNo}}'>
         审核退款
         </view>
       </view>
@@ -255,7 +256,7 @@
   module.exports={
     getStoreLogo: function(orderItem) {
       if (orderItem.item != null) {
-        return ""
+         return orderItem.item.business.headerImg;
       }
       if (orderItem.pet != null) {
         return orderItem.pet.business.headerImg;
@@ -263,7 +264,7 @@
     },
     getSotreName: function(orderItem) {
       if (orderItem.item != null) {
-        return "自营"
+        return orderItem.item.business.businessName;
       }
       if (orderItem.pet != null) {
         return orderItem.pet.business.businessName;
@@ -286,6 +287,14 @@
     },
     showPetCell: function(order) {
       return order.pet != null;
+    },
+
+    showRetailPrice:function(res){
+      if(res==null){
+          return "--"
+      }else{
+          return res;
+      }
     }
   }
 </wxs>

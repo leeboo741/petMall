@@ -2,15 +2,18 @@
 
 const app = getApp();
 const Util = require("../../../../utils/util.js");
+const Utils = require("../../../../utils/util")
 const PagePath = require("../../../../macros/pagePath.js");
 const PetService = require("../../../../services/petService.js");
 const UserService = require("../../../../services/userService.js");
 const UploadFileService = require("../../../../services/uploadFileService.js");
+const UrlPath = require("../../../../macros/urlPath.js");
 
 const Max_UploadImage_Length = 6;
 
 const Release_New = 0;
 const Release_Edit = 1;
+const ShareManager = require("../../../../services/shareService");
 
 Page({
 
@@ -36,14 +39,18 @@ Page({
     birthday: null, // 宠物生日
     retailPrice: null, // 宠物零售价格
     marketPrice: null, // 宠物市场价格
-    commissionRatio: null, // 佣金比例
+    commission: "",
+    commissionRatio: 10, // 佣金比例
     transportTypeList: [], // 运输方式
     uploadImageList: [], // 待上传图片地址列表
+    showImageInfo:[],
     serviceImagePathList: [], // 已上传图片地址列表
     describe: null, // 描述
     vaccineList: [], // 疫苗 vaccineDate vaccineBrandName
     repellentList: [], // 驱虫 killDate killBrandName
     identifier: null, // 宠物编号
+    uploadUrl: null,  //图片上传地址
+    petName:null, //宠物名称
     parent: {
       father: {
         name: null, // 名称
@@ -66,15 +73,52 @@ Page({
     uploadFatherImageProgress: -1, // 上传父亲图片进度
     uploadMotherImageProgress: -1, // 上传母亲图片进度
 
+    pohtoListObj:{},//图片对象
+
     successTimeIntervier: null,
+
+    showMoreInfo:true,    //是否隐藏跟多选项
+
+    isChecked: false,     //是否包邮开关
+    isInsuranceChecked:false, //是否需要宠物保险
+    freeShipping: 0,       //包邮状态
+
+    petweight:null ,    //宠物重量
+
+    insuranceTime: [
+      { name: 0 , value: '90天' },
+      { name: 1, value: '一年' },
+    ], //保险时长
+    insuranceTimeCheck:true,
+
+
+    insuranceTimeState: null,  //保险时长状态
+
+    afterSaleService: [
+      { name: '无', value: '无'},
+      { name: '质保7天', value: '质保7天（确保7日内无犬瘟、细小、冠状病毒、猫瘟、猫腹水、猫鼻支）', checked: 'true' }
+    ],
+    afterSaleServiceCheck:true,
+
+
+    groupIsChecked:false, //是否是团购宠物  
+    addGroupPriceList:[], //团购价格阶梯
+    groupNumberCheck:false, //团购第二次数量校验
+
+
+    delType:0,   //删除与新增行价格阶梯校验
+
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+    Utils.logInfo(UrlPath.Url_Base + UrlPath.Url_UploadFile+"==============");
+    Utils.logInfo("one " + options.type + "\n two " + options.product);
     this.setData({
-      type: options.type
+      type: options.type,
+      uploadUrl: UrlPath.Url_Base + UrlPath.Url_UploadFile
     })
     if (this.data.type == 1) {
       this.setEditData(app.globalData.editReleasePet);
@@ -94,6 +138,10 @@ Page({
     )
   },
 
+    get_emit: function (e) {
+      Utils.logInfo("====================>"+JSON.stringify(e))
+    },
+
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -111,6 +159,13 @@ Page({
       })
       app.globalData.selectTransportList = null;
     }
+    if (!Util.checkEmpty(app.globalData.selectedPetGenre)) {
+      this.setData({
+        petGenre: app.globalData.selectedPetGenre
+      })
+      app.globalData.selectedPetGenre = null;
+    }
+   
   },
 
   /**
@@ -145,8 +200,8 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function() {
-
+  onShareAppMessage: function () {
+    return ShareManager.getDefaultShareCard();
   },
 
   /**
@@ -190,6 +245,22 @@ Page({
   },
 
   /**
+   * 选择宠物品种
+   */
+  selectPetGenre: function(e) {
+    if (!this.data.petSort) {
+      wx.showToast({
+        title: '请先选择宠物分类',
+        icon:'none'
+      })
+      return;
+    }
+    wx.navigateTo({
+      url: PagePath.Page_Me_ReleaseManager_ReleaseNew_PetGenre + '?petsortno=' + this.data.petSort.petSortNo,
+    })
+  },
+
+  /**
    * 选择宠物性别
    */
   selectSexy: function(e) {
@@ -220,9 +291,11 @@ Page({
    * 输入零售价格
    */
   inputPetRetailPrice: function(e) {
+    let that=this;
     this.setData({
-      retailPrice: e.detail.value
+      retailPrice: e.detail.value,
     })
+    this.countCommission();
   },
 
   /**
@@ -239,8 +312,38 @@ Page({
    */
   inputCommissionRatio: function(e) {
     this.setData({
-      commissionRatio: e.detail.value
+      commissionRatio: e.detail.value,
     })
+  },
+
+  /**
+   * 佣金比率输入失去焦点
+   */
+  blurCommissionRation: function(e) {
+    if (parseFloat(this.data.commissionRatio) < 10) {
+      this.setData({
+        commissionRatio: 10
+      })
+    } 
+    this.countCommission();
+  },
+
+  /**
+   * 计算佣金
+   */
+  countCommission: function () {
+    if (!Util.checkEmpty(this.data.commissionRatio) && !Util.checkEmpty(this.data.retailPrice)) {
+      let ratio = parseFloat(this.data.commissionRatio);
+      let price = parseFloat(this.data.retailPrice);
+      let finalCommission = (ratio / 100.0) * price
+      this.setData({
+        commission: finalCommission.toFixed(2)
+      })
+    } else {
+      this.setData({
+        commission: ""
+      })
+    }
   },
 
   /**
@@ -256,19 +359,19 @@ Page({
   /**
    * 点击选择新上传图片
    */
-  tapAddNewUploadImage: function(e) {
-    let that = this;
-    wx.chooseImage({
-      count: Max_UploadImage_Length,
-      success: function(res) {
-        that.setData({
-          uploadImageList: res.tempFilePaths,
-          serviceImagePathList: null,
-        })
-        that.uploadListImage();
-      },
-    })
-  },
+  // tapAddNewUploadImage: function(e) {
+  //   let that = this;
+  //   wx.chooseImage({
+  //     count: Max_UploadImage_Length,
+  //     success: function(res) {
+  //       that.setData({
+  //         uploadImageList: res.tempFilePaths,
+  //         serviceImagePathList: null,
+  //       })
+  //       that.uploadListImage();
+  //     },
+  //   })
+  // },
 
   /**
    * 输入描述
@@ -278,6 +381,127 @@ Page({
       describe: e.detail.value
     })
   },
+
+  /**
+   * 团购开关
+   */
+  groupBindChange:function(res){
+    this.setData({
+      groupIsChecked: res.detail.value
+    })
+  },
+
+  /**
+   * 输入起始团购数量
+   */
+  firstNumberInput:function(index){
+    let that=this
+
+        this.data.addGroupPriceList[index].startQty = parseInt(this.data.addGroupPriceList[this.data.addGroupPriceList.length - 2].endQty) + 1;
+
+        that.setData({
+          addGroupPriceList: this.data.addGroupPriceList
+        })
+    
+
+  },
+
+  /**
+   * 输入终止团购数量
+   */
+  theSecondNumberTnput:function(e){
+    let that=this;
+    let index = e.currentTarget.dataset.index;
+    this.data.addGroupPriceList[index].endQty = e.detail.value;
+
+    if (!Util.checkEmpty(e.detail.value) && !Util.checkEmpty(that.data.addGroupPriceList[index].startQty)){
+      if (parseInt(e.detail.value) <= that.data.addGroupPriceList[index].startQty){
+            wx.showToast({
+              title: '终止数量不能小于起始数量',
+              icon:"none"
+            })
+            that.setData({
+              groupNumberCheck:true
+            })
+        }else{
+          that.setData({
+            addGroupPriceList: this.data.addGroupPriceList,
+            groupNumberCheck: false,
+          })
+        }
+    }
+   
+   
+  },
+
+  /**
+   * 输入阶段价格
+   */
+  priceInput:function(e){
+    let index = e.currentTarget.dataset.index;
+    this.data.addGroupPriceList[index].price = e.detail.value;
+    this.setData({
+      addGroupPriceList: this.data.addGroupPriceList
+    })
+    Utils.logInfo(JSON.stringify(this.data.addGroupPriceList))
+  },
+
+
+
+  /**
+   * 删除团购阶段价格
+   * 
+   */
+  tapDeleteGroupPrice:function(e){
+    let that=this;
+    let index = e.currentTarget.dataset.index;
+    this.data.addGroupPriceList.splice(index, 1);
+    this.setData({
+      addGroupPriceList: this.data.addGroupPriceList,
+      delType: this.data.addGroupPriceList.length-1 //显示上一条数据的删除符号校验
+    })
+  },
+
+  /**
+   * 新增团购价格阶梯
+   */
+  addGroupPrice: function (e) {
+    let index = e.currentTarget.dataset.index;
+    if (!Util.checkEmpty(this.data.addGroupPriceList)) {
+      let lastGroupPrice= this.data.addGroupPriceList[this.data.addGroupPriceList.length - 1];
+      if (Util.checkEmpty(lastGroupPrice.startQty) || Util.checkEmpty(lastGroupPrice.endQty) || Util.checkEmpty(lastGroupPrice.price)) {
+        wx.showToast({
+          title: '请补完上一条价格阶梯',
+          icon: 'none'
+        })
+        return;
+      }
+
+    }
+
+    let groupPrice = {
+      startQty: null,
+      endQty: null,
+      price:null,
+    }
+    if (index == 0) {
+      groupPrice.startQty=1
+    }
+    this.data.addGroupPriceList.push(groupPrice);
+    this.setData({
+      addGroupPriceList: this.data.addGroupPriceList,
+      delType: index
+    })
+    
+    if (index!=0){
+      this.firstNumberInput(index);
+    }
+
+
+  },
+
+
+  
 
   /**
    * 新增疫苗信息
@@ -465,122 +689,85 @@ Page({
    */
   tapToRelease: function(e) {
     let that = this;
-    let releaseData = this.getReleaseData();
-    wx.showLoading({
-      title: '请稍等...',
-    })
-    if (releaseData != null) {
-      console.log("releaseData : \n" + JSON.stringify(releaseData));
-      if (this.data.type == 0) {
-        this.requestRelease(releaseData,
-          function releaseResultCallback(result) {
-            wx.hideLoading();
-            if (result >= 1) {
-              wx.showToast({
-                title: '发布成功',
-                icon: 'none',
-                duration: 1500
-              })
-              that.data.successTimeIntervier = setTimeout(function (res) {
-                wx.navigateBack({
-
+    UserService.isLogin(function isLoginCallback(){
+      let releaseData = that.getReleaseData();
+      if (releaseData != null) {
+        wx.showLoading({
+          title: '请稍等...',
+        })
+        Utils.logInfo("releaseData : \n" + JSON.stringify(releaseData));
+        if (that.data.type == 0) {
+          that.requestRelease(releaseData,
+            function releaseResultCallback(result) {
+              wx.hideLoading();
+              if (result == "操作成功") {
+                wx.showToast({
+                  title: '发布成功',
+                  icon: 'none',
+                  duration: 1500
                 })
-              }, 1600)
-            } else {
-              wx.showToast({
-                title: '发布插入失败',
-                icon: 'none'
-              })
-            }
-          }
-        )
-      } else {
-        this.requestEdit(releaseData,
-          function editResultCallback(result) {
-            wx.hideLoading();
-            if (result >= 1) {
-              wx.showToast({
-                title: '编辑成功',
-                icon: 'none',
-                duration: 1500
-              })
-              that.data.successTimeIntervier = setTimeout(function (res) {
-                wx.navigateBack({
+                that.data.successTimeIntervier = setTimeout(function (res) {
+                  wx.navigateBack({
 
+                  })
+                }, 1600)
+              } else {
+                wx.showToast({
+                  title: '发布插入失败',
+                  icon: 'none'
                 })
-              }, 1600)
-            } else {
-              wx.showToast({
-                title: '编辑插入失败',
-                icon: 'none'
-              })
+              }
             }
-          }
-        )
+          )
+        } else {
+          that.requestEdit(releaseData,
+            function editResultCallback(result) {
+              wx.hideLoading();
+              if (result >= 1) {
+                wx.showToast({
+                  title: '编辑成功',
+                  icon: 'none',
+                  duration: 1500
+                })
+                that.data.successTimeIntervier = setTimeout(function (res) {
+                  wx.navigateBack({
+
+                  })
+                }, 1600)
+              } else {
+                wx.showToast({
+                  title: '编辑插入失败',
+                  icon: 'none'
+                })
+              }
+            }
+          )
+        }
       }
-      
-    }
+    })
   },
 
   /**
-   * 上传列表图片
-   * @param uploadCompleteCallback 列表上传完成
-   */
-  uploadListImage: function (uploadCompleteCallback) {
-    if (this.data.serviceImagePathList == null) {
-      this.data.serviceImagePathList = [];
-    }
+  * 上传列表图片
+  * @param uploadCompleteCallback 列表上传完成
+  */
+  uploadCompletesert: function (res) {
+    Utils.logInfo(JSON.stringify(res))
     let that = this;
-    // 上传任务不为空
-    if (that.data.uploadImageTask != null) {
-      // 取消图片上传进度监听
-      that.data.uploadImageTask.offProgressUpdate();
-      // 中止图片上传任务
-      that.data.uploadImageTask.abort();
-      // 图片上传任务置空
-      that.data.uploadImageTask = null;
+    let uploadReturnDataList = res.detail.uploadReturnDataList;
+    let uploadReturnDataArr=[];
+    for (let i = 0; i < uploadReturnDataList.length;i++){
+        let objectList = {}
+        objectList.coverAddress = uploadReturnDataList[i];
+         objectList.type = 0;
+        objectList.order=0;
+        uploadReturnDataArr.push(objectList)
     }
-    that.data.uploadImageTask = UploadFileService.fileUpload(that.data.uploadImageList[that.data.currentUploadIndex],
-      // 监听图片上传任务
-      function uploadCallback(res) {
-        console.log("uploadimage upload callback: \n" + JSON.stringify(res));
-        that.data.serviceImagePathList.push({
-          coverImg: res.root[0].fileAddress
-        });
-        that.data.currentUploadIndex++;
-        that.setData({
-          serviceImagePathList: that.data.serviceImagePathList
-        })
-        if (that.data.currentUploadIndex >= that.data.uploadImageList.length) {
-          that.setData({
-            currentUploadIndex: 0,
-            uploadImageProgress: -1
-          })
-          // 取消图片上传进度监听
-          that.data.uploadImageTask.offProgressUpdate();
-          // 中止图片上传任务
-          that.data.uploadImageTask.abort();
-          // 图片上传任务置空
-          that.data.uploadImageTask = null;
-          if (Util.checkIsFunction(uploadCompleteCallback)) {
-            uploadCompleteCallback();
-          }
-        } else {
-          that.setData({
-            currentUploadIndex: that.data.currentUploadIndex,
-            uploadImageProgress: 0
-          })
-          that.uploadListImage()
-        }
-      },
-      // 监听图片上传进度
-      function onProgressCallback(res) {
-        console.log("uploadimage on progress callback: \n" + JSON.stringify(res));
-        that.setData({
-          uploadImageProgress: res.progress
-        })
-      },
-    )
+    this.get_emit();
+    that.setData({
+      serviceImagePathList: uploadReturnDataList,
+      pohtoListObj: uploadReturnDataArr
+    })
   },
 
   /**
@@ -601,7 +788,7 @@ Page({
     that.data.uploadFatherImageTask = UploadFileService.fileUpload(that.data.parent.father.imagePath,
       // 监听图片上传任务
       function uploadCallback(res) {
-        console.log("fatherimage upload callback: \n" + JSON.stringify(res));
+        Utils.logInfo("fatherimage upload callback: \n" + JSON.stringify(res));
         that.data.parent.father.serviceImagePath = res.root[0].fileAddress;
         that.setData({
           parent: that.data.parent,
@@ -619,7 +806,7 @@ Page({
       },
       // 监听图片上传进度
       function onProgressCallback(res) {
-        console.log("fatherimage on progress callback: \n" + JSON.stringify(res));
+        Utils.logInfo("fatherimage on progress callback: \n" + JSON.stringify(res));
         that.setData({
           uploadFatherImageProgress: res.progress
         })
@@ -645,7 +832,7 @@ Page({
     that.data.uploadMotherImageTask = UploadFileService.fileUpload(that.data.parent.mother.imagePath,
       // 监听图片上传任务
       function uploadCallback(res) {
-        console.log("motherimage upload callback: \n" + JSON.stringify(res));
+        Utils.logInfo("motherimage upload callback: \n" + JSON.stringify(res));
         that.data.parent.mother.serviceImagePath = res.root[0].fileAddress;
         that.setData({
           parent: that.data.parent,
@@ -663,12 +850,22 @@ Page({
       },
       // 监听图片上传进度
       function onProgressCallback(res) {
-        console.log("motherimage on progress callback: \n" + JSON.stringify(res));
+        Utils.logInfo("motherimage on progress callback: \n" + JSON.stringify(res));
         that.setData({
           uploadMotherImageProgress: res.progress
         })
       },
     )
+  },
+
+  /**
+   * 宠物名称
+   */
+  inputPetName:function(res){
+      let petName=res.detail.value;
+      this.setData({
+        petName:petName
+      })
   },
 
   /**
@@ -746,95 +943,168 @@ Page({
    * return releaseData
    */
   getReleaseData: function () {
-    let releaseData = {};
+    let releaseData = {
+      // pet.business:UserService.getBusinessNo()
+    };
+    
+    releaseData.pet = {
+      
+    }
 
-    releaseData.business = {
+    releaseData.pet.business={
       businessNo: UserService.getBusinessNo()
     }
 
     if (!Util.checkEmpty(this.data.petNo)) {
-      releaseData.petNo = this.data.petNo
+      releaseData.pet.petNo = this.data.petNo
+    }else{
+      releaseData.pet.petNo = '';
     }
+
+    if (Util.checkEmpty(this.data.petName)){
+      this.toast("请输入宠物名称");
+      return null;
+    }
+    releaseData.pet.petName = this.data.petName;
 
     if (Util.checkEmpty(this.data.petSort)) {
       this.toast("请选择宠物分类");
       return null;
     }
-    releaseData.petSort = this.data.petSort;
+    releaseData.pet.petSort= this.data.petSort;
 
     if (Util.checkEmpty(this.data.petGenre)) {
       this.toast("请选择宠物品种");
       return null;
     }
-    releaseData.petGenre = this.data.petGenre;
+    releaseData.pet.petGenre= this.data.petGenre;
 
     if (Util.checkEmpty(this.data.sexy)) {
       this.toast("请选择宠物性别");
       return null;
     }
-    releaseData.petSex = this.data.sexy == "公" ? 1 : 2;
+    releaseData.pet.petSex = this.data.sexy == "公" ? 1 : 2;
 
-    if (Util.checkEmpty(this.data.sterilized)) {
-      this.toast("请选择是否绝育");
-      return null;
-    }
-    releaseData.petSterilization = this.data.sterilized == "是" ? 1 : 2;
+    // if (Util.checkEmpty(this.data.sterilized)) {
+    //   this.toast("请选择是否绝育");
+    //   return null;
+    // }
+    // releaseData.pet.petSterilization = this.data.sterilized == "是" ? 1 : 2;
 
     if (Util.checkEmpty(this.data.birthday)) {
       this.toast("请选择宠物生日");
       return null;
     }
-    releaseData.petBirthday = this.data.birthday;
+    releaseData.pet.petBirthday = this.data.birthday;
 
     if (Util.checkEmpty(this.data.retailPrice)) {
       this.toast("请输入宠物零售价格");
       return null;
     }
-    releaseData.retailPrice = this.data.retailPrice;
+    releaseData.pet.retailPrice = this.data.retailPrice;
 
-    if (Util.checkEmpty(this.data.marketPrice)) {
-      this.toast("请输入宠物市场价格");
-      return null;
-    }
-    releaseData.marketPrice = this.data.marketPrice;
+    // if (Util.checkEmpty(this.data.marketPrice)) {
+    //   this.toast("请输入宠物市场价格");
+    //   return null;
+    // }
+    // releaseData.pet.marketPrice = this.data.marketPrice;
 
     if (Util.checkEmpty(this.data.commissionRatio)) {
       this.toast("请输入佣金比例");
       return null;
     }
-    releaseData.brokerage = this.data.commissionRatio;
+    releaseData.pet.commission = this.data.commissionRatio;
+    if (Util.checkEmpty(this.data.commission)) {
+      this.countCommission();
+    }
+    releaseData.pet.commissionAmount = this.data.commission;
 
-    if (Util.checkEmpty(this.data.transportTypeList)) {
-      this.toast("请选择配送方式");
+    // if (Util.checkEmpty(this.data.transportTypeList)) {
+    //   this.toast("请选择配送方式");
+    //   return null;
+    // }
+    releaseData.pet.freeShipping = this.data.freeShipping; //是否包邮
+
+    if (this.data.afterSaleServiceCheck==true){   //保质七天
+      releaseData.pet.sevenWarranty= 1;
+    }else{
+      releaseData.pet.sevenWarranty = 0;
+    }
+
+
+    releaseData.pet.seve = this.data.afterSaleServiceCheck;
+
+    if (Util.checkEmpty(this.data.petweight)) {
+      this.toast("请输入宠物的重量");
       return null;
     }
-    releaseData.petTransport = {};
-    for (let index = 0; index < this.data.transportTypeList.length; index++) {
-      let tempTransport = this.data.transportTypeList[index];
-      if (tempTransport.name == "航空") {
-        releaseData.petTransport.airport = tempTransport.price;
-      } else if (tempTransport.name == "大巴") {
-        releaseData.petTransport.coach = tempTransport.price;
-      } else if (tempTransport.name == "铁路") {
-        releaseData.petTransport.railway = tempTransport.price;
-      } else if (tempTransport.name == "专车") {
-        releaseData.petTransport.shuttleBus = tempTransport.price;
-      } else if (tempTransport.name == "自提") {
-        releaseData.petTransport.takeTheir = tempTransport.price;
-      }
+    releaseData.pet.weight = this.data.petweight;
+
+
+
+
+    if (this.data.isInsuranceChecked == false) {  //判断是否需要保险
+      releaseData.pet.insurance = 0;
+    } else {
+      releaseData.pet.insurance = this.data.insuranceTimeState   //保险时长
     }
+
+    if (this.data.groupIsChecked==true){  //宠物是否是团购
+      if (this.data.addGroupPriceList.length<=0){
+        this.toast("请添加团购梯度！");
+      }else{
+        releaseData.petGrouponList = this.data.addGroupPriceList
+        releaseData.pet.groupon=1;
+      }
+    } else {
+      releaseData.pet.groupon = 0;
+    }
+
 
     if (Util.checkEmpty(this.data.serviceImagePathList)) {
+      Utils.logInfo(this.data.serviceImagePathList+"========")
       this.toast("请上传至少一张图片");
       return null;
-    } else if (this.data.serviceImagePathList.length != this.data.uploadImageList.length) {
+    } else if (this.data.serviceImagePathList.length==0) {
       this.toast("宠物图片未上传成功");
       return null;
     }
-    releaseData.coverMedia = this.data.serviceImagePathList;
+    releaseData.petWormKillList = null;
+    releaseData.petVaccineList = null;
+    let tempCoverList = [];
+    for (let index = 0; index < this.data.pohtoListObj.length; index++) {
+      let tempObj = this.data.pohtoListObj[index];
+      let address = "";
+      if (tempObj.coverAddress.fileAddress) {
+        address = tempObj.coverAddress.fileAddress;
+      } else if (tempObj.coverAddress.coverAddress) {
+        address = tempObj.coverAddress.coverAddress;
+      } else if (tempObj.coverAddress){
+        address = tempObj.coverAddress;
+      } else {
+        address = tempObj.fileAddress;
+      }
+      let tempType = "";
+      if (tempObj.coverAddress.fileTypeEnum) {
+        tempType = tempObj.coverAddress.fileTypeEnum;
+      } else if (tempObj.coverAddress.type) {
+        tempType = tempObj.coverAddress.type;
+      } else if (tempObj.fileTypeEnum) {
+        tempType = tempObj.fileTypeEnum;
+      } else {
+        tempType = tempObj.type;
+      }
+      tempCoverList.push({
+        coverAddress: address,
+        type: tempType,
+        order: index
+      })
+    }
+    releaseData.petCoverList = tempCoverList;
+    releaseData.petGrouponList = null;
 
     if (!Util.checkEmpty(this.data.describe)) {
-      releaseData.petDescription = this.data.describe;
+      releaseData.pet.petDescription = this.data.describe;
     }
 
     if (!Util.checkEmpty(this.data.vaccineList)) {
@@ -842,27 +1112,35 @@ Page({
     }
 
     if (!Util.checkEmpty(this.data.repellentList)) {
-      releaseData.petKillList = this.data.repellentList;
+      releaseData.petWormKillList = this.data.repellentList;
     }
 
     if (!Util.checkEmpty(this.data.identifier)) {
-      releaseData.petUniqueCode = this.data.identifier;
+      releaseData.pet.petUniqueCode = this.data.identifier;
     }
 
     if (!Util.checkEmpty(this.data.parent.father.serviceImagePath)) {
-      releaseData.fatherImg = this.data.parent.father.serviceImagePath;
+      releaseData.pet.fatherImg = this.data.parent.father.serviceImagePath;
+    }else{
+      releaseData.pet.fatherImg = '';
     }
 
     if (!Util.checkEmpty(this.data.parent.father.name)) {
-      releaseData.fatherName = this.data.parent.father.name;
+      releaseData.pet.fatherName = this.data.parent.father.name;
+    }else{
+      releaseData.pet.fatherName = '';
     }
 
     if (!Util.checkEmpty(this.data.parent.mother.serviceImagePath)) {
-      releaseData.motherImg = this.data.parent.mother.serviceImagePath;
+      releaseData.pet.motherImg = this.data.parent.mother.serviceImagePath;
+    }else{
+      releaseData.pet.motherImg = '';
     }
 
     if (!Util.checkEmpty(this.data.parent.mother.name)) {
-      releaseData.motherName = this.data.parent.mother.name;
+      releaseData.pet.motherName = this.data.parent.mother.name;
+    }else{
+      releaseData.pet.motherName = '';
     }
 
     return releaseData;
@@ -873,71 +1151,76 @@ Page({
    * @param editReleasePet
    */
   setEditData: function(editReleasePet) {
-    let petNo = editReleasePet.petNo;
-    let petSort = editReleasePet.petSort;
-    let petGenre = editReleasePet.petGenre;
-    let petSexy = editReleasePet.petSex==1?"公":"母";
-    let petSterilization = editReleasePet.petSterilization==1?"是":"否";
-    let petBirthday = editReleasePet.petBirthday;
-    let retailPrice = editReleasePet.retailPrice;
-    let marketPrice = editReleasePet.marketPrice;
-    let brokerage = editReleasePet.brokerage;
-    let transportList = [];
-    if (!Util.checkEmpty(editReleasePet.petTransport.airport)) {
-      transportList.push({
-        name: "航空",
-        price: editReleasePet.petTransport.airport
+    let that=this;
+    Utils.logInfo("宠物编辑数据===>"+JSON.stringify(editReleasePet));
+    let petName = editReleasePet.pet.petName;
+    let petNo = editReleasePet.pet.petNo;
+    let petSort = editReleasePet.pet.petSort;
+    let petGenre = editReleasePet.pet.petGenre;
+    let petSexy = editReleasePet.pet.petSex==1?"公":"母";
+    let petSterilization = editReleasePet.pet.petSterilization==1?"是":"否";
+    let petBirthday = editReleasePet.pet.petBirthday;
+    let retailPrice = editReleasePet.pet.retailPrice;
+    let marketPrice = editReleasePet.pet.marketPrice;
+    let commission = editReleasePet.pet.commissionAmount;
+    let insurance = editReleasePet.pet.insurance;   //保险天数
+    let freeShipping = editReleasePet.pet.freeShipping; //是否包邮
+    let sevenWarranty = editReleasePet.pet.sevenWarranty; //是否七天保质
+    let commissionRatio = editReleasePet.pet.commission; //佣金比例
+    let petweight = editReleasePet.pet.weight; //宠物重量
+    
+    let afterSale = "afterSaleService[" + sevenWarranty+ "].checked"; 
+    that.setData({
+      [afterSale]:true
+    })    //替换售后控制按钮
+
+    if (freeShipping==1){
+      that.setData({
+        isChecked:true
       })
-    }
-    if (!Util.checkEmpty(editReleasePet.petTransport.shuttleBus)) {
-      transportList.push({
-        name: "专车",
-        price: editReleasePet.petTransport.shuttleBus
+    }else{
+      that.setData({
+        isChecked:false
       })
-    }
-    if (!Util.checkEmpty(editReleasePet.petTransport.coach)) {
-      transportList.push({
-        name: "大巴",
-        price: editReleasePet.petTransport.coach
+    } //是否包邮勾选
+
+    if (insurance == 90 || insurance==365){
+      that.setData({
+        isInsuranceChecked:true
       })
-    }
-    if (!Util.checkEmpty(editReleasePet.petTransport.railway)) {
-      transportList.push({
-        name: "铁路",
-        price: editReleasePet.petTransport.railway
-      })
-    }
-    if (!Util.checkEmpty(editReleasePet.petTransport.takeTheir)) {
-      transportList.push({
-        name: "自提",
-        price: editReleasePet.petTransport.takeTheir
-      })
-    }
-    let uploadImageList = [];
-    let serviceImageList = [];
-    if (!Util.checkEmpty(editReleasePet.coverMedia)) {
-      for (let index = 0; index < editReleasePet.coverMedia.length; index++) {
-        let tempMedia = editReleasePet.coverMedia[index];
-        uploadImageList.push(tempMedia.coverImg);
-        serviceImageList.push({
-          coverImg: tempMedia.coverImg
-        });
+      if (insurance==90){
+        let insuranceTime = "insuranceTime[" + 0 + "].checked"; 
+        that.setData({
+          [insuranceTime]:true
+        })
+      }else{
+        let insuranceTime = "insuranceTime[" + 1+ "].checked";
+        that.setData({
+          [insuranceTime]: true
+        })
       }
-    }
-    let petDescription = editReleasePet.petDescription;
+     
+    }else{
+      that.setData({
+        isInsuranceChecked:false
+      })
+    } //判断否勾选宠物保险框
+  
+    let serviceImageList = editReleasePet.petCoverList;
+    let petDescription = editReleasePet.pet.petDescription;
     let petVaccineList = [];
     if (!Util.checkEmpty(editReleasePet.petVaccineList)) {
       petVaccineList = editReleasePet.petVaccineList;
     }
     let petKillList = [];
-    if (!Util.checkEmpty(editReleasePet.petKillList)) {
-      petKillList = editReleasePet.petKillList;
+    if (!Util.checkEmpty(editReleasePet.petWormKillList)) {
+      petKillList = editReleasePet.petWormKillList;6
     }
-    let petUniqueCode = editReleasePet.petUniqueCode;
-    let fatherName = editReleasePet.fatherName;
-    let fatherImage = editReleasePet.fatherImg
-    let motherName = editReleasePet.motherName;
-    let motherImage = editReleasePet.motherImg
+    let petUniqueCode = editReleasePet.pet.petUniqueCode;
+    let fatherName = editReleasePet.pet.fatherName;
+    let fatherImage = editReleasePet.pet.fatherImg
+    let motherName = editReleasePet.pet.motherName;
+    let motherImage = editReleasePet.pet.motherImg
     let parent = {
       father: {
         name: fatherName, // 名称
@@ -950,7 +1233,12 @@ Page({
         serviceImagePath: motherImage, // 服务器地址
       }
     } // 父母
+
+    let uploadReturnDataArr = serviceImageList;
+
     this.setData({
+      pohtoListObj:uploadReturnDataArr,
+      petName:petName,
       petNo: petNo,
       petSort: petSort,
       petGenre: petGenre,
@@ -959,16 +1247,108 @@ Page({
       birthday: petBirthday,
       retailPrice: retailPrice,
       marketPrice: marketPrice,
-      commissionRatio: brokerage,
-      transportTypeList: transportList,
-      uploadImageList: uploadImageList,
+      commission: commission,
+      // transportTypeList: transportList,
       serviceImagePathList: serviceImageList,
       describe: petDescription,
       vaccineList: petVaccineList,
       repellentList: petKillList,
       identifier: petUniqueCode,
-      parent: parent
+      parent: parent,
+      commissionRatio: commissionRatio,  //佣金比例
+      petweight: petweight, //宠物重量
+      insuranceTimeState: insurance , //保险时长
     })
   },
+
+  /**
+   * 删除图片操作
+   */
+  deleteImage:function(e){
+    let that=this;
+    Utils.logInfo("====>"+JSON.stringify(e))
+    let deletImageInfo = e.detail.imagePathList;
+    that.setData({
+      serviceImagePathList: deletImageInfo
+    })
+  },
+
+  /**
+   * 选择更多的选项
+   */
+  moreInfoTap:function(){
+    let that=this;
+    this.setData({
+      showMoreInfo: !that.data.showMoreInfo
+    })
+  },
+
+  /**
+   * 是否包邮开关状态
+   */
+  petPostChange:function(res){
+    let that=this;
+    let freeShipState;
+    let freeShip = res.detail.value
+    if (freeShip==true){
+      that.setData({
+        freeShipping:1
+      })
+    }else{
+      that.setData({
+        freeShipping: 0
+      })
+    }
+  },
+  
+  /**
+   * 是否需要宠物保险
+   */
+  insuranceChange:function(res){
+    this.setData({
+      isInsuranceChecked: res.detail.value
+    })
+  },
+  /**
+   * 宠物重量输入框
+   */
+  inputPetWeight:function(res){
+    Utils.logInfo(JSON.stringify(res))
+    this.setData({
+      petweight: res.detail.value
+    })
+  },
+
+  /**
+   * 保险时长
+   */
+  insuranceTimeChange:function(res){
+    let that=this;
+    if (res.detail.value==0){
+      that.setData({
+        insuranceTimeState: 90
+      })
+    }else{
+      that.setData({
+        insuranceTimeState: 365
+      })
+    }
+  },
+
+  /**
+   * 售后服务()
+   */
+  afterSaleServiceChange:function(e){
+      let that=this;
+      if (e.detail.value =="质保7天"){
+        that.setData({
+           afterSaleServiceCheck:true
+        })
+      }else{
+        that.setData({
+          afterSaleServiceCheck: false
+        })
+      }
+  }
 
 })

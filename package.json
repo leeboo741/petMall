@@ -1,0 +1,22 @@
+{
+  "name": "petmall",
+  "version": "1.0.0",
+  "description": "宠物商城",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leeboo741/petMall.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/leeboo741/petMall/issues"
+  },
+  "homepage": "https://github.com/leeboo741/petMall#readme",
+  "dependencies": {
+    "vant-weapp": "^0.5.27"
+  }
+}

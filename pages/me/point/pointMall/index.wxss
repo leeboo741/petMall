@@ -1,0 +1,73 @@
+/* pages/me/point/pointMall/index.wxss */
+
+.coupon-item{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-grow: 1;
+  padding: 20rpx 15rpx;
+  border: 1rpx solid #4a555f;
+  border-radius: 15rpx;
+}
+
+.coupon-item-header{
+  width: 23%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.coupon-item-body{
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+}
+
+.coupon-item-footer{
+  width: 17%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.coupon-item-value{
+  font-size: 38rpx;
+  font-weight: bold;
+  color: red;
+}
+
+.coupon-item-value-number{
+  font-size: 42rpx;
+  margin-right: 8rpx;
+}
+
+.coupon-item-unit{
+  font-size: 28rpx;
+  color: gray;
+}
+
+.coupon-item-title{
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #4a555f;
+  margin-bottom: 10rpx;
+}
+
+.coupon-item-price{
+  text-align: right;
+  font-size: 36rpx;
+  color: gold;
+  margin-bottom: 10rpx;
+}
+
+.coupon-item-describe{
+  font-size: 22rpx;
+  color: lightgray;
+}
+
+.receiver-button{
+  font-size: 34rpx;
+  color: red;
+  font-weight: bold;
+}

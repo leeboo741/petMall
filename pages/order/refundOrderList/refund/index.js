@@ -3,7 +3,10 @@
 const app = getApp();
 const UrlPath = require("../../../../macros/urlPath.js");
 const Util = require("../../../../utils/util.js");
+const Utils = require("../../../../utils/util.js");
 const OrderService = require("../../../../services/orderService.js");
+
+const ShareManager = require("../../../../services/shareService");
 
 Page({
 
@@ -81,7 +84,7 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-
+    return ShareManager.getDefaultShareCard();
   },
 
   /**
@@ -199,7 +202,7 @@ Page({
           orderAmount: this.data.order.paymentAmount
         },
         function refundResultCallback(result) {
-          console.log("发起退款 宠物：\n" + JSON.stringify(result));
+          Utils.logInfo("发起退款 宠物：\n" + JSON.stringify(result));
           if (Util.checkIsFunction(refundCallback)) {
             refundCallback(result.root);
           }
@@ -215,7 +218,7 @@ Page({
           orderAmount: this.data.order.paymentAmount
         },
         function refundResultCallback(result) {
-          console.log("发起退款 商品：\n" + JSON.stringify(result));
+          Utils.logInfo("发起退款 商品：\n" + JSON.stringify(result));
           if (Util.checkIsFunction(refundCallback)) {
             refundCallback(result.root);
           }

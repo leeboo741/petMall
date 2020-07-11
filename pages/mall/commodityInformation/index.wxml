@@ -1,176 +1,304 @@
 <!--pages/mall/commodityInformation/index.wxml-->
-<i-navigation-bar title='{{itemDetailData.itemName}}' showBackButton='{{true}}'>
+<i-navigation-bar title='{{itemDetailData.item.itemName}}' showBackButton='{{true}}'>
 </i-navigation-bar>
 
 <view class="image-page-info">
-  <!-- 图片展示 -->
-  <view class="image-page-head">
-    <i-image i-class="images-cal" imageSrc="{{itemDetailData.coverImg}}" >
-    </i-image>
-  </view>
+	<swiper wx:if='{{itemDetailData.itemOrderList && itemDetailData.itemOrderList.length > 0}}' class="sale-notice-box" autoplay interval='3000' duration='100' circular vertical>
+		<swiper-item wx:for='{{itemDetailData.itemOrderList}}' wx:key='orderNo' item-id='{{index}}'>
+			<view class='sale-notice-item'>
+				<view class="sale-notice-item-content">
+					{{parse.encryptName(item.receivingName)}} {{parse.encryptPhone(item.receivingPhone)}} 购买 X{{item.qty}}
+				</view>
+			</view>
+		</swiper-item>
+	</swiper>
+	<!-- 图片展示 -->
+	<scroll-view scroll-x style="white-space: nowrap;width: 100vw;height:600rpx" scroll-into-view='{{currentImageItemId}}' wx:if='{{itemDetailData.itemCoverList!=null&&itemDetailData.itemCoverList.length>0}}' bindscroll='bannerScrollAction'>
+		<view wx:for='{{itemDetailData.itemCoverList}}' class="image-page-head">
+			<i-image id='s+{{index}}' i-class='images-cal' imageSrc="{{item}}" style="width:100%;height:100%;" contentStyle='card'>
+			</i-image>
+		</view>
+	</scroll-view>
+	<view wx:else style="width: 100vw;height:600rpx">
+		<view class="image-page-head">
+			<i-image i-class='images-cal' imageSrc="none" contentStyle='card'>
+			</i-image>
+		</view>
+	</view>
 
-  <view class="image-page-bottom" style="font-weight: bold;font-size:35rpx;">
-    {{itemDetailData.itemName}}
-  </view>
+	<view class="image-page-bottom" style="font-weight: bold;font-size:35rpx;margin-top:3%;">
+		{{itemDetailData.item.itemName}}
+	</view>
 
-  <view class="image-page-bottom" style="color:#ccc;">
-    {{itemDetailData.itemStage}}
-  </view>
+	<view class="image-page-bottom" style="color:#ccc;">
+		{{itemDetailData.item.itemProfile}}
+	</view>
 
-  <view class="image-page-bottom" style="color:#ED630A;font-weight: bold;font-size:35rpx;">
-    ￥{{itemDetailData.retailPrice}}
-    <view class="foodgrain-page-formation-down-member">
-      会员价
-    </view>
-    <view style="color:#ccc;padding-left:55%;text-decoration:line-through;">
-      ￥{{itemDetailData.marketPrice}}
-    </view>
-  </view>
+	<view class="image-page-bottom" style="color:#ED630A;font-weight: bold;font-size:35rpx;">
+		￥{{itemDetailData.item.retailPrice}}
+		<view class="foodgrain-page-formation-down-member" style="margin-left: 20rpx;">
+			会员价
+		</view>
+		<view style='margin-left: 20rpx'>
+			库存：{{itemDetailData.item.qty}}
+		</view>
+	</view>
+
+	<view class="image-page-bottom" style="margin-bottom: 2%;flex-direction: row; flex-wrap: wrap;" wx:if='{{itemDetailData.itemGrouponList!=null && itemDetailData.itemGrouponList.length > 0 && businessInfo.authType > 1}}'>
+		<view style="color:#ED630A;font-weight: bold;font-size:35rpx;">团购价格:</view>
+		<view wx:for='{{itemDetailData.itemGrouponList}}' class="foodgrain-page-formation-down-member" style="padding: 5rpx 10rpx; margin: 15rpx;">
+			{{item.qty}}起/￥{{item.price}}
+		</view>
+	</view>
 </view>
 
 <!-- 状态信息 -->
 <view class="page-lower-info">
-  <view class="page-lower-info-table" wx:for='{{commodityInforType}}' wx:for-item="InforTypeItem" wx:for-index="InforTypeIndex" wx:key='{{InforTypeIndex}}'>
-    <view style="color:#ccc;">
-      {{InforTypeItem.type}}：
-    </view>
-    <view>
-      {{parse.getInfoValue(InforTypeIndex, itemDetailData)}}
-    </view>
-  </view>
+	<view class="page-lower-info-table" wx:for='{{commodityInforType}}' wx:for-item="InforTypeItem" wx:for-index="InforTypeIndex" wx:key='{{InforTypeIndex}}'>
+		<view style="color:#ccc;">
+			{{InforTypeItem.type}}：
+		</view>
+		<view style="font-size:28rpx;">
+			{{parse.getInfoValue(InforTypeIndex, itemDetailData)}}
+		</view>
+	</view>
+</view>
+
+<view class="business-head-page">
+	<view class="business-head-inleft" bindtap="recommendedTap" data-item="{{storeDetailData}}">
+		<i-image imageSrc="{{itemDetailData.item.business.headImg}}" i-class="business-image">
+		</i-image>
+	</view>
+	<view class="business-head-inright">
+		<view style="font-weight:bold; font-size: 32rpx;">
+			{{itemDetailData.item.business.businessName}}
+		</view>
+		<view style='text-decoration: underline; color: blue' bindtap="tapStorePhone">
+			{{itemDetailData.item.business.contactPhone!=null?itemDetailData.item.business.contactPhone:""}}
+		</view>
+		<view style="color:#ccc;" wx:if='{{itemDetailData.item.business.authType>1}}'>
+			{{parse.showText(itemDetailData.item.business.province)}} {{parse.showText(itemDetailData.item.business.city)}} {{parse.showText(itemDetailData.item.business.detailAddress)}}
+		</view>
+		<view style='text-decoration: underline; color: red' bindtap="tapWXQRCode">
+			商家微信二维码
+		</view>
+	</view>
+
+	<view class="business-head-right-button-page" bindtap="recommendedTap" data-item="{{dataSourceInforMation}}">
+		<view class="right-button">
+			进入店铺
+		</view>
+	</view>
+</view>
+
+
+
+<view class="divLine" hidden="itemDetailData.item.itemAppraise.length<=0?true:false" />
+
+<view class="guarantee-page" hidden>
+	<view class="guarantee-head-page">
+		///////////////
+		<view style="font-weight:bold;color:black;">
+			品质服务保障
+		</view>
+		///////////////
+	</view>
+
+	<view class="guarantee-bodys-page" wx:for="{{guaranteeList}}" wx:for-item="guaranteeItem" wx:for-index="guaranteeIndex" wx:key="guaranteeIndex">
+		<view class="guarantee-inhead-page">
+			<image style="width:60rpx;height:60rpx;" src=" ../../../resource/guarantee.jpg ">
+			</image>
+			<view style="margin-left:2%;font-weight:bold;color:black;">
+				{{guaranteeItem.guaranteeHead}}
+			</view>
+		</view>
+		<view style="margin-left:8%;font-size:28rpx;color:#ccc;color:black;">
+			{{guaranteeItem.guaranteeInfor}}
+		</view>
+	</view>
+</view>
+
+<view wx:for="{{imageList}} " wx:for-item="imageListItem " wx:for-index="imageListIndex " wx:key="imageListIndex " hidden>
+	<image class="mottom-image " src="{{imageListItem.imageUrl}} ">
+	</image>
 </view>
 
 <!-- 用户评价 -->
 <view class="userevaluate-page">
-  <view class="userevaluate-head-page" bindtap="evaluateTap">
-    <view style="margin-left:5%;color:#8E8E8E;">
-      用户评价
-    </view>
+	<view class="userevaluate-head-page">
+		<view style="margin-left:5%;color:#8E8E8E;">
+			用户评价
+		</view>
 
-    <view style="margin-left:55%;color:blue;font-weight:bold;font-size:26rpx;">
-      更多评价
-      <i-icon type="enter" size="20" color="black" />
-    </view>
-  </view>
+		<view style="margin-left:55%;color:blue;font-weight:bold;font-size:26rpx;" bindtap="evaluateTap" hidden>
+			更多评价
+			<i-icon type="enter" size="20" color="black" />
+		</view>
+	</view>
 
-  <view class="userevaluate-content-page">
-    <view class="userevaluate-content-tables-page" wx:for="{{itemDetailData.itemAppraise}}" wx:for-item="evaluationInformationItem" wx:for-index="evaluationInformationIndex" wx:key="evaluationInformationIndex" style="margin-bottom: 20rpx;">
-      <view class="userevaluate-content-head">
-        <i-image imageSrc="{{evaluationInformationItem.customer.coverImg}}" i-class="image-sty" >
-        </i-image>
-        <view style="margin-left:2%;font-weight:bold;font-size:28rpx;">
-          {{evaluationInformationItem.customer.customerName}}
+	<view wx:if="{{evaluateList.length<=0}}" class="noevluatelist">
+		暂无评价!
+	</view>
+
+	<view wx:else class="userevaluate-content-page">
+		<view class="userevaluate-content-tables-page" wx:for="{{evaluateList}}" wx:for-item="evaluationInformationItem" wx:for-index="evaluationInformationIndex" wx:key="evaluationInformationIndex" style="margin-bottom: 20rpx;">
+			<view class="userevaluate-content-head">
+				<i-image imageSrc="{{evaluationInformationItem.itemAppraise.business.headImg}}" i-class="image-sty">
+				</i-image>
+				<view class="userevaluate-content-head-customerName">
+					{{parse.showCustomerName(evaluationInformationItem.itemAppraise.business.businessName)}}
+				</view>
+				<view class="userevaluate-content-head-appraiseTime">
+					{{evaluationInformationItem.itemAppraise.appraiseDate}}
+				</view>
+			</view>
+
+			<view style="margin-left:10%; display: flex;flex-wrap: nowrap;">
+				<!-- 遍历星星-->
+				<view wx:for="{{parse.showPraiseDegree(evaluationInformationItem.itemAppraise.praiseDegree)}}" wx:for-item="starsNumberItem" wx:for-index="starsNumberIndex" wx:key="starsNumberIndex">
+					<i-icon type="collection_fill" color="#EFCC83" />
+				</view>
+			</view>
+
+			<view style="margin: 15rpx 20rpx; font-size:30rpx;">
+					{{parse.showContent(evaluationInformationItem.itemAppraise.content)}}
+				</view>
+
+        <view style='display: flex; flex-direction: row; align-items: center; flex-wrap: wrap; margin-top: 20rpx'>
+          <view wx:for='{{evaluationInformationItem.itemAppraiseImgList}}' wx:key='appraiseImgNo' style="width: 25%; height: 190rpx; display: flex; align-items: center; justify-content: center;">
+            <i-image i-class='evaluate-image' imageSrc='{{item.imgAddress}}'>
+            </i-image>
+          </view>
         </view>
-      </view>
-
-      <view style="margin-left:10%;font-size:24rpx;color:#ccc;">
-        {{evaluationInformationItem.appraiseDate}} {{evaluationInformationItem.appraiseTime}}
-      </view>
-      <view style="margin-left:10%; display: flex;flex-wrap: nowrap;">
-        <!-- 遍历星星-->
-        <view wx:for="{{evaluationInformationItem.praiseDegree}}" wx:for-item="starsNumberItem" wx:for-index="starsNumberIndex" wx:key="starsNumberIndex">
-          <i-icon type="collection_fill" color="#EFCC83" />
-        </view>
-      </view>
-
-      <view style="margin-left:8%;font-size:24rpx;">
-        {{evaluationInformationItem.content}}
-      </view>
-    </view>
-  </view>
+		</view>
+	</view>
 </view>
 
-<view class="divLine" />
-
-<view class="guarantee-page">
-  <view class="guarantee-head-page">
-    ///////////////
-    <view style="font-weight:bold;">
-    品质服务保障
-    </view>
-    ///////////////
-  </view>
-
-  <view class="guarantee-bodys-page" wx:for="{{guaranteeList}}" wx:for-item="guaranteeItem" wx:for-index="guaranteeIndex" wx:key="guaranteeIndex">
-    <view class="guarantee-inhead-page">
-      <image style="width:60rpx;height:60rpx;" src=" ../../../resource/guarantee.jpg ">
-      </image>
-      <view style="margin-left:2%;font-weight:bold; " >
-            {{guaranteeItem.guaranteeHead}}
-      </view>
-    </view>
-    <view style="margin-left:8%;font-size:28rpx;color:#ccc; ">
-            {{guaranteeItem.guaranteeInfor}}
-    </view>
-  </view>
-</view>
-
-<view  wx:for="{{imageList}} "
-       wx:for-item="imageListItem "
-       wx:for-index="imageListIndex "
-       wx:key="imageListIndex ">
-  <image class="mottom-image " 
-        src="{{imageListItem.imageUrl}} "> 
-  </image>
-</view>
-
+<view style="height: 120rpx"></view>
 
 <!--商品购买、分享、收藏固定框-->
 <view class="goshopbottom ">
 
-  <view class="bottom-showinfor ">
-    <view class="bottom-icon-page ">
-      <view class="bottom-button-type-one ">
-        <i-icon type="share " size="25 "/>
-      </view>
-      <view style="font-size:25rpx;padding-right:8rpx; ">
-        分 享
-      </view>
-    </view>
-    
-    <view class="bottom-icon-page " bindtap="tapCollection" style="color: {{itemDetailData.itemFavorites.customer!=null?'red':''}}">
-      <view class="bottom-button-type-one ">
-        <i-icon type="collection " size="25 "/>
-      </view>
-      <view style="font-size:25rpx;padding-right:10rpx; ">
-        收 藏  
-      </view>
-    </view>
-  </view>
+	<view class="bottom-showinfor ">
+		<button class="bottom-icon-page " open-type="share">
+			<view class="bottom-button-type-one ">
+				<i-icon type="share " size="25 " />
+			</view>
+			<view style="font-size:25rpx;font-weight:bold;">
+				分 享
+			</view>
+		</button>
 
-  <view class="bottom-showinfor ">
-    <view class="bottom-button-type-two " bindtap="goShopTap">
-      担保购买
-    </view>
-  </view>
+		<button class="bottom-icon-page " bindtap="tapCollection" style="color: {{collection==true?'red':''}}">
+			<view class="bottom-button-type-one ">
+				<i-icon type="collection " size="25 " />
+			</view>
+			<view style="font-size:25rpx;font-weight:bold;">
+				收 藏
+			</view>
+		</button>
+	</view>
+
+	<view class="bottom-showinfor ">
+		<view class="bottom-button-type-two " bindtap="goShopTap">
+			担保购买
+		</view>
+	</view>
+</view>
+<!--分享信息-->
+<view class="share-sty" hidden="{{mask}}">
+	<view class="share-sty-head">
+		<view class="share-sty-head-wrong" bindtap="maskTap">
+			<image src="/resource/wrong.png" class="share-sty-head-wrong-image"></image>
+		</view>
+	</view>
+	<view class="share-sty-box">
+		<button class="share-sty-box-single" open-type="share">
+			<view class="share-sty-box-single-icon">
+				<image src="/resource/wx.png" class="share-sty-box-single-icon-image"></image>
+			</view>
+			<view class="share-sty-box-single-text">
+				分享给好友
+			</view>
+		</button>
+		<view class="share-sty-box-single">
+			<view class="share-sty-box-single-icon">
+				<image src="/resource/poster.png" class="share-sty-box-single-icon-image"></image>
+			</view>
+			<view class="share-sty-box-single-text">
+				保存海报
+			</view>
+		</view>
+	</view>
 </view>
 
-<wxs module='parse'>                                                                        
-   module.exports={
-      getInfoValue: function(infoIndex, itemDetailData) {
-        if (infoIndex == 0) {
-          return "配送";
-        } else if (infoIndex == 1) {
-          return itemDetailData.itemTypes[0].itemTypeName;
-        } else if (infoIndex == 2) {
-          return itemDetailData.itemBrands[0].itemBrandName;
-        } else if (infoIndex == 3) {
-          return itemDetailData.itemTaste;
-        } else if (infoIndex == 4) {
-          return itemDetailData.itemClassifies[0].itemClassifyName;
-        } else if (infoIndex == 5) {
-          return itemDetailData.itemWeight;
-        } else if (infoIndex == 6) {
-          return itemDetailData.itemValidity;
-        } else if (infoIndex == 7) {
-          return "适宜";
-        } else if (infoIndex == 8) {
-          return "口味";
-        } else if (infoIndex == 9) {
-          return "期限";
-        } else if (infoIndex == 10) {
-          return "优惠";
-        }
-      }
-   }
+<!--蒙版-->
+<view class="mask-page" hidden="{{mask}}" bindtap="maskTap">
+</view>
+
+<wxs module='parse'>
+	module.exports = {
+		encryptName: function(name) {
+			var start = name.slice(0, 1);
+			return start + "**";
+		},
+		encryptPhone: function(phone) {
+			var start = phone.slice(0, 3);
+			var end = phone.slice(phone.length - 3, phone.length);
+			return start + "***" + end;
+		},
+		showText: function(res) {
+			if (res == null) {
+				return '';
+			} else {
+				return res
+			}
+		},
+		getInfoValue: function(infoIndex, itemDetailData) {
+			if (itemDetailData.item != null) {
+				if (infoIndex == 0) {
+					if (itemDetailData.item.freeShipping == 1) {
+						return "商家包邮";
+					} else {
+						return "买家自付";
+					}
+				} else if (infoIndex == 1) {
+					var tempItemTypeStr = "";
+					for (var i = 0; i < itemDetailData.item.itemTypes.length; i++) {
+						var tempItemType = itemDetailData.item.itemTypes[i];
+						if (tempItemTypeStr.length <= 0) {
+							tempItemTypeStr = tempItemType.itemTypeName;
+						} else {
+							tempItemTypeStr = tempItemTypeStr + "," + tempItemType.itemTypeName;
+						}
+					}
+					return tempItemTypeStr;
+				}
+			}
+		},
+
+		showCustomerName: function(res) {
+			if (res == null) {
+				return "匿名用户";
+			} else {
+				return res;
+			}
+		},
+
+		showPraiseDegree: function(res) {
+			if (res == null) {
+				return 5;
+			} else {
+				return res;
+			}
+		},
+
+		showContent: function(res) {
+			if (res == null) {
+				return "默认好评";
+			} else {
+				return res;
+			}
+		}
+	}
 </wxs>

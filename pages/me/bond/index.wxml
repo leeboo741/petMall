@@ -6,12 +6,12 @@
 <view class="explain-image-box">
   <image class="explain-image"
          style="height: 900rpx;"
-         src="../../../resource/bond_1.png"
+         src="{{bond_1}}"
          mode="scaleToFit">
   </image>
   <image class="explain-image"
          style="height: 600rpx;"
-         src="../../../resource/bond_2.png"
+         src="{{bond_2}}"
          mode="scaleToFit">
   </image>
 </view>
@@ -44,7 +44,7 @@
       缴纳保证金
       </view>
       <view class="operate-button-detail full-title">
-      ￥5000, 可原额退回
+      ￥{{bondPrice}}, 可原额退回
       </view>
     </view>
   </view>

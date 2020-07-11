@@ -3,12 +3,16 @@ const LoadFootItemState = require("../../../lee-components/leeLoadingFootItem/lo
 const Page_path = require("../../../macros/pagePath.js");
 const PetService = require("../../../services/petService.js");
 const Util = require("../../../utils/util.js");
+const Utils = require("../../../utils/util")
 const Enum = require("../../../utils/enum.js");
+
+const ShareManager = require("../../../services/shareService");
 
 Page({
 
   /**
    * 页面的初始数据
+   *    
    */
   data: {
       pageIndex: 0, // 页码
@@ -62,7 +66,7 @@ Page({
     let that = this;
     PetService.getBreed(this.data.type,
       function getResultCallback(result){
-        console.log("pet breed : \n" + JSON.stringify(result));
+        Utils.logInfo("pet breed : \n" + JSON.stringify(result));
         wx.stopPullDownRefresh();
         if (Util.checkEmpty(result.root)) {
           that.setData({
@@ -91,7 +95,7 @@ Page({
      */
   petsTap: function (e) {
     wx.navigateTo({
-      url: Page_path.Page_Home_Nearby + "?breedno=" + e.currentTarget.dataset.breedno + "&requesttype=" + Enum.Nearby_RequestType_Enum.All + "&pagetitle=" + e.currentTarget.dataset.name
+      url: Page_path.Page_Home_Nearby + "?genreno=" + e.currentTarget.dataset.genreno + "&requesttype=" + Enum.Nearby_RequestType_Enum.Genre + "&pagetitle=" + e.currentTarget.dataset.name
     })
   },
 
@@ -99,6 +103,6 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-
-  }
+    return ShareManager.getDefaultShareCard();
+  },
 })

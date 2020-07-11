@@ -1,10 +1,13 @@
 {
   "usingComponents": {
-    "i-navigation-bar": "/lee-components/leeNavigationBar/index",
-    "i-icon": "/lee-components/leeIcon/index",
-    "i-image": "/lee-components/leePlaceholdImage/index",
+    "van-navigation-bar": "/lee-components/leeNavigationBar/index",
+    "van-icon": "/lee-components/leeIcon/index",
+    "van-image": "/lee-components/leeImageView/index",
     "i-panel": "/dist/panel/index",
-    "i-load-foot-item": "/lee-components/leeLoadingFootItem/index"
+    "van-load-foot-item": "/lee-components/leeLoadingFootItem/index",
+    "i-image": "/lee-components/leeImageView/index",
+    "i-navigation-bar": "/lee-components/leeNavigationBar/index",
+    "i-icon":"/dist/icon/index"
   },
   "enablePullDownRefresh": true
 }

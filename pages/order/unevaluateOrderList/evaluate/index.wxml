@@ -21,27 +21,27 @@
           <view class="store-info-box">
             <view class="store-image-box">
               <i-image i-class='store-image'
-                       imageSrc='{{parse.getStoreLogo(order)}}'
+                       imageSrc='{{order.shop.headImg}}'
                        >
               </i-image>
             </view>
             <view class="store-name">
-            {{parse.getSotreName(order)}}
+            {{order.shop.businessName}}
             </view>
           </view>
           <!-- 商品item -->
-          <block wx:if='{{order.item != null}}'>
+          <block wx:if='{{order.itemNo != null}}'>
             <view class="goods-info-box">
               <view class="goods-image-box">
                 <i-image i-class='goods-image'
-                        imageSrc='{{order.item.coverImg}}'
+                        imageSrc='{{order.coverImg}}'
                         >
                 </i-image>
               </view>
               <view class="goods-info">
                 <view class="goods-info-line">
                   <view class="goods-name">
-                  {{order.item.itemName}}
+                  {{order.itemName}}
                   </view>
                 </view>
                 <view class="goods-info-line"
@@ -50,28 +50,27 @@
                   x{{order.qty}}
                   </view>
                   <view class="goods-price">
-                  ￥{{order.item.retailPrice}}
+                  ￥{{parse.showRetailPrice(order.retailPrice)}}
                   </view>
                 </view>
               </view>
             </view>
           </block>
           <!-- 宠物item -->
-          <block wx:if='{{order.pet != null}}'>
+          <block wx:if='{{order.petNo != null}}'>
             <view class="goods-info-box">
               <view class="goods-image-box">
                 <i-image i-class='goods-image'
-                        imageSrc='{{order.pet.coverMedia}}'
+                        imageSrc='{{order.petImg}}'
                         >
                 </i-image>
               </view>
               <view class="goods-info">
                 <view class="goods-info-line">
                   <view class="goods-name">
-                  {{order.pet.petName}}
+                  {{order.petName}}
                   </view>
-                  <view class="goods-sexy"
-                        wx:if='{{parse.showSexy(order)}}'>
+                  <view class="goods-sexy">
                   {{parse.getSexy(order)}}
                   </view>
                 </view>
@@ -81,7 +80,7 @@
                   x{{order.qty}}
                   </view>
                   <view class="goods-price">
-                  {{order.pet.retailPrice}}
+                  ￥{{parse.showRetailPrice(order.retailPrice)}}
                   </view>
                 </view>
               </view>
@@ -142,7 +141,7 @@
       </i-cell>
     </i-cell-group>
   </i-panel>
-  <i-panel i-class='panel'
+  <!-- <i-panel i-class='panel'
            title='上传图片（最多{{maxUploadImageLength}}张）'>
     <i-cell>
       <view class="upload-image-box"
@@ -153,8 +152,7 @@
               wx:for-index='uploadImageIndex'
               wx:key='{{uploadImageIndex}}'>
           <i-image imageSrc='{{uploadImageItem}}'
-                   i-class='upload-image-item-image'
-                   >
+                   i-class='upload-image-item-image'>
           </i-image>
           <view class="progress-box"
                 hidden="{{!parse.showProgress(uploadImageProgress, currentUploadIndex, uploadImageIndex)}}">
@@ -172,7 +170,27 @@
         </view>
       </view>
     </i-cell>
-  </i-panel>
+  </i-panel> -->
+<i-panel i-class='panel'
+         title='上传照片（最多9张）'>
+    <i-image-upload uploadUrl='{{uploadUrl}}'
+                    name='multipartFile'
+                    formData='{{}}'
+                    startUpload='{{false}}'
+                    autoUpload='{{true}}'
+                    bind:upload-complete='uploadComplete'
+                    bind:delete-image='deleteImage'
+                    bind:addnew='addNewImage'
+                    ableDelete='{{true}}'
+                    selectMode='append'
+                    maxImageCount='{{9}}'
+                    videoMaxLength='{{10}}'
+                    imageSourceType="{{['album', 'camera']}}"
+                    videoSourceType="{{['album', 'camera']}}"
+                    showAddNewButton='{{true}}'
+                    ableVideo="{{true}}">
+    </i-image-upload>
+</i-panel>
 </block>
 
 <!-- 卖家版 -->
@@ -284,7 +302,7 @@
       </i-cell>
     </i-cell-group>
   </i-panel>
-  <i-panel i-class='panel'
+  <!-- <i-panel i-class='panel'
            title='上传图片（最多{{maxUploadImageLength}}张）'>
     <i-cell>
       <view class="upload-image-box"
@@ -314,7 +332,27 @@
         </view>
       </view>
     </i-cell>
-  </i-panel>
+  </i-panel> -->
+  <i-panel i-class='panel'
+         title='上传图片（最多9张）'>
+    <i-image-upload uploadUrl='{{uploadUrl}}'
+                    name='multipartFile'
+                    formData='{{}}'
+                    startUpload='{{false}}'
+                    autoUpload='{{true}}'
+                    bind:upload-complete='uploadComplete'
+                    bind:delete-image='deleteImage'
+                    bind:addnew='addNewImage'
+                    ableDelete='{{true}}'
+                    selectMode='append'
+                    maxImageCount='{{9}}'
+                    videoMaxLength='{{10}}'
+                    imageSourceType="{{['album', 'camera']}}"
+                    videoSourceType="{{['album', 'camera']}}"
+                    showAddNewButton='{{true}}'
+                    ableVideo="{{true}}">
+    </i-image-upload>
+</i-panel>
 </block>
 
 <view class="empty-zone">
@@ -349,7 +387,7 @@
       return true;
     },
     getSexy: function (orderItem) {
-      if (orderItem.pet.petSex == 1) {
+      if (orderItem.petSex == 1) {
         return "公";
       }
       return "母";
@@ -363,5 +401,13 @@
       }
       return true;
     },
+
+    showRetailPrice:function(res){
+      if(res==null){
+        return "--"
+      }else{
+        return res
+      }
+    }
   }
 </wxs>

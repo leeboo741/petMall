@@ -27,7 +27,7 @@
           data-petno='{{collectionItem.pet.petNo}}'>
       <view class="collection-item-image-box">
         <i-image i-class="collection-item-image"
-                imageSrc="{{collectionItem.pet.coverMedia}}"
+                imageSrc="{{collectionItem.pet.petImg}}"
                 mode='scaleToFit'>
         </i-image>
       </view>

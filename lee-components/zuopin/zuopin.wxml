@@ -1,0 +1,13 @@
+<view class="zuopinbody">
+    <view class="zuopinitem" wx:for="{{zuopinList}}" wx:key="zuopin">
+        <image class="pic" src="{{item.imgUrl}}"></image>
+        <view class="content">
+            <view class="name">{{item.title}}</view>
+            <view bindtap="dianzan" class="zan" data-id="{{item.id}}" data-index="{{index}}" data-userpraise="{{item.userPraise}}" data-workerid="{{item.workerId}}">
+                <image src="/resource/zanselect.png" wx:if="{{item.userPraise==1}}"></image>
+                <image src="/resource/zanmoren.png" wx:else></image>
+                <view>{{item.praiseCount}}</view>
+            </view>
+        </view>
+    </view>
+</view>

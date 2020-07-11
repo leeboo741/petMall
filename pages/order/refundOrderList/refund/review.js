@@ -4,6 +4,9 @@ const PagePath = require("../../../../macros/pagePath.js");
 const app = getApp();
 const OrderService = require("../../../../services/orderService.js");
 const Util = require("../../../../utils/util.js");
+const Utils = require("../../../../utils/util.js");
+
+const ShareManager = require("../../../../services/shareService");
 
 Page({
 
@@ -19,6 +22,8 @@ Page({
     refundEvidence: [], // 退款凭证
 
     backTimeOut: null,
+
+    refundNo:null
   },
 
   /**
@@ -29,11 +34,13 @@ Page({
       order: app.globalData.refundReviewOrder
     })
     app.globalData.refundReviewOrder = null;
+    let refundNo = options.refundno;
     let that = this;
-    this.requestRefundDetail(
+    this.requestRefundDetail(refundNo,
       function getDetailCallback(result) {
         that.setData({
-          refundDetail: result
+          refundDetail: result,
+          refundNo: refundNo
         })
       }
     )
@@ -86,13 +93,14 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-
+    return ShareManager.getDefaultShareCard();
   },
 
   /**
    * 点击驳回
    */
   tapReject: function () {
+    let that=this;
     let type = "";
     if (this.data.order.pet != null) {
       type = "pet";
@@ -100,7 +108,7 @@ Page({
       type = "item";
     }
     wx.navigateTo({
-      url: PagePath.Page_Order_Refund_Review_Reject + "?orderno=" + this.data.order.orderNo + "&type=" + type,
+      url: PagePath.Page_Order_Refund_Review_Reject + "?orderno=" + this.data.order.orderNo + "&type=" + type + "&refundno=" + that.data.refundNo,
     })
   },
 
@@ -120,7 +128,7 @@ Page({
           that.requestConfirmRefund(
             function resultCallback(result) {
               wx.hideLoading();
-              console.log("批准退款：\n" + JSON.stringify(result));
+              Utils.logInfo("批准退款：\n" + JSON.stringify(result));
               if (result > 0) {
                 wx.showToast({
                   title: '退款成功',
@@ -157,6 +165,7 @@ Page({
         {
           orderNo: this.data.refundDetail.petOrderNo,
           refundState: 1,
+          refundNo:this.data.refundNo
         },
         function callback(res) {
           if (Util.checkIsFunction(resultCallback)) {
@@ -169,6 +178,7 @@ Page({
         {
           orderNo: this.data.refundDetail.itemOrderNo,
           refundState: 1,
+          refundNo: this.data.refundNo
         },
         function callback(res) {
           if (Util.checkIsFunction(resultCallback)) {
@@ -183,8 +193,9 @@ Page({
    * 请求详情
    * @param getRefundDetailCallback
    */
-  requestRefundDetail: function(getRefundDetailCallback) {
+  requestRefundDetail: function (refundNo,getRefundDetailCallback) {
     let tempParam = {};
+    tempParam.refundNo = refundNo;
     if (this.data.order.pet != null) {
       tempParam.petOrderNo = this.data.order.orderNo;
     } 
@@ -193,7 +204,7 @@ Page({
     }
     OrderService.refundDetail(tempParam,
       function getDetailCallback(res) {
-        console.log("获取退款单详情：\n" + JSON.stringify(res));
+        Utils.logInfo("获取退款单详情：\n" + JSON.stringify(res));
         if (Util.checkIsFunction(getRefundDetailCallback)) {
           getRefundDetailCallback(res.root);
         }

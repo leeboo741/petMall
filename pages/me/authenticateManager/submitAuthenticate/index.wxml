@@ -3,27 +3,85 @@
                   showBackButton>
 </i-navigation-bar>
 
+
+<view hidden="{{type==2?false:true}}">
+  <i-panel i-class='panel'
+           title='基础资料完善'>
+      <checkbox-group bindchange="checkboxChange">
+        <label style="font-size: 26rpx;" wx:for="{{serviceInfor}}">
+          <checkbox value="{{item.name}}" checked="{{item.checked}}"/>{{item.value}}
+        </label>
+      </checkbox-group>
+  </i-panel>
+</view>
+
+<view hidden="{{type==2?false:true}}">
+    <i-panel i-class='panel'
+          title='服务内容'>
+      <checkbox-group bindchange="checkboxChangeContent">
+        <label style="font-size: 26rpx;" wx:for="{{serviceContent}}">
+          <checkbox value="{{item.name}}" checked="{{item.checked}}"/>{{item.value}}
+        </label>
+      </checkbox-group>
+  </i-panel>
+</view>
+
 <i-panel i-class='panel'
          title='真实姓名及身份证号'>
   <i-cell-group>
     <i-cell title='真实姓名'>
       <input class="normal-text"
              slot='footer'
+             value='{{name}}'
              placeholder-class="placeholder-text"
-             placeholder="请输入您的真实姓名"
+             placeholder="真实姓名"
              bindinput="inputName">
+             <!-- 请输入您的真实姓名 -->
       </input>
     </i-cell>
+    
     <i-cell title='身份证号'>
       <input class="normal-text"
              slot='footer'
+             value='{{identifier}}'
              placeholder-class="placeholder-text"
-             placeholder="请输入您的身份证号码"
+             placeholder="身份证号"
              bindinput="inputIdentifier">
+             <!-- 请输入您的身份证号码 -->
       </input>
     </i-cell>
+
+    <i-cell>
+      <view class="item-1"
+            slot='header'>
+        <view class="item-title">
+        所在地区
+        </view>
+        <picker class="item-input normal-text"
+                mode="region"
+                value="{{region}}"
+                bindchange="selectRegion">
+          <view class="input-content {{parse.getRegionClass(region)}}">
+          {{parse.getRegionStr(region)}}
+          </view>
+        </picker>
+        <i-icon i-class='item-icon'
+                type="right-arrow"
+                size="36"
+                color="#778899">
+        </i-icon>
+      </view>
+    </i-cell>
+
+    <!-- <view hidden="{{type==2?false:true}}">
+      <i-cell title='我要开店'>
+        <radio bindtap='setUpShopTap' checked="{{setUpShop}}" color="#6487A5"  slot='footer'/>
+      </i-cell>
+    </view> -->
+
   </i-cell-group>
 </i-panel>
+
 
 <i-panel i-class='panel'
          title='{{type==0?"手持身份证照片":"法定代表人手持身份证照片"}}'>
@@ -50,23 +108,58 @@
       </view>
       <view class="upload-explain-box">
         <image class="upload-explain-image"
-               src='../../../../resource/explain_identifier.png'>
+               src='{{explain_identifier}}'>
         </image>
       </view>
     </view>
   </i-cell>
 </i-panel>
 
-<block wx:if='{{type != 0}}'>
+<i-panel i-class='panel'
+         title='微信二维码图片'>
+  <i-cell>
+    <view slot='header'
+          class="upload-image-item">
+      <view class="upload-image-box"
+            bindtap="selectWXQRCodeImage">
+        <view class="upload-image-content">
+          <image class="upload-image"
+                  src="{{imagePathWithWXQRCode}}"
+                  wx:if='{{parse.showImage(imagePathWithWXQRCode)}}'>
+          </image>
+          <image class="upload-image-little"
+                  src='../../../../resource/add_new.png'
+                  wx:else>
+          </image>
+        </view>
+        <view class="progress-box"
+              hidden="{{!parse.showProgress(progressForWXQRCode)}}">
+          <i-progress percent="{{progressForWXQRCode}}" hide-info style="width: 100%;">
+          </i-progress>
+        </view>
+      </view>
+      <view class="upload-explain-box">
+        <image class="upload-explain-image"
+               src='{{explain_wxqrcode}}'>
+        </image>
+      </view>
+    </view>
+  </i-cell>
+</i-panel>
+
+<block wx:if='{{type == 2 }}'>
   <i-panel i-class='panel'
           title='营业执照'>
     <i-cell-group>
       <i-cell title='营业执照编号'>
         <input class="normal-text"
               slot='footer'
+              value='{{license}}'
               placeholder-class="placeholder-text"
-              placeholder="请输入营业执照编号"
-              bindinput="inputLicense">
+              placeholder="营业执照编号"
+              bindinput="inputLicense"
+              type="number">
+              <!-- 请输入营业执照编号 -->
         </input>
       </i-cell>
     </i-cell-group>
@@ -97,7 +190,7 @@
         </view>
         <view class="upload-explain-box">
           <image class="upload-explain-image"
-                src='../../../../resource/explain_license.png'>
+                src='{{explain_license}}'>
           </image>
         </view>
       </view>
@@ -112,13 +205,15 @@
       <i-cell title='店铺名称'>
         <input class="normal-text"
               slot='footer'
+              value='{{storeName}}'
               placeholder-class="placeholder-text"
-              placeholder="请输入店铺名称"
+              placeholder="店铺名称"
               bindinput="inputStoreName">
+              <!-- 请输入店铺名称 -->
         </input>
       </i-cell>
 
-      <i-cell>
+      <!-- <i-cell>
         <view class="item-1"
               slot='header'>
           <view class="item-title">
@@ -128,6 +223,7 @@
                   mode="region"
                   value="{{region}}"
                   bindchange="selectRegion">
+            
             <view class="input-content {{parse.getRegionClass(region)}}">
             {{parse.getRegionStr(region)}}
             </view>
@@ -138,75 +234,106 @@
                   color="#778899">
           </i-icon>
         </view>
-      </i-cell>
+      </i-cell> -->
+
+      <!-- <i-cell title='身份证号'>
+      <input class="normal-text"
+             slot='footer'
+             placeholder-class="placeholder-text"
+             placeholder="{{parse.showInfo(type,'idcard',submitDataInfo)}}"
+             bindinput="inputIdentifier">
+
+      </input>
+    </i-cell> -->
       
-      <i-cell>
-        <view class="item-1"
-              slot='header'>
-          <view class="item-title">
-          详细地址
-          </view>
-          <input class="item-input"
-                placeholder="请输入详细地址"
+      <i-cell title='详细地址'>
+          <input class="normal-text"
+                slot='footer'
+                value='{{detailAddress}}'
+                placeholder="详细地址"
                 placeholder-class="placeholder-text"
-                value="{{detailAddress}}"
                 bindinput="inputDetailAddress">
           </input>
-          <i-icon i-class='item-icon'
-                  type="location"
-                  size="36"
-                  color="#778899">
-          </i-icon>
-        </view>
       </i-cell>
     </i-cell-group>
   </i-panel>
+</block>
 
+<block wx:if='{{type != 0 }}'>
   <i-panel i-class='panel'
-          title='实体照片'>
+          title='实体照片(最多8张)'>
     <i-cell>
       <view slot='header'
             class="upload-image-item">
         <view class="upload-image-box"
-              bindtap="selectStorefrontImage">
-          <view class="upload-image-content">
+              style='width: 100%; flex-direction: row;justify-content: flex-start; flex-wrap: wrap'>
+          <view class="upload-image-content"
+                style="width: 33.3333333%"
+                wx:for='{{imagePathWithStorefront}}'
+                wx:for-item='storeImageItem'
+                wx:for-index='storeImageIndex'>
             <image class="upload-image"
-                    src="{{imagePathWithStorefront}}"
-                    wx:if='{{parse.showImage(imagePathWithStorefront)}}'>
+                    src="{{storeImageItem}}">
             </image>
+            <view class="progress-box"
+                  hidden="{{!parse.showProgress(progressForStoreFont[storeImageIndex])}}">
+              <i-progress percent="{{parse.getStoreImageProgress(progressForStoreFont, storeImageIndex)}}" hide-info style="width: 100%;">
+              </i-progress>
+            </view>
+          </view>
+          <view class="upload-image-content"
+                style="width: 33.3333333%"
+                bindtap="selectStorefrontImage">
             <image class="upload-image-little"
-                    src='../../../../resource/add_new.png'
-                    wx:else>
+                   src='../../../../resource/add_new.png'>
             </image>
           </view>
-          <view class="progress-box"
-                hidden="{{!parse.showProgress(progressForStoreFont)}}">
-            <i-progress percent="{{progressForStoreFont}}" hide-info style="width: 100%;">
-            </i-progress>
-          </view>
         </view>
-        <view class="upload-explain-box">
+        <!-- <view class="upload-explain-box">
           <image class="upload-explain-image"
-                src='../../../../resource/explain_storefont.png'>
+                src='{{explain_storefont}}'>
           </image>
-        </view>
+        </view> -->
       </view>
     </i-cell>
   </i-panel>
 </block>
-
+<view class="xieyi-sty" wx:if="{{parse.showXieyi(type,submitDataInfo)}}">
+  <radio bindtap='radioClick' checked="{{xieyidx}}" color="#B8B8B8"/>
+  同意并愿意遵守
+  <navigator style="color:#4278B9;font-size:28rpx;" url="../../../../mallsubcontracting/pages/agreement/index?titlename=1">《商家规范》</navigator> 
+  <navigator style="color:#4278B9;font-size:28rpx;" url="../../../../mallsubcontracting/pages/agreement/index?titlename=0">《宠物服务协议》</navigator>
+</view>
+    
 <view class="submit-button"
-      bindtap="tapSubmit">
-提交审核
+      bindtap="tapSubmit"
+      style="pointer-events:{{parse.displaybutton(type,submitDataInfo)}}">
+      <!--  -->
+      <!-- 提交审核 -->
+      {{parse.byTypeShowText(type,submitDataInfo)}}
 </view>
 
 <wxs module='parse'>
   module.exports={
-    showProgress: function(progressValue) {
-      if (progressValue < 0 || progressValue >= 100) {
-        return false;
+    showValue: function(placeholder, value) {
+      if (value==null) {
+        if (placeholder != null && placeholder.length >0 ){
+          return placeholder;
+        } else {
+          return "";
+        }
+      } else {
+        return value;
       }
-      return true;
+    },
+    getStoreImageProgress: function (storeProgress, index) {
+      return storeProgress[index];
+    },
+    showProgress: function(progressValue) {
+      if (progressValue >= 0 && progressValue < 100) {
+        return true;
+      }
+      return false;
     },
     showImage: function(image) {
       if (image == null || image.length <= 0) {
@@ -221,10 +348,172 @@
       return "normal-text";
     },
     getRegionStr: function(region) {
-      if(region == null || region.length <= 0) {
-        return '请选择省市区';
+      if(region!=null && region!=''){
+        return region
+      }else{
+        if(region == null || region.length <= 0) {
+            return '请选择省市区';
+          }
+          return region[0] + "-" + region[1] + "-" + region[2];  
+        }
+    },
+    byTypeShowText:function(type,info){
+      if (info != null) {
+        if (info.businessAuthType - 1 == type) {
+          return "已认证,是否重新提交"
+        } else if (info.businessAuthType > type) {
+          return "已认证";
+        } 
+        return "提交审核";  
+      } else {
+        return "请先登录后再认证";
       }
-      return region[0] + "-" + region[1] + "-" + region[2];
+    },
+
+    showXieyi:function(type,info){
+      if (info != null) {
+        if (info.businessAuthType - 1 == type) {
+          return true;
+        } else if (info.businessAuthType > type) {
+          return false;
+        } 
+        return true;
+      } else {
+        return false;
+      }
+    },
+
+    showInfo:function(type,key,res){
+      if(type==0){
+        if(key=='name'){
+          if(res!=null){
+           if(res.businessAuthType!=null&&res.businessAuthType>0){    
+                return res.realName;
+              }else{
+                  return "真实姓名";
+              }
+          }else{
+                return "真实姓名";
+          }
+        }else if(key=='idcard'){
+          if(res!=null){
+            if(res.businessAuthType!=null&&res.businessAuthType>0){
+                  return res.idCard;
+              }else{
+                return "身份证号码";
+              }
+            }else{
+                return "身份证号码";
+            }
+        }     
+      }else if(type==1){
+         if(key=='name'){
+          if(res!=null){
+            if(res.businessAuthType!=null&&res.businessAuthType>0){
+                  return res.realName;
+              }else{
+                  return "真实姓名";
+              }
+          }else{
+             return "真实姓名";
+          }
+        }else if(key=='idcard'){
+          if(res!=null){
+            if(res.businessAuthType!=null&&res.businessAuthType>0){
+                return res.idCard;
+            }else{
+                return "身份证号码";
+            }
+          }else{
+               return "身份证号码";
+          }
+        }else if(key=='license'){
+          if(res!=null){
+            if(res.businessAuthType!=null&&res.businessAuthType>0){
+                  return res.licenseNo;
+              }else{
+                return "营业执照编码";
+                }
+            }
+          }else{
+                return "营业执照编码";
+          }
+      }else{
+         if(key=='name'){
+          if(res!=null){
+            if(res.businessAuthType!=null&&res.businessAuthType>0){
+                return res.realName;
+            }else{
+                return "真实姓名";
+            }
+          }else{
+              return "真实姓名";
+          }
+        }else if(key=='idcard'){
+          if(res!=null){
+            if(res.businessAuthType!=null&&res.businessAuthType>0){
+                return res.idCard;
+            }else{
+                return "身份证号码";
+            }
+          }else{
+               return "身份证号码";
+          }
+          
+        }else if(key=='license'){
+          if(res!=null){
+            if(res.businessAuthType!=null&&res.businessAuthType>0){
+                  return res.licenseNo;
+            }else{
+                return "营业执照编码";
+            }
+          }else{
+            return "营业执照编码";
+          }
+
+        }else if(key=='detailaddress'){
+          if(res!=null){
+            if(res.businessAuthType!=null&&res.businessAuthType>0){
+                return res.detailAddress;
+              }else{
+                  return "详细地址";
+              }
+            }else{
+                return "详细地址";
+            }
+        }else if(key=='storename'){
+          if(res!=null){
+            if(res.businessAuthType!=null&&res.businessAuthType>0){
+                return res.shopName;
+            }else{
+                return "店铺名称";
+            }
+          }else{
+               return "店铺名称";
+          }
+        }
+      }
+    },
+    displaybutton:function(type,info){
+      if (info != null) {
+        if (info.businessAuthType - 1 == type) {
+          return "block"
+        } else if (info.businessAuthType > type) {
+          return "none";
+        } 
+        return "block";
+      } else {
+        return "none";
+      }
+    },
+    showLicense:function(res){
+      if(res!=null){
+        if(res.licenseNo!=null){
+           return res.licenseNo
+        }else{
+           return "请输入营业执照编号"
+        }
+      }
     }
   }
 </wxs>

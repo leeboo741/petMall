@@ -1,341 +1,244 @@
 <!--index.wxml-->
-<i-navigation-bar title='首页' showBackButton='{{false}}'>
+<i-navigation-bar title='淘宠惠' showBackButton='{{false}}'>
 </i-navigation-bar>
-
-<!-- 搜索框 -->
-<view class="search-box">
-  <view class="search-content">
-    <i-icon type="search" size="35">
-    </i-icon>
-    <input class="search-input" bindfocus="searchInputFocus" placeholder="搜宠物、商家、品牌">
-    </input>
-    <view class="search-content-mask" catchtap="tapSearch">
-    </view>
-  </view>
-</view>
 
 <!-- banner -->
 <swiper class='banner' circular="{{true}}" indicator-dots="{{true}}" autoplay="{{true}}" interval="5000" duration="300" vertical="{{false}}" indicator-active-color="#7bbfea" indicator-color="#cccccc">
-  <swiper-item wx:for="{{bannerDataSource}}" wx:for-item="bannerItem" wx:for-index="bannerIndex" wx:key="bannerIndex">
-    <view class='banner-item' data-index="{{bannerIndex}}" data-link="{{bannerItem.link}}" data-imageurl="{{bannerItem.imageUrl}}" bindtap='tapBanner'>
-      <i-image i-class='banner-item-image' mode='scaleToFill' lazy-load='{{true}}' imageSrc='{{bannerItem.imageUrl}}'>
-      </i-image>
-    </view>
-  </swiper-item>
+	<swiper-item wx:for="{{bannerDataSource}}" wx:for-item="bannerItem" wx:for-index="bannerIndex" wx:key="bannerIndex">
+		<view class='banner-item' data-index="{{bannerIndex}}" data-link="{{bannerItem.link}}" data-imageurl="{{bannerItem.imageUrl}}" bindtap='tapBanner'>
+			<i-image i-class='banner-item-image' mode='scaleToFill' lazy-load='{{true}}' imageSrc='{{bannerItem.imageUrl}}'>
+			</i-image>
+		</view>
+	</swiper-item>
 </swiper>
 
 <!-- 快速入口 -->
 <view class="fast-action-area">
-  <view wx:for="{{fastActionList}}" wx:for-item='fastActionItem' wx:for-index='fastActionIndex' wx:key='{{fastActionIndex}}' class="fast-action-item" bindtap="fastActionTap" data-index="{{fastActionIndex}}">
-    <image class="fast-action-icon" src='{{fastActionItem.iconPath}}'>
-    </image>
-    <view class="fast-action-title">
-      {{fastActionItem.actionName}}
-    </view>
-  </view>
+	<view wx:for="{{fastActionList}}" wx:for-item='fastActionItem' wx:for-index='fastActionIndex' wx:key='fastActionIndex' class="fast-action-item" bindtap="fastActionTap" data-index="{{fastActionIndex}}">
+		<image class="fast-action-icon" src='{{fastActionItem.iconPath}}'>
+		</image>
+		<view class="fast-action-title">
+			{{fastActionItem.actionName}}
+		</view>
+	</view>
 </view>
 
-<!-- 特惠抢购 -->
-<i-panel>
-  <view class="section-title-area">
-    <image class='section-title-icon-1'
-           src="../../resource/preferential.png">
-    </image>
-    <view class="section-info">
-    </view>
-    <view class="section-more" bindtap="preferentialTap">
-      更多
-    </view>
-    <i-icon type="right-arrow" size="32">
-    </i-icon>
-  </view>
-  <scroll-view class="section-scroll-h" scroll-x enable-flex>
-    <view wx:for='{{preferentialList}}' wx:for-item="preferentialItem" wx:for-index="preferentialIndex" wx:key='{{preferentialIndex}}' class="goods-item" bindtap="petsInforTap" data-petno='{{preferentialItem.petNo}}' data-index="{{preferentialIndex}}" data-item="{{preferentialItem}}">
-      <view class="goods-image-box">
-        <i-image i-class="goods-image" imageSrc='{{preferentialItem.coverMedia[0].coverImg}}'>
-        </i-image>
-      </view>
+<!--搜索-->
+<view class="ss-tj-kf-sty">
+	<view class="ss-sty" bindtap="tapSearch">
+		<image class="ss-sty-image" src="/resource/ss.png"></image>
+	</view>
+	<view class="tj-kf-sty">
+		<view class="tj-sty">
+			<image class="tj-sty-image" src="/resource/tj.png"></image>
+		</view>
+		<view class="kf-sty">
+			<image class="kf-sty-image" src="/resource/kf.png"></image>
+		</view>
+	</view>
+</view>
 
-      <view class="goods-info-box">
-        <view class="goods-info-line">
-          <view class="text-name">
-            {{preferentialItem.petName}}
-          </view>
-          <view class="text-price">
-            ￥{{preferentialItem.retailPrice}}
-          </view>
-        </view>
-        <view class="goods-info-line">
-          <view class="text-address">
-            {{preferentialItem.business.province}} {{preferentialItem.business.city}}
-          </view>
-          <view class="text-original-price">
-            ￥{{preferentialItem.marketPrice}}
-          </view>
-        </view>
-      </view>
-    </view>
-  </scroll-view>
-</i-panel>
-
-<!-- 最新上架 -->
-<i-panel>
-  <view class="section-title-area">
-    <image class="section-title-icon-2"
-           src="../../resource/newest.png">
-    </image>
-    <view class="section-title">
-      最新上架
-    </view>
-    <view class="section-info">
-    </view>
-    <view class="section-more" bindtap="newestTap">
-      更多
-    </view>
-    <i-icon type="right-arrow" size="32">
-    </i-icon>
-  </view>
-  <scroll-view class="section-scroll-h" scroll-x enable-flex>
-    <view wx:for='{{newestList}}' wx:for-item="newestItem" wx:for-index="newestIndex" wx:key='{{newestIndex}}' class="goods-item" bindtap="petsInforTap" data-petno='{{newestItem.petNo}}'>
-      <view class="goods-image-box">
-        <i-image i-class="goods-image" imageSrc='{{newestItem.coverMedia[0].coverImg}}'  lazy-load="{{true}}">
-        </i-image>
-      </view>
-
-      <view class="goods-info-box">
-        <view class="goods-info-line">
-          <view class="text-name">
-            {{newestItem.petName}}
-          </view>
-        </view>
-        <view class="goods-info-line">
-          <view class="text-price">
-            ￥{{newestItem.marketPrice}}
-          </view>
-          <view class="text-time">
-            {{parse.getDuringTime(newestItem.createDate, newestItem.createTime)}}
-          </view>
-        </view>
-      </view>
-    </view>
-  </scroll-view>
-</i-panel>
-
-<!-- 精品宠物 -->
-<i-panel>
-  <view class="section-title-area">
-    <image class="section-title-icon-2"
-           src="../../resource/fine.png">
-    </image>
-    <view class="section-title">
-      精品宠物
-    </view>
-    <view class="section-info">
-    </view>
-    <view class="section-more" bindtap="boutiqueTap">
-      平台审核，精品保证
-    </view>
-    <i-icon type="right-arrow" size="32">
-    </i-icon>
-  </view>
-  <view class="section-content-flex">
-    <view wx:for='{{fineList}}' wx:for-item="fineItem" wx:for-index="fineIndex" wx:key='{{fineIndex}}' class="goods-flex-item" bindtap="petsInforTap" data-petno='{{fineItem.petNo}}'>
-      <view class="goods-image-box">
-        <i-image i-class="goods-flex-image" imageSrc='{{fineItem.coverMedia[0].coverImg}}' >
-        </i-image>
-      </view>
-
-      <view class="goods-info-box">
-        <view class="goods-info-line">
-          <view class="text-name">
-            {{fineItem.petName}}
-          </view>
-        </view>
-        <view class="goods-info-line">
-          <view class="text-price">
-            ￥{{fineItem.retailPrice}}
-          </view>
-          <view class="text-address">
-            {{fineItem.business.province}} {{fineItem.business.city}}
-          </view>
-        </view>
-      </view>
-    </view>
-  </view>
-  <view class="section-foot-area">
-    <view class="section-foot-button" style="color: #ff6600;">
-      <view class="section-foot-title" bindtap="boutiqueTap">
-        进入精品馆
-      </view>
-      <i-icon type="right-arrow-circle" size="32">
-      </i-icon>
-    </view>
-  </view>
-</i-panel>
+<!--团购  hidden="{{showGroup}}"-->
+<block wx:if='{{businessInfo.authType>1 && (groupItemList!=null&&groupItemList.length>0)}}'>
+	<i-panel>
+		<view class="section-title-area">
+			<image class="section-title-icon-2" src="../../resource/fine.png">
+			</image>
+			<view class="section-title">
+				秒杀专区
+			</view>
+			<view class="section-info">
+			</view>
+			<view class="section-more" bindtap="groupTap" style="color:#C0C0C0;">
+				更多
+			</view>
+			<view class="icon-styshow">
+				<image src="/resource/arrow.png" style="width:15rpx;height:20rpx;margin-left: 12rpx;"></image>
+			</view>
+		</view>
+		<view class="foodgrain-page">
+			<view class="foodgrain-page-formation" wx:for='{{groupItemList}}' wx:for-item="Item" wx:for-index="Index" wx:key='idx' bindtap="commodityInforMationTap" data-itemno='{{Item.item.itemNo}}'>
+				<i-image i-class="foodgrain-page-formation-head" imageSrc="{{Item.item.coverImg}}">
+				</i-image>
+				<view class="foodgrain-page-formation-middle">
+					{{Item.item.itemName}}
+				</view>
+				<view class="foodgrain-page-formation-introduce">
+					{{Item.item.itemProfile}}
+				</view>
+				<view class="foodgrain-page-formation-down">
+					￥{{Item.item.retailPrice}}
+					<view class="foodgrain-page-formation-down-member" hidden>
+						会员价
+					</view>
+					<view style="color:#ccc;padding-left:18%;text-decoration:line-through;" hidden>
+						￥{{Item.item.marketPrice}}
+					</view>
+				</view>
+			</view>
+		</view>
+	</i-panel>
+</block>
 
 <!-- 高端宠物 -->
 <i-panel>
-  <view class="section-title-area">
-    <image class="section-title-icon-2"
-           src="../../resource/upscale.png">
-    </image>
-    <view class="section-title">
-      高端宠物
-    </view>
-    <view class="section-info">
-    </view>
-    <view class="section-more" bindtap="highEndTap">
-      一宠一芯 纯种保证 健康保障
-    </view>
-    <i-icon type="right-arrow" size="32">
-    </i-icon>
-  </view>
-  <view class="section-content-flex">
-    <view wx:for='{{upscaleList}}' wx:for-item="upscaleItem" wx:for-index="upscaleIndex" wx:key='{{upscaleIndex}}' class="goods-flex-item" bindtap="petsInforTap" data-petno='{{upscaleItem.petNo}}'>
-      <view class="goods-image-box">
-        <i-image i-class="goods-flex-image" imageSrc='{{upscaleItem.coverMedia[0].coverImg}}' >
-        </i-image>
-      </view>
+	<view class="section-title-area">
+		<image class="section-title-icon-2" src="../../resource/upscale.png">
+		</image>
+		<view class="section-title">
+			高端宠物
+		</view>
+		<view class="section-info">
+		</view>
+		<view class="section-more" bindtap="highEndTap" style>
+			一宠一芯 纯种保证 健康保障
+		</view>
+		<view class="icon-styshow">
+			<image src="/resource/arrow.png" style="width:15rpx;height:20rpx;margin-left: 12rpx;"></image>
+		</view>
+	</view>
+	<view class="section-content-flex">
+		<view wx:for='{{upscaleList}}' wx:for-item="upscaleItem" wx:for-index="upscaleIndex" wx:key='upscaleIndex' class="goods-flex-item" bindtap="petsInforTap" data-petno='{{upscaleItem.pet.petNo}}'>
+			<view class="goods-image-box">
+				<image src="/resource/gdcw.png" class="gdcw-sty"></image>
+				<i-image i-class="goods-flex-image" imageSrc='{{upscaleItem.pet.petImg}}'>
+				</i-image>
+			</view>
 
-      <view class="goods-info-box">
-        <view class="goods-info-line">
-          <view class="text-name">
-            {{upscaleItem.petName}}
-          </view>
-        </view>
-        <view class="goods-info-line">
-          <view class="text-price">
-            ￥{{upscaleItem.marketPrice}}
-          </view>
-          <view class="text-address">
-            {{upscaleItem.business.province}} {{upscaleItem.business.city}}
-          </view>
-        </view>
-      </view>
-    </view>
-  </view>
-  <view class="section-foot-area">
-    <view class="section-foot-button" style="color: #ff6600;">
-      <view class="section-foot-title" bindtap="highEndTap">
-        进入高端馆
-      </view>
-      <i-icon type="right-arrow-circle" size="32">
-      </i-icon>
-    </view>
-  </view>
+			<view class="goods-info-box">
+				<view class="goods-info-line">
+					<view class="text-name">
+						{{parse.showText(upscaleItem.pet.petName)}}
+					</view>
+				</view>
+				<view class="goods-info-line">
+					<view class="text-price">
+						￥ {{upscaleItem.pet.retailPrice}}
+					</view>
+					<view class="text-address">
+						{{parse.showText(upscaleItem.pet.business.province)}} {{parse.showText(upscaleItem.pet.business.city)}}
+					</view>
+				</view>
+			</view>
+
+		</view>
+	</view>
+
 </i-panel>
+
+<!-- 跳蚤市场 -->
+<block wx:if='{{newestList!=null && newestList.length>0}}'>
+	<i-panel>
+		<view class="section-title-area">
+			<image class="section-title-icon-2" src="../../resource/newest.png">
+			</image>
+			<view class="section-title">
+				跳蚤市场
+			</view>
+			<view class="section-info">
+			</view>
+			<view class="section-more" bindtap="newestTap" style="color:#C0C0C0;">
+				更多
+			</view>
+			<view class="icon-styshow">
+				<image src="/resource/arrow.png" style="width:15rpx;height:20rpx;margin-left: 12rpx;"></image>
+			</view>
+		</view>
+		<scroll-view class="section-scroll-h" scroll-x enable-flex>
+			<view wx:for='{{newestList}}' wx:for-item="newestItem" wx:for-index="newestIndex" wx:key='{{newestIndex}}' class="goods-item" bindtap="petsInforTap" data-petno='{{newestItem.pet.petNo}}'>
+				<view class="goods-image-box">
+					<i-image i-class="goods-image" imageSrc='{{newestItem.pet.petImg}}' lazy-load="{{true}}">
+					</i-image>
+				</view>
+
+				<view class="goods-info-box">
+					<view class="goods-info-line">
+						<view class="text-name">
+							{{parse.showText(newestItem.pet.petName)}}
+						</view>
+					</view>
+					<view class="goods-info-line">
+						<view class="text-price">
+							￥{{newestItem.pet.retailPrice}}
+						</view>
+						<view class="text-time">
+							{{parse.getDuringTime(newestItem.pet.createDate, newestItem.pet.createTime)}}
+						</view>
+					</view>
+				</view>
+			</view>
+		</scroll-view>
+	</i-panel>
+</block>
 
 <!-- 养宠套餐 -->
 <i-panel>
-  <view class="section-title-area">
-    <image class="section-title-icon-2"
-           src="../../resource/setmenu.png">
-    </image>
-    <view class="section-title">
-      养宠套餐
-    </view>
-    <view class="section-info">
-    </view>
-  </view>
-  <view class="section-content-flex">
-    <view wx:for='{{setMenuList}}' wx:for-item="setMenuItem" wx:for-index="setMenuIndex" wx:key='{{setMenuIndex}}' class="setmenu-item" bindtap="setMenuTap" data-index="{{setMenuIndex}}" data-setmenuno='{{setMenuItem.itemPackNo}}'>
-      <view class="setmenu-item-content">
-        <view class="setmenu-item-info">
-          <view class="text-name">
-            {{setMenuItem.itemPackName}}
-          </view>
-          <view class="text-info">
-            {{setMenuItem.info}}
-          </view>
-        </view>
-        <i-image i-class="setmenu-item-icon" imageSrc='{{setMenuItem.itemPackImg}}' >
-        </i-image>
-      </view>
-    </view>
-  </view>
+	<view class="section-title-area">
+		<image class="section-title-icon-2" src="../../resource/setmenu.png">
+		</image>
+		<view class="section-title">
+			养宠套餐
+		</view>
+		<view class="section-info">
+		</view>
+	</view>
+	<view class="section-content-flex">
+		<view wx:for='{{setMenuList}}' wx:for-item="setMenuItem" wx:for-index="setMenuIndex" wx:key='setMenuIndex' class="setmenu-item" bindtap="setMenuTap" data-index="{{setMenuIndex}}" data-setmenuno='{{setMenuItem.itemPackNo}}'>
+			<view class="setmenu-item-content">
+				<view class="setmenu-item-info">
+					<view class="text-name">
+						{{parse.showText(setMenuItem.itemPackName)}}
+					</view>
+					<view class="text-info">
+						{{parse.showText(setMenuItem.info)}}
+					</view>
+				</view>
+				<i-image i-class="setmenu-item-icon" imageSrc='{{setMenuItem.itemPackImg}}'>
+				</i-image>
+			</view>
+		</view>
+	</view>
 </i-panel>
 
 <!-- 推荐商家 -->
 <i-panel>
-  <view class="section-title-area">
-    <image class="section-title-icon-3"
-           src='../../resource/recommend_store.png'>
-    </image>
-  </view>
-  <view class="section-content-flex">
-    <view wx:for='{{recommendStoreList}}' wx:for-item="recommendStoreItem" wx:for-index="recommendStoreIndex" wx:key='{{recommendStoreIndex}}' class="recommend-store-item">
-      <view class="recommend-store-logo-box">
-        <i-image i-class="recommend-store-logo" imageSrc="{{recommendStoreItem.headerImg}}" >
-        </i-image>
-        <image class="authent-image"
-              src="../../resource/authent.png">
-        </image>
-      </view>
-      <view class="text-name">
-        {{recommendStoreItem.businessName}}
-      </view>
-      <view class="text-address">
-        {{recommendStoreItem.province}} {{recommendStoreItem.city}}
-      </view>
-    </view>
-  </view>
+	<view class="section-title-area">
+		<image class="section-title-icon-3" src='../../resource/recommend_store.png'>
+		</image>
+	</view>
+	<view class="section-content-flex">
+		<view wx:for='{{recommendStoreList}}' wx:for-item="recommendStoreItem" wx:for-index="recommendStoreIndex" wx:key='recommendStoreIndex' class="recommend-store-item">
+			<view class="recommend-store-logo-box" bindtap="recommendTap" data-value="{{recommendStoreList[recommendStoreIndex]}}">
+				<i-image i-class="recommend-store-logo" imageSrc="{{recommendStoreItem.headImg}}" contentStyle='round'>
+				</i-image>
+				<image class="authent-image" src="../../resource/authent.png" hidden="{{recommendStoreItem.authType==3?false:true}}">
+				</image>
+			</view>
+			<view class="text-name">
+				{{parse.showText(recommendStoreItem.businessName)}}
+			</view>
+			<view class="text-address">
+				{{parse.showText(recommendStoreItem.province)}} {{parse.showText(recommendStoreItem.city)}}
+			</view>
+		</view>
+	</view>
 </i-panel>
 
 <!-- 热门分类 -->
 <i-panel>
-  <view class="section-title-area">
-    <image class="section-title-icon-3"
-           src='../../resource/hot_type.png'>
-    </image>
-  </view>
-  <view class="section-content-flex">
-    <view wx:for='{{hotTypeList}}' wx:for-item="hotTypeItem" wx:for-index="hotTypeIndex" wx:key='{{hotTypeIndex}}' class="hot-type-item" bindtap="hotTypeTap" data-index="{{hotTypeIndex}}" data-breedno="{{petsItem.petGenreNo}}" data-name='{{petsItem.petGenreName}}'>
-      <i-image i-class="hot-type-icon" imageSrc="{{hotTypeItem.petGenreImg}}" >
-      </i-image>
-      <view class="text-name">
-        {{hotTypeItem.petGenreName}}
-      </view>
-    </view>
-  </view>
-</i-panel>
-
-<!-- 为您推荐 -->
-<i-panel>
-  <view class="section-title-area">
-    <image class="section-title-icon-3"
-           src='../../resource/recommend_goods.png'>
-    </image>
-  </view>
-  <view class="section-content-flex">
-    <view wx:for='{{recommendGoodsList}}' wx:for-item="recommendGoodsItem" wx:for-index="recommendGoodsIndex" wx:key='{{recommendGoodsIndex}}' class="recommend-goods-item" bindtap="petsInforTap" data-petno='{{recommendGoodsItem.petNo}}'>
-      <view class="recommend-goods-image-box">
-        <i-image i-class="recommend-goods-image" imageSrc='{{recommendGoodsItem.coverMedia[0].coverImg}}' >
-        </i-image>
-      </view>
-      <view class="recommend-goods-info-box">
-        <view class="goods-info-line">
-          <view class="text-name">
-            {{recommendGoodsItem.petName}}
-          </view>
-          <view class="text-price">
-            ￥{{recommendGoodsItem.retailPrice}}
-          </view>
-        </view>
-        <view class="goods-info-line">
-          <view class="recomend-goods-store-name-box">
-            <i-image i-class="recommend-goods-store-logo" imageSrc='{{recommendGoodsItem.business.iconAddress}}' >
-            </i-image>
-            <view class="text-info">
-              {{recommendGoodsItem.business.businessName}}
-            </view>
-          </view>
-          <view class="text-address">
-            {{recommendGoodsItem.business.province}} {{recommendGoodsItem.business.city}}
-          </view>
-        </view>
-      </view>
-    </view>
-  </view>
+	<view class="section-title-area">
+		<image class="section-title-icon-3" src='../../resource/hot_type.png'>
+		</image>
+	</view>
+	<view class="section-content-flex">
+		<view wx:for='{{hotTypeList}}' wx:for-item="hotTypeItem" wx:for-index="hotTypeIndex" wx:key='hotTypeIndex' class="hot-type-item" bindtap="hotTypeTap" data-index="{{hotTypeIndex}}" data-genreno="{{hotTypeItem.petGenreNo}}" data-name='{{hotTypeItem.petGenreName}}'>
+			<i-image i-class="hot-type-icon" imageSrc="{{hotTypeItem.petGenreImg}}" contentStyle='round'>
+			</i-image>
+			<view class="text-name">
+				{{parse.showText(hotTypeItem.petGenreName)}}
+			</view>
+		</view>
+	</view>
 </i-panel>
 
 <!-- 加载块 -->
@@ -343,9 +246,17 @@
 </i-load-foot-item>
 
 <wxs module='parse'>
-  module.exports = {
-    getDuringTime: function(date, time) {
-      return date;
-    }
-  }
+	module.exports = {
+		getDuringTime: function(date, time) {
+			return date;
+		},
+
+		showText: function(res) {
+			if (res == null || res == undefined) {
+				return '';
+			} else {
+				return res;
+			}
+		},
+	}
 </wxs>

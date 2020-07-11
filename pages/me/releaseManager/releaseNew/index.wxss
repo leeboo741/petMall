@@ -114,6 +114,12 @@
   height: 40rpx;
 }
 
+.vaccine-repellent-horizontal-line-v{
+  border-left: 2rpx solid lightgray;
+  width: 20rpx;
+}
+
+
 .parent-info-box{
   display: flex;
   flex-direction: row;
@@ -184,4 +190,28 @@
   font-size: 34rpx;
   line-height: 90rpx;
   text-align: center;
+}
+
+.moreInfosty{
+  width: 100%;
+  height: 100rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #8F8FBD;
+  font-size: 28rpx;
+}
+
+.commissionrate{
+  width: 98%;
+  padding-left: 2%;
+  font-size: 14px;
+  color: red;
+}
+
+
+
+.radio{
+  font-size: 26rpx;
+  margin-left: 100rpx;
 }

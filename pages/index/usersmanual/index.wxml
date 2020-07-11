@@ -1,0 +1,63 @@
+<!--pages/index/usersmanual/index.wxml-->
+<i-navigation-bar title='交易必读' showBackButton='{{true}}'>
+</i-navigation-bar>
+
+<view class="transaction-must-read">
+  <view class="transaction-must-read-left">
+      交易必读
+  </view>
+  <view class="transaction-must-read-right">
+      <image class="transaction-must-read-right-image" src="{{headImg}}"></image>
+  </view>
+</view>
+
+<view class="head-page">担保交易介绍</view>
+<view class="head-page-info">
+  淘宠惠宠物集市为您打造一个面向全国的宠物销售平台，让您更便捷的
+</view>
+
+<view class="technological-process-info">
+  <view class="technological-process-info-left">
+    <image class="technological-process-info-left-mage" src="../../../resource/userbook.png"></image>
+  </view>
+  <view class="technological-process-info-right">
+    <view class="technological-process-info-right-box">
+      买家通过平台担保支付   平台提醒卖家发货
+    </view>
+    <view class="technological-process-info-right-box">
+      卖家可通过斑马宠物速运发货，订单全程可追踪。  买家也可以上门自取。
+    </view>
+    <view class="technological-process-info-right-box">
+      宠物享受健康担保期 
+      犬瘟细小等疾病可以退货退款  
+      实物与描述严重不符可以退货退款 
+    </view>
+    <view class="technological-process-info-right-box">
+      提现申请提交后1个工作日内, 平台打款至卖家指定账户
+    </view>
+  </view>
+</view>
+
+<view class="head-page-info" style="color:#C00000;font-weight:bold;">
+ 买卖双方私下交易造成自身权益损失，导致的纠纷与平台无关 
+</view>
+
+<view class="head-page-info">
+ 卖家被用户举报，一经证实做永久封号处理，并保留追究造成损 失的权力。
+</view>
+
+<view class="head-page">常见问题</view>
+
+<block wx:for='{{commonProblem}}'
+      wx:for-item='item' 
+      wx:for-index='index' 
+      wx:key='{{index}}'>
+        <view class="head-page-info" style="color:#370701;font-weight:bold;margin-top:2%;">
+          {{item.title}}
+        </view>
+
+        <view class="head-page-info">
+          {{item.content}}
+        </view>
+</block>
+

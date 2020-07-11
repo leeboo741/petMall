@@ -6,7 +6,8 @@
     </view>
     <slot name='background'></slot>
   </view>
-  <view class="load-content">
+  <view class="load-content"
+        style="background-color:{{swhoBackgroundColor}}">
     <view class="load-loading"
           hidden="{{loadState != 0}}">
       <i-icon i-class='loading-icon'

@@ -1,0 +1,3 @@
+<!--pages/certification/index.wxml-->
+<i-navigation-bar title='认证说明' showBackButton='{{false}}'>
+</i-navigation-bar>

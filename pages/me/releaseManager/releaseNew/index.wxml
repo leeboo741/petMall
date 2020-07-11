@@ -3,11 +3,37 @@
                   showBackButton>
 </i-navigation-bar>
 
+
+
 <i-panel i-class='panel'
          title='基本信息'>
   <i-cell-group>
+
+    <i-cell title='标题'>
+      <view style='color: red'
+            slot='icon'>
+      *
+      </view>
+      <view slot='footer'
+            class="input-box">
+        <input placeholder="请输入标题"
+               placeholder-class="placeholder-text"
+               value='{{petName}}'
+               class="normal-text"
+               style="flex-grow: 1;"
+               bindinput="inputPetName"
+               type="text">
+
+        </input>
+      </view>
+    </i-cell>
+
     <i-cell title='分类'
             is-link>
+      <view style='color: red'
+            slot='icon'>
+      *
+      </view>
       <picker slot='footer'
               range="{{sortRange}}"
               range-key="petSortName"
@@ -20,7 +46,14 @@
 
     <i-cell title='品种'
             is-link>
-      <picker slot='footer'
+      <view style='color: red'
+            slot='icon'>
+      *
+      </view>
+      <view slot='footer' class="{{!petGenre?'placeholder-text': 'normal-text'}}" bindtap="selectPetGenre">
+      {{petGenre? petGenre.petGenreName: "请选择品种"}}
+      </view>
+      <!-- <picker slot='footer'
               range="{{genreRange}}"
               range-key="petGenreName"
               bindchange="selectGenre">
@@ -33,11 +66,15 @@
               class="{{petGenre==null||petGenre.length<=0?'placeholder-text':'normal-text'}}">
         {{petGenre==null||petGenre.length<=0?"请选择品种":petGenre.petGenreName}}
         </view>
-      </picker>
+      </picker> -->
     </i-cell>
     
     <i-cell title='性别'
             is-link>
+      <view style='color: red'
+            slot='icon'>
+      *
+      </view>
       <picker slot='footer'
               range="{{sexyRange}}"
               bindchange="selectSexy">
@@ -47,19 +84,12 @@
       </picker>
     </i-cell>
 
-    <i-cell title='绝育'
-            is-link>
-      <picker slot='footer'
-              range="{{sterilizedRange}}"
-              bindchange="selectSterilized">
-        <view class="{{sterilized==null||sterilized.length<=0?'placeholder-text':'normal-text'}}">
-        {{sterilized==null||sterilized.length<=0?"请选择是否绝育":sterilized}}
-        </view>
-      </picker>
-    </i-cell>
-
     <i-cell title='生日'
             is-link>
+      <view style='color: red'
+            slot='icon'>
+      *
+      </view>
       <picker slot='footer'
               mode='date'
               bindchange='selectBirthday'>
@@ -70,6 +100,10 @@
     </i-cell>
 
     <i-cell title='零售价格'>
+      <view style='color: red'
+            slot='icon'>
+      *
+      </view>
       <view slot='footer'
             class="input-box">
         <input placeholder="请输入零售价格"
@@ -88,26 +122,12 @@
       </view>
     </i-cell>
 
-    <i-cell title='市场价格'>
-      <view slot='footer'
-            class="input-box">
-        <input placeholder="请输入市场价格"
-               placeholder-class="placeholder-text"
-               value="{{marketPrice}}"
-               class="normal-text"
-               style="flex-grow: 1;"
-               bindinput="inputPetMarketPrice"
-               type="digit">
-
-        </input>
-        <view class="normal-text"
-              style="margin-left: 10rpx;">
-        元
-        </view>
+    <i-cell title='佣金比率'
+            label="{{parse.getCommission(commission)}}">
+      <view style='color: red'
+            slot='icon'>
+      *
       </view>
-    </i-cell>
-
-    <i-cell title='佣金比例'>
       <view slot='footer'
             class="input-box">
         <input placeholder="请输入佣金比率"
@@ -116,79 +136,103 @@
                class="normal-text"
                style="flex-grow: 1;"
                bindinput="inputCommissionRatio"
+               bindblur="blurCommissionRation"
+               type="digit">
+               
+        </input>
+        <view style='margin-left:10rpx'>%</view>
+      </view>
+    </i-cell>
+    <view class="commissionrate">
+      添加佣金能让爱宠更快找到新主人哦！佣金由买家支付，和卖家无关。
+    </view>
+
+
+    <i-cell title='售后服务'>
+    </i-cell>
+    <view style="height:100rpx;widht:100%;display:flex;align-items: center;">
+      <radio-group class="radio-group" bindchange="afterSaleServiceChange">
+          <veiw class="radio" wx:for="{{afterSaleService}}" wx:key="index">
+              <radio value="{{item.name}}" checked="{{item.checked}}"/>
+              {{item.value}}
+          </veiw>
+      </radio-group>
+    </view> 
+
+    <i-cell title='是否包邮'>
+      <view slot='footer'
+            class="input-box">
+          <switch class='switch-view' checked="{{isChecked}}" bindchange="petPostChange" type='checkbox'/>
+      </view>
+    </i-cell>
+
+    
+    <i-cell title='宠物重量'>
+      <view style='color: red'
+            slot='icon'>
+      *
+      </view>
+      <view slot='footer'
+            class="input-box">
+        <input placeholder="请输入宠物重量"
+               placeholder-class="placeholder-text"
+               value="{{petweight}}"
+               class="normal-text"
+               style="flex-grow: 1;"
+               bindinput="inputPetWeight"
                type="digit">
 
         </input>
         <view class="normal-text"
               style="margin-left: 10rpx;">
-        %
+        kg
         </view>
       </view>
     </i-cell>
+
+    <i-cell title='是否需要宠物保险'>
+      <view slot='footer'
+            class="input-box">
+          <switch class='switch-view' checked="{{isInsuranceChecked}}" bindchange="insuranceChange" type='checkbox'/>
+      </view>
+    </i-cell>
+
+    <view hidden="{{isInsuranceChecked==false? true:false}}">   
+      <i-cell title='请选择保险时长'>
+      </i-cell>
+      <view style="height:100rpx;widht:100%;display:flex;align-items: center;">
+        <radio-group class="radio-group" bindchange="insuranceTimeChange">
+            <veiw class="radio" wx:for="{{insuranceTime}}" wx:key="index">
+                <radio value="{{item.name}}" checked="{{item.checked}}"/>
+                {{item.value}}
+            </veiw>
+        </radio-group>
+      </view>
+   </view> 
   </i-cell-group>
 </i-panel>
 
 <i-panel i-class='panel'
-         title='配送方式及费用'>
-  <i-cell is-link
-          wx:if='{{transportTypeList!=null&&transportTypeList.length>0}}'>
-    <view class="transport-box"
-          slot='header'
-          bindtap="tapChangeTransport">
-      <view class="transport-item"
-            wx:for='{{transportTypeList}}'
-            wx:for-item='transportTypeItem'
-            wx:for-index='transportTypeIndex'
-            wx:key='{{transportTypeIndex}}'>
-        <image src='{{parse.getTransportIcon(transportTypeItem)}}'
-               class="transport-item-icon">
-        </image>
-        <view class="transport-item-name">
-        {{transportTypeItem.name}}
-        </view>
-        <view class="transport-item-price">
-        {{transportTypeItem.price}}元
-        </view>
-      </view>
-    </view>
-  </i-cell>
-  <i-cell wx:else
-          title='选择配送方式'
-          is-link
-          url='{{transportTypePage}}'>
-  </i-cell>
-</i-panel>
-
-<i-panel i-class='panel'
-         title='上传图片（最多{{maxUploadImageLength}}张）'>
-  <i-cell>
-    <view class="upload-image-box"
-          slot='header'>
-      <view class="upload-image-item"
-            wx:for='{{uploadImageList}}'
-            wx:for-item='uploadImageItem'
-            wx:for-index='uploadImageIndex'
-            wx:key='{{uploadImageIndex}}'>
-        <i-image imageSrc='{{uploadImageItem}}'
-                 i-class='upload-image-item-image'
-                  >
-        </i-image>
-        <view class="progress-box"
-              hidden="{{!parse.showProgress(uploadImageProgress, currentUploadIndex, uploadImageIndex)}}">
-          <i-progress percent="{{uploadImageProgress}}" hide-info style="width: 100%;">
-          </i-progress>
-        </view>
-      </view>
-      <view class="upload-image-item">
-        <view class='upload-image-item-image'
-              bindtap="tapAddNewUploadImage">
-          <image class="upload-image-item-center"
-                 src='../../../../resource/add_new.png'>
-          </image>
-        </view>
-      </view>
-    </view>
-  </i-cell>
+         title='上传照片（1~9张）'>
+    <i-image-upload uploadUrl='{{uploadUrl}}'
+                    name='multipartFile'
+                    formData='{{}}'
+                    startUpload='{{false}}'
+                    autoUpload='{{true}}'
+                    bind:upload-complete='uploadCompletesert'
+                    bind:myevent="get_emit"
+                    bind:delete-image='deleteImage'
+                    bind:addnew='addNewImage'
+                    ableDelete='{{true}}'
+                    selectMode='append'
+                    maxImageCount='{{9}}'
+                    videoMaxLength='{{10}}'
+                    imageSourceType="{{['album', 'camera']}}"
+                    videoSourceType="{{['album', 'camera']}}"
+                    showAddNewButton='{{true}}'
+                    ableVideo="{{true}}"
+                    imagePathList="{{serviceImagePathList}}">
+    </i-image-upload>
 </i-panel>
 
 <i-panel i-class='panel'
@@ -205,103 +249,111 @@
   </i-cell>
 </i-panel>
 
-<i-panel i-class='panel'
-         title='健康免疫'>
-  <i-cell-group>
-    <i-cell title='疫苗'>
-      <view class="vaccine-repellent-item-box"
-            slot='footer'>
-        <view class="vaccine-repellent-item"
-              wx:for='{{vaccineList}}'
-              wx:for-item='vaccineItem'
-              wx:for-index='vaccineIndex'
-              wx:key='{{vaccineIndex}}'>
-          <picker class="vaccine-repellent-input normal-text"
-                  mode='date'
-                  bindchange='selectVaccineDate'
-                  data-index='{{vaccineIndex}}'>
-            <view class="{{vaccineItem.vaccineDate==null||vaccineItem.vaccineDate.length<=0?'placeholder-text':'normal-text'}}">
-            {{vaccineItem.vaccineDate==null||vaccineItem.vaccineDate.length<=0?"第"+(vaccineIndex+1)+"针疫苗时间":vaccineItem.vaccineDate}}
-            </view>
-          </picker>
-          <view class="vaccine-repellent-item-line-v"></view>
-          <input class="vaccine-repellent-input normal-text"
-                placeholder="第{{vaccineIndex+1}}针疫苗品牌"
-                placeholder-class="placeholder-text"
-                value='{{vaccineItem.vaccineBrandName}}'
-                bindinput="inputVaccineBrand"
-                data-index='{{vaccineIndex}}'>
-          </input>
-          <i-icon type='cancel'
-                  color="#ee2c2c"
-                  size="35"
-                  bindtap="tapDeleteVaccine"
-                  data-index='{{vaccineIndex}}'
-                  style="width:50rpx; height:50rpx; line-height:50rpx; text-align: center">
-          </i-icon>
-        </view>
-        <view class="vaccine-repellent-item"
-              bindtap="addNewVaccine">
-        + 新增疫苗信息
-        </view>   
-      </view>
-    </i-cell>
-    <i-cell title='驱虫'>
-      <view class="vaccine-repellent-item-box"
-            slot='footer'>
-        <view class="vaccine-repellent-item"
-              wx:for='{{repellentList}}'
-              wx:for-item='repellentItem'
-              wx:for-index='repellentIndex'
-              wx:key='{{repellentIndex}}'>
-          <picker class="vaccine-repellent-input normal-text"
-                  mode='date'
-                  bindchange='selectRepellentDate'
-                  data-index='{{repellentIndex}}'>
-            <view class="{{repellentItem.killDate==null||repellentItem.killDate.length<=0?'placeholder-text':'normal-text'}}">
-            {{repellentItem.killDate==null||repellentItem.killDate.length<=0?"第一次驱虫时间":repellentItem.killDate}}
-            </view>
-          </picker>
-          <view class="vaccine-repellent-item-line-v"></view>
-          <input class="vaccine-repellent-input normal-text"
-                placeholder="第一次驱虫品牌"
-                placeholder-class="placeholder-text"
-                value='{{repellentItem.killBrandName}}'
-                bindinput="inputRepellentBrand"
-                data-index='{{repellentIndex}}'>
-          </input>
-          <i-icon type='cancel'
-                  color="#ee2c2c"
-                  size="35"
-                  bindtap="tapDeleteRepellent"
-                  data-index='{{repellentIndex}}'
-                  style="width:50rpx; height:50rpx; line-height:50rpx; text-align: center">
-          </i-icon>
-        </view>
-        <view class="vaccine-repellent-item"
-              bindtap="addNewRepellent">
-        + 新增驱虫信息
-        </view> 
-      </view>
-    </i-cell>
-  </i-cell-group>
-</i-panel>
+<!--更多选项-->
 
-<i-panel i-class='panel'
-         title='高端宠物认证(仅限高端宠物商家填写)'>
+<view bindtap="moreInfoTap"
+      class="moreInfosty">
+      {{parse.showMoreText(showMoreInfo)}}
+</view>
+
+<view hidden="{{showMoreInfo}}">
+    <i-panel i-class='panel'
+            title='健康免疫'>
+    <i-cell-group>
+      <i-cell title='疫苗'>
+        <view class="vaccine-repellent-item-box"
+              slot='footer'>
+          <view class="vaccine-repellent-item"
+                wx:for='{{vaccineList}}'
+                wx:for-item='vaccineItem'
+                wx:for-index='vaccineIndex'
+                wx:key='vaccineIndex'>
+            <picker class="vaccine-repellent-input normal-text"
+                    mode='date'
+                    bindchange='selectVaccineDate'
+                    data-index='{{vaccineIndex}}'>
+              <view class="{{vaccineItem.vaccineDate==null||vaccineItem.vaccineDate.length<=0?'placeholder-text':'normal-text'}}">
+              {{vaccineItem.vaccineDate==null||vaccineItem.vaccineDate.length<=0?"第"+(vaccineIndex+1)+"针疫苗时间":vaccineItem.vaccineDate}}
+              </view>
+            </picker>
+            <view class="vaccine-repellent-item-line-v"></view>
+            <input class="vaccine-repellent-input normal-text"
+                  placeholder="第{{vaccineIndex+1}}针疫苗品牌"
+                  placeholder-class="placeholder-text"
+                  value='{{vaccineItem.vaccineBrandName}}'
+                  bindinput="inputVaccineBrand"
+                  data-index='{{vaccineIndex}}'>
+            </input>
+            <i-icon type='cancel'
+                    color="#ee2c2c"
+                    size="35"
+                    bindtap="tapDeleteVaccine"
+                    data-index='{{vaccineIndex}}'
+                    style="width:50rpx; height:50rpx; line-height:50rpx; text-align: center">
+            </i-icon>
+          </view>
+          <view class="vaccine-repellent-item"
+                bindtap="addNewVaccine">
+          + 新增疫苗信息
+          </view>   
+        </view>
+      </i-cell>
+      <i-cell title='驱虫'>
+        <view class="vaccine-repellent-item-box"
+              slot='footer'>
+          <view class="vaccine-repellent-item"
+                wx:for='{{repellentList}}'
+                wx:for-item='repellentItem'
+                wx:for-index='repellentIndex'
+                wx:key='repellentIndex'>
+            <picker class="vaccine-repellent-input normal-text"
+                    mode='date'
+                    bindchange='selectRepellentDate'
+                    data-index='{{repellentIndex}}'>
+              <view class="{{repellentItem.killDate==null||repellentItem.killDate.length<=0?'placeholder-text':'normal-text'}}">
+              {{repellentItem.killDate==null||repellentItem.killDate.length<=0?"第一次驱虫时间":repellentItem.killDate}}
+              </view>
+            </picker>
+            <view class="vaccine-repellent-item-line-v"></view>
+            <input class="vaccine-repellent-input normal-text"
+                  placeholder="第一次驱虫品牌"
+                  placeholder-class="placeholder-text"
+                  value='{{repellentItem.killBrandName}}'
+                  bindinput="inputRepellentBrand"
+                  data-index='{{repellentIndex}}'>
+            </input>
+            <i-icon type='cancel'
+                    color="#ee2c2c"
+                    size="35"
+                    bindtap="tapDeleteRepellent"
+                    data-index='{{repellentIndex}}'
+                    style="width:50rpx; height:50rpx; line-height:50rpx; text-align: center">
+            </i-icon>
+          </view>
+          <view class="vaccine-repellent-item"
+                bindtap="addNewRepellent">
+          + 新增驱虫信息
+          </view> 
+        </view>
+      </i-cell>
+    </i-cell-group>
+    </i-panel>
+
+  <i-panel i-class='panel'
+          title='高端宠物认证(仅限高端宠物商家填写)'>
   <i-cell title='编号'>
     <input slot='footer'
-           class="normal-text"
-           placeholder-class="placeholder-text"
-           value="{{identifier}}"
-           placeholder="宠物CKU编号或芯片号"
-           bindinput="inputIdentifier">
+            class="normal-text"
+            placeholder-class="placeholder-text"
+            value="{{identifier}}"
+            placeholder="宠物CKU编号或芯片号"
+            bindinput="inputIdentifier">
     </input>
   </i-cell>
-</i-panel>
+  </i-panel>
 
-<i-panel i-class='panel'
-         title='父母信息'>
+  <i-panel i-class='panel'
+          title='父母信息'>
   <i-cell>
     <view class="parent-info-box"
           slot='header'>
@@ -314,8 +366,8 @@
                     >
           </i-image>
           <image class="parent-info-item-image-little"
-                 src='../../../../resource/add_new.png'
-                 wx:else>
+                  src='../../../../resource/add_new.png'
+                  wx:else>
           </image>
           <view class="progress-box"
                 hidden="{{!parse.showProgress(uploadFatherImageProgress, 0, 0)}}">
@@ -336,8 +388,8 @@
                     >
           </i-image>
           <image class="parent-info-item-image-little"
-                 src='../../../../resource/add_new.png'
-                 wx:else>
+                  src='../../../../resource/add_new.png'
+                  wx:else>
           </image>
           <view class="progress-box"
                 hidden="{{!parse.showProgress(uploadMotherImageProgress, 0, 0)}}">
@@ -351,23 +403,24 @@
       </view> 
       <view class="parent-info-item">
         <input class='parent-input normal-text'
-               placeholder-class="placeholder-text"
-               value="{{parent.father.name}}"
-               placeholder="父亲名称"
-               bindinput="inputFatherName">
+                placeholder-class="placeholder-text"
+                value="{{parent.father.name}}"
+                placeholder="父亲名称"
+                bindinput="inputFatherName">
         </input>
         <view class="parent-info-item-line-h"></view>
         <input class='parent-input normal-text'
-               placeholder-class="placeholder-text"
-               value="{{parent.mother.name}}"
-               placeholder="母亲名称"
-               bindinput="inputMotherName">
+                placeholder-class="placeholder-text"
+                value="{{parent.mother.name}}"
+                placeholder="母亲名称"
+                bindinput="inputMotherName">
         </input>   
       </view>    
     </view>
   </i-cell>
-</i-panel>
+  </i-panel>
 
+</view>
 <view class="add-new-button"
       bindtap="tapToRelease">
 发布
@@ -405,5 +458,27 @@
       }
       return true;
     },
+    showPrice:function(res){
+      if(res==null){
+        return "--"
+      }else{
+        return res;
+      }
+    },
+
+    showMoreText:function(res){
+        if(res==true){
+          return "添加更多信息(健康疫苗、宠物认证、编号、父母信息等)";
+        }else{
+          return "隐藏更多";
+        }
+    },
+    getCommission: function(commission) {
+      if (commission == null || commission.length < 0 || commission == 0) {
+        return "";
+      } else {
+        return "￥ "+commission;
+      }
+    }
   }
 </wxs>

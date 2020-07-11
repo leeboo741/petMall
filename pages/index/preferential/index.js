@@ -5,6 +5,9 @@ const PetService = require("../../../services/petService.js");
 const { PetFilterObj } = require("../../../entity/petFilterObj.js");
 const PagePath = require("../../../macros/pagePath.js");
 
+const ShareManager = require("../../../services/shareService");
+const Utils = require("../../../utils/util")
+
 Page({
 
   /**
@@ -64,7 +67,7 @@ Page({
     let that = this;
     PetService.getPreferentialPet(preferentialPetFilter,
       function getResultCallback(result) {
-        console.log("preferential pet: \n" + JSON.stringify(result));
+        Utils.logInfo("preferential pet: \n" + JSON.stringify(result));
         wx.stopPullDownRefresh();
         that.setData({
           petsInforMation: result.root,
@@ -94,7 +97,7 @@ Page({
     })
     PetService.getPreferentialPet(preferentialPetFilter,
       function getResultCallback(result) {
-        console.log("preferential pet: \n" + JSON.stringify(result));
+        Utils.logInfo("preferential pet: \n" + JSON.stringify(result));
         if (result.root.length < Limit) {
           that.setData({
             petsInforMation: that.data.petsInforMation.concat(result.root),
@@ -116,7 +119,7 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-
+    return ShareManager.getDefaultShareCard();
   },
 
   /**

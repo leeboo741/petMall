@@ -7,7 +7,7 @@
 
 .order-info-box{
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 10rpx;
@@ -21,6 +21,9 @@
 .order-date{
   font-size: 22rpx;
   color: gray;
+  width: 90%;
+  display: flex;
+  flex-direction: row-reverse;
 }
 
 .store-info-box{

@@ -9,8 +9,14 @@ const {
 } = require("../../../entity/petFilterObj.js");
 const Enum = require("../../../utils/enum.js");
 const Util = require("../../../utils/util.js");
+const Utils = require("../../../utils/util")
 const PagePath = require("../../../macros/pagePath.js");
 const LocationService = require("../../../services/locationService.js");
+const UserService=require("../../../services/userService.js");
+const ShoppingCartService=require("../../../services/shoppingCartService.js");
+
+const PetFilterUtil = require("../../../entity/petFilterObj.js");
+const ShareManager = require("../../../services/shareService");
 
 Page({
 
@@ -18,9 +24,14 @@ Page({
    * 页面的初始数据
    */
   data: {
+
+    petSortNo: null,
+    petGenreNo: null,
+
+    searchKeyword: "",
+
     pageIndex: 0, // 页码
-    breedNo: null, // 品种编号
-    requestType: null, // 请求类型 最新上架 精品 高端 全部
+    requestType: null, // 请求类型 高端 跳蚤 附近 品种 种类
 
     loadState: LoadFootItemState.Loading_State_Normal, // 底部状态
     pageHeight: null,
@@ -38,7 +49,7 @@ Page({
       "不限", "2000以下", "2000-5000", "5000-10000", "10000以上"
     ], // 价格
     selectReputation: [
-      "不限", "个人", "商户"
+      "不限", "公", "母"
     ], // 来源
     titleSelectList: [{
         selectInfo: "全部",
@@ -49,7 +60,7 @@ Page({
         showSelect: true,
       },
       {
-        selectInfo: "来源",
+        selectInfo: "性别",
         showSelect: true,
       }
     ],
@@ -116,20 +127,26 @@ Page({
         cityCode: 500000,
         city: '重庆市'
       }
-    ]
+    ],
+    showShopMask:0, //显示添加数量信息
+    shopCarinf:{},  //购物车添加信息
+    goodcount:0,  //添加商品的数量
+
+    businessInfo:null,  //商家信息
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    console.log("Nearby Options: \n" + JSON.stringify(options));
+    Utils.logInfo("Nearby Options: \n" + JSON.stringify(options));
     let that = this;
     that.setData({
       pageHeight: app.globalData.pageHeight,
       requestType: options.requesttype,
       pageTitle: options.pagetitle,
-      breedNo: options.breedno,
+      petSortNo: options.sortno?options.sortno:null,
+      petGenreNo: options.genreno?options.genreno: null,
     })
 
     var searchLetter = City.searchLetter;
@@ -151,26 +168,22 @@ Page({
       searchLetter: tempObj,
       cityList: cityList
     })
-  },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function() {
-    let that = this;
     wx.showLoading({
       title: '定位中...',
     })
+
+    UserService.isLogin(function isLoginCallback() {
+      UserService.requestBusinessInfo(UserService.getBusinessNo(), function (dataSource) {
+        that.setData({
+          businessInfo: dataSource
+        })
+      })
+    })
+
     LocationService.getCurrentLocationInfo(
       function callback(res) {
-        console.log(JSON.stringify(res));
+        Utils.logInfo(JSON.stringify(res));
         wx.hideLoading();
 
         let city = res.address_component.city;
@@ -185,6 +198,20 @@ Page({
         wx.startPullDownRefresh();
       }
     )
+  },
+
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function() {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function() {
+    
   },
 
   /**
@@ -210,6 +237,7 @@ Page({
     this.requestPetData(this.data.pageIndex,
       function getDataCallback(data) {
         wx.stopPullDownRefresh();
+        Utils.logInfo("petInformateion: \n" + JSON.stringify(data.root))
         that.setData({
           petsInforMation: data.root,
           pageIndex: that.data.pageIndex + Limit
@@ -266,15 +294,31 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function() {
+  onShareAppMessage: function () {
+    return ShareManager.getDefaultShareCard();
+  },
 
+  /**
+   * 搜索框输入
+   */
+  inputSearchAction: function (input) {
+    this.setData({
+      searchKeyword: input.detail.value
+    })
+  },
+
+  /**
+   * 搜索框输入确认
+   */
+  confirmSearchAction: function (input) {
+    wx.startPullDownRefresh();
   },
 
   /**
    * 城市选择首字母选择
    */
   clickLetter: function(e) {
-    console.log(e.currentTarget.dataset.letter)
+    Utils.logInfo(e.currentTarget.dataset.letter)
     var showLetter = e.currentTarget.dataset.letter;
     this.setData({
       showLetter: showLetter,
@@ -297,7 +341,6 @@ Page({
       [selectAddress]: e.currentTarget.dataset.city,
       [selecticon]: true,
       maskVarietiesShow: true
-
     })
     wx.startPullDownRefresh();
   },
@@ -469,15 +512,6 @@ Page({
           }
         )
         break;
-      case Enum.Nearby_RequestType_Enum.Fine:
-        this.requestFine(offset,
-          function getFineCallback(data) {
-            if (Util.checkIsFunction(getDataCallback)) {
-              getDataCallback(data);
-            }
-          }
-        )
-        break;
       case Enum.Nearby_RequestType_Enum.UpScale:
         this.requestUpScale(offset,
           function getUpScaleCallback(data) {
@@ -487,6 +521,9 @@ Page({
           }
         )
         break;
+
+      case Enum.Nearby_RequestType_Enum.Sort:
+      case Enum.Nearby_RequestType_Enum.Genre:
       case Enum.Nearby_RequestType_Enum.All:
         this.requestAll(offset,
           function getAllCallback(data) {
@@ -507,9 +544,10 @@ Page({
    */
   requestAll: function(offset, getAllCallback) {
     let that = this;
-    PetService.getPetList(this.getPetFilterObj(offset),
+    Utils.logInfo("=============" + JSON.stringify(that.getPetFilterObj(offset)))
+    PetService.getNearPetList(this.getPetFilterObj(offset),
       function getResultCallback(result) {
-        console.log("all:\n" + JSON.stringify(result));
+        Utils.logInfo("all:\n" + JSON.stringify(result));
         if (Util.checkIsFunction(getAllCallback)) {
           getAllCallback(result);
         }
@@ -526,7 +564,7 @@ Page({
     let that = this;
     PetService.getNewestPet(this.getPetFilterObj(offset),
       function getResultCallback(result) {
-        console.log("newest:\n" + JSON.stringify(result));
+        Utils.logInfo("newest:\n" + JSON.stringify(result));
         if (Util.checkIsFunction(getNewestCallback)) {
           getNewestCallback(result);
         }
@@ -539,11 +577,12 @@ Page({
    * @param offset
    * @param getNewestCallback
    */
-  requestFine: function(offset, getFineCallback) {
+  requestFine: function(offset, getFineCallback) {  
     let that = this;
+    Utils.logInfo("精品管数据请求：" + JSON.stringify(this.getPetFilterObj(offset)));
     PetService.getFinePet(this.getPetFilterObj(offset),
       function getResultCallback(result) {
-        console.log("fine:\n" + JSON.stringify(result));
+        Utils.logInfo("fine:\n" + JSON.stringify(result));
         if (Util.checkIsFunction(getFineCallback)) {
           getFineCallback(result);
         }
@@ -561,7 +600,7 @@ Page({
     let that = this;
     PetService.getUpScalePet(this.getPetFilterObj(offset),
       function getResultCallback(result) {
-        console.log("upscale:\n" + JSON.stringify(result));
+        Utils.logInfo("upscale:\n" + JSON.stringify(result));
         if (Util.checkIsFunction(getUpScaleCallback)) {
           getUpScaleCallback(result);
         }
@@ -592,32 +631,34 @@ Page({
       tempStartPrice = "10000";
     }
     let tempAuth = this.data.titleSelectList[2].selectInfo;
-    if (tempAuth == "来源" || tempAuth == "不限") {
+    if (tempAuth == "性别" || tempAuth == "不限") {
       tempAuth = "";
     } else {
-      if (tempAuth == "个人") {
+      if (tempAuth == "公") {
         tempAuth = 1;
-      } else if (tempAuth == "商户") {
+      } else if (tempAuth == "母") {
         tempAuth = 2;
       }
     }
 
-    let tempBreedno = ""
-    if (!Util.checkEmpty(this.data.breedNo)) {
-      tempBreedno = this.data.breedNo;
-    }
-
-    let petFilterObj = new PetFilterObj({
+    
+    let petFilterObj = {
       offset: offset,
       limit: Limit,
       city: tempCity,
-      priceStart: tempStartPrice,
-      priceEnd: tempEndPrice,
-      authType: tempAuth,
-      petGenreNo: tempBreedno
-    })
-    console.log("Pet Filter Obj:\n" + JSON.stringify(petFilterObj));
-    return petFilterObj;
+      startMoney: tempStartPrice,
+      endMoney: tempEndPrice,
+      sex: tempAuth,
+      searchKey: this.data.searchKeyword,
+      petSortNo: this.data.petSortNo,
+      petGenreNo: this.data.petGenreNo,
+    };
+    Utils.logInfo("Pet Filter Obj:\n" + JSON.stringify(petFilterObj));
+    return encodeURIComponent(JSON.stringify(PetFilterUtil.utilObject(petFilterObj)), 'utf-8');
+
+    // return petFilterObj;
+
+    
   },
 
   /**
@@ -626,6 +667,130 @@ Page({
   tapPets: function (e) {
     wx.navigateTo({
       url: PagePath.Page_Store_PetsInforMation + '?petno=' + e.currentTarget.dataset.petno
+    })
+  },
+
+  /**
+   * 加入购物车
+   */
+  addShopCatTap:function(res){
+    // Utils.logInfo(JSON.stringify(res))
+    let that = this;
+    UserService.isLogin(function isLoginCallback(){
+      this.setData({
+        goodcount: 0
+      });
+      let shopCarinf = {};
+      let info = res.currentTarget.dataset.shopinfo
+      shopCarinf.image = info.pet.petImg;
+      shopCarinf.petName = info.pet.petName;
+      shopCarinf.petPrice;
+      if (info.pet.business.authType > 1) {    //判断该商家是否是比个人认证更高级
+        shopCarinf.petPrice = info.pet.basePrice
+      } else {
+        shopCarinf.petPrice = info.pet.retailPrice
+      }
+      shopCarinf.petNo = info.pet.petNo;
+      that.setData({
+        showShopMask: 1,
+        shopCarinf: shopCarinf
+      })
+    }, null)
+  },
+
+  /**
+   * 进店
+   */
+  enterShopTap:function(res){   
+    wx.navigateTo({
+      url:"../../../oldstore/pages/storeinformation/index?storeno="+res.currentTarget.dataset.businessno+"&showtype=0"
+    })
+  },
+
+  /**
+   * 是否显示添加数量
+   */
+  showShopMask:function(){
+    this.setData({
+      showShopMask:0
+    })
+  },
+  /**
+   * 用户点击商品减1
+   */
+  subtracttap: function (e) {
+    var index = e.target.dataset.index;
+    var count = this.data.goodcount;
+    if (count <= 1) {
+      return;
+    } else {
+      count--;
+      this.setData({
+        goodcount: count
+      });
+    }
+  },
+
+  /**
+   * 用户点击商品加1
+   */
+  addtap: function (e) {
+    var index = e.target.dataset.index;
+    var count = this.data.goodcount;
+    count++;
+    this.setData({
+      goodcount: count
+    });
+  },
+
+  /**
+    * 输入框
+    */
+  shoppingCartinput: function (e) {
+    Utils.logInfo(JSON.stringify(e));
+    let goodcount = e.detail.value;
+    this.setData({
+      goodcount: goodcount
+    })
+  },
+
+  /**
+   * 点击确定 
+   * getCustomerNo //买家no
+   */
+  determineTap:function(){
+    let that = this;
+    UserService.isLogin(function isLoginCallback(){
+      let businessNo = UserService.getBusinessNo(); //卖家id
+      let qty = parseInt(that.data.goodcount);  //添加数量
+      let goodsNo = that.data.shopCarinf.petNo; //宠物id
+      let goodsType = 0; //添加购物车宠物
+
+      if (qty == 0) {
+        wx.showToast({
+          title: '请添加数量！',
+          icon: "none"
+        })
+        return;
+      }
+
+      Utils.logInfo(businessNo + "---" + qty + "---" + "---" + goodsNo + "---" + goodsType);
+
+      // qty, goodsNo, customerNo, goodsType
+      ShoppingCartService.addShoppingCart(qty, goodsNo, businessNo, goodsType, function callBakc(dataSource) {
+        if (dataSource.root > 0) {
+          wx.showToast({
+            title: '添加成功！',
+            icon: "success"
+          })
+        } else {
+          wx.showToast({
+            title: '添加失败！',
+            icon: "none"
+          })
+        }
+      })
+      this.showShopMask();
     })
   }
 })

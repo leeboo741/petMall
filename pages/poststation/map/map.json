@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "选择门店",
+  "usingComponents": {
+    "i-navigation-bar": "/lee-components/leeNavigationBar/index"
+  }
+}

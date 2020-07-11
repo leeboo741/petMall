@@ -1,0 +1,43 @@
+/* pages/me/releaseManager/releaseNew/selectPetGenre/index.wxss */
+
+.input-box{
+  padding: 15rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.input{
+  flex-grow: 1;
+  border: 1rpx solid lightgray;
+  border-radius: 8rpx;
+  height: 50rpx;
+  line-height: 50rpx;
+  padding: 8rpx 10rpx;
+  background: white;
+}
+
+.input-placeholder{
+  color: lightgray;
+}
+
+.gener-item{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background: white;
+}
+
+
+.gener-item-image{
+  margin: 15rpx 30rpx;
+  width: 110rpx;
+  height: 110rpx;
+  border-radius: 55rpx;
+}
+
+.gener-item-title{
+  font-size: 28rpx;
+  color: lightgray;
+}

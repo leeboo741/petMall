@@ -15,7 +15,7 @@
         <view class="avatar-box"
               bindtap="tapToLogin">
           <image class="avatar-image"
-                  src="../../resource/avatar_placeholder.jpg">
+                  src="../../resource/fail.jpg">
           </image>
         </view>
         <view class="info-box">
@@ -40,26 +40,32 @@
             bindtap="tapToEdit">
         <view class="avatar-box">
           <i-image i-class="avatar-image"
-                   imageSrc="{{userInfo.avatarUrl}}">
+                   imageSrc="{{parse.showHeadImage(userInfo.headerImage,businessInfo.headImg)}}">
           </i-image>
           <view class="avatar-detail">
-          商城会员
+          我是买家
           </view>
         </view>
         <view class="info-box">
           <view class="info-content-box">
             <view class="info-title">
-            {{userInfo.nickName}}
+            {{parse.showName(userInfo.customerName,businessInfo.businessName)}}
             </view>
-            <view class="info-explain">
-            {{userInfo.explain}}
+            <view class="yugan-csg-sty"> 
+                <image class="yugan-csg-sty-sex" src="/resource/centermm.png" 
+                      style="padding-right: 12rpx;" hidden="{{userInfo.sex==0?false:true}}"></image>
+              <view>\t</view>
+                <view> {{businessInfo.credit}}个小鱼干 | 
+                <image class="yugan-csg-sty-sex" src="/resource/hg.png"></image>{{businessInfo.level}}</view>
             </view>
           </view>
-          <i-icon i-class="right-arrow"
-                  type="right-arrow"
-                  size="38"
-                  color="#778899">
-          </i-icon>
+
+          <view class="grzy-sty" style="">
+            <image src="/resource/centeryellow.png" style="width:100%;height:100%;"></image>
+            <image src="/resource/yellowright.png" class="yellowright-sty"></image>
+            <view class="grzxshow-sty">个人主页</view>
+          </view> 
+
         </view>
       </view>
       <!-- 分割线 -->
@@ -89,7 +95,7 @@
               bindtap="tapCoupon">
           <view class="userinfo-value-item-value-box">
             <view class="userinfo-value-item-value">
-            0<!-- {{userinfo.couponCount}} -->
+            {{couponNumber}}<!-- {{userinfo.couponCount}} -->
             </view>
             <view class="userinfo-value-item-unit">
             张
@@ -103,15 +109,49 @@
     </view>
   </i-panel>
 
+        
+  <!--小鱼干以及优惠券-->
+  <i-panel>
+    <view class="yuganyouhui-sty">
+      <view class="yuganyouhui-sty-box" bindtap="integralflowTap">
+        <view class="yuganyouhui-sty-box-up">{{businessInfo.credit}}<text style="font-size:28rpx;color:#848D94">个</text></view>
+        <view class="yuganyouhui-sty-box-dwon">小鱼干</view>
+      </view>
+      <view class="yuganyouhui-sty-box" bindtap="couponTap">
+        <view class="yuganyouhui-sty-box-up">{{couponNumber}}<text style="font-size:28rpx;color:#848D94">张</text></view>
+        <view class="yuganyouhui-sty-box-dwon">优惠券</view>
+      </view>
+    </view>
+  </i-panel>
+
+  <view class="my-operation-sty">
+      <view class="my-operation-sty-box"
+            wx:for="{{operationList}}"
+            wx:for-item='operationItem'
+            wx:for-index='operationIndex'
+            wx:key='{{operationIndex}}'
+            bindtap="operationTap"
+            data-index="{{operationIndex}}"
+          wx:if='{{operationIndex != 0}}'>
+        <view class="my-operation-sty-box-up">{{operationItem.number}}</view>
+        <view class="my-operation-sty-box-dwon">{{operationItem.tips}}</view>
+      </view>
+  </view>
+
+  <view class="order-action-box-guwen">
+    <image src="https://i.loli.net/2020/02/25/QjIv9ioCwUDKrA5.png" style="width:100%;height:100%;"></image>
+    <button class="order-action-box-guwen-chaxun" open-type="contact"></button>
+  </view>
   <!-- 单据操作 -->
   <i-panel>
     <view class="order-action-box">
+      <view class="order-action-head-sty">我的宠圈</view>
       <view class="order-action-item"
             wx:for="{{orderActionList}}"
             wx:for-item='orderActionItem'
             wx:for-index='orderActionIndex'
             wx:key='{{orderActionIndex}}'
-            bindtap="tapOrderAction"
+            bindtap="tapMaiOrderAction"
             data-index='{{orderActionIndex}}'
             data-link="{{orderActionItem.link}}"
             wx:if='{{orderActionItem.show}}'>
@@ -123,24 +163,6 @@
         </view>
       </view>
     </view>
-  </i-panel>
-
-  <!-- 其他操作 -->
-  <i-panel>
-    <i-cell-group>
-      <i-cell wx:for="{{otherActionList}}"
-              wx:for-item='otherActionItem'
-              wx:for-index='otherActionIndex'
-              wx:key='{{otherActionIndex}}'
-              title='{{otherActionItem.name}}'
-              value='{{otherActionItem.detail}}'
-              is-link
-              bind:click='tapOtherAction'
-              data-index="{{otherActionIndex}}"
-              data-link="{{otherActionItem.link}}"
-              wx:if='{{otherActionItem.show}}'>
-      </i-cell>
-    </i-cell-group>
   </i-panel>
 </block>
 
@@ -155,7 +177,7 @@
         <view class="avatar-box"
               bindtap="tapToLogin">
           <image class="avatar-image"
-                  src="../../resource/avatar_placeholder.jpg">
+                  src="../../resource/fail.jpg">
           </image>
         </view>
         <view class="info-box">
@@ -177,55 +199,44 @@
       <!-- 登录 -->
       <view class='userinfo-base-box'
             wx:else
-            bindtap="tapToEditStore">
+            bindtap="tapToEdit">
         <view class="avatar-box">
           <i-image i-class="avatar-image"
-                    imageSrc="{{userInfo.avatarUrl}}">
+                    imageSrc="{{parse.showHeadImage(userInfo.headerImage,businessInfo.headImg)}}">
           </i-image>
           <view class="avatar-detail">
-          实名认证
+          我是卖家
           </view>
         </view>
         <view class="info-box">
           <view class="info-content-box">
             <view class="info-title">
-            {{userInfo.nickName}}
+            {{parse.showName(userInfo.customerName,businessInfo.businessName)}}
             </view>
-            <view class="info-start-box">
-              <i-icon type='star'
-                      size='32'
-                      color="{{userInfo.starCount >= 0?'#FFA500':'#778899'}}">
-              </i-icon>
-              <i-icon type='star'
-                      size='32'
-                      color="{{userInfo.starCount >= 2?'#FFA500':'#778899'}}">
-              </i-icon>
-              <i-icon type='star'
-                      size='32'
-                      color="{{userInfo.starCount >= 3?'#FFA500':'#778899'}}">
-              </i-icon>
-              <i-icon type='star'
-                      size='32'
-                      color="{{userInfo.starCount >= 4?'#FFA500':'#778899'}}">
-              </i-icon>
-              <i-icon type='star'
-                      size='32'
-                      color="{{userInfo.starCount >= 5?'#FFA500':'#778899'}}">
-              </i-icon>
+            <view class="yugan-csg-sty">
+                <image class="yugan-csg-sty-sex" src="/resource/centermm.png" 
+                      style="padding-right: 12rpx;" hidden="{{userInfo.sex==0?false:true}}"></image>
+                <view>\t</view>
+                <view> {{businessInfo.credit}}个小鱼干 | 
+                <image class="yugan-csg-sty-sex" src="/resource/hg.png"></image>{{businessInfo.level}}</view>
             </view>
+           
           </view>
-          <i-icon i-class="right-arrow"
-                  type="right-arrow"
-                  size="38"
-                  color="#778899">
-          </i-icon>
+
+          <view class="grzy-sty" style="">
+            <image src="/resource/centeryellow.png" style="width:100%;height:100%;"></image>
+            <image src="/resource/yellowright.png" class="yellowright-sty"></image>
+            <view class="grzxshow-sty">个人主页</view>
+          </view> 
         </view>
       </view>
-      <!-- 本月交易额 -->
-      <view class="userinfo-trade-volume-box">
+
+            <!-- 本月交易额 -->
+      <view class="userinfo-trade-volume-box"
+            bindtap="tapWithdrawal">
         <view class="userinfo-trade-volume-value-box">
           <view class="userinfo-trade-volum-value">
-          {{parse.getTradeVolume(userInfo.tradeVolume)}}
+          {{balanceInfo.totalAmount}}
           </view>
           <view class="userinfo-trade-volum-unit">
           元
@@ -234,49 +245,48 @@
         <view class="userinfo-trade-volum-title">
         本月交易额
         </view>
-      </view>
-      <!-- 分割线 -->
-      <view class="userinfo-box-line-h">
-      </view>
-      <!-- 积分 优惠券 -->
-      <view class="userinfo-value-box">
-        <view class='userinfo-value-item'
-              bindtap="tapRecharge">
-          <view class="userinfo-value-item-value-box">
-            <view class="userinfo-value-item-value">
-            --<!-- {{userinfo.point}} -->
+      </view> 
+    
+      <!--小鱼干以及优惠券-->
+        <i-panel>
+          <view class="yuganyouhui-sty">
+            <view class="yuganyouhui-sty-box" bindtap="integralflowTap">
+              <view class="yuganyouhui-sty-box-up">{{businessInfo.credit}}<text style="font-size:28rpx;color:#848D94">个</text></view>
+              <view class="yuganyouhui-sty-box-dwon">小鱼干</view>
             </view>
-            <view class="userinfo-value-item-unit">
-            元
+            <view class="yuganyouhui-sty-box" bindtap="couponTap">
+              <view class="yuganyouhui-sty-box-up">{{couponNumber}}<text style="font-size:28rpx;color:#848D94">张</text></view>
+              <view class="yuganyouhui-sty-box-dwon">优惠券</view>
             </view>
           </view>
-          <view class="userinfo-value-item-name">
-          发布余额
-          </view>
+        </i-panel>
+
+        <view class="my-operation-sty">
+            <view class="my-operation-sty-box"
+                  wx:for="{{operationList}}"
+                  wx:for-item='operationItem'
+                  wx:for-index='operationIndex'
+                  wx:key='{{operationIndex}}'
+                  bindtap="operationTap"
+                  data-index="{{operationIndex}}">
+              <view class="my-operation-sty-box-up">{{operationItem.number}}</view>
+              <view class="my-operation-sty-box-dwon">{{operationItem.tips}}</view>
+            </view>
         </view>
-        <view class="userinfo-box-line-v">
-        </view>
-        <view class='userinfo-value-item'
-              bindtap="tapWithdrawal">
-          <view class="userinfo-value-item-value-box">
-            <view class="userinfo-value-item-value">
-            0<!-- {{userinfo.couponCount}} -->
-            </view>
-            <view class="userinfo-value-item-unit">
-            元
-            </view>
-          </view>
-          <view class="userinfo-value-item-name">
-          可提金额
-          </view>
-        </view>
+
+
+      <view class="order-action-box-guwen">
+        <image src="https://i.loli.net/2020/02/25/QjIv9ioCwUDKrA5.png" style="width:100%;height:100%;"></image>
+        <button class="order-action-box-guwen-chaxun" open-type="contact"></button>
       </view>
+
     </view>
   </i-panel>
 
   <!-- 单据操作 -->
   <i-panel>
     <view class="order-action-box">
+      <view class="order-action-head-sty">我的宠圈</view>
       <view class="order-action-item"
             wx:for="{{sellerOrderActionList}}"
             wx:for-item='orderActionItem'
@@ -295,26 +305,10 @@
       </view>
     </view>
   </i-panel>
-
-  <!-- 其他操作 -->
-  <i-panel>
-    <i-cell-group>
-      <i-cell wx:for="{{sellerOtherActionList}}"
-              wx:for-item='otherActionItem'
-              wx:for-index='otherActionIndex'
-              wx:key='{{otherActionIndex}}'
-              title='{{otherActionItem.name}}'
-              value='{{otherActionItem.detail}}'
-              is-link
-              bind:click='tapOtherAction'
-              data-index="{{otherActionIndex}}"
-              data-link="{{otherActionItem.link}}"
-              wx:if='{{otherActionItem.show}}'>
-      </i-cell>
-    </i-cell-group>
-  </i-panel>
 </block>
+<poster-maker showPoster='{{showPoster}}' userInfo='{{userInfo}}' bind:watch-close='posterCloseWatchAction'>
 
+</poster-maker>
 <wxs module='parse'>
   module.exports={
     getTradeVolume: function(tradeVolume) {
@@ -322,6 +316,23 @@
         return 0;
       }
       return tradeVolume;
-    }
+    },
+
+    showHeadImage:function(res,rest){
+      if(rest==null || rest==''){
+        return res;
+      }else{
+        return rest;
+      }
+    },
+    
+    showName:function(res,rest){
+      if(rest==null || rest==''){
+        return res;
+      }else{
+        return rest;
+      }
+    },
+
   }
 </wxs>

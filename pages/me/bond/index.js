@@ -2,6 +2,10 @@
 
 const app = getApp();
 const UserService = require("../../../services/userService.js");
+const Url_Path=require("../../../macros/urlPath.js");
+
+const ShareManager = require("../../../services/shareService");
+const Utils = require("../../../utils/util")
 
 Page({
 
@@ -12,16 +16,34 @@ Page({
     checkContract: false, // 是否检查完合约
     height: null,
     businessInfo: null,
+    bond_1: Url_Path.Url_bond_1,
+    bond_2: Url_Path.Url_bond_2,
+    bondPrice:0,
+    payBondInfo:0,
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    let that=this;
     this.setData({
       height: app.globalData.pageHeight,
       businessInfo: UserService.getLocalBusinessInfo()
     })
+
+    UserService.getBusinessBondPrice(function(data){
+        Utils.logInfo("保证金金额："+JSON.stringify(data));
+        that.setData({
+          bondPrice: data.root
+        })
+    })
+
+    this.getBusinessBondObj(function(dataCallBack){
+       
+    })
+
+    Utils.logInfo(UserService.getLocalBusinessInfo());
   },
 
   /**
@@ -35,7 +57,21 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    let that=this;
+    UserService.isLogin(function isLoginCallback() {
+      UserService.requestBusinessInfo(UserService.getBusinessNo(), function (dataSource) {
+        that.setData({
+          payBondInfo: dataSource.payBond
+        })
+        if (dataSource.payBond == 1) {
+          wx.showModal({
+            title: '提示',
+            content: '您已缴纳保证金！',
+            showCancel: false,
+          })
+        }
+      })
+    })
   },
 
   /**
@@ -70,7 +106,7 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-
+    return ShareManager.getDefaultShareCard();
   },
 
   /**
@@ -93,28 +129,78 @@ Page({
    * 缴纳保证金
    */
   confirmBond: function() {
-    if (!this.data.checkContract) {
-      wx.showToast({
-        title: '请阅读并同意条款',
-        icon:'none'
-      })
-      return;
-    }
-    wx.showLoading({
-      title: '请稍等...',
-    })
-    UserService.addBond(
-      {
-        billNo: this.data.businessInfo.bond.billNo,
-        authNo: this.data.businessInfo.auth.billNo,
-        authType: this.data.businessInfo.auth.businessAuthType,
-        businessNo: this.data.businessInfo.businessNo,
-        amount: 5000,
-      },
-      function bondResultCallback(res) {
-        console.log("缴纳保证金： \n" + JSON.stringify(res));
-        wx.hideLoading();
+    let that = this;
+    UserService.isLogin(function isLoginCallback(){
+      if (that.data.payBondInfo == 1) {
+        wx.showModal({
+          title: '提示',
+          content: '您已缴纳保证金！',
+          showCancel: false,
+        })
+        return;
       }
-    )
+
+      if (!that.data.checkContract) {
+        wx.showToast({
+          title: '请阅读并同意条款',
+          icon: 'none'
+        })
+        return;
+      }
+      wx.showLoading({
+        title: '请稍等...',
+      })
+      UserService.addBond(
+        {
+          businessNo: UserService.getBusinessNo(),
+        },
+        function bondResultCallback(res) {
+          Utils.logInfo("缴纳保证金： \n" + JSON.stringify(res));
+          if (res.root == "操作成功") {
+            Utils.logInfo(that.data.businessInfo.businessNo)
+            UserService.payBond(UserService.getBusinessNo(), function callBack(dataSource) {
+              Utils.logInfo("支付内容：" + JSON.stringify(dataSource))
+              if (dataSource.root.appId != null && dataSource.root.appId != undefined) {
+                wx.requestPayment({
+                  timeStamp: dataSource.root.timeStamp,
+                  nonceStr: dataSource.root.nonceStr,
+                  package: dataSource.root.package,
+                  signType: dataSource.root.signType,
+                  paySign: dataSource.root.paySign,
+                  success(res) {
+                    wx.navigateBack({ changed: true });//返回上一页  
+                  },
+                  fail(res) {
+                    wx.showToast({
+                      title: '缴纳失败',
+                      icon: "none"
+                    })
+                  }
+                })
+              }
+
+            })
+          } else {
+            showToast: ({
+              title: '出现错误,请稍后再试！',
+              icon: 'none',
+              duration: 2000
+            })
+          }
+          wx.hideLoading();
+
+        }
+      )
+    })
   },
+
+  /**
+   * 获得保证金对象
+   */
+  getBusinessBondObj:function(bondObjCallBack){
+    UserService.getBusinessBond(UserService.getBusinessNo(),function(data){
+      Utils.logInfo("获取保证金对象：====>"+JSON.stringify(data));
+      bondObjCallBack(data.root)
+    })
+  }
 })

@@ -1,8 +1,9 @@
 const Nearby_RequestType_Enum = {
-  Newest: "1",
-  Fine: "2",
-  UpScale: '3',
-  All: "4",
+  Newest: "1",  //跳蚤市场
+  Genre: "2",    //二级分类
+  UpScale: '3', //高端市场
+  All: "4",     //所有
+  Sort: "5", // 一级分类
 }
 
 const Order_Type_Enum = {

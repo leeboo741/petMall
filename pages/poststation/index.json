@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "i-navigation-bar": "/lee-components/leeNavigationBar/index",
+    "popup": "/lee-components/popup/popup"
+  },
+  "navigationBarBackgroundColor": "#FF3A1E",
+  "navigationBarTextStyle": "white"
+}

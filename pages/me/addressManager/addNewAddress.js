@@ -5,6 +5,9 @@ const AddressManagerService = require("../../../services/addressManagerService.j
 const {AddressObj} = require("../../../entity/addressObj.js");
 const UserService = require("../../../services/userService.js");
 
+const ShareManager = require("../../../services/shareService");
+const Utils = require("../../../utils/util")
+
 Page({
 
   /**
@@ -23,7 +26,7 @@ Page({
     detailedAddress: null, // 输入 详细地址
     isDefault: false, // 输入 默认
 
-    addressNo: null,
+    receivingNo: null,
   },
 
   /**
@@ -110,7 +113,7 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-
+    return ShareManager.getDefaultShareCard();
   },
 
   /**
@@ -154,41 +157,47 @@ Page({
    * 确认提交
    */
   tapToAddNew: function(e) {
-    let addressObj = new AddressObj({
-      province: this.data.region[0], // 省
-      city: this.data.region[1], // 市
-      county: this.data.region[2], // 区县
-      detailedAddress: this.data.detailedAddress, // 详细地址
-      contacts: this.data.contacts, // 联系人名称
-      phone: this.data.phone, // 联系人电话
-      isDefault: this.data.isDefault, // 是否默认地址
-      // latitude: "", // 纬度
-      // longitude : "", // 经度
-      customer: {
-        customerNo: UserService.getCustomerNo()
-      } // 地址 所属人
+    let that = this;
+    UserService.isLogin(function isLoginCallback(){
+      let addressObj = new AddressObj({
+        province: that.data.region[0], // 省
+        city: that.data.region[1], // 市
+        county: that.data.region[2], // 区县
+        detailedAddress: that.data.detailedAddress, // 详细地址
+        contacts: that.data.contacts, // 联系人名称
+        phone: that.data.phone, // 联系人电话
+        isDefault: that.data.isDefault, // 是否默认地址
+        // latitude: "", // 纬度
+        // longitude : "", // 经度
+        business: {
+          businessNo: UserService.getBusinessNo()
+        }
+        // 地址 所属人
+      })
+
+      Utils.logInfo(JSON.stringify(addressObj))
+
+      if (that.data.type == 0) {
+        AddressManagerService.addNewAddress(addressObj,
+          function addCallback(result) {
+            Utils.logInfo("add new address \n" + JSON.stringify(result));
+            wx.navigateBack({
+
+            })
+          }
+        )
+      } else {
+        addressObj.receivingNo = that.data.editAddress.receivingNo;
+        AddressManagerService.editAddress(addressObj,
+          function editCallback(result) {
+            Utils.logInfo("edit address \n" + JSON.stringify(result));
+            wx.navigateBack({
+
+            })
+          }
+        )
+      }
     })
-
-    if (this.data.type == 0) {
-      AddressManagerService.addNewAddress(addressObj,
-        function addCallback(result) {
-          console.log("add new address \n" + JSON.stringify(result));
-          wx.navigateBack({
-
-          })
-        }
-      )
-    } else {
-      addressObj.addressNo = this.data.editAddress.addressNo;
-      AddressManagerService.editAddress(addressObj,
-        function editCallback(result) {
-          console.log("edit address \n" + JSON.stringify(result));
-          wx.navigateBack({
-
-          })
-        }
-      )
-    }
   },
 
   /**
@@ -201,9 +210,9 @@ Page({
       content: "确认删除该地址",
       success(res) {
         if (res.confirm) {
-          AddressManagerService.deleteAddress(that.data.editAddress.addressNo,
+          AddressManagerService.deleteAddress(that.data.editAddress.receivingNo,
             function deleteCallback(result) {
-              console.log("delete address \n" + JSON.stringify(result));
+              Utils.logInfo("delete address \n" + JSON.stringify(result));
               wx.navigateBack({
                 
               })

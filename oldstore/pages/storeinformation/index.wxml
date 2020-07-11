@@ -1,0 +1,254 @@
+<!--pages/store/storeinformation/index.wxml-->
+<i-navigation-bar title='{{storeDetail.businessName}}' showBackButton='{{true}}'>
+</i-navigation-bar>
+
+<view class="business-head-page">
+	<view class="business-head-inleft">
+		<i-image imageSrc="{{storeDetail.headImg}}" i-class="business-image">
+		</i-image>
+		<!-- headerImg -->
+	</view>
+	<view class="business-head-inright">
+		<view class="business-follow" bindtap="businessFollowTap" hidden="{{busandself}}">
+			{{followType==0?'关注':'取消关注'}}
+		</view>
+
+		<view class="business-name-label">
+			{{storeDetail.businessName}}
+			<view class="label-pagecs">
+				实名认证
+			</view>
+			<view class="label-pagecs" hidden="{{storeDetail.payBond==1?false:true}}">
+				已缴纳押金
+			</view>
+			<view class="label-pagecs" hidden="{{storeDetail.authType>0?false:true}}">
+				{{parse.showRz(storeDetail.authType)}}
+			</view>
+		</view>
+
+		<view style="display: flex;flex-wrap: nowrap;">
+			<view wx:for="{{storeDetail.businessDegree}}" wx:for-item='StarsItem' wx:for-index='StarsIndex' wx:key='{{StarsIndex}}'>
+				<i-icon type="collection_fill" color="#EFCC83" />
+			</view>
+		</view>
+		<view style="color:#ccc;font-size:27rpx;">
+			{{storeDetail.province}} {{storeDetail.city}} {{storeDetail.detailAddress}}
+		</view>
+	</view>
+</view>
+
+<view class="divLine" />
+
+<view class="business-select-head" style="position:{{onPageScroll==true?'fixed':''}};top:{{navHeight-3}}px;">
+	<view style="height:50px" class="business-selectinfo" wx:for='{{buisnessList}}' wx:for-item="buisnessItem" wx:for-index="buisnessIndex" wx:key='{{buisnessIndex}}' bindtap="buisnessTap" data-index="{{buisnessIndex}}">
+		<view style="{{parse.showStyle(buisnessIndex, currentIndex)}}">
+			{{buisnessItem}}
+		</view>
+	</view>
+</view>
+
+
+
+<!--宠物列表-->
+<view class="business-pets-page" wx:if='{{currentIndex == 0}}'>
+	<view style="display:flex;flex-wrap:nowrap;">
+	</view>
+	<view class="business-pets-page">
+		<view class="business-pets-information" wx:for='{{petList}}' wx:for-item="petItem" wx:for-index="petIndex" wx:key='{{petIndex}}' bindtap="petsInforTap" data-item="{{petItem}}" data-index="{{petIndex}}" data-petno='{{petItem.pet.petNo}}'>
+			<view class="business-pets-information">
+				<i-image imageSrc="{{petItem.pet.petImg}}" i-class="business-pets-image">
+				</i-image>
+			</view>
+			<view class="business-pets-bottom">
+				<view class="business-pets-petname">
+					{{petItem.pet.petName}}
+				</view>
+				<view class="business-pets-priceandaddress">
+					<view class="business-pets-retailPrice">
+						￥{{petItem.pet.retailPrice}}
+					</view>
+					<view class="business-pets-address">
+						{{storeDetail.province}} {{storeDetail.city}}
+					</view>
+				</view>
+			</view>
+		</view>
+	</view>
+</view>
+<!-- 商品列表 -->
+<view class="business-pets-page" wx:elif='{{currentIndex == 1}}'>
+	<view style="display:flex;flex-wrap:nowrap;">
+	</view>
+	<view class="foodgrain-page-formation" wx:for='{{itemList}}' wx:for-item="Item" wx:for-index="Index" wx:key='{{Item.item.itemNo}}' bindtap="commodityInforMationTap" data-itemno='{{Item.item.itemNo}}' hidden="{{Item.item.itemState == 0}}">
+		<i-image i-class="foodgrain-page-formation-head" imageSrc="{{Item.item.coverImg}}">
+		</i-image>
+		<view class="foodgrain-page-formation-middle">
+			{{Item.item.itemName}}
+		</view>
+		<view class="foodgrain-page-formation-introduce">
+			{{Item.item.itemProfile}}
+		</view>
+		<view class="foodgrain-page-formation-down">
+			￥{{Item.item.retailPrice}}
+			<view class="foodgrain-page-formation-down-member" hidden>
+				会员价
+			</view>
+			<view style="color:#ccc;padding-left:18%;text-decoration:line-through;" hidden>
+				￥{{Item.item.marketPrice}}
+			</view>
+		</view>
+	</view>
+</view>
+<!-- 服务列表 -->
+<view class="business-pets-page" wx:elif='{{currentIndex == 2}}'>
+	<view style="display:flex;flex-wrap:nowrap;">
+	</view>
+	<view class="server-item" wx:for='{{serviceList}}' wx:for-item="serverItem" wx:for-index="serverIndex" wx:key='{{serverItem.serviceTypeNo}}' bindtap="tapServerItem" data-servertypeno='{{serverItem.serviceTypeNo}}' data-servertypename='{{serverItem.serviceTypeName}}'>
+		<view class="server-item-image-box">
+			<image src='{{parse.getServerIcon(serverItem.serviceTypeNo)}}' class="server-item-image">
+			</image>
+		</view>
+		<view class="server-item-title">
+		{{serverItem.serviceTypeName}}
+		</view>
+	</view>
+</view>
+
+
+<view class="business-introduction-page" wx:else>
+	<view class='business-introduction-row'>
+		<view style="width: 150rpx">
+			地址：
+		</view>
+		<view style="color: gray; margin:0rpx 15rpx;">
+			{{storeDetail.province}} {{storeDetail.city}} {{storeDetail.detailAddress}}
+		</view>
+		<view bindtap="openLocation" class="navi-button">
+			<image src="/resource/dh.png" class='navi-button'></image>
+		</view>
+	</view>
+	<view class="business-introduction-row">
+		<view style="width: 150rpx">电话：</view>
+		<view style="color: gray; margin: 0rpx 15rpx">{{storeDetail.contactPhone?storeDetail.contactPhone:"暂无商家电话"}}</view>
+	</view>
+	<view class='business-introduction-row'>
+		<view  style="width: 150rpx">简介：</view>
+		<view style="color: gray; margin: 0rpx 15rpx">{{storeDetail.describes}}</view>
+	</view>
+	<view class="business-introduction-row" wx:if='{{storeDetail.weChatImg!=null}}'>
+		<view  style="width: 150rpx">二维码：</view>
+		<i-image imageSrc='{{storeDetail.weChatImg}}' i-class='qrcode' bindtap="tapQRCode" data-url='{{storeDetail.weChatImg}}'>
+		</i-image>
+	</view>
+	<view class="business-introduction-row" wx:if='{{storeDetail.shopImg != null}}'>
+		<view style='width: 150rpx'>实景：</view>
+		<view class="shop-image-box">
+			<i-image wx:for='{{storeDetail.shopImg}}' imageSrc='{{item}}' i-class='shop-image-item' bindtap="tapShopImg" data-index='{{index}}' data-url='{{item}}'>
+			</i-image>
+		</view>
+	</view>
+</view>
+
+<view style='height: 50rpx; width: 100%'></view>
+<block wx:if="{{currentIndex!=3}}">
+	<i-load-foot-item loadState='{{loadStateList[currentIndex]}}'>
+	</i-load-foot-item>
+</block>
+
+
+
+<view style='height: 120rpx; width: 100%'></view>
+
+
+<view class="page-bottom-icon">
+	<button class="page-icon-sly" open-type="share">
+		<view class="bottom-button-type-one">
+			<i-icon type="share" size="25" />
+		</view>
+		<view style="font-size:25rpx;">分 享</view>
+	</button>
+
+	<button class="page-icon-sly" bindtap="tapCall" data-phone='{{storeDetail.contactPhone}}'>
+		<view class="bottom-button-type-one">
+			<i-icon type="customerservice_fill" size="27" />
+		</view>
+		<view style="font-size:25rpx;">电 话</view>
+	</button>
+</view>
+
+<!--分享信息-->
+<view class="share-sty" hidden="{{mask}}">
+	<view class="share-sty-head">
+		<view class="share-sty-head-wrong" bindtap="maskTap">
+			<image src="/resource/wrong.png" class="share-sty-head-wrong-image"></image>
+		</view>
+	</view>
+	<view class="share-sty-box">
+		<button class="share-sty-box-single" open-type="share">
+			<view class="share-sty-box-single-icon">
+				<image src="/resource/wx.png" class="share-sty-box-single-icon-image"></image>
+			</view>
+			<view class="share-sty-box-single-text">
+				分享给好友
+			</view>
+		</button>
+		<view class="share-sty-box-single">
+			<view class="share-sty-box-single-icon">
+				<image src="/resource/poster.png" class="share-sty-box-single-icon-image"></image>
+			</view>
+			<view class="share-sty-box-single-text">
+				保存海报
+			</view>
+		</view>
+	</view>
+</view>
+
+<!--蒙版-->
+<view class="mask-page" hidden="{{mask}}" bindtap="maskTap">
+</view>
+
+
+<wxs module='parse'>
+	module.exports = {
+		getServerIcon: function(serverNo) {
+			if (serverNo == 1) {
+				return "/resource/t2.png";
+			} else if (serverNo == 2) {
+				return "/resource/t1.png";
+			} else if (serverNo == 3) {
+				return "/resource/aquatic.png";
+			} else if (serverNo == 4) {
+				return "/resource/t3.png";
+			} else if (serverNo == 5) {
+				return "/resource/t4.png";
+			} else {
+				return "/resource/aquatic.png";
+			}
+    },
+		showStyle: function(index, currentIndex) {
+			if (index == currentIndex) {
+				return "border-bottom:3px solid #ED630A;color:black;"
+			} else {
+				return "border-bottom:0px solid #ED630A;color:#949494;"
+			}
+		},
+
+		showBondAmount: function(res) {
+			if (res == null) {
+				return 0;
+			} else {
+				return res;
+			}
+		},
+		showRz: function(res) {
+			if (res == 1) {
+				return "个人认证"
+			} else if (res == 2) {
+				return "商家认证"
+			} else {
+				return "平台认证"
+			}
+		}
+
+	}
+</wxs>

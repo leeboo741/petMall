@@ -11,6 +11,8 @@
 		"newFeature": true,
 		"coverView": true,
 		"autoAudits": false,
+		"showShadowRootInWxmlPanel": true,
+		"scopeDataCheck": false,
 		"checkInvalidKey": true,
 		"checkSiteMap": true,
 		"uploadWithSourceMap": true,
@@ -18,7 +20,10 @@
 			"ignore": [],
 			"disablePlugins": [],
 			"outputPath": ""
-		}
+		},
+		"useIsolateContext": true,
+		"useCompilerModule": true,
+		"userConfirmedUseCompilerModuleSwitch": false
 	},
 	"compileType": "miniprogram",
 	"libVersion": "2.8.3",
@@ -39,13 +44,61 @@
 			"current": -1,
 			"list": []
 		},
+		"plugin": {
+			"current": -1,
+			"list": []
+		},
 		"game": {
 			"currentL": -1,
 			"list": []
 		},
-		"miniprogram": {
+		"gamePlugin": {
 			"current": -1,
 			"list": []
+		},
+		"miniprogram": {
+			"current": -1,
+			"list": [
+				{
+					"id": -1,
+					"name": "pages/index/index",
+					"pathName": "pages/index/index",
+					"query": "source=mini_app_transport&target=mall",
+					"scene": 1037,
+					"referrerInfo": {
+						"appId": "wxca35493268376086",
+						"extraData": "{}"
+					}
+				},
+				{
+					"id": 1,
+					"name": "宠物分享",
+					"pathName": "pages/index/index",
+					"query": "source=share_data&target=pet_detail&sharecustomerno=16607093121&sharebusinessno=9376d33d108c4c33867f0c1a2c0b7d8b&shareunionid=okKw_s8jX1cM9PT8hRqxkScdD3zs&data=dc859755ebb84304a114b1e0717514631584759260324",
+					"scene": 1007
+				},
+				{
+					"id": 2,
+					"name": "商品分享",
+					"pathName": "pages/index/index",
+					"query": "source=share_data&target=goods_detail&sharecustomerno=16607093121&sharebusinessno=9376d33d108c4c33867f0c1a2c0b7d8b&shareunionid=okKw_s8jX1cM9PT8hRqxkScdD3zs&data=34",
+					"scene": 1007
+				},
+				{
+					"id": -1,
+					"name": "商家分享",
+					"pathName": "pages/index/index",
+					"query": "source=share_data&target=business_detail&data=4ee7bcb9e8e548eb88c32f09341a71bd",
+					"scene": 1007
+				},
+				{
+					"id": -1,
+					"name": "默认分享",
+					"pathName": "pages/index/index",
+					"query": "source=share_data&target=home&sharecustomerno=16607093121&sharebusinessno=9376d33d108c4c33867f0c1a2c0b7d8b&shareunionid=okKw_s8jX1cM9PT8hRqxkScdD3zs",
+					"scene": 1007
+				}
+			]
 		}
 	}
 }

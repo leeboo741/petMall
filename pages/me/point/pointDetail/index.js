@@ -2,6 +2,7 @@
 
 const LoadFootItemState = require("../../../../lee-components/leeLoadingFootItem/loadFootObj.js");
 const PageSize = 20;
+const ShareManager = require("../../../../services/shareService");
 
 Page({
 
@@ -303,6 +304,6 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-
-  }
+    return ShareManager.getDefaultShareCard();
+  },
 })

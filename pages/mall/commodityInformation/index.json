@@ -2,7 +2,7 @@
   "usingComponents": {
     "i-navigation-bar": "/lee-components/leeNavigationBar/index",
     "i-icon": "/dist/icon/index",
-    "i-image": "/lee-components/leePlaceholdImage/index"
+    "i-image": "/lee-components/leeImageView/index"
   },
   "enablePullDownRefresh": true
 }

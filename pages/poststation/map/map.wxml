@@ -1,0 +1,112 @@
+<i-navigation-bar title='选择门店' showBackButton='{{true}}' backgroundColor="white">
+</i-navigation-bar>
+<!-- 背景 -->
+<view class="background-view">
+</view>
+<!-- 前端页面 -->
+<view class="front-view">
+  <!-- 地图 -->
+  <map showLocation='false' bindmarkertap="markertap" bindregionchange="regionchange" id="map" latitude="{{mapConfig.centerLocation.latitude}}" longitude="{{mapConfig.centerLocation.longitude}}" markers="{{mapConfig.markers}}" scale="{{mapConfig.mapScale}}"
+    style="width: 100%; height:{{mapConfig.windowHeight * 0.6}}px;">
+    <!--地图 头部 地址栏 -->
+    <cover-view class="top">
+      <cover-view class="topname">
+        <cover-image class="locationimg" src="/resource/map.png"></cover-image>
+        <cover-view class="text">
+          <cover-view class="lotext">{{mapConfig.currentLocationName}}</cover-view>
+          <cover-image class="icon" mode="widthFix" src="/resource/goback.png"></cover-image>
+        </cover-view>
+      </cover-view>
+    </cover-view>
+  </map>
+  <!-- 商家栏 -->
+  <view class="cover">
+    <!-- 商家栏头部 -->
+    <view class="location" style="height:{{mapConfig.windowHeight * 0.1}}px">
+      <!-- 城市名称 选择城市 -->
+      <view catchtap="changeCity" class="citytext">
+        <view class="city">{{currentCity}}</view>
+        <image class="bottomIcon" src="/resource/xialanew.png">
+        </image>
+      </view>
+    </view>
+    <!-- 分割线 -->
+    <view class="border"></view>
+
+    <!--区域及门店列表-->
+    <view class="shopbox" style="height:{{mapConfig.windowHeight * 0.4}}px">
+      <!-- 区域列表 -->
+      <scroll-view class="shoplistleft" style="height:{{mapConfig.windowHeight * 0.4}}px" scroll-y>
+        <view bindtap="changeArea" wx:for="{{currentCityData}}" wx:key="area" wx:for-item='areaItem' data-index="{{index}}" class="cityItem {{currentAreaIndex==index?'activited':''}}">
+          <view class="citylabel">{{areaItem.area}}({{areaItem.num}})</view>
+        </view>
+      </scroll-view>
+      <!-- 店铺列表 -->
+      <scroll-view class="shoplistright" style="height:{{mapConfig.windowHeight * 0.4}}px" scroll-y scroll-into-view='s{{currentBusinessIndex}}'>
+        <view bindtap="tapShop" class="shopItem {{currentBusinessIndex==index?'shopItem-active':''}}" wx:for="{{currentAreaData.businesses}}" wx:key='index' wx:for-item='businessItem' data-index='{{index}}' id='s{{index}}'>
+          <view class="shoptext">
+            <view class="shopname">{{businessItem.business.businessName}}</view>
+            <image class="shopicon" mode="widthFix" src="/resource/goback.png">
+            </image>
+          </view>
+          <view class="shop-info-row">
+            <!-- 店铺基本信息 -->
+            <view class="itemLeft">
+              <view class="shoptime">{{businessItem.business.startHours}}-{{businessItem.business.endHours}}</view>
+              <view class="shopadress">{{businessItem.business.province}}{{businessItem.business.city}}{{businessItem.business.area}}{{businessItem.business.detailAddress}}</view>
+            </view>
+            <!-- 店铺标签及距离 -->
+            <view class="itemright">
+              <view class="nearest" wx:if="{{item1.tag&&!item1.notOpen}}" hidden>
+                {{item1.tag}}
+              </view>
+              <view class="nearest" wx:if="{{item1.notOpen&&item1.notOpen!=''}}" hidden>
+                即将开业
+              </view>
+              <view class="shopdistance" style="font-size: {{item1.dist.length>9?'20rpx':'26rpx'}}">
+                {{parse.getDistanceStr(businessItem.distance)}}
+              </view>
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+
+  <!--城市选择 -->
+  <view class="zhezhao" hidden="{{!showCitySelected}}">
+    <view class="changecity" style="height:{{mapConfig.windowHeight * 0.5}}px">
+      <view class="city-top">
+        <view bindtap="backcity" class="topleft">
+          <image class="leftIcon" src="/resource/goback.png">
+          </image>
+          <view class="texttitle">
+            切换城市
+          </view>
+        </view>
+        <view class="topright">
+          当前城市 {{currentCity}}
+        </view>
+      </view>
+      <view class="city-bottoom" style="overflow-y: scroll;height:280px;">
+        <view bindtap="switchcity" class="cityitem {{currentCity==item?'selected':''}}" wx:for="{{cityList}}" wx:key="idx" data-index='{{index}}'>
+          {{item}}
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<wxs module='parse'>
+  module.exports = {
+    getDistanceStr: function(distance) {
+      if (distance / 1000 > 1) {
+        distance = distance / 1000;
+        distance = distance.toFixed(1);
+        return distance + "km";
+      } else {
+        return distance.toFixed(2) + "m";
+      }
+    },
+  }
+</wxs>

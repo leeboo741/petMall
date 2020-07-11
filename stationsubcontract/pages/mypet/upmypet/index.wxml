@@ -1,0 +1,102 @@
+
+<i-navigation-bar title='{{type=="add"?"添加宠物":"编辑宠物"}}' showBackButton='{{true}}'backgroundColor="white">
+</i-navigation-bar>
+<view class="container">
+    <view class="con">
+        <view class="touxiang">
+            <image bindtap="uppetimg" src="{{petObj.petImg?petObj.petImg:'/resource/photo.png'}}"></image>
+        </view>
+        <view class="list">
+            <view class="li">
+                <view class="l">姓名<text>*</text>
+                </view>
+                <view class="r nickName">
+                    <input bindinput="getnickName" placeholder="请输入姓名" type="text" value="{{petObj.petName}}"></input>
+                </view>
+            </view>
+
+            <view class="li">
+                <view class="l">性别<text>*</text>
+                </view>
+                <view class="r">
+                    <view bindtap="chosesex" class="sexl" data-sex="1">
+                        <image src="{{petObj.petSex==0?'/resource/ggselect.png':'/resource/gg.png'}}"></image>
+                        <view>GG</view>
+                    </view>
+                    <view bindtap="chosesex" class="sexr" data-sex="0">
+                        <image src="{{petObj.petSex==1?'/resource/mmselect.png':'/resource/gg.png'}}"></image>
+                        <view>MM</view>
+                    </view>
+                </view>
+            </view>
+
+            <view bindtap="gopetlist" class="li">
+                <view class="l">品种<text>*</text>
+                </view>
+                <view class="r petType">
+                    <text class="phcolor" wx:if="{{!petObj.petSort||!petObj.petGenre}}">选择宝贝品种</text>
+          {{petObj.petGenre.petGenreName?petObj.petGenre.petGenreName:""}}
+          <image src="/resource/arrow.png"></image>
+                </view>
+            </view>
+
+            <view class="li">
+                <view class="l">重量<text>*</text></view>
+                <view class="r color">
+                    <input bindinput="getweight" placeholder="请输入宝贝重量" placeholderClass="phcolor" type="Number" value="{{petObj.petWeight}}"></input>
+                </view>
+            </view>
+
+            <view class="li">
+              <picker mode="date" value="{{date}}" start="1999-01-01" end="2099-01-01" bindchange="bindDateChange">
+                <view class="l">生日</view>
+                <view class="r brithday">
+                    <text class="phcolor" wx:if="{{!petObj.petBirthday}}">选择宝贝出生日期</text>
+          {{petObj.petBirthday?petObj.petBirthday:""}}
+          <image src="/resource/arrow.png"></image>
+                </view>
+                </picker>
+            </view>
+            <view class="li">
+                <view class="l">毛色</view>
+                <view class="r color">
+                    <input bindinput="getcolor" placeholder="如：白色" placeholderClass="phcolor" type="text" value="{{petObj.coatColor}}"></input>
+                </view>
+            </view>
+            <view class="li">
+                <view class="l">肩高</view>
+                <view class="r">
+                    <view bindtap="choseheight" class="heightl" data-height="0">
+                        <image src="{{petObj.shoulderHeight==1?'/resource/selectwhite.png':'/resource/selectred.png'}}"></image>
+                        <view> ＜35cm </view>
+                    </view>
+                    <view bindtap="choseheight" class="heightr" data-height="1">
+                        <image src="{{petObj.shoulderHeight==1?'/resource/selectred.png':'/resource/selectwhite.png'}}"></image>
+                        <view> ＞35cm </view>
+                    </view>
+                </view>
+            </view>
+            <view class="li linor">
+                <view class="l">备注</view>
+                <view class="r">
+                    <view bindtap="ym" class="heightl remarkl">
+                        <image src="{{petObj.petVaccine==1?'/resource/selectred.png':'/resource/selectwhite.png'}}"></image>
+                        <view class="mar"> 已打疫苗 </view>
+                    </view>
+                    <view bindtap="spayed" class="heightr remarkr">
+                        <image src="{{petObj.petSterilization==1?'/resource/selectred.png':'/resource/selectwhite.png'}}"></image>
+                        <view class="mar"> 已绝育 </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="onebtn">
+        <view class="savebtn">
+            <view bindtap="savepet" class="btn">
+        保存
+      </view>
+            <view class="shadow"></view>
+        </view>
+    </view>
+</view>

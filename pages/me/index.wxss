@@ -55,6 +55,26 @@
   flex-direction: column;
 }
 
+.info-content-box-sign-sty{
+  width: 190rpx;
+  height: 102rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.info-content-box-sign-image-sty{
+  width: 100%;
+  height: 70%;
+}
+
+.info-content-box-sign-content-sty{
+  position: absolute;
+  top: 70rpx;
+  font-weight: bold;
+  color: #FF4741;
+}
+
 .right-arrow{
   margin: 25rpx;
 }
@@ -162,11 +182,99 @@
   color: gray;
 }
 
+.order-action-box-guwen{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 96%;
+  height: 160rpx;
+  margin-left: 2%;
+  box-shadow: 0px 0px 5px 0px #ccc;
+  margin-top: 2%;
+  margin-bottom: 2%;
+  border-radius: 20rpx;
+  position: relative;
+}
+
+.order-action-box-guwen-chaxun{
+  width: 200rpx;
+  height: 80rpx;
+  position: absolute;
+  right: 20rpx;
+  bottom: 20rpx;
+  z-index: 2;
+  background-color:Transparent;
+  border: 0rpx;
+  outline: none;
+}
+
+.order-action-box-guwen-chaxun:after{
+  border: 0rpx;
+}
+
+
+.order-action-box-guwen-icon{
+  display: flex;
+  justify-content: center;
+  width: 50%;
+  height: 120rpx;
+}
+
+.order-action-box-guwen-icon-image{
+  width:40%;
+  height:98%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.order-action-box-guwen-right-cont{
+  display: flex;
+  justify-content: center;
+  width: 50%;
+  height: 120rpx;
+  flex-flow: column;
+}
+
+.order-action-box-zixun{
+  height: 50rpx;
+  width: 160rpx;
+  display: flex;
+  flex-flow: nowrap;
+  justify-content: center;
+  align-items: center;
+  background-color: #F7DC49;
+  border-radius: 30rpx;
+  margin-right: 15%;
+  margin-top: 2%;
+}
+
+.order-action-box-guwen-button{
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.grzy-sty{
+  height: 33px;
+  width: 160rpx;
+  display: flex;
+  flex-flow: nowrap;
+  justify-content: center;
+  align-items: center;
+  border-radius: 30rpx 0rpx 0rpx 30rpx;
+}
+
 .order-action-box{
   display: flex;
   flex-direction: row;
   align-items: center;
   flex-wrap: wrap;
+  width: 96%;
+  margin-left: 2%;
+  box-shadow: 0px 0px 5px 0px #ccc;
+  margin-top: 2%;
+  margin-bottom: 2%;
+  border-radius: 20rpx;
 }
 
 .order-action-item{
@@ -175,6 +283,16 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+.order-action-head-sty{
+  width: 100%;
+  height: 33px;
+  display: flex;
+  align-items: center;
+  font-size: 31rpx;
+  font-weight: bold;
+  padding-left: 3%;
 }
 
 .order-action-icon{
@@ -187,4 +305,114 @@
   font-size: 26rpx;
   color: #778899;
   margin-bottom: 15rpx;
+}
+
+.yuganyouhui-sty{
+  width: 100%;
+  height: 180rpx;
+  display: flex;
+  flex-flow: nowrap;
+  border-top: 2
+}
+
+.yuganyouhui-sty-box{
+  width: 50%;
+  height: 180rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: column;
+
+}
+
+.yuganyouhui-sty-box-up{
+  width: 100%;
+  height: 60rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-right:2rpx solid #ccc; 
+  font-size: 35rpx;
+  font-weight: bold;
+}
+
+.yuganyouhui-sty-box-dwon{
+  width: 100%;
+  height: 60rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #848D94;
+  font-weight: bold;
+  border-right:2rpx solid #ccc; 
+}
+
+.my-operation-sty{
+  width: 100%;
+  height: 120rpx;
+  display: flex;
+  flex-flow: wrap;
+}
+
+.my-operation-sty-box{
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+.my-operation-sty-box-up{
+  width: 100%;
+  height: 50rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 33rpx;
+  font-weight: bold;
+}
+
+.my-operation-sty-box-dwon{
+  width: 100%;
+  height: 50rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 27rpx;
+  color: #848D94;
+}
+
+/* .zs-sty-icon{
+  width: 
+} */
+
+.yellowright-sty{
+  position:absolute;
+  right: 10rpx;
+  width: 15rpx;
+  height: 20rpx;
+}
+
+.grzxshow-sty{
+  width: 130rpx;
+  display: flex;
+  position: absolute;
+  right: 30rpx;
+  justify-content: center;
+  align-items: center;
+  font-size: 28rpx;
+}
+
+.yugan-csg-sty{
+  font-size: 28rpx;
+  display: flex;
+  flex-flow: nowrap;
+  justify-content: center;
+  align-items: center;
+  color: #91999D;
+}
+
+.yugan-csg-sty-sex{
+  width: 30rpx;
+  height: 30rpx;
 }

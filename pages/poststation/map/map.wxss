@@ -1,0 +1,356 @@
+.cover {
+    width: 100%;
+    background-color: #ffffff;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    border-radius: 40rpx 40rpx 0 0;
+}
+
+.top {
+    width: 100%;
+    height: 88rpx;
+    background-color: #ffffff;
+}
+
+.topname {
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+.text {
+    margin-left: 75rpx;
+    margin-right: 15rpx;
+    height: 88rpx;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.lotext {
+    /* max-width: 400rpx; */
+    flex-grow: 1;
+    height: 88rpx;
+    line-height: 88rpx;
+    display: inline-block;
+    font-family: PingFangSC-Regular;
+    font-size: 28rpx;
+    color: #384359;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    letter-spacing: 1rpx;
+}
+
+.icon {
+    display: inline-block;
+    width: 30rpx;
+    height: 30rpx;
+    transform: rotate(180deg);
+}
+
+.shopicon {
+    width: 35rpx;
+    height: 35rpx;
+    transform: rotate(180deg);
+}
+
+.cityicon {
+    box-sizing: border-box;
+    display: inline-block;
+    margin-left: 8rpx;
+    width: 25rpx;
+    height: 100%;
+    color: #384359;
+    font-size: 30rpx;
+    line-height: 112rpx;
+}
+
+.locationimg {
+    display: inline-block;
+    position: absolute;
+    left: 40rpx;
+    top: 30rpx;
+    width: 24rpx;
+    height: 28rpx;
+}
+
+.location {
+    position: relative;
+    font-family: PingFangSC-Medium;
+    font-size: 40rpx;
+    color: #002241;
+    letter-spacing: -0.32rpx;
+    /* height: 112rpx; */
+    width: 100%;
+    box-sizing: border-box;
+    /* padding-left: 40rpx; */
+}
+
+.pull-button{
+  position: absolute;
+  top: 10rpx;
+  left: 46%;
+  width: 8%;
+  height: 10rpx;
+  border-radius: 5rpx;
+  background: rgba(0,0,0,0.2);
+}
+
+.border {
+    width: 100%;
+    height: 1rpx;
+    background-color: #E7EBEE;
+}
+
+.citytext {
+    width: 300rpx;
+    height: 112rpx;
+    position: relative;
+    margin-left: 40rpx;
+}
+
+.city {
+    height: 112rpx;
+    line-height: 112rpx;
+    display: inline-block;
+    float: left;
+}
+
+.bottomIcon {
+    display: inline-block;
+    width: 22rpx;
+    height: 14rpx;
+    float: left;
+    margin: 52rpx 0 0 10rpx;
+}
+
+.shopbox {
+    width: 100%;
+    /* height: 599rpx; */
+    background-color: #ffffff;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.cityItem {
+    box-sizing: border-box;
+    width: 100%;
+    height: 120rpx;
+    line-height: 120rpx;
+    font-family: PingFangSC-Regular;
+    font-size: 28rpx;
+    color: #717985;
+    letter-spacing: -0.22rpx;
+    background-color: rgb(237, 239, 241);
+}
+
+.shoplistleft {
+    background-color: rgb(237, 239, 241);
+    height: 330px;
+    width: 33%;
+    box-sizing: border-box;
+    overflow-y: scroll;
+    
+}
+
+.shoplistright {
+    height: 330px;
+    width: 67%;
+    overflow-y: scroll;
+    box-sizing: border-box;
+}
+
+.activited {
+    background-color: #ffffff;
+    color: #FF3A1E;
+}
+
+.shopItem {
+    padding: 40rpx;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.shopItem-active{
+  background: rgb(237, 239, 241);
+}
+
+.shop-info-row{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.itemLeft {
+    width: 70%;
+}
+
+.itemright {
+    width: 30%;
+    position: relative;
+}
+
+.shoptext {
+    margin-bottom: 8rpx;
+    /* height: 48rpx; */
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.shopname {
+    font-family: PingFangSC-Medium;
+    font-size: 34rpx;
+    color: #384359;
+    display: inline-block;
+    /* height: 48rpx; */
+    line-height: 48rpx;
+    font-weight: bolder;
+}
+
+.shoptime {
+    font-family: PingFangSC-Regular;
+    font-size: 24rpx;
+    color: #9FA7B9;
+    letter-spacing: -0.19rpx;
+    margin-bottom: 4rpx;
+}
+
+.shopadress {
+    font-family: PingFangSC-Regular;
+    font-size: 24rpx;
+    color: #9FA7B9;
+    width: 100%;
+    overflow: hidden;
+    white-space: normal;
+}
+
+.nearest {
+    background: #FBEDED;
+    border-radius: 12rpx;
+    font-family: PingFangSC-Regular;
+    font-size: 20rpx;
+    color: #FF3A1E;
+    padding: 6rpx 16rpx;
+    line-height: initial;
+    text-align: center;
+}
+
+.nearest::after {
+    border: none;
+}
+
+.shopdistance {
+    position: absolute;
+    bottom: 0;
+    right: 15rpx;
+    font-weight: bolder;
+    font-size: 28rpx;
+    color: #717985;
+}
+
+.show {
+    display: block;
+}
+
+.hide {
+    display: none;
+}
+
+.zhezhao {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+    position: relative;
+}
+
+.changecity {
+    width: 100%;
+    background: #F6F8FA;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    border-radius: 20rpx 20rpx 0 0;
+}
+
+.city-top {
+    width: 100%;
+    height: 112rpx;
+    background-color: #ffffff;
+    margin-bottom: 24rpx;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.leftIcon {
+    width: 40rpx;
+    height: 35rpx;
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    margin-top: -15rpx;
+}
+
+.texttitle {
+    display: inline-block;
+    height: 112rpx;
+    line-height: 112rpx;
+    margin-left: 30rpx;
+}
+
+.topleft {
+    width: 50%;
+    margin-left: 40rpx;
+    line-height: 112rpx;
+    font-family: PingFangSC-Medium;
+    font-size: 40rpx;
+    color: #002241;
+    position: relative;
+}
+
+.topright {
+    width: 50%;
+    height: 112rpx;
+    line-height: 112rpx;
+    font-family: PingFangSC-Regular;
+    font-size: 28rpx;
+    color: #717985;
+    text-align: right;
+    padding-right: 38rpx;
+}
+
+.cityitem {
+    width: 200rpx;
+    height: 80rpx;
+    box-sizing: border-box;
+    background: #F6F8FA;
+    border-radius: 28rpx;
+    color: #384359;
+    text-align: center;
+    line-height: 80rpx;
+    margin-top: 20rpx;
+    margin-left: 40rpx;
+    display: inline-block;
+}
+
+.cityItem .citylabel {
+    margin-left: 40rpx;
+    line-height: 120rpx;
+}
+
+.selected {
+    background-color: #FF3A1E;
+    color: #ffffff;
+}
+
+.city-bottoom {
+    width: 100%;
+    height: 508rpx;
+    background-color: #ffffff;
+    display: flex;
+    flex-flow: wrap;
+}

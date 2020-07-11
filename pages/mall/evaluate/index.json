@@ -3,7 +3,8 @@
     "i-navigation-bar": "/lee-components/leeNavigationBar/index",
     "i-icon": "/dist/icon/index",
     "i-image": "/lee-components/leePlaceholdImage/index",
-    "i-load-foot-item": "/lee-components/leeLoadingFootItem/index"
+    "i-load-foot-item": "/lee-components/leeLoadingFootItem/index",
+    "i-image-upload": "/lee-components/leeImageUpload/index"
   },
   "enablePullDownRefresh": true
 }

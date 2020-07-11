@@ -1,0 +1,341 @@
+<i-navigation-bar title='{{petDetailData.pet.petName}}' showBackButton='{{true}}'>
+</i-navigation-bar>
+
+<!-- 图片预览 -->
+<swiper class='banner' circular="{{true}}" indicator-dots="{{true}}" autoplay="{{false}}" vertical="{{false}}" indicator-active-color="#7bbfea" indicator-color="#cccccc">
+	<swiper-item wx:for="{{petDetailData.petCoverList}}" wx:for-item="bannerItem" wx:for-index="bannerIndex" wx:key="bannerIndex">
+		<view class='banner-item' bindtap='tapBanner' data-imageurl="{{petDetailData.petCoverList}}" data-index="{{bannerIndex}}">
+			<i-image i-class='banner-item-image' mode="widthFix" lazy-load='{{true}}' imageSrc='{{bannerItem}}' videoShowControls='{{true}}'>
+			</i-image>
+		</view>
+	</swiper-item>
+</swiper>
+
+<!-- 状态介绍 -->
+<view class="pets-informaction-page">
+	<view class="pets-informaction-tabs" style="font-size:30rpx;">
+		<view style="font-weight:bold;">
+			{{petDetailData.pet.petName}}
+		</view>
+		<view>
+			<view wx:if="{{petDetailData.pet.petSex=='2'}}">
+				<view class="pets-sexmu">
+					母
+				</view>
+			</view>
+			<view wx:else>
+				<view class="pets-sexgong">
+					公
+				</view>
+			</view>
+		</view>
+		<view style="margin-left:50%;font-weight:bold;color:red;">
+			<!-- ￥{{parse.showPrice(businessInfo.authType,petDetailData.pet.retailPrice,petDetailData.pet.basePrice)}}   -->
+			￥ {{petDetailData.pet.retailPrice}}
+		</view>
+	</view>
+	<view class="pets-informaction-tabs">
+		<view style="color:#ccc; margin-right: 15rpx;">生日:</view>
+		<view>{{petDetailData.pet.petBirthday}}</view>
+		<view style="color:#ccc;margin-left:40%;" hidden="{{businessInfo.authType>1?false:true}}">
+			底价：￥{{petDetailData.pet.basePrice}}
+		</view>
+	</view>
+	<view class="pets-informaction-tabs">
+		<view style="color:#ccc; margin-right: 15rpx;">发布:</view>
+		<view>{{petDetailData.pet.createDate}}</view>
+	</view>
+	<view class="pets-informaction-tabs" hidden='{{petDetailData.pet.insurance==null||petDetailData.pet.insurance ==0}}'>
+		<view style="color:#ccc; margin-right: 15rpx;">保险天数:</view>
+		<view>{{petDetailData.pet.insurance}}</view>
+	</view>
+	<view class='pets-informaction-tabs'>
+		<view style="color:#ccc; margin-right: 15rpx;">7天质保:</view>
+		<view>{{petDetailData.pet.sevenWarranty==1?"是":"否"}}</view>
+	</view>
+	<view class='pets-informaction-tabs' hidden='{{petDetailData.petVaccineList==null||petDetailData.petVaccineList.length<=0}}'>
+		<view style='color:#ccc; margin-right: 15rpx'>疫苗信息:</view>
+		<view class="pets-informaction-list">
+			<view class="pets-informaction-list-item" wx:for='{{petDetailData.petVaccineList}}' wx:for-item='vaccineItem' wx:for-index='vaccineIndex' wx:key='vaccineNo'>
+				{{vaccineItem.vaccineDate}} | {{vaccineItem.vaccineBrandName}}
+			</view>
+		</view>
+	</view>
+	<view class='pets-informaction-tabs' hidden='{{petDetailData.petWormKillList==null||petDetailData.petWormKillList.length<=0}}'>
+		<view style='color:#ccc; margin-right: 15rpx'>驱虫信息:</view>
+		<view class="pets-informaction-list">
+			<view class="pets-informaction-list-item" wx:for='{{petDetailData.petWormKillList}}' wx:for-item='wormItem' wx:for-index='wormIndex' wx:key='wormKillNo'>
+				{{wormItem.killDate}} | {{wormItem.killBrandName}}
+			</view>
+		</view>
+	</view>
+	<view class="pets-informaction-tabs" hidden="{{petDetailData.pet.petUniqueCode == null}}">
+		<view style="color:#ccc; margin-right: 15rpx;">宠物芯片:</view>
+		<view>{{parse.showText(petDetailData.pet.petUniqueCode)}}</view>
+	</view>
+	<view class="pets-informaction-tabs" hidden="{{(petDetailData.pet.fatherImg==null||petDetailData.pet.fatherImg.length<=0) && (petDetailData.pet.motherImg==null||petDetailData.pet.motherImg.length<=0)}}">
+		<view style="color:#ccc; margin-right: 15rpx;">父母信息:</view>
+		<view class="pets-informaction-parents-box">
+			<view class="pets-informaction-parents-item" hidden='{{petDetailData.pet.fatherImg==null||petDetailData.pet.fatherImg.length<=0}}' bindtap='tapParentImageAction' data-imagepath='{{petDetailData.pet.fatherImg}}'>
+				<i-image i-class="pets-information-parents-image" imageSrc='{{petDetailData.pet.fatherImg}}' clearImagePadding="{{true}}">
+				</i-image>
+				<view class='pets-information-parents-label'>父亲</view>
+				<view class="pets-information-parents-name" hidden="{{petDetailData.pet.fatherName==null||petDetailData.pet.fatherName.length<=0}}">{{petDetailData.pet.fatherName}}</view>
+			</view>
+			<view class="pets-informaction-parents-item" hidden='{{petDetailData.pet.motherImg==null||petDetailData.pet.motherImg.length<=0}}' bindtap='tapParentImageAction' data-imagepath='{{petDetailData.pet.motherImg}}'>
+				<i-image i-class="pets-information-parents-image" imageSrc='{{petDetailData.pet.motherImg}}' clearImagePadding="{{true}}">
+				</i-image>
+				<view class='pets-information-parents-label'>母亲</view>
+				<view class="pets-information-parents-name" hidden="{{petDetailData.pet.motherName==null||petDetailData.pet.motherName.length<=0}}">{{petDetailData.pet.motherName}}</view>
+			</view>
+		</view>
+	</view>
+	<view class="pets-informaction-tabs">
+		<view style="color:#ccc; margin-right: 15rpx;">简介:</view>
+		<view>{{parse.showText(petDetailData.pet.petDescription)}}</view>
+	</view>
+</view>
+
+<view class="divLine" />
+
+<view class="pets-informaction-tabs">
+	<view style="color:#ccc; margin-right: 15rpx;">配送:</view>
+	<view class="pets-information-transport-box">
+		<view class="pets-information-transport-item">
+			{{parse.showFreeShipping(petDetailData.pet.freeShipping)}}
+		</view>
+	</view>
+</view>
+
+<view class="divLine" />
+
+<view class="pets-informaction-tabs">
+	<view style="color:#ccc; margin-right: 15rpx;">服务:</view>
+	<view wx:for="{{service}}" wx:for-item='serviceItem' wx:for-index='serviceIndex' wx:key='{{serviceIndex}}' style="margin-left:3%;disply:flex;color:#F9A513;">
+		<i-icon type="success_fill" color="#F9A513" /> {{serviceItem}}
+	</view>
+	<view style="margin-left:3%;disply:flex;color:#F9A513;" hidden="{{petDetailData.pet.business.authType>0?false:true}}">
+		<i-icon type="success_fill" color="#F9A513" /> {{parse.showRz(petDetailData.pet.business.authType)}}
+	</view>
+</view>
+
+<view class="business-head-page">
+	<view class="business-head-inleft" bindtap="recommendedTap" data-item="{{storeDetailData}}">
+		<i-image imageSrc="{{storeDetailData.headImg}}" i-class="business-image">
+		</i-image>
+	</view>
+	<view class="business-head-inright">
+		<view style="font-weight:bold;">
+			{{storeDetailData.businessName}}
+		</view>
+		<view style='text-decoration: underline; color: blue' bindtap="tapStorePhone">
+			{{storeDetailData.contactPhone}}
+		</view>
+		<view style="display: flex;flex-wrap: nowrap; flex-direction: row">
+			<i-icon type="collection_fill" color="#EFCC83" wx:if="{{storeDetailData.businessDegree>0}}" />
+			<i-icon type="collection_fill" color="#EFCC83" wx:if="{{storeDetailData.businessDegree>=2}}" />
+			<i-icon type="collection_fill" color="#EFCC83" wx:if="{{storeDetailData.businessDegree>=3}}" />
+			<i-icon type="collection_fill" color="#EFCC83" wx:if="{{storeDetailData.businessDegree>=4}}" />
+			<i-icon type="collection_fill" color="#EFCC83" wx:if="{{storeDetailData.businessDegree>=5}}" />
+		</view>
+		<view style="color:#ccc;" wx:if='{{storeDetailData.authType > 1}}'>
+			{{parse.showText(storeDetailData.province)}} {{parse.showText(storeDetailData.city)}} {{parse.showText(storeDetailData.detailAddress)}}
+		</view>
+		<view style='text-decoration: underline; color: red' bindtap="tapWXQRCode">
+			商家微信二维码
+		</view>
+	</view>
+
+	<view class="business-head-right-button-page" bindtap="recommendedTap" data-item="{{dataSourceInforMation}}">
+		<view class="right-button">
+			进入店铺
+		</view>
+	</view>
+</view>
+
+<view class="divLine" />
+
+<view class="pets-informaction-tabs">
+	<view style="color:#ccc;">资质： </view>
+	<view class="label-pagecs">
+		实名认证
+	</view>
+	<view class="label-pagecs" hidden="{{storeDetailData.payBond==1?false:true}}">
+		已缴纳押金
+	</view>
+	<view class="label-pagecs" hidden="{{storeDetailData.authType>0?false:true}}">
+		{{parse.showRz(storeDetailData.authType)}}
+	</view>
+</view>
+
+<!-- 用户评价 -->
+<view class="userevaluate-head-page">
+	<view style="margin-left:5%;color:#8E8E8E;">
+		用户评价
+	</view>
+
+	<view style="margin-left:55%;color:blue;font-weight:bold;font-size:26rpx;" bindtap="evaluateTap" hidden="{{evaluateList.length>0?false:true}}">
+		更多评价
+		<i-icon type="enter" size="20" color="black" />
+	</view>
+</view>
+<view wx:if="{{evaluateList.length<=0}}" class="noevluatelist">
+	暂无评价!
+</view>
+
+<block wx:else>
+	<view class="userevaluate-content-page">
+		<view class="userevaluate-content-tables-page" wx:for="{{evaluateList}}" wx:for-item="evaluationInformationItem" wx:for-index="evaluationInformationIndex" wx:key="evaluationInformationIndex" style="margin-bottom: 20rpx;">
+			<view class="userevaluate-content-head">
+				<i-image imageSrc="{{evaluationInformationItem.petAppraise.business.headImg}}" i-class="image-sty">
+				</i-image>
+				<view class="userevaluate-content-head-customername">
+					{{parse.showCustomerName(evaluationInformationItem.petAppraise.business.businessName)}}
+				</view>
+				<view class="userevaluate-content-head-appraiseTime">
+					{{evaluationInformationItem.petAppraise.appraiseDate}}
+				</view>
+			</view>
+			<view style="margin-left:10%; display: flex;flex-wrap: nowrap;">
+				<!-- 遍历星星-->
+				<view wx:for="{{parse.showPraiseDegree(evaluationInformationItem.petAppraise.praiseDegree)}}" wx:for-item="starsNumberItem" wx:for-index="starsNumberIndex" wx:key="starsNumberIndex">
+					<i-icon type="collection_fill" color="#EFCC83" />
+				</view>
+			</view>
+
+			<view style="margin: 15rpx 20rpx; font-size:30rpx;">
+				{{parse.showContent(evaluationInformationItem.petAppraise.content)}}
+			</view>
+
+			<view style='display: flex; flex-direction: row; align-items: center; flex-wrap: wrap; margin-top: 20rpx'>
+				<view wx:for='{{evaluationInformationItem.petAppraiseImgList}}' wx:key='appraiseImgNo' style="width: 25%; height: 190rpx; display: flex; align-items: center; justify-content: center;">
+					<i-image i-class='evaluate-image' imageSrc='{{item.imgAddress}}'>
+					</i-image>
+				</view>
+			</view>
+		</view>
+	</view>
+</block>
+
+
+<view style="height:120rpx;width:100%;"></view>
+
+<!--商品购买、分享、收藏固定框-->
+<view class="goshopbottom">
+	<view class="bottom-showinfor">
+		<button class="bottom-icon-page" open-type="share">
+			<view class="bottom-button-type-one">
+				<i-icon type="share" size="25" />
+			</view>
+			<view style="font-size:25rpx;">
+				分 享
+			</view>
+		</button>
+
+		<button class="bottom-icon-page" bindtap="tapCollection" style="color: {{showShc==true?'red':''}}">
+			<view class="bottom-button-type-one">
+				<i-icon type="collection" size="25" />
+			</view>
+			<view style="font-size:25rpx;">
+				收 藏
+			</view>
+		</button>
+	</view>
+
+	<view class="bottom-showinfor">
+		<view class="bottom-button-type-two" bindtap="goShopTap">
+			担保购买
+		</view>
+	</view>
+</view>
+
+
+<!--分享信息-->
+<view class="share-sty" hidden="{{mask}}">
+	<view class="share-sty-head">
+		<view class="share-sty-head-wrong" bindtap="maskTap">
+			<image src="/resource/wrong.png" class="share-sty-head-wrong-image"></image>
+		</view>
+	</view>
+	<view class="share-sty-box">
+		<button class="share-sty-box-single" open-type="share">
+			<view class="share-sty-box-single-icon">
+				<image src="/resource/wx.png" class="share-sty-box-single-icon-image"></image>
+			</view>
+			<view class="share-sty-box-single-text">
+				分享给好友
+			</view>
+		</button>
+		<view class="share-sty-box-single" bindtap="showPosterAction">
+			<view class="share-sty-box-single-icon">
+				<image src="/resource/poster.png" class="share-sty-box-single-icon-image"></image>
+			</view>
+			<view class="share-sty-box-single-text">
+				保存海报
+			</view>
+		</view>
+	</view>
+</view>
+
+<!--蒙版-->
+<view class="mask-page" hidden="{{mask}}" bindtap="maskTap">
+</view>
+
+<wxs module='parse'>
+	module.exports = {
+		showText: function(res) {
+			if (res == null) {
+				return '';
+			} else {
+				return res
+			}
+		},
+		showRz: function(res) {
+			if (res == 1) {
+				return "个人认证"
+			} else if (res == 2) {
+				return "商家认证"
+			} else {
+				return "平台认证"
+			}
+		},
+		showFreeShipping: function(res) {
+			if (res == 1) {
+				return "商家包邮"
+			} else {
+				return "买家自付"
+			}
+		},
+		showPrice: function(type, rps, bps) {
+			if (type > 1) {
+				return bps;
+			} else {
+				return rps;
+			}
+		},
+
+		showCustomerName: function(res) {
+			if (res == null) {
+				return "匿名用户";
+			} else {
+				return res;
+			}
+		},
+
+		showPraiseDegree: function(res) {
+			if (res == null) {
+				return 5;
+			} else {
+				return res;
+			}
+		},
+
+		showContent: function(res) {
+			if (res == null) {
+				return "默认好评";
+			} else {
+				return res;
+			}
+		}
+	}
+</wxs>

@@ -1,0 +1,3 @@
+<!--pages/baike/articleDetail.wxml-->
+<web-view src='{{webUrl}}' bindload='loadWebSuccess' binderror='loadWebError' bindmessage='getWebMessage'>
+</web-view>

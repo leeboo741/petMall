@@ -1,21 +1,46 @@
 /* pages/mall/commodityInformation/index.wxss */
 .image-page-info{
   width: 100%;
-  height: 600rpx;
+  /* height: 800rpx; */
   display: flex;
   flex-direction: column; 
   align-items: center;
   justify-content: center;
-  border-bottom: 2rpx solid #ccc;
+  border-bottom: 10rpx solid #f4f4f4;
+  position: relative;
+}
+
+.sale-notice-box {
+  position: absolute;
+  width: 55%;
+  top: 0;
+  left: 10rpx;
+  height: 60rpx;
+  z-index: 3;
+  background: rgba(20, 20, 19, 0.664);
+  border-radius: 30rpx;
+}
+
+.sale-notice-item {
+  font-size: 24rpx;
+  color: white;
+}
+
+.sale-notice-item-content{
+  height: 60rpx;
+  line-height: 60rpx;
+  margin: 0rpx 15rpx;
 }
 
 .image-page-head{
-  width: 60%;
-  height: 75%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: inline-block;
+  width: 100vw;
+  height: 100%;
+  /* display: flex; */
+  /* align-items: center; */
+  /* justify-content: center;  */
 }
+
 
 .images-cal{
   width: 100%;
@@ -23,11 +48,11 @@
 }
 
 .image-page-bottom{
-  width: 95%;
-  height: 80rpx;
+  width: 90%;
   display: flex;
   align-items: center;
   padding-left: 5%;
+  padding-right: 5%;
 }
 
 .foodgrain-page-formation-down-member{
@@ -38,21 +63,23 @@
 
 .page-lower-info{
   width: 100%;
-  height: 600rpx;
   display: flex;
   flex-direction: column; 
   align-items: center;
-  border-bottom: 2rpx solid #ccc;
+  border-bottom: 10rpx solid #f4f4f4;
+  padding: 20rpx 0;
 }
 
 .page-lower-info-table{
   width: 95%;
-  height: 10%;
   display: flex;
   align-items: center;
   flex-direction: row;
   font-size: 30rpx;
   padding-left: 5%;
+  font-weight: bold;
+  margin-top: 1%;
+  margin-bottom: 1%;
 }
 
 .userevaluate-page{
@@ -68,6 +95,15 @@
   display: flex;
   align-items: center;
   flex-direction: row;
+}
+
+.noevluatelist{
+  width: 100%;
+  height: 100rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
 }
 
 .userevaluate-content-page{
@@ -93,18 +129,36 @@
   align-items: center;
   margin: 0 auto;
 }
+
+.userevaluate-content-head-customerName{
+  width: 45%;
+  display: flex;
+  align-items: center;
+  font-weight:bold;
+  font-size:28rpx;
+  padding-left: 2%;
+}
+
+.userevaluate-content-head-appraiseTime{
+  width: 45%;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  font-size:24rpx;
+  color:#f4f4f4;
+}
   
 .image-sty{
   width: 50rpx;
   height: 50rpx;
-  border: 1rpx solid #ccc;
+  border: 1rpx solid #f4f4f4;
   border-radius: 50% 50%;
 }
 
 .divLine{
- background: #E0E3DA;
- width: 100%;
- height: 5rpx;
+  background: #f4f4f4;
+  width: 100%;
+  height: 5rpx;
 }
 
 .guarantee-page{
@@ -112,6 +166,7 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
+  color: #9B9B9B;
 }
 
 .guarantee-head-page{
@@ -142,10 +197,10 @@
 }
 
 .goshopbottom{
-  border-top:2rpx solid #ccc;
+  border-top:2rpx solid #f4f4f4;
   position: fixed; 
   width: 100%;
-  height: 100rpx;
+  height: 120rpx;
   bottom: 0rpx;
   display: flex;
   flex-wrap: nowrap;
@@ -158,12 +213,13 @@
   width: 60rpx;
   height: 60rpx;
   border-radius: 50% 50%;
+  margin-bottom: 8rpx;
 }
 
 .bottom-button-type-two{
   width: 200rpx;
   height: 80%;
-  background-color:#FC5545;
+  background: linear-gradient(to right, rgb(255,147,87) , rgb(255, 51, 59));
   border-radius:50rpx;
   display: flex;
   align-items: center;
@@ -172,8 +228,8 @@
 }
 
 .bottom-icon-page{
-  height: 75%;
-  width: 100rpx;
+  height: 98%;
+  width: 120rpx;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -181,10 +237,168 @@
   margin-left: 15%;
 }
 
+button::after {
+  border-style: none;
+}
+
+button{
+  padding: 0rpx;
+  background: white;
+}
+
 .bottom-showinfor{
   width: 50%;
-  height: 100rpx;
+  height: 120rpx;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.business-head-page{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.business-head-inleft{
+  width: 20%;
+  display: flex;
+  align-items: center;
+  justify-content:center;
+}
+
+.business-image{
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50% 50%;
+}
+
+.business-head-inright{
+  width: 55%;
+  display: flex;
+  flex-direction: column;
+  justify-content:center;
+  font-size: 28rpx;
+  margin: 10rpx;
+}
+
+.business-head-right-button-page{
+  width: 25%;
+  display: flex;
+  justify-content:center;
+  align-items: center;
+}
+
+.right-button{
+  width: 150rpx;
+  height:60rpx;
+  display: flex;
+  justify-content:center;
+  align-items: center;
+  border-radius: 20rpx;
+  background-color: #FB363B;
+  font-size: 27rpx;
+  color: white;
+}
+
+.group-price-box{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.share-sty{
+  width: 100%;
+  height: 400rpx;
+  bottom: 0rpx;
+  position: fixed;
+  display: flex;
+  align-items: center;
+  flex-flow: column;
+  z-index: 5;
+  background-color: white;
+  border-radius: 20rpx 20rpx 0 0;
+}
+
+.share-sty-head{
+  width: 100%;
+  height: 100rpx;
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse;
+}
+
+.share-sty-head-wrong{
+  width: 80rpx;
+  height: 80rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.share-sty-head-wrong-image{
+  width: 55rpx;
+  height: 55rpx;
+}
+
+.share-sty-box{
+  width: 100%;
+  height:300rpx;
+  display: flex;
+  flex-flow: nowrap;
+  align-content: center;
+}
+
+.share-sty-box-single{
+  width: 50%;
+  height: 200rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column;
+  background-color: white;
+}
+
+.share-sty-box-single-icon{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 120rpx;
+  height: 120rpx;
+
+}
+
+.share-sty-box-single-icon-image{
+   width: 80rpx;
+  height: 80rpx;
+}
+
+.share-sty-box-single-text{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 80rpx;
+  font-size: 28rpx;
+}
+
+.share-sty-box-single::after{ 
+  border: none; 
+} 
+
+.mask-page{
+  position: fixed; 
+  top:0rpx;
+  width: 100%;
+  height: 100%;
+  background:black;
+  z-index: 2;
+  opacity:0.7;
+}
+
+
+.evaluate-image {
+  width: 150rpx;
+  height: 180rpx;
 }

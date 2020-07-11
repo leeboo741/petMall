@@ -5,54 +5,86 @@
   <!-- 宠物评价 -->
   <block wx:if='{{type==0}}'>
     <view class="userevaluate-content-tables-page" wx:for="{{evaluationInformation}}" wx:for-item="evaluationInformationItem" wx:for-index="evaluationInformationIndex" wx:key="evaluationInformationIndex">
-      <view class="userevaluate-content-head" style="margin-left:2%">
-        <i-image imageSrc="{{evaluationInformationItem.customer.headerImage}}" i-class="image-sty" >
+      <view class="userevaluate-content-head">
+        <i-image imageSrc="{{evaluationInformationItem.petAppraise.business.headImg}}" i-class="image-sty" >
         </i-image>
-        <view style="margin-left:2%;font-weight:bold;font-size:32rpx;">
-          {{evaluationInformationItem.customer.customerName}}
+        <view class="head-coustomerName-sty" style="padding-left:3%;">
+          {{parse.showName(evaluationInformationItem.petAppraise.business.businessName)}}
         </view>
-        <view style="margin-left:50%;font-size:28rpx;color:#ccc;">
-          {{evaluationInformationItem.appraiseDate}} {{evaluationInformationItem.appraiseTime}}
+        <view class="head-date-time-sty">
+          {{evaluationInformationItem.petAppraise.appraiseDate}}
         </view>
       </view>
 
       <!-- 遍历星星-->
-      <view style="margin-left:10%; display: flex;flex-wrap: nowrap;">
-        <view wx:for="{{evaluationInformationItem.praiseDegree}}" wx:for-item="starsNumberItem" wx:for-index="starsNumberIndex" wx:key="starsNumberIndex">
+      <view style="margin-left:12%; display: flex;flex-wrap: nowrap;">
+        <view wx:for="{{evaluationInformationItem.petAppraise.praiseDegree}}" wx:for-item="starsNumberItem" wx:for-index="starsNumberIndex" wx:key="starsNumberIndex">
           <i-icon type="collection_fill" color="#EFCC83" />
         </view>
       </view>
-      <view style="margin-left:8%;font-size:28rpx;">
-        {{evaluationInformationItem.content}}
+      <view class="head-content-sty">
+        {{parse.showContent(evaluationInformationItem.petAppraise.content)}}
       </view>
+      
+        <view class="evaluation-img">
+          <view wx:for="{{evaluationInformationItem.petAppraiseImgList}}" wx:for-item="petImgItem" wx:for-index="petImgIndex" wx:key="petImgIndex" style="margin-right:5%;">
+            <image src="{{petImgItem.imgAddress}}" style="width:100rpx;height:100rpx;">
+            </image>
+          </view>
+        </view>
     </view>
   </block>
   <!-- 商品评价 -->
   <block wx:else>
     <view class="userevaluate-content-tables-page" wx:for="{{evaluationInformation}}" wx:for-item="evaluationInformationItem" wx:for-index="evaluationInformationIndex" wx:key="evaluationInformationIndex">
       <view class="userevaluate-content-head" style="margin-left:2%">
-        <i-image imageSrc="{{evaluationInformationItem.customer.headerImage}}" i-class="image-sty" >
-        </i-image>
-        <view style="margin-left:2%;font-weight:bold;font-size:32rpx;">
-          {{evaluationInformationItem.customer.customerName}}
+        <view class="head-image-sty">
+          <i-image imageSrc="{{evaluationInformationItem.customer.headerImage}}" i-class="image-sty" >
+          </i-image>
         </view>
-        <view style="margin-left:50%;font-size:28rpx;color:#ccc;">
+        <view class="head-coustomerName-sty">
+          {{parse.showName(evaluationInformationItem.customer.customerName)}}
+        </view>
+        <view class="head-date-time-sty">
           {{evaluationInformationItem.appraiseDate}} {{evaluationInformationItem.appraiseTime}}
         </view>
       </view>
 
       <!-- 遍历星星-->
-      <view style="margin-left:10%; display: flex;flex-wrap: nowrap;">
+      <view style="margin-left:12%; display: flex;flex-wrap: nowrap;">
         <view wx:for="{{evaluationInformationItem.praiseDegree}}" wx:for-item="starsNumberItem" wx:for-index="starsNumberIndex" wx:key="starsNumberIndex">
           <i-icon type="collection_fill" color="#EFCC83" />
         </view>
       </view>
 
-      <view style="margin-left:8%;font-size:28rpx;">
-        {{evaluationInformationItem.content}}
+      <view class="head-content-sty">
+        {{parse.showContent(evaluationInformationItem.content)}}
       </view>
+
+      <i-image-upload imagePathList="{{evaluationInformationItem.imgUrl}}" showAddNewButton='{{flase}}'>
+      </i-image-upload>
     </view>
   </block>
 </view>
 <i-load-foot-item loadState='{{loadState}}'>
 </i-load-foot-item>
+
+<wxs module='parse'>
+  module.exports = {
+      showName:function(res){
+        if(res==null){
+            return "匿名用户"
+        }else{
+            return res
+        } 
+      },
+
+      showContent:function(res){
+        if(res==null || res.length<=0){
+                return "默认好评"
+            }else{
+                return res
+          } 
+      }
+  }
+</wxs>

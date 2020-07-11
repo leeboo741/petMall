@@ -1,0 +1,195 @@
+/* pages/poststation/order/couponSelected/index.wxss */
+
+.flex-cloumn{
+  display: flex;
+  flex-direction: column;
+}
+.container {
+    background: #f8f8f8;
+}
+
+.clear {
+    clear: both;
+}
+
+.top {
+    height: 128rpx;
+    background: #fff;
+}
+
+.top .l {
+    width: 50%;
+    float: left;
+}
+
+.top .l view.hover {
+    font-size: 34rpx;
+    color: #002241;
+}
+
+.top .r view.hover {
+    font-size: 34rpx;
+    color: #002241;
+}
+
+.top .l view {
+    width: 100%;
+    text-align: center;
+    font-size: 34rpx;
+    color: #717985;
+    margin-top: 30rpx;
+}
+
+.top .l image {
+    height: 16rpx;
+    width: 46rpx;
+    margin-left: 44%;
+}
+
+.top .r {
+    width: 50%;
+    float: left;
+}
+
+.top .r view {
+    width: 100%;
+    text-align: center;
+    font-size: 34rpx;
+    color: #717985;
+    margin-top: 30rpx;
+}
+
+.top .r image {
+    height: 16rpx;
+    width: 46rpx;
+    margin-left: 45%;
+}
+
+.coupon-exchange {
+    padding: 40rpx 40rpx 0rpx;
+    height: 80rpx;
+}
+
+.coupon-exchange .exchange {
+    height: 80rpx;
+}
+
+.coupon-exchange .exchange input {
+    background: #FFFFFF;
+    border-radius: 28rpx;
+    height: 80rpx;
+    line-height: 80rpx;
+    font-size: 28rpx;
+    color: #BBBBBB;
+    width: 65%;
+    padding: 0 30rpx;
+    float: left;
+}
+
+.coupon-exchange .exchange button {
+    font-size: 30rpx;
+    height: 80rpx;
+    line-height: 80rpx;
+    color: #FFFFFF;
+    background: #FF3A1E;
+    border-radius: 28rpx;
+    float: right;
+    width: 22%;
+}
+
+.list {
+    padding: 0 40rpx;
+    margin-top: 40rpx;
+}
+
+.list .li {
+    background: #FFFFFF;
+    box-shadow: 0 10rpx 40rpx 0 rgba(159,167,185,0.20);
+    border-radius: 40rpx;
+    height: 190rpx;
+    padding: 22rpx 30rpx;
+    z-index: 1000;
+    position: relative;
+}
+
+.list .li .t {
+    padding-bottom: 10rpx;
+    box-sizing: border-box;
+}
+
+.list .li .t .l {
+    float: left;
+    font-size: 50rpx;
+    color: #FF3A1E;
+    width: 35%;
+    overflow: hidden;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.list .li .t .l text {
+    font-size: 40rpx;
+}
+
+.list .li .t .r {
+    float: left;
+    width: 58%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.list .li .t .r view {
+    float: left;
+    font-size: 22rpx;
+    color: #717985;
+    width: 100%;
+}
+
+.list .li .t .r .name {
+    font-size: 34rpx;
+    color: #002241;
+    margin-bottom: 5rpx;
+    margin-top: 10rpx;
+}
+
+.list .li .b {
+    border-top: 1px solid #F0F5F9;
+    padding-top: 20rpx;
+    font-size: 22rpx;
+    color: #717985;
+}
+
+.list .li .b text {
+    float: left;
+}
+
+.list .li .b image {
+    display: block;
+    float: right;
+    height: 26rpx;
+    width: 26rpx;
+    margin-top: 5rpx;
+}
+
+.list .li view.usedcss {
+    color: #CFD3DC!important;
+}
+
+.info {
+    background: #FFFFFF;
+    border-radius: 0 0 40rpx 40rpx;
+    padding: 34rpx 26rpx 20rpx;
+    margin: 0 30rpx;
+    font-size: 22rpx;
+    color: #717985;
+    letter-spacing: 0;
+    line-height: 32rpx;
+    margin-top: -18rpx;
+}
+
+.bottombox {
+    width: 100%;
+    height: 40rpx;
+}

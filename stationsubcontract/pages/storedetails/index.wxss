@@ -1,0 +1,133 @@
+.container {
+    box-sizing: border-box;
+    background-color: #fff;
+    font-size: 30rpx;
+    color: #333;
+}
+
+.weight {
+    font-weight: 800;
+}
+
+.banner {
+    height: 400rpx;
+    width: 100%;
+}
+
+.swiper {
+    width: 100%;
+    height: 400rpx;
+}
+
+.slide-image {
+    width: 100%;
+}
+
+.con {
+    margin-top: -40rpx;
+    background: #fff;
+    border-radius: 50rpx 0rpx 0 0;
+    min-height: 458rpx;
+    position: relative;
+    z-index: 1000;
+    padding: 40rpx 40rpx 0rpx;
+}
+
+.con .shopName {
+    font-size: 40rpx;
+    color: #002241;
+    margin-bottom: 10rpx;
+}
+
+.con .list .li {
+    height: 42rpx;
+    line-height: 42rpx;
+    margin-bottom: 24rpx;
+    color: #717985;
+}
+
+.con .list .li .dist {
+    margin-left: 163rpx;
+    font-size: 28rpx;
+    color: #9FA7B9;
+}
+
+.con .list .li .l {
+    float: left;
+    width: 163rpx;
+    display: block;
+}
+
+.con .list .li .r {
+    float: left;
+    width: 70%;
+}
+
+.con .list .li .r image {
+    height: 26rpx;
+    width: 26rpx;
+    display: inline-block;
+    margin: 0 10rpx;
+}
+
+.clear {
+    clear: both;
+}
+
+.bot {
+    background: #F6F8FA;
+    border-radius: 40rpx;
+    height: 128rpx;
+    margin-top: 60rpx;
+    line-height: 128rpx;
+}
+
+.bot .call {
+    width: 50%;
+    float: left;
+}
+
+.bot .call image {
+    display: block;
+    width: 70rpx;
+    height: 70rpx;
+    float: left;
+    margin-left: 65rpx;
+    margin-top: 29rpx;
+    margin-right: 12rpx;
+}
+
+.bot .navigation {
+    width: 50%;
+    float: right;
+}
+
+.bot .navigation image {
+    display: block;
+    width: 70rpx;
+    height: 70rpx;
+    float: left;
+    margin-left: 65rpx;
+    margin-top: 29rpx;
+    margin-right: 12rpx;
+}
+
+.btn {
+    position: fixed;
+    bottom: 35rpx;
+    background: #FF3A1E;
+    border-radius: 32rpx;
+    font-size: 30rpx;
+    color: #FFFFFF;
+    text-align: center;
+    line-height: 88rpx;
+    height: 88rpx;
+    width: 92%;
+    margin-left: 4%;
+    box-shadow: 0rpx 30rpx 30rpx -30rpx #FF3A1E;
+}
+
+.btn.notopen {
+    background: #9FA7B9;
+    box-shadow: 0rpx 30rpx 30rpx -30rpx #9FA7B9;
+}

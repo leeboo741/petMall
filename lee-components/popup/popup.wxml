@@ -1,0 +1,10 @@
+<view class="mask" hidden="{{!isShow}}">
+    <view bindtap="hide" class="popup">
+        <view catchtap class="popup-content">
+            <slot></slot>
+        </view>
+        <view bindtap="hide" class="popup-close" wx:if="{{showClose}}">
+            <icon color="#fff" size="34" type="cancel"></icon>
+        </view>
+    </view>
+</view>

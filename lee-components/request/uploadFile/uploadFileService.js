@@ -31,6 +31,9 @@ function fileUpload(param) {
       }
     },
     complete(res) {
+      if (uploadTask == null || uploadTask.offProgressUpdate == null) {
+        return;
+      }
       uploadTask.offProgressUpdate(
         function offProgressCallback(res) {
           console.log("cancel progress: \n" + fileAddress);

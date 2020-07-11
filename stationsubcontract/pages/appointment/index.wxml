@@ -1,0 +1,135 @@
+<i-navigation-bar title='{{titleName}}' showBackButton='{{true}}' backgroundColor="white">
+</i-navigation-bar>
+<!-- <scroll-view bindscroll="getScrollMsg" bindscrolltolower="bindscrolltolower" class="container" scrollY="true"> -->
+<view class="container">
+	<view class="topimg">
+		<image src="{{serviceType==1?bathImg:serviceType==2?cosmerImg:serviceType==3?spImg:bathImg}}"></image>
+		<image src="/resource/xzhead.png"></image>
+		<view class="topTitle">
+			<view class="serviceName">{{serverObj.serviceName}}</view>
+			<!-- <view class="serviceNum">已服务
+        <navigator>{{num}}</navigator>单</view> -->
+		</view>
+	</view>
+	<view class="middle">
+		<view catchtap="goSelectPet" class="petbox">
+			<view class="hasPet" wx:if="{{petObj}}">
+				<view class="headimg">
+					<image src="{{petObj.petImg}}"></image>
+				</view>
+				<view class="petdetail">
+					<view class="nickname">{{petObj.petName}}</view>
+					<text>{{petObj.petGenre.petGenreName}}</text>
+					<view class="nodetail" wx:if="{{!petObj.petNo}}">该宠物为临时宠物
+						<!-- <view catchtap="goupmypet" class="dangan">宠物档案</view> -->
+					</view>
+					<view class="more">
+						<image src="/resource/arrow.png"></image>
+					</view>
+				</view>
+			</view>
+			<view class="nopet" wx:else>
+				<view class="addbox">
+					<view class="transverse"></view>
+					<view class="vertical"></view>
+				</view>
+				<view class="addtext">添加宠物</view>
+			</view>
+		</view>
+	</view>
+	<view class="userevaluate-page">
+		<view class="userevaluate-head-page">
+			<view style="margin-left:5%;color:#8E8E8E;">
+				用户评价
+			</view>
+
+			<view style="margin-left:55%;color:blue;font-weight:bold;font-size:26rpx;" bindtap="evaluateTap" hidden>
+				更多评价
+				<i-icon type="enter" size="20" color="black" />
+			</view>
+		</view>
+
+		<view wx:if="{{evaluateList.length<=0}}" class="noevluatelist">
+			暂无评价!
+		</view>
+
+		<view wx:else class="userevaluate-content-page">
+			<view class="userevaluate-content-tables-page" wx:for="{{evaluateList}}" wx:for-item="evaluationInformationItem" wx:for-index="evaluationInformationIndex" wx:key="evaluationInformationIndex" style="margin-bottom: 20rpx;">
+				<view class="userevaluate-content-head">
+					<i-image imageSrc="{{evaluationInformationItem.serviceAppraise.business.headImg}}" i-class="image-sty">
+					</i-image>
+					<view class="userevaluate-content-head-customerName">
+						{{parse.showCustomerName(evaluationInformationItem.serviceAppraise.business.businessName)}}
+					</view>
+					<view class="userevaluate-content-head-appraiseTime">
+						{{evaluationInformationItem.serviceAppraise.appraiseDate}}
+					</view>
+				</view>
+
+				<view style="margin-left:10%; display: flex;flex-wrap: nowrap;">
+					<!-- 遍历星星-->
+					<view wx:for="{{parse.showPraiseDegree(evaluationInformationItem.serviceAppraise.praiseDegree)}}" wx:for-item="starsNumberItem" wx:for-index="starsNumberIndex" wx:key="starsNumberIndex">
+						<i-icon type="collection_fill" color="#EFCC83" />
+					</view>
+				</view>
+
+				<view style="margin: 15rpx 20rpx; font-size:30rpx;">
+					{{parse.showContent(evaluationInformationItem.serviceAppraise.content)}}
+				</view>
+
+        <view style='display: flex; flex-direction: row; align-items: center; flex-wrap: wrap; margin-top: 20rpx' wx:if='{{evaluationInformationItem.serviceAppraiseImgList && evaluationInformationItem.serviceAppraiseImgList.length > 0}}'>
+          <view wx:for='{{evaluationInformationItem.serviceAppraiseImgList}}' wx:key='appraiseImgNo' style="width: 25%; height: 190rpx; display: flex; align-items: center; justify-content: center;">
+            <i-image i-class='evaluate-image' imageSrc='{{item.imgAddress}}'>
+            </i-image>
+          </view>
+        </view>
+			</view>
+		</view>
+	</view>
+</view>
+
+<view style="height: 100rpx"></view>
+<!-- </scroll-view>  -->
+<view class="bottom">
+	<view class="bottom-left">
+		<view class="money {{notAppoint?'prohibit':''}}">￥{{serverObj.servicePrice}}</view>
+		<!-- <view class="qi {{notAppoint?'prohibit':''}}">{{miniPrice?'起':''}}</view> -->
+		<view style="font-size:22rpx; margin-left:10rpx">起</view>
+		<view class="e-card" wx:if="{{vip_price}}">
+			<view class="e-card-price">{{vip_price}}</view>
+			<image src=""></image>
+		</view>
+	</view>
+	<view bindtap="goApoint" class="bottom-right {{notAppoint?'prohibit':''}}">
+		<view class="yy">预约</view>
+		<!-- <view class="fx" wx:if="{{fxtext}}">{{fxtext}}</view> -->
+	</view>
+</view>
+
+<wxs module='parse'>
+  module.exports={
+    showCustomerName: function(res) {
+			if (res == null) {
+				return "匿名用户";
+			} else {
+				return res;
+			}
+		},
+
+		showPraiseDegree: function(res) {
+			if (res == null) {
+				return 5;
+			} else {
+				return res;
+			}
+		},
+
+		showContent: function(res) {
+			if (res == null) {
+				return "默认好评";
+			} else {
+				return res;
+			}
+		}
+  }
+</wxs>
