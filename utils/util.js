@@ -257,11 +257,26 @@ function getUrlParamDict(url) {
  * 调试日志打印打印
  */
 function logInfo(...args){
-  if (Config.Print_Console) {
+  if (Config.Print_Console && Config.Print_Console_Level >= Config.Print_Console_Info) {
+    console.log("========================= info start =========================")
     console.log(...args);
+    console.log("========================= info end =========================")
   }
 }
-
+function logDebug(...args) {
+  if (Config.Print_Console_Info && Config.Print_Console_Level >= Config.Print_Console_Debug) {
+    console.log("========================= debug start =========================")
+    console.log(...args);
+    console.log("========================= debug end =========================")
+  }
+}
+function logError(...args) {
+  if (Config.Print_Console_Level && Config.Print_Console_Level >= Config.Print_Console_Error) {
+    console.log("========================= error start =========================")
+    console.log(...args);
+    console.log("========================= error end =========================")
+  }
+}
 
 module.exports = {
   formatTime: formatTime,
@@ -283,5 +298,7 @@ module.exports = {
   openBaiduLocation: openBaiduLocation,
   BD09_GCJ02: BD09_GCJ02,
   getSystemInfo: getSystemInfo,
-  logInfo: logInfo
+  logInfo: logInfo,
+  logDebug: logDebug,
+  logError: logError,
 }

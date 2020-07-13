@@ -4,8 +4,8 @@ const Config = require("/macros/config.js");
 const Utils = require("/utils/util");
 App({
   onLaunch: function () {
-    Utils.logInfo("当前地址:" , UrlPath.Url_Base);
-    Utils.logInfo("当前版本:" , Config.Version , " Build_Code:" , Config.Version_Code);
+    console.log("当前地址:" , UrlPath.Url_Base);
+    console.log("当前版本号/构建号：" , Config.Version , "/" , Config.Version_Code);
   },
   globalData: {
     serviceSelectBusiness: null, // 服务 选中的商家

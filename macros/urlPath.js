@@ -1,6 +1,16 @@
-// const Url_Base = "http://192.168.3.111:7070"; // ---- 刘
-// const Url_Base = "http://192.168.3.233:7070"; // ---- 胡
-const Url_Base = "https://market.taochonghui.com"; //线上
+
+const Config = require("./config");
+const config = require("./config");
+
+let Url_Base;
+if (Config.ENV_CURRENT == Config.ENV_DEV) {
+  Url_Base = "http://192.168.3.111:7070"; // ---- 祥林
+  // Url_Base = "http://192.168.3.233:7070"; // ---- 胡
+} else if (config.ENV_CURRENT == config.ENV_RELEASE) {
+  Url_Base = "https://market.taochonghui.com";
+} else {
+  Url_Base = "https://market.taochonghui.com";
+}
 
 
 const Url_Login = "/user"; // 登陆

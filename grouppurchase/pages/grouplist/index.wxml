@@ -3,7 +3,7 @@
 </i-navigation-bar>
 
 <swiper class='banner' circular="{{true}}" indicator-dots="{{true}}" autoplay="{{true}}" interval="5000" duration="300" vertical="{{false}}" indicator-active-color="#7bbfea" indicator-color="#cccccc">
-  <swiper-item wx:for="{{groupSource}}" wx:for-item="groupItem" wx:for-index="groupIndex" wx:key="groupIndex">
+  <swiper-item wx:for="{{groupSource}}" wx:for-item="groupItem" wx:for-index="groupIndex" wx:key="idx">
     <view class='banner-item' data-index="{{groupIndex}}" data-link="{{groupItem.link}}" data-imageurl="{{groupItem.imageUrl}}" bindtap='tapBanner'>
       <i-image i-class='banner-item-image' mode='scaleToFill' lazy-load='{{true}}' imageSrc='{{groupItem.imageUrl}}'>
       </i-image> 

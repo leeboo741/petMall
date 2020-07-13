@@ -28,7 +28,7 @@
 </view>
 
 <view class='list' wx:if="{{titleNameByType==1}}">
-  <block wx:for='{{fansList}}' wx:key='list' wx:for-item="item">
+  <block wx:for='{{fansList}}' wx:key='index' wx:for-item="item">
   <view class="list_item">
       <image src="/resource/arrow.png" class="arrow-sty"></image>
       <navigator url='../../../oldstore/pages/storeinformation/index?storeno={{item.business.businessNo}}&showtype=0'>

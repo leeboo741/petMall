@@ -145,7 +145,7 @@
 			</view>
 		</view>
 		<scroll-view class="section-scroll-h" scroll-x enable-flex>
-			<view wx:for='{{newestList}}' wx:for-item="newestItem" wx:for-index="newestIndex" wx:key='{{newestIndex}}' class="goods-item" bindtap="petsInforTap" data-petno='{{newestItem.pet.petNo}}'>
+			<view wx:for='{{newestList}}' wx:for-item="newestItem" wx:for-index="newestIndex" wx:key='newestIndex' class="goods-item" bindtap="petsInforTap" data-petno='{{newestItem.pet.petNo}}'>
 				<view class="goods-image-box">
 					<i-image i-class="goods-image" imageSrc='{{newestItem.pet.petImg}}' lazy-load="{{true}}">
 					</i-image>
