@@ -1,0 +1,23 @@
+<!--components/countButton/countButton.wxml-->
+<view class="i-class count-button">
+  <view class="reduce-button-box {{parse.buttonMinDisable(count, minValue)?'disable':''}}" bindtap="reduce">
+    <view class="reduce-button}}">-</view>
+  </view>
+  <view class="count-value-box">
+    <view class="count-value">{{count}}</view>
+  </view>
+  <view class="plus-button-box {{parse.buttonMaxDisable(count, maxValue)?'disable':''}}" bindtap="plus">
+    <view class="plus-button">+</view>
+  </view>
+</view>
+
+<wxs module='parse'>
+  module.exports={
+    buttonMinDisable: function(count, minValue) {
+      return count <= minValue;
+    },
+    buttonMaxDisable: function(count, maxValue) {
+      return maxValue != null && count >= maxValue;
+    },
+  }
+</wxs>

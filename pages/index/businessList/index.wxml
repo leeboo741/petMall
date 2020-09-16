@@ -1,0 +1,49 @@
+<!--pages/index/businessList/index.wxml-->
+<i-navigation-bar title='商家列表' showBackButton='{{true}}'>
+</i-navigation-bar>
+<i-cell wx:for='{{businessList}}' wx:key='businessNo'>
+	<i-card slot='header' thumb='{{item.headImg}}' title='{{item.businessName}}' bindtap='tapToBusiness' data-businessno='{{item.businessNo}}'>
+		<view slot='content' class="business-content">
+			<view class="business-row">
+				<view class="business-title">
+					注册时间:
+				</view>
+				<view class="business-value">
+					{{item.registerTime}}
+				</view>
+			</view>
+			<view class="business-row" wx:if='{{item.startHours!=null&&item.endHours!=null}}'>
+				<view class="business-title">
+					营业时间:
+				</view>
+				<view class="business-value">
+					{{item.startHours}} - {{item.endHours}}
+				</view>
+			</view>
+			<view class="business-row">
+				<view class="business-title">
+					联系人:
+				</view>
+				<view class="business-value">
+					{{item.contact}}
+				</view>
+			</view>
+			<view class="business-row">
+				<view class="business-title">
+					联系电话:
+				</view>
+				<view class="business-value" style="color: blue;text-decoration: underline;" catchtap="tapCall" data-phone='{{item.contactPhone}}'>
+					{{item.contactPhone}}
+				</view>
+			</view>
+			<view class="business-row" wx:if='{{item.detailAddress!=null}}'>
+				<view class="business-title">
+					地址:
+				</view>
+				<view class="business-value">
+					{{item.province}}{{item.city}}{{item.area}}{{item.detailAddress}}
+				</view>
+			</view>
+		</view>
+	</i-card>
+</i-cell>

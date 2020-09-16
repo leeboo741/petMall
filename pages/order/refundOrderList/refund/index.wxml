@@ -124,7 +124,7 @@
                   ableDelete='{{true}}'
                   selectMode='append'
                   maxImageCount='{{9}}'
-                  videoMaxLength='{{10}}'
+                  videoMaxLength='{{20}}'
                   imageSourceType="{{['album', 'camera']}}"
                   videoSourceType="{{['album', 'camera']}}"
                   showAddNewButton='{{true}}'>

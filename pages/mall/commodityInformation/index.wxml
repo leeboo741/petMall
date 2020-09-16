@@ -7,7 +7,7 @@
 		<swiper-item wx:for='{{itemDetailData.itemOrderList}}' wx:key='orderNo' item-id='{{index}}'>
 			<view class='sale-notice-item'>
 				<view class="sale-notice-item-content">
-					{{parse.encryptName(item.receivingName)}} {{parse.encryptPhone(item.receivingPhone)}} 购买 X{{item.qty}}
+					{{parse.encryptName(item.buyerName)}} {{parse.encryptPhone(item.buyerPhone)}} 购买 X{{item.totalNum}}
 				</view>
 			</view>
 		</swiper-item>
@@ -44,7 +44,7 @@
 		</view>
 	</view>
 
-	<view class="image-page-bottom" style="margin-bottom: 2%;flex-direction: row; flex-wrap: wrap;" wx:if='{{itemDetailData.itemGrouponList!=null && itemDetailData.itemGrouponList.length > 0 && businessInfo.authType > 1}}'>
+	<view class="image-page-bottom" style="margin-bottom: 2%;flex-direction: row; flex-wrap: wrap;" wx:if='{{itemDetailData.itemGrouponList!=null && itemDetailData.itemGrouponList.length > 0}}'>
 		<view style="color:#ED630A;font-weight: bold;font-size:35rpx;">团购价格:</view>
 		<view wx:for='{{itemDetailData.itemGrouponList}}' class="foodgrain-page-formation-down-member" style="padding: 5rpx 10rpx; margin: 15rpx;">
 			{{item.qty}}起/￥{{item.price}}
@@ -179,7 +179,7 @@
 <!--商品购买、分享、收藏固定框-->
 <view class="goshopbottom ">
 
-	<view class="bottom-showinfor ">
+	<view class="bottom-showinfor " style="width: 60%">
 		<button class="bottom-icon-page " open-type="share">
 			<view class="bottom-button-type-one ">
 				<i-icon type="share " size="25 " />
@@ -197,12 +197,35 @@
 				收 藏
 			</view>
 		</button>
+
+		<button class="bottom-icon-page " bindtap="tapShoppingcart" style="color: {{collection==true?'red':''}}">
+			<view class="bottom-button-type-one ">
+				<i-icon type="commodity " size="25 " />
+			</view>
+			<view style="font-size:25rpx;font-weight:bold;">
+				购物车
+			</view>
+		</button>
 	</view>
 
-	<view class="bottom-showinfor ">
-		<view class="bottom-button-type-two " bindtap="goShopTap">
-			担保购买
+	<view class="bottom-showinfor " style="width: 40%">
+		<view class="bottom-button-type-two {{itemDetailData.item.qty<=0?'bottom-button-type-two-disable':''}}">
+			<block wx:if='{{itemDetailData.item.qty<=0}}'>
+				<view>已售罄</view>
+			</block>
+			<block wx:else>
+				<view style=' width:100%; text-align:center' bindtap="tapAddToShoppingcart">
+				加入购物车
+				</view>
+				<!-- <view style='height: 90%; width:3rpx; background: white'></view>
+				<view style=" width:49%; text-align:center" bindtap="goShopTap">
+				担保购买
+				</view> -->
+			</block>
 		</view>
+		<!-- <view class="bottom-button-type-two {{itemDetailData.item.qty<=0?'bottom-button-type-two-disable':''}}" bindtap="goShopTap">
+			{{itemDetailData.item.qty<=0?'已售罄':'担保购买'}}
+		</view> -->
 	</view>
 </view>
 <!--分享信息-->
@@ -235,6 +258,10 @@
 <!--蒙版-->
 <view class="mask-page" hidden="{{mask}}" bindtap="maskTap">
 </view>
+
+
+<shoppingcart show='{{showAddToShoppingcart}}' goods="{{itemDetailData}}" bind:close='closeShoppingcart' bind:addtocart='addToShoppingcart'>
+</shoppingcart>
 
 <wxs module='parse'>
 	module.exports = {

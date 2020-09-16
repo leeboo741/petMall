@@ -4,6 +4,34 @@ const RequestUtil = require("../utils/requestUtil.js");
 const { RequestParamObj } = require("../utils/requestParamObj.js");
 const Util = require("../utils/util.js");
 const PetFilterObj=require("../entity/petFilterObj.js");
+const { Url_Base, Url_BusinessList_All } = require("../macros/urlPath.js");
+
+/**
+ * 获取所有商家列表
+ */
+function getAllBusinessList(offset, limit, getResultCallback) {
+  let requestParam = new RequestParamObj({
+    url: Url_Base + Url_BusinessList_All,
+    data: {
+      offset: offset,
+      limit: limit
+    },
+    success(res){
+      if (Util.checkIsFunction(getResultCallback)) {
+        getResultCallback(true, res.root);
+      }
+    },
+    fail(res){
+      if (Util.checkIsFunction(getResultCallback)) {
+        getResultCallback(false, res);
+      }
+    },
+    complete(res){
+
+    }
+  })
+  RequestUtil.RequestGET(requestParam);
+}
 
 /**
  * 获得商家信息
@@ -33,6 +61,9 @@ function getStoreInfomation(city, authType, orderCount, praiseCount, offset, lim
         getDataCallback(res.root);
       }
     },
+    fail(res) {
+      Util.logInfo(res);
+    }
   })
   RequestUtil.RequestGET(requestParam)
 }
@@ -105,4 +136,5 @@ module.exports = {
   getRecommendBusiness: getRecommendBusiness,
   getStoreDetail: getStoreDetail,
   getStorePetList: getStorePetList,
+  getAllBusinessList: getAllBusinessList,
 }

@@ -110,21 +110,7 @@ Page({
             that.startLogin(UserService.Login_Fail);
           }
         })
-    } else {
-
     }
-
-  },
-
-
-
-  /**
-   * 手机号登录
-   */
-  goLogin: function() {
-    wx.navigateTo({
-      url: "./register/index"
-    })
   },
 
   bindGetUserInfo: function(e) {
@@ -226,11 +212,24 @@ Page({
           }
         )
       }
-    } else if (state == UserService.Login_Register) {
-      wx.navigateTo({
-        url: PagePath.Page_Register_Index,
-      })
+      UserService.haveNewGiftBag();
     }
+  },
+
+  /**
+   * 取消登录
+   */
+  cancelLogin: function(){
+    wx.navigateBack({
+    })
+  },
+
+  /**
+   * 取消授权
+   */
+  cancelAuth: function(){
+    wx.navigateBack({
+    })
   }
 
 

@@ -7,7 +7,9 @@ const UserService = require("../../../services/userService.js");
 const EvaluateService = require("../../../services/evaluateService.js");
 const app = getApp();
 const ShareManager = require("../../../services/shareService");
-const userService = require("../../../services/userService.js");
+const shoppingcartManager = require("../../../services/shoppingcartManager.js");
+
+
 
 const Limit = 20;
 
@@ -17,6 +19,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    showAddToShoppingcart: false,
     businessInfo: null,
     currentImageItemId: "s0",
     itemNo: null,
@@ -73,7 +76,14 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-
+    let that = this;
+    UserService.isLogin(function isLoginCallback(){
+      UserService.requestBusinessInfo(UserService.getBusinessNo(), function (dataSource) {
+        that.setData({
+          businessInfo: dataSource
+        })
+      })
+    })
   },
 
   /**
@@ -173,18 +183,65 @@ Page({
   },
 
   /**
+   * 点击加入购物车
+   */
+  tapAddToShoppingcart: function(){
+    this.setData({
+      showAddToShoppingcart: true
+    })
+  },
+  /**
+   * 购物车页面关闭
+   * @param {*} e 
+   */
+  closeShoppingcart: function(e){
+    this.data.showAddToShoppingcart = e.detail.show
+  },
+  /**
+   * 响应 购物车页面 加入购物车 事件
+   * @param {*} e 
+   */
+  addToShoppingcart: function(e) {
+    this.data.count = e.detail.count
+    console.log(JSON.stringify(this.data.itemDetailData));
+    shoppingcartManager.saveGoodsToLocal(this.data.itemDetailData, this.data.count);
+  },
+
+  /**
    * 担保购买
    */
   goShopTap: function() {
+    if (this.data.itemDetailData.item.qty <=0 ){
+      return;
+    }
     let that = this;
     UserService.isLogin(function isLoginCallback() {
-      // if (that.data.itemDetailData.item.business.businessNo == UserService.getBusinessNo()) {
-      //   wx.showToast({
-      //     title: '您不能购买自己的商品哦！',
-      //     icon: "none"
-      //   })
-      //   return;
-      // }
+      if (that.data.businessInfo.authType <= 1 && that.data.itemDetailData.item.groupon == 1) {
+        wx.showModal({
+          title: '暂无权限',
+          content: '暂无权限购买该产品,请前往认证商家或平台!',
+          confirmText: '前往认证',
+          cancelText: '暂不认证',
+          success(res) {
+            if (res.confirm) {
+              wx.navigateTo({
+                url: Page_path.Page_Me_AuthenticateManager_Index,
+              })
+            } else if(res.cancel){
+              wx.navigateBack({
+              })
+            }
+          }
+        })
+        return;
+      }
+      if (that.data.itemDetailData.item.business.businessNo == UserService.getBusinessNo()) {
+        wx.showToast({
+          title: '您不能购买自己的商品哦！',
+          icon: "none"
+        })
+        return;
+      }
       app.globalData.shopItem = that.data.itemDetailData;
       wx.navigateTo({
         url: Page_path.Page_Mall_Shoppingpayment + "?type=item"
@@ -257,6 +314,15 @@ Page({
           }
         )
       }
+    })
+  },
+
+  /**
+   * 点击购物车
+   */
+  tapShoppingcart: function() {
+    wx.navigateTo({
+      url: '/mallsubcontracting/pages/shoppingcart/index',
     })
   },
 

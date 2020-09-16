@@ -205,7 +205,7 @@
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   background-color: white;
 }
 
@@ -217,14 +217,20 @@
 }
 
 .bottom-button-type-two{
-  width: 200rpx;
-  height: 80%;
+  width: 70%;
+  height: 70%;
   background: linear-gradient(to right, rgb(255,147,87) , rgb(255, 51, 59));
   border-radius:50rpx;
   display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   color: white;
+  font-size: 28rpx;
+}
+.bottom-button-type-two-disable{
+  background: lightgray;
+  color: gray;
 }
 
 .bottom-icon-page{
@@ -234,7 +240,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-left: 15%;
 }
 
 button::after {
@@ -250,7 +255,8 @@ button{
   width: 50%;
   height: 120rpx;
   display: flex;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: space-around;
   align-items: center;
 }
 

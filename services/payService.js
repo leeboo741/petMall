@@ -26,8 +26,8 @@ function getServerOrderPayInfo(orderNo, getServerOrderPayInfoCallback) {
 }
 /**
  * 获取商品订单支付信息
- * @param orderNo
- * @param getItemOrderPayInfoCallback
+ * @param {string} orderNo 订单号
+ * @param {function(boolean, object)} getItemOrderPayInfoCallback 回调
  */
 function getItemOrderPayInfo(orderNo, getItemOrderPayInfoCallback) {
   let reuqestParam = new RequestParamObj({
@@ -37,7 +37,12 @@ function getItemOrderPayInfo(orderNo, getItemOrderPayInfoCallback) {
     },
     success(res) {
       if (Util.checkIsFunction(getItemOrderPayInfoCallback)) {
-        getItemOrderPayInfoCallback(res)
+        getItemOrderPayInfoCallback(true,res)
+      }
+    },
+    fail(res) {
+      if (Util.checkIsFunction(getItemOrderPayInfoCallback)) {
+        getItemOrderPayInfoCallback(false,res)
       }
     }
   })

@@ -39,12 +39,12 @@
       </view>
     </view>
   </view>
-  <view class="stepper-big-box">
+  <view class="stepper-big-box" hidden='{{shopDataSource.pet.petNo!=null&&shopDataSource.pet.petNo.length>0}}'>
     <view class='stepper sum'>
       <text class='{{minusStatus}}' type='number' bindtap='bindMinus'>-</text>
       <input bindinput='bindManual' type="number" value='{{num}}'>
       </input>
-      <text bindtap='bindPlus'>+</text>
+      <text bindtap='bindPlus' class='{{maxusStatus}}'>+</text>
     </view>
   </view>
 </view>
@@ -65,25 +65,50 @@
   </view>
 </view>
 
-<block wx:if="{{type=='pet' && shopDataSource.pet.freeShipping == 0}}">
+<!-- 运输方式选择 -->
+<block wx:if='{{currentPickUpMode != null}}'>
   <i-cell-group>
-    <i-cell title="" i-class="peisongsty">
-      <view slot='header'>选择配送方式:</view>
-      <view slot='footer' style='color:red'>(物流由斑马速运承运)</view>
+    <i-cell>
+      <view slot='header' i-class="peisongsty">
+        选择配送方式:
+      </view>
     </i-cell>
-    <view class="transpor-sty" wx:if="{{typeOfShipping.length>0}}">
-      <view class="transpor-sty-box" wx:for="{{typeOfShipping}}" wx:for-item="transporItem" wx:for-index="transporIndex" wx:key="transporItem" data-index="{{transporIndex}}" data-transportype="{{transporItem}}" bindtap="selectTransporTap">
-        <image src="{{selectTransportIndex==transporIndex?'/resource/selectred.png':'/resource/selectwhite.png'}}" style="width:40rpx;height:40rpx;"></image>
-        <view style="font-size:29rpx;color:{{selectTransportIndex==transporIndex?'#FF3A1E':'#80848f'}};padding-left:10rpx;">
-          {{parse.showTranspor(transporItem)}}
+    <i-cell>
+      <view slot='header'>
+        <view class="transpor-sty">
+          <view class="transpor-sty-box" wx:for='{{pickUpModeList}}' wx:key='id' data-index='{{index}}' bindtap="selectPickupMode">
+            <image src="{{currentPickUpMode.id==item.id?'/resource/selectred.png':'/resource/selectwhite.png'}}" style="width:40rpx;height:40rpx;"></image>
+            <view style="font-size:29rpx;color:{{currentPickUpMode.id==item.id?'#FF3A1E':'#80848f'}};padding-left:10rpx;">
+              {{item.name}}
+            </view>
+          </view>
         </view>
       </view>
-    </view>
-    <view class="no-transpor-sty" wx:else>
-       {{receiveAddress==null?'请选择收货地址！':'暂无运输方式！'}} 
-    </view>
+    </i-cell>
   </i-cell-group>
 </block>
+<block wx:else>
+  <block wx:if="{{type=='pet' && shopDataSource.pet.freeShipping == 0}}">
+    <i-cell-group>
+      <i-cell title="" i-class="peisongsty">
+        <view slot='header'>选择运输方式:</view>
+        <view slot='footer' style='color:red'>(物流由斑马速运承运)</view>
+      </i-cell>
+      <i-cell>
+        <view slot='header' class="transpor-sty">
+          <view class="transpor-sty-box" wx:for="{{typeOfShipping}}" wx:for-item="transporItem" wx:for-index="transporIndex" wx:key="transporItem" data-index="{{transporIndex}}" data-transportype="{{transporItem}}" bindtap="selectTransporTap">
+            <image src="{{selectTransportIndex==transporIndex?'/resource/selectred.png':'/resource/selectwhite.png'}}" style="width:40rpx;height:40rpx;"></image>
+            <view style="font-size:29rpx;color:{{selectTransportIndex==transporIndex?'#FF3A1E':'#80848f'}};padding-left:10rpx;">
+              {{parse.showTranspor(transporItem)}}
+            </view>
+          </view>
+        </view>
+      </i-cell>
+    </i-cell-group>
+  </block>
+</block>
+
+
 
 <i-cell-group>
   <i-cell title="选择优惠券" i-class="peisongsty" is-link>
@@ -123,13 +148,13 @@
       运费
       </view>
       <view style="color:#DC512C;margin-right: 10rpx;">
-      {{priceInformation.transportAmount}}
+      {{priceInformation.transportAmount!=null?priceInformation.transportAmount:'0'}}
       </view>
       <view style='margin-right: 10rpx;'>
       抵扣
       </view>
       <view style="color:#DC512C;margin-right: 10rpx;">
-      {{priceInformation.couponDiscountAmount}}
+      {{priceInformation.couponDiscountAmount!=null?priceInformation.couponDiscountAmount:'0'}}
       </view>
     </view>
   </view>
@@ -159,7 +184,7 @@
     <view class="couponList-info-page" wx:for="{{couponList}}" wx:for-item="couponListItem" wx:for-index="couponListIndex" wx:key="couponListIndex" bindtap="couponListTap" data-index="{{couponListIndex}}">
       <view class="couponList-info-left-page">
         <view class="couponList-left-price-page" wx:if="{{couponListItem.couponType.preferentialType==1}}">
-          {{couponListItem.couponType.discount}}
+          {{parse.getCouponDiscountStr(couponListItem.couponType.discount)}}
           <view style="color:black;font-size:27rpx;">
            折
           </view>
@@ -188,6 +213,9 @@
 
 <wxs module='parse'>
   module.exports = {
+    getCouponDiscountStr: function(value) {
+      return (value/10).toFixed(1);
+    },
     getName: function(data, type) {
       if (type == "item") {
         return data.itemName;

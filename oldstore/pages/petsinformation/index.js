@@ -201,6 +201,9 @@ Page({
    * 担保购买
    */
   goShopTap: function (res) {
+    if (this.data.petDetailData.pet.petIsSell == 1) {
+      return;
+    }
     Utils.logInfo("点击担保购买！");
     let that = this;
     UserService.isLogin(function isLoginCallback(){

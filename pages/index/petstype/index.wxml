@@ -4,6 +4,19 @@
 
 <!-- 宠物分类 -->
 <view class="context-page">
+  <view style="width:100%">
+    <i-tabs current="{{currentTabIndex}}" 
+            bindchange="handleTabChange"
+            color="#f3ba33">
+      <i-tab wx:for='{{tabList}}'
+              wx:for-item='tabItem'
+              wx:for-index='tabIndex'
+              wx:key='{{tabIndex}}'
+              key="{{tabIndex}}" 
+              title="{{tabItem}}">
+      </i-tab>
+    </i-tabs>
+  </view>
   <view class="image-context-page" wx:for='{{petsTypeData}}' wx:for-item="petsItem" wx:for-index="petsIndex" wx:key='{{petsIndex}}' bindtap="petsTap" data-index='{{petsIndex}}' data-genreno="{{petsItem.petGenreNo}}" data-name='{{petsItem.petGenreName}}'>
     <i-image imageSrc="{{petsItem.petGenreImg}}" i-class="image-context-head">
     </i-image>

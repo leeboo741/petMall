@@ -276,6 +276,11 @@
   color: white;
 }
 
+.bottom-button-type-two-disable{
+  background: lightgray;
+  color: gray;
+}
+
 .bottom-icon-page{
   height: 98%;
   width: 120rpx;

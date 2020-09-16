@@ -7,7 +7,7 @@ const WithdrawalService = require("../../services/withdrawalService.js");
 const Utils = require("../../utils/util.js");
 const ServerManager = require("../../services/serverManager.js");
 const ShareManager = require("../../services/shareService");
-const userService = require("../../services/userService.js");
+const MessageManager = require("../../services/messageManager");
 const app = getApp();
 
 const Buyer_Action_Index_Unpay = 0; // 买家 待付款
@@ -47,6 +47,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    haveNewMessage: false, // 是否有新消息
     posterTop: app.globalData.naviHeight,
     showPoster: false, // 隐藏海报
     currentRole: 0, // 当前角色 0 买家 1 卖家
@@ -123,7 +124,7 @@ Page({
         name: "购物车",
         iconPath: "../../resource/shopcart.png",
         link: "",
-        show: false,
+        show: true,
       },
       {
         name: "积分商城",
@@ -284,7 +285,15 @@ Page({
       // businessInfo: UserService.getLocalBusinessInfo(),
     })
     this.needShowPoster();
+    MessageManager.startGetNewMessageInterval(function(result){
+      that.setData({
+        haveNewMessage: result
+      })
+    });
     UserService.isLogin(function isLoginCallback(){
+      that.setData({
+        haveNewMessage: MessageManager.getHaveNewMessageStatus()
+      })
       UserService.requestBusinessInfo(UserService.getBusinessNo(), function (dataSource) {
         var gz = "operationList[" + 1 + "].number";
         var fs = "operationList[" + 2 + "].number";
@@ -322,7 +331,7 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide: function() {
-
+    MessageManager.stopGetNewMessageInterval();
   },
 
   /**
@@ -351,6 +360,16 @@ Page({
    */
   onShareAppMessage: function () {
     return ShareManager.getDefaultShareCard();
+  },
+
+  /**
+   * 点击前往站内信
+   */
+  tapToMessage: function(){
+    wx.navigateTo({
+      url: PagePath.Page_Me_MessageList,
+    })
+    MessageManager.saveHaveNewMessageStatus(false)
   },
 
   /**
@@ -501,9 +520,58 @@ Page({
         })
       }
     }, function notLoginCallback() {
-      wx.navigateTo({
-        url: "../login/index"
-      })
+
+      if (e.currentTarget.dataset.index == Seller_Action_Index_Distribution) {
+        wx.navigateTo({
+          url: e.currentTarget.dataset.link,
+        })
+      } else if (e.currentTarget.dataset.index == Seller_Action_Index_Change) {
+        that.changeCurrentRole();
+      } else if (e.currentTarget.dataset.index == Seller_Action_Index_Server) {
+        wx.makePhoneCall({
+          phoneNumber: Config.Service_Phone,
+        })
+      } else if (e.currentTarget.dataset.index == Seller_Action_Index_Verify) {
+        wx.scanCode({
+          onlyFromCamera: true,
+          success(res) {
+            let resultParamDict = Utils.getUrlParamDict(res.result);
+            if (resultParamDict.type && resultParamDict.type == 'server_qrcode') {
+              let orderNo = resultParamDict.orderno;
+              Utils.logInfo("核销服务二维码:" + orderNo);
+              wx.showModal({
+                title: '确定核销服务',
+                content: '订单号:' + orderNo,
+                success(res) {
+                  if (res.confirm) {
+                    ServerManager.verifyServer(orderNo, function verifyCallback(result) {
+                      Utils.logInfo('核销成功:' + result);
+                      wx.showModal({
+                        title: '核销成功',
+                        content: '成功核销订单:' + orderNo,
+                        showCancel: false
+                      })
+                    })
+                  }
+                }
+              })
+            }
+          }
+        })
+      } else if (e.currentTarget.dataset.index == Seller_Action_Index_Poster) {
+        // 生成海报
+        Utils.logInfo('生成海报');
+        that.setData({
+          showPoster: true,
+        })
+      } else {
+        wx.navigateTo({
+          url: e.currentTarget.dataset.link,
+        })
+      }
+      // wx.navigateTo({
+      //   url: "../login/index"
+      // })
     })
   },
 
@@ -534,17 +602,40 @@ Page({
         })
       } else if (e.currentTarget.dataset.index == Buyer_Action_Index_Shopcart) {
         wx.navigateTo({
-          url: "../../mallsubcontracting/pages/shoppingcart/index"
+          url: "/mallsubcontracting/pages/shoppingcart/index"
         })
       } else {
         wx.navigateTo({
           url: e.currentTarget.dataset.link
         })
       }
-    }, function notLoginCallback() {
-      wx.navigateTo({
-        url: "../login/index"
-      })
+    } , function notLoginCallback() {
+      if (index == Buyer_Action_Index_Change) {
+        that.changeCurrentRole();
+      } else if (e.currentTarget.dataset.index == Buyer_Action_Index_Server) {
+        wx.makePhoneCall({
+          phoneNumber: Config.Service_Phone,
+        })
+      } else if (e.currentTarget.dataset.index == Buyer_Action_Index_Address) {
+        wx.navigateTo({
+          url: PagePath.Page_Me_AddressManager + "?ableselect=0"
+        })
+      } else if (e.currentTarget.dataset.index == Buyer_Action_Index_Collection) {
+        wx.navigateTo({
+          url: PagePath.Page_Me_Collect_Index,
+        })
+      } else if (e.currentTarget.dataset.index == Buyer_Action_Index_Shopcart) {
+        wx.navigateTo({
+          url: "/mallsubcontracting/pages/shoppingcart/index"
+        })
+      } else {
+        wx.navigateTo({
+          url: e.currentTarget.dataset.link
+        })
+      }
+      // wx.navigateTo({
+      //   url: "../login/index"
+      // })
     })
   },
 
@@ -641,8 +732,11 @@ Page({
       })
     }, function notLoginCallback() {
       wx.navigateTo({
-        url: "../login/index"
+        url: "/stationsubcontract/pages/coupon/index"
       })
+      // wx.navigateTo({
+      //   url: "../login/index"
+      // })
     })
   },
 
@@ -658,8 +752,11 @@ Page({
       })
     }, function notLoginCallback() {
       wx.navigateTo({
-        url: "../login/index"
+        url: that.data.operationList[selectIndex].url
       })
+      // wx.navigateTo({
+      //   url: "../login/index"
+      // })
     })
   },
 

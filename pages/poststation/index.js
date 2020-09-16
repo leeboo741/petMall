@@ -4,6 +4,7 @@ const app = getApp();
 const ShareManager = require("../../services/shareService");
 const PagePath = require("../../macros/pagePath");
 const ServerManager = require("../../services/serverManager");
+const { MINI_PROGRAME_APPID_PETTRANSPORT, ENV_CURRENT } = require("../../macros/config.js");
 
 Page({
   data: {
@@ -81,6 +82,27 @@ Page({
     let serverTypeName = res.currentTarget.dataset.servertypename;
     wx.navigateTo({
       url: '/pages/poststation/serverList/index' + "?servertypeno=" + serverTypeNo + "&servertypename=" + serverTypeName,
+    })
+  },
+
+  /**
+   * 点击托运
+   */
+  tapTransport: function() {
+    wx.navigateToMiniProgram({
+      appId: MINI_PROGRAME_APPID_PETTRANSPORT,
+      path: "pages/index/index2",
+      extraData: {
+        foo: "release"
+      },
+      envVersion: ENV_CURRENT,
+      success(res) {
+        // 打开成功
+        Utils.logInfo(JSON.stringify(res))
+      },
+      fail(res) {
+        Utils.logInfo(JSON.stringify(res))
+      }
     })
   },
 

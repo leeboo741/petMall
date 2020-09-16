@@ -13,7 +13,7 @@
   <i-cell-group>
     <i-cell wx:for='{{petGenreList}}' wx:key='index' bindtap='tapItem' data-index='{{index}}'>
       <view slot='header' class="gener-item">
-        <i-image i-class='gener-item-image' src="{{item.petGenreImg}}"></i-image>
+        <i-image i-class='gener-item-image' imageSrc="{{item.petGenreImg}}"></i-image>
         <view class="gener-item-title">{{item.petGenreName}}</view>
       </view>
     </i-cell>

@@ -60,10 +60,11 @@
             </view>
           </view>
 
-          <view class="grzy-sty" style="">
+          <view class="grzy-sty" style="" catchtap="tapToMessage">
+            <view class="red-pot" hidden="{{!haveNewMessage}}"></view>
             <image src="/resource/centeryellow.png" style="width:100%;height:100%;"></image>
             <image src="/resource/yellowright.png" class="yellowright-sty"></image>
-            <view class="grzxshow-sty">个人主页</view>
+            <view class="grzxshow-sty">站内信</view>
           </view> 
 
         </view>
@@ -223,10 +224,11 @@
            
           </view>
 
-          <view class="grzy-sty" style="">
+          <view class="grzy-sty" style="" catchtap="tapToMessage">
+            <view class="red-pot" hidden="{{!haveNewMessage}}"></view>
             <image src="/resource/centeryellow.png" style="width:100%;height:100%;"></image>
             <image src="/resource/yellowright.png" class="yellowright-sty"></image>
-            <view class="grzxshow-sty">个人主页</view>
+            <view class="grzxshow-sty">站内信</view>
           </view> 
         </view>
       </view>

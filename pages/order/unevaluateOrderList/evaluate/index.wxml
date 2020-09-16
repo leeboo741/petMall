@@ -1,147 +1,110 @@
 <!--pages/order/unevaluateOrderList/evaluate/index.wxml-->
-<i-navigation-bar title='评价'
-                  showBackButton>
+<i-navigation-bar title='评价' showBackButton>
 </i-navigation-bar>
 
 <!-- 买家版 -->
 <block wx:if='{{currentRole == 0}}'>
-  <i-panel i-class='panel'>
-    <i-cell-group>
-      <i-cell>
-        <view class="order-item"
-              slot='header'>
-          <view class="order-info-box">
-            <view class="order-number">
-            订单编号：{{order.orderNo}}
-            </view>
-            <view class="order-date">
-            {{order.createDate}} {{order.createTime}}
-            </view>
-          </view>
-          <view class="store-info-box">
-            <view class="store-image-box">
-              <i-image i-class='store-image'
-                       imageSrc='{{order.shop.headImg}}'
-                       >
-              </i-image>
-            </view>
-            <view class="store-name">
-            {{order.shop.businessName}}
-            </view>
-          </view>
+	<i-panel i-class='panel'>
+		<i-cell-group>
+			<i-cell>
+				<view class="order-item" slot='header'>
+					<view class="order-info-box">
+						<view class="order-number">
+							订单编号：{{order.orderNo}}
+						</view>
+						<view class="order-date">
+							{{order.createDate}} {{order.createTime}}
+						</view>
+					</view>
           <!-- 商品item -->
-          <block wx:if='{{order.itemNo != null}}'>
-            <view class="goods-info-box">
-              <view class="goods-image-box">
-                <i-image i-class='goods-image'
-                        imageSrc='{{order.coverImg}}'
-                        >
-                </i-image>
-              </view>
-              <view class="goods-info">
-                <view class="goods-info-line">
-                  <view class="goods-name">
-                  {{order.itemName}}
-                  </view>
-                </view>
-                <view class="goods-info-line"
-                      style="justify-content: space-between; align-items: flex-end;">
-                  <view class="goods-count">
-                  x{{order.qty}}
-                  </view>
-                  <view class="goods-price">
-                  ￥{{parse.showRetailPrice(order.retailPrice)}}
-                  </view>
-                </view>
-              </view>
-            </view>
-          </block>
-          <!-- 宠物item -->
-          <block wx:if='{{order.petNo != null}}'>
-            <view class="goods-info-box">
-              <view class="goods-image-box">
-                <i-image i-class='goods-image'
-                        imageSrc='{{order.petImg}}'
-                        >
-                </i-image>
-              </view>
-              <view class="goods-info">
-                <view class="goods-info-line">
-                  <view class="goods-name">
-                  {{order.petName}}
-                  </view>
-                  <view class="goods-sexy">
-                  {{parse.getSexy(order)}}
-                  </view>
-                </view>
-                <view class="goods-info-line"
-                      style="justify-content: space-between; align-items: flex-end;">
-                  <view class="goods-count">
-                  x{{order.qty}}
-                  </view>
-                  <view class="goods-price">
-                  ￥{{parse.showRetailPrice(order.retailPrice)}}
-                  </view>
-                </view>
-              </view>
-            </view>
-          </block>
-          <!-- 订单金额 -->
-          <view class="goods-info-line"
-                style="justify-content: flex-end;">
-            <view class="goods-amount">
-            总计：{{order.paymentAmount}}元
-            </view>
-          </view>
-        </view>
-      </i-cell>
-      <i-cell title='星级'>
-        <view class="star-box"
-              slot='footer'>
-          <i-icon type='star'
-                  size="42"
-                  color="{{starLevel>=0?'#FFA500':'#778899'}}"
-                  bindtap="tapStar"
-                  data-starlevel="1"> 
-          </i-icon>   
-          <i-icon type='star'
-                  size="42"
-                  color="{{starLevel>=2?'#FFA500':'#778899'}}"
-                  bindtap="tapStar"
-                  data-starlevel="2"> 
-          </i-icon>  
-          <i-icon type='star'
-                  size="42"
-                  color="{{starLevel>=3?'#FFA500':'#778899'}}"
-                  bindtap="tapStar"
-                  data-starlevel="3"> 
-          </i-icon>  
-          <i-icon type='star'
-                  size="42"
-                  color="{{starLevel>=4?'#FFA500':'#778899'}}"
-                  bindtap="tapStar"
-                  data-starlevel="4"> 
-          </i-icon>  
-          <i-icon type='star'
-                  size="42"
-                  color="{{starLevel>=5?'#FFA500':'#778899'}}"
-                  bindtap="tapStar"
-                  data-starlevel="5"> 
-          </i-icon>    
-        </view>
-      </i-cell>
-      <i-cell title='评价'>
-        <textarea slot='footer'
-                  class="evaluate-input normal-text"
-                  auto-height
-                  placeholder-class='placeholder-text'
-                  placeholder='输入评价内容'
-                  bindinput="inputEvaluateContent">
+					<block wx:if='{{order.itemOrderInfoList != null}}'>
+						<!-- 商品Item -->
+						<view class="order-goods-item" catchtap="tapItem" wx:for='{{order.itemOrderInfoList}}' wx:for-item='goodsItem' wx:for-index='goodsIndex' wx:key='orderInfoNo' data-section='{{orderIndex}}' data-row='{{goodsIndex}}' data-itemno='{{goodsItem.itemNo}}'>
+							<i-image i-class="order-goods-image" imageSrc='{{goodsItem.coverImg}}'>
+							</i-image>
+							<view class="order-goods-info">
+								<view class="order-goods-item-line">
+									<view class="order-goods-name">
+										{{goodsItem.itemName}}
+									</view>
+								</view>
+								<view class="order-goods-item-line" style="justify-content: space-between; align-items: flex-end;">
+									<view class="order-goods-count">
+										x{{goodsItem.qty}}
+									</view>
+									<view class="order-goods-price">
+										￥{{parse.showRetailPrice(goodsItem.unitPrice)}}
+									</view>
+								</view>
+							</view>
+						</view>
+					</block>
+					<!-- 宠物item -->
+					<block wx:if='{{order.petNo != null}}'>
+						<view class="goods-info-box">
+							<view class="goods-image-box">
+								<i-image i-class='goods-image' imageSrc='{{order.petImg}}'>
+								</i-image>
+							</view>
+							<view class="goods-info">
+								<view class="goods-info-line">
+									<view class="goods-name">
+										{{order.petName}}
+									</view>
+									<view class="goods-sexy">
+										{{parse.getSexy(order)}}
+									</view>
+								</view>
+								<view class="goods-info-line" style="justify-content: space-between; align-items: flex-end;">
+									<view class="goods-count">
+										x{{order.qty}}
+									</view>
+									<view class="goods-price">
+										￥{{parse.showRetailPrice(order.retailPrice)}}
+									</view>
+								</view>
+							</view>
+						</view>
+					</block>
+					<view class="store-info-box">
+						<view class="store-image-box">
+							<i-image i-class='store-image' imageSrc='{{order.shop.headImg}}'>
+							</i-image>
+						</view>
+						<view class="store-name">
+							{{order.shop.businessName}}
+						</view>
+					</view>
+					
+					<!-- 订单金额 -->
+					<view class="goods-info-line" style="justify-content: flex-end;">
+						<view class="goods-amount">
+							总计：{{order.paymentAmount}}元
+						</view>
+					</view>
+				</view>
+			</i-cell>
+			<i-cell title='星级'>
+				<view class="star-box" slot='footer'>
+					<i-icon type='star' size="42" color="{{starLevel>=0?'#FFA500':'#778899'}}" bindtap="tapStar" data-starlevel="1">
+					</i-icon>
+					<i-icon type='star' size="42" color="{{starLevel>=2?'#FFA500':'#778899'}}" bindtap="tapStar" data-starlevel="2">
+					</i-icon>
+					<i-icon type='star' size="42" color="{{starLevel>=3?'#FFA500':'#778899'}}" bindtap="tapStar" data-starlevel="3">
+					</i-icon>
+					<i-icon type='star' size="42" color="{{starLevel>=4?'#FFA500':'#778899'}}" bindtap="tapStar" data-starlevel="4">
+					</i-icon>
+					<i-icon type='star' size="42" color="{{starLevel>=5?'#FFA500':'#778899'}}" bindtap="tapStar" data-starlevel="5">
+					</i-icon>
+				</view>
+			</i-cell>
+			<i-cell title='评价'>
+				<textarea slot='footer' class="evaluate-input normal-text" auto-height placeholder-class='placeholder-text' placeholder='输入评价内容' bindinput="inputEvaluateContent">
         </textarea>
-      </i-cell>
-    </i-cell-group>
-  </i-panel>
-  <!-- <i-panel i-class='panel'
+			</i-cell>
+		</i-cell-group>
+	</i-panel>
+	<!-- <i-panel i-class='panel'
            title='上传图片（最多{{maxUploadImageLength}}张）'>
     <i-cell>
       <view class="upload-image-box"
@@ -171,138 +134,88 @@
       </view>
     </i-cell>
   </i-panel> -->
-<i-panel i-class='panel'
-         title='上传照片（最多9张）'>
-    <i-image-upload uploadUrl='{{uploadUrl}}'
-                    name='multipartFile'
-                    formData='{{}}'
-                    startUpload='{{false}}'
-                    autoUpload='{{true}}'
-                    bind:upload-complete='uploadComplete'
-                    bind:delete-image='deleteImage'
-                    bind:addnew='addNewImage'
-                    ableDelete='{{true}}'
-                    selectMode='append'
-                    maxImageCount='{{9}}'
-                    videoMaxLength='{{10}}'
-                    imageSourceType="{{['album', 'camera']}}"
-                    videoSourceType="{{['album', 'camera']}}"
-                    showAddNewButton='{{true}}'
-                    ableVideo="{{true}}">
-    </i-image-upload>
-</i-panel>
+	<i-panel i-class='panel' title='上传照片（最多9张）'>
+		<i-image-upload uploadUrl='{{uploadUrl}}' name='multipartFile' formData='{{}}' startUpload='{{false}}' autoUpload='{{true}}' bind:upload-complete='uploadComplete' bind:delete-image='deleteImage' bind:addnew='addNewImage' ableDelete='{{true}}' selectMode='append' maxImageCount='{{9}}' videoMaxLength='{{20}}' imageSourceType="{{['album', 'camera']}}" videoSourceType="{{['album', 'camera']}}" showAddNewButton='{{true}}' ableVideo="{{true}}">
+		</i-image-upload>
+	</i-panel>
 </block>
 
 <!-- 卖家版 -->
 <block wx:if='{{currentRole == 1}}'>
-  <i-panel i-class='panel'>
-    <i-cell-group>
-      <i-cell>
-        <view class="order-item"
-              slot='header'>
-          <view class="order-info-box">
-            <view class="order-number">
-            {{sellerOrder.orderNumber}}
-            </view>
-            <view class="order-date">
-            {{sellerOrder.orderDate}} {{sellerOrder.orderTime}}
-            </view>
-          </view>
-          <view class="store-info-box">
-            <view class="store-image-box">
-              <i-image i-class='store-image'
-                       imageSrc='{{sellerOrder.customer.customerAvatarPath}}'
-                       >
-              </i-image>
-            </view>
-            <view class="store-name">
-            {{sellerOrder.customer.customerName}}
-            </view>
-          </view>
-          <view class="goods-info-box">
-            <view class="goods-image-box">
-              <i-image i-class='goods-image'
-                       imageSrc='{{sellerOrder.goods.imagePath}}'
-                       >
-              </i-image>
-            </view>
-            <view class="goods-info">
-              <view class="goods-info-line">
-                <view class="goods-name">
-                {{sellerOrder.goods.name}}
-                </view>
-                <view class="goods-sexy"
-                      wx:if='{{parse.showSexy(sellerOrder.goods)}}'>
-                {{sellerOrder.goods.sexy}}
-                </view>
-              </view>
-              <view class="goods-info-line"
-                    style="justify-content: space-between; align-items: flex-end;">
-                <view class="goods-count">
-                x{{sellerOrder.goods.count}}{{sellerOrder.goods.unit}}
-                </view>
-                <view class="goods-price">
-                {{sellerOrder.goods.price}}/{{sellerOrder.goods.unit}}
-                </view>
-              </view>
-            </view>
-          </view>
-          <!-- 订单金额 -->
-          <view class="goods-info-line"
-                style="justify-content: flex-end;">
-            <view class="goods-amount">
-            总计：{{sellerOrder.orderAmount}}元
-            </view>
-          </view>
-        </view>
-      </i-cell>
-      <i-cell title='星级'>
-        <view class="star-box"
-              slot='footer'>
-          <i-icon type='star'
-                  size="35"
-                  color="{{starLevel>=0?'#FFA500':'#778899'}}"
-                  bindtap="tapStar"
-                  data-starlevel="1"> 
-          </i-icon>   
-          <i-icon type='star'
-                  size="35"
-                  color="{{starLevel>=2?'#FFA500':'#778899'}}"
-                  bindtap="tapStar"
-                  data-starlevel="2"> 
-          </i-icon>  
-          <i-icon type='star'
-                  size="35"
-                  color="{{starLevel>=3?'#FFA500':'#778899'}}"
-                  bindtap="tapStar"
-                  data-starlevel="3"> 
-          </i-icon>  
-          <i-icon type='star'
-                  size="35"
-                  color="{{starLevel>=4?'#FFA500':'#778899'}}"
-                  bindtap="tapStar"
-                  data-starlevel="4"> 
-          </i-icon>  
-          <i-icon type='star'
-                  size="35"
-                  color="{{starLevel>=5?'#FFA500':'#778899'}}"
-                  bindtap="tapStar"
-                  data-starlevel="5"> 
-          </i-icon>    
-        </view>
-      </i-cell>
-      <i-cell title='评价'>
-        <textarea slot='footer'
-                  class="evaluate-input normal-text"
-                  auto-height
-                  placeholder-class='placeholder-text'
-                  placeholder='输入评价内容'
-                  bindinput="inputEvaluate">
+	<i-panel i-class='panel'>
+		<i-cell-group>
+			<i-cell>
+				<view class="order-item" slot='header'>
+					<view class="order-info-box">
+						<view class="order-number">
+							{{sellerOrder.orderNumber}}
+						</view>
+						<view class="order-date">
+							{{sellerOrder.orderDate}} {{sellerOrder.orderTime}}
+						</view>
+					</view>
+					<view class="store-info-box">
+						<view class="store-image-box">
+							<i-image i-class='store-image' imageSrc='{{sellerOrder.customer.customerAvatarPath}}'>
+							</i-image>
+						</view>
+						<view class="store-name">
+							{{sellerOrder.customer.customerName}}
+						</view>
+					</view>
+					<view class="goods-info-box">
+						<view class="goods-image-box">
+							<i-image i-class='goods-image' imageSrc='{{sellerOrder.goods.imagePath}}'>
+							</i-image>
+						</view>
+						<view class="goods-info">
+							<view class="goods-info-line">
+								<view class="goods-name">
+									{{sellerOrder.goods.name}}
+								</view>
+								<view class="goods-sexy" wx:if='{{parse.showSexy(sellerOrder.goods)}}'>
+									{{sellerOrder.goods.sexy}}
+								</view>
+							</view>
+							<view class="goods-info-line" style="justify-content: space-between; align-items: flex-end;">
+								<view class="goods-count">
+									x{{sellerOrder.goods.count}}{{sellerOrder.goods.unit}}
+								</view>
+								<view class="goods-price">
+									{{sellerOrder.goods.price}}/{{sellerOrder.goods.unit}}
+								</view>
+							</view>
+						</view>
+					</view>
+					<!-- 订单金额 -->
+					<view class="goods-info-line" style="justify-content: flex-end;">
+						<view class="goods-amount">
+							总计：{{sellerOrder.orderAmount}}元
+						</view>
+					</view>
+				</view>
+			</i-cell>
+			<i-cell title='星级'>
+				<view class="star-box" slot='footer'>
+					<i-icon type='star' size="35" color="{{starLevel>=0?'#FFA500':'#778899'}}" bindtap="tapStar" data-starlevel="1">
+					</i-icon>
+					<i-icon type='star' size="35" color="{{starLevel>=2?'#FFA500':'#778899'}}" bindtap="tapStar" data-starlevel="2">
+					</i-icon>
+					<i-icon type='star' size="35" color="{{starLevel>=3?'#FFA500':'#778899'}}" bindtap="tapStar" data-starlevel="3">
+					</i-icon>
+					<i-icon type='star' size="35" color="{{starLevel>=4?'#FFA500':'#778899'}}" bindtap="tapStar" data-starlevel="4">
+					</i-icon>
+					<i-icon type='star' size="35" color="{{starLevel>=5?'#FFA500':'#778899'}}" bindtap="tapStar" data-starlevel="5">
+					</i-icon>
+				</view>
+			</i-cell>
+			<i-cell title='评价'>
+				<textarea slot='footer' class="evaluate-input normal-text" auto-height placeholder-class='placeholder-text' placeholder='输入评价内容' bindinput="inputEvaluate">
         </textarea>
-      </i-cell>
-    </i-cell-group>
-  </i-panel>
-  <!-- <i-panel i-class='panel'
+			</i-cell>
+		</i-cell-group>
+	</i-panel>
+	<!-- <i-panel i-class='panel'
            title='上传图片（最多{{maxUploadImageLength}}张）'>
     <i-cell>
       <view class="upload-image-box"
@@ -333,81 +246,64 @@
       </view>
     </i-cell>
   </i-panel> -->
-  <i-panel i-class='panel'
-         title='上传图片（最多9张）'>
-    <i-image-upload uploadUrl='{{uploadUrl}}'
-                    name='multipartFile'
-                    formData='{{}}'
-                    startUpload='{{false}}'
-                    autoUpload='{{true}}'
-                    bind:upload-complete='uploadComplete'
-                    bind:delete-image='deleteImage'
-                    bind:addnew='addNewImage'
-                    ableDelete='{{true}}'
-                    selectMode='append'
-                    maxImageCount='{{9}}'
-                    videoMaxLength='{{10}}'
-                    imageSourceType="{{['album', 'camera']}}"
-                    videoSourceType="{{['album', 'camera']}}"
-                    showAddNewButton='{{true}}'
-                    ableVideo="{{true}}">
-    </i-image-upload>
-</i-panel>
+	<i-panel i-class='panel' title='上传图片（最多9张）'>
+		<i-image-upload uploadUrl='{{uploadUrl}}' name='multipartFile' formData='{{}}' startUpload='{{false}}' autoUpload='{{true}}' bind:upload-complete='uploadComplete' bind:delete-image='deleteImage' bind:addnew='addNewImage' ableDelete='{{true}}' selectMode='append' maxImageCount='{{9}}' videoMaxLength='{{20}}' imageSourceType="{{['album', 'camera']}}" videoSourceType="{{['album', 'camera']}}" showAddNewButton='{{true}}' ableVideo="{{true}}">
+		</i-image-upload>
+	</i-panel>
 </block>
 
 <view class="empty-zone">
 </view>
-<view class="submit-button"
-      bindtap="tapSubmit">
-提交评价
+<view class="submit-button" bindtap="tapSubmit">
+	提交评价
 </view>
 
 <wxs module='parse'>
-  module.exports={
-    getStoreLogo: function(orderItem) {
-      if (orderItem.item != null) {
-        return ""
-      }
-      if (orderItem.pet != null) {
-        return orderItem.pet.business.headerImg;
-      }
-    },
-    getSotreName: function(orderItem) {
-      if (orderItem.item != null) {
-        return "自营"
-      }
-      if (orderItem.pet != null) {
-        return orderItem.pet.business.businessName;
-      }
-    },
-    showSexy: function(orderItem) {
-      if (orderItem.pet == null || orderItem.pet.petSex != null || orderItem.pet.petSex.length <= 0) {
-        return false;
-      }
-      return true;
-    },
-    getSexy: function (orderItem) {
-      if (orderItem.petSex == 1) {
-        return "公";
-      }
-      return "母";
-    },
-    showProgress: function(progressValue, currentIndex, index) {
-      if (currentIndex != index) {
-        return false;
-      }
-      if (progressValue < 0 || progressValue >= 100 ) {
-        return false;
-      }
-      return true;
-    },
+	module.exports = {
+		getStoreLogo: function(orderItem) {
+			if (orderItem.item != null) {
+				return ""
+			}
+			if (orderItem.pet != null) {
+				return orderItem.pet.business.headerImg;
+			}
+		},
+		getSotreName: function(orderItem) {
+			if (orderItem.item != null) {
+				return "自营"
+			}
+			if (orderItem.pet != null) {
+				return orderItem.pet.business.businessName;
+			}
+		},
+		showSexy: function(orderItem) {
+			if (orderItem.pet == null || orderItem.pet.petSex != null || orderItem.pet.petSex.length <= 0) {
+				return false;
+			}
+			return true;
+		},
+		getSexy: function(orderItem) {
+			if (orderItem.petSex == 1) {
+				return "公";
+			}
+			return "母";
+		},
+		showProgress: function(progressValue, currentIndex, index) {
+			if (currentIndex != index) {
+				return false;
+			}
+			if (progressValue < 0 || progressValue >= 100) {
+				return false;
+			}
+			return true;
+		},
 
-    showRetailPrice:function(res){
-      if(res==null){
-        return "--"
-      }else{
-        return res
-      }
-    }
-  }
+		showRetailPrice: function(res) {
+			if (res == null) {
+				return "--"
+			} else {
+				return res
+			}
+		}
+	}
 </wxs>

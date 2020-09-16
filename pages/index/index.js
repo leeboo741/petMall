@@ -19,7 +19,8 @@ const Limit = 10;
 const Enum = require("../../utils/enum.js");
 
 const ShareManager = require("../../services/shareService");
-const Utils = require("../../utils/util")
+const Utils = require("../../utils/util");
+const { MINI_PROGRAME_APPID_PETTRANSPORT, ENV_CURRENT } = require("../../macros/config.js");
 
 Page({
   /**
@@ -64,88 +65,74 @@ Page({
         let city = res.address_component.city;
         app.globalData.currentCity = city;
         app.globalData.addressInfomation = res.address_component
-
-        // 跳蚤市场
-        let newestPetFilter ={
-          offset:0,
-          limit: 6,
-        };
-        PetService.getNewestPet(encodeURIComponent(JSON.stringify(PetFilterUtil.utilObject(newestPetFilter)), 'utf-8'),function getResultCallback(result) {
-          Utils.logInfo("跳蚤市场: \n" + JSON.stringify(result));
-            that.setData({
-              newestList: result.root
-            })
-          }
-        )
-
-        // 高端宠物
-        PetService.getUpScalePet(encodeURIComponent(JSON.stringify(PetFilterUtil.utilObject(newestPetFilter)), 'utf-8'),function getResultCallback(result) {
-            Utils.logInfo("高端宠物: \n" + JSON.stringify(result));
-            that.setData({
-              upscaleList: result.root
-            })
-          }
-        )
-
-        // 推荐商家
-        let recommendFilter = {
-          offset: 0,
-          limit: 6
-        }
-        StoreService.getRecommendBusiness(recommendFilter,
-          function getResultCallback(result) {
-            Utils.logInfo("推荐商家: \n" + JSON.stringify(result));
-            that.setData({
-              recommendStoreList: result.root
-            })
-          }
-        )
-
-        // 热门分类
-        PetService.getBreed(null,function getResultCallback(result) {
-            Utils.logInfo("热门分类: \n" + JSON.stringify(result));
-            that.setData({
-              hotTypeList: result.root
-            })
-          }
-        )
-
-        // 套餐
-        let obj={
-          offset:0,
-          limit:30
-        }
-        MallService.getSetMealList(obj,
-          function getResultCallback(result) {
-            Utils.logInfo("养宠套餐 : \n" + JSON.stringify(result));
-            that.setData({
-              setMenuList: result.root
-            })
-          }
-        )
-
-        MallService.getGroupItemList({},function returnData(data) {
-          Utils.logInfo("团购商品==> \n" + JSON.stringify(data));
-          that.setData({
-            groupItemList: data.root,
-          })
-        });
-
-        /**
-         * 团购列表
-         */
-        // let groupObj = {
-        //   offset: 0,
-        //   limit: 4
-        // }
-        // GroupService.getGroupList(groupObj, function (result) {
-        //   Utils.logInfo("团购专区 : \n" + JSON.stringify(result));
-        //   that.setData({
-        //     groupPurchaseList: result
-        //   })
-        // })
       }
     )
+    // 跳蚤市场
+    let newestPetFilter ={
+      offset:0,
+      limit: 8,
+    };
+    PetService.getNewestPet(encodeURIComponent(JSON.stringify(PetFilterUtil.utilObject(newestPetFilter)), 'utf-8'),function getResultCallback(result) {
+      Utils.logInfo("跳蚤市场: \n" + JSON.stringify(result));
+        that.setData({
+          newestList: result.root
+        })
+      }
+    )
+
+    // 高端宠物
+    PetService.getUpScalePet(encodeURIComponent(JSON.stringify(PetFilterUtil.utilObject(newestPetFilter)), 'utf-8'),function getResultCallback(result) {
+        Utils.logInfo("高端宠物: \n" + JSON.stringify(result));
+        that.setData({
+          upscaleList: result.root
+        })
+      }
+    )
+
+    // 推荐商家
+    let recommendFilter = {
+      offset: 0,
+      limit: 8
+    }
+    StoreService.getRecommendBusiness(recommendFilter,
+      function getResultCallback(result) {
+        Utils.logInfo("推荐商家: \n" + JSON.stringify(result));
+        that.setData({
+          recommendStoreList: result.root
+        })
+      }
+    )
+
+    // 热门分类
+    PetService.getBreed(null,function getResultCallback(result) {
+        Utils.logInfo("热门分类: \n" + JSON.stringify(result));
+        that.setData({
+          hotTypeList: result.root
+        })
+      }
+    )
+
+    // 套餐
+    let obj={
+      offset:0,
+      limit:30
+    }
+    MallService.getSetMealList(obj,
+      function getResultCallback(result) {
+        Utils.logInfo("养宠套餐 : \n" + JSON.stringify(result));
+        that.setData({
+          setMenuList: result.root
+        })
+      }
+    )
+
+    MallService.getGroupItemList({},function returnData(data) {
+      Utils.logInfo("团购商品==> \n" + JSON.stringify(data));
+      that.setData({
+        groupItemList: data.root,
+      })
+    });
+
   }, 
 
   /**
@@ -218,7 +205,7 @@ Page({
       case 6:
       case 7:{
         wx.switchTab({
-          url: "/pages/poststation/index",
+          url: PagePath.Page_PostStation_Index,
         })
         break;
       }
@@ -231,12 +218,12 @@ Page({
       }
       case 9: {
         wx.navigateToMiniProgram({
-          appId: "wxcbdaa290fc45a263",
+          appId: MINI_PROGRAME_APPID_PETTRANSPORT,
           path: "pages/index/index2",
           extraData: {
             foo: "release"
           },
-          envVersion: "release",
+          envVersion: ENV_CURRENT,
           success(res) {
             // 打开成功
             Utils.logInfo(JSON.stringify(res))
@@ -379,6 +366,24 @@ Page({
     let goodId = e.currentTarget.dataset.goodsid;   
     wx.navigateTo({
       url:""
+    })
+  },
+
+  /**
+   * 查看更多商家
+   */
+  tapToMoreBusiness: function(e) {
+    wx.navigateTo({
+      url: PagePath.Page_Home_BusinessList,
+    })
+  },
+
+  /**
+   * 查看更多分类
+   */
+  tapToMoreType: function(e) {
+    wx.navigateTo({
+      url: PagePath.Page_Home_PetsType,
     })
   },
 

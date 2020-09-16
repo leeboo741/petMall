@@ -126,7 +126,7 @@
 
 <!-- <i-panel i-class='panel' title='上传照片（1~9张）'>
   <i-image-upload uploadUrl='{{uploadUrl}}' name='multipartFile' formData='{{}}' startUpload='{{false}}' autoUpload='{{true}}' bind:upload-complete='uploadComplete' bind:delete-image='deleteImage' bind:addnew='addNewImage' ableDelete='{{true}}' selectMode='append'
-    maxImageCount='{{9}}' videoMaxLength='{{10}}' imageSourceType="{{['album', 'camera']}}" videoSourceType="{{['album', 'camera']}}" showAddNewButton='{{true}}' ableVideo="{{false}}" imagePathList="{{serviceImagePathList}}">
+    maxImageCount='{{9}}' videoMaxLength='{{20}}' imageSourceType="{{['album', 'camera']}}" videoSourceType="{{['album', 'camera']}}" showAddNewButton='{{true}}' ableVideo="{{false}}" imagePathList="{{serviceImagePathList}}">
   </i-image-upload>
 </i-panel> -->
 

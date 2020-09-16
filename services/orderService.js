@@ -5,6 +5,49 @@ const {
 } = require("../utils/requestParamObj.js");
 const RequestUtil = require("../utils/requestUtil.js");
 const UrlPath = require("../macros/urlPath.js");
+const requestParamObj = require("../utils/requestParamObj.js");
+
+/**
+ * 根据单号删除宠物订单
+ */
+function deletePetOrderByOrderNo(orderNo,buyerNo,waybillNo, deleteCallback) {
+  let requestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_Order_Delete_Pet(orderNo,buyerNo,waybillNo),
+    success(res) {
+      if (Utils.checkIsFunction(deleteCallback)) {
+        deleteCallback(res.root);
+      }
+    },
+    fail(res) {
+
+    },
+    complete(res) {
+
+    }
+  })
+  RequestUtil.RequestPOST(requestParam);
+}
+
+/**
+ * 根据单号删除商品订单
+ */
+function deleteItemOrderByOrderNo(orderNo, deleteCallback) {
+  let requestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_Order_Delete_Item(orderNo),
+    success(res) {
+      if (Utils.checkIsFunction(deleteCallback)) {
+        deleteCallback(res.root);
+      }
+    },
+    fail(res) {
+
+    },
+    complete(res) {
+
+    }
+  })
+  RequestUtil.RequestPOST(requestParam);
+}
 
 /**
  * 新增宠物订单
@@ -36,6 +79,9 @@ function getPetOrderPrice(param, resultCallback){
       if (Util.checkIsFunction(resultCallback)) {
         resultCallback(res)
       }
+    },
+    fail(res){
+      Utils.logInfo(res)
     }
   })
   RequestUtil.RequestPOST(requestParam);
@@ -44,8 +90,8 @@ function getPetOrderPrice(param, resultCallback){
 
 /**
  * 新增商品订单
- * @param param
- * @param addNewItemOrderResultCallback
+ * @param {object} param 参数
+ * @param {function(boolean, object)} addNewItemOrderResultCallback 回调
  */
 function addNewItemOrder(param, addNewItemOrderResultCallback) {
   let requestParam = new RequestParamObj({
@@ -53,7 +99,12 @@ function addNewItemOrder(param, addNewItemOrderResultCallback) {
     data: param,
     success(res) {
       if (Util.checkIsFunction(addNewItemOrderResultCallback)) {
-        addNewItemOrderResultCallback(res)
+        addNewItemOrderResultCallback(true, res);
+      }
+    },
+    fail(res) {
+      if (Util.checkIsFunction(addNewItemOrderResultCallback)) {
+        addNewItemOrderResultCallback(false, res);
       }
     }
   })
@@ -605,15 +656,19 @@ function queryListTransportType(startCity, endCity, queryListTransportTypeCallba
     },
     success(res) {
       if (Util.checkIsFunction(queryListTransportTypeCallback)) {
-        queryListTransportTypeCallback(res)
+        queryListTransportTypeCallback(true, res)
       }
     },
     fail (res) {
       Utils.logInfo(res);
-      if (res.code == 30001) {
+      if (res.code == 30001) { // 数据为空, 查询为空
         res.root = [];
         if (Util.checkIsFunction(queryListTransportTypeCallback)) {
-          queryListTransportTypeCallback(res)
+          queryListTransportTypeCallback(false, res)
+        }
+      } else {
+        if (Util.checkIsFunction(queryListTransportTypeCallback)) {
+          queryListTransportTypeCallback(false, res)
         }
       }
     }
@@ -694,6 +749,8 @@ function getPetOrderTransport(orderNo, getTransportCallback) {
 
 
 module.exports={
+  deletePetOrderByOrderNo: deletePetOrderByOrderNo, // 删除宠物订单
+  deleteItemOrderByOrderNo: deleteItemOrderByOrderNo, // 删除商品订单
   getPetOrderTransport: getPetOrderTransport, // 获取宠物订单运输详情
   getPetOrderDetail: getPetOrderDetail, // 获取宠物订单详情
   getItemOrderDetail: getItemOrderDetail, // 获取商品订单详情

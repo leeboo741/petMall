@@ -160,10 +160,6 @@ Page({
         })
       }
     }, function notLoginCallback(){
-      wx.showToast({
-        title: '请先登录',
-        icon: 'none'
-      })
       wx.stopPullDownRefresh();
     })
     

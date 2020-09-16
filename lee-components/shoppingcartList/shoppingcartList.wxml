@@ -1,0 +1,80 @@
+<!--components/shoppingcartList/shoppingcartList.wxml-->
+<block wx:if='{{show}}'>
+  <view class="shopping-cart-content" style="top: {{paddingTop}}px">
+    <block wx:if='{{dataSource!=null&&dataSource.length>0}}'>
+      <scroll-view scroll-y='true' style="width: 100%; height: 100%; ">
+        <view wx:for='{{dataSource}}' wx:key='index' class="shopping-cart-item">
+          <view class="shopping-cart-item-content">
+            <view class="item-header">
+              <view class="item-select-box" bindtap="tapStoreSelect" data-section='{{index}}'>
+                <image src='{{item.selected?"./select.png":"./unselect.png"}}' style="width: 30rpx; height: 30rpx;"></image>
+              </view>
+              <image src='{{item.business.headImg}}' class="item-store-image"></image>
+              <view class="item-store-name" bindtap="tapStore" data-section='{{index}}'>
+              {{item.business.businessName}}
+              </view>
+            </view>
+            <view class="goods-box">
+              <view wx:for='{{item.list}}' wx:for-index='goodsIndex' wx:for-item='goodsItem' wx:key='goodsIndex' class="goods-item">
+                <view class="goods-item-select-box" bindtap="tapGoodsSelected" data-section='{{index}}' data-row='{{goodsIndex}}'>
+                  <image src='{{goodsItem.selected?"./select.png":"./unselect.png"}}' style="width: 30rpx; height: 30rpx;">
+                  </image>
+                </view>
+                <view class="goods-item-image-box">
+                  <image src='{{goodsItem.goods.item.coverImg}}' class="goods-image">
+                  </image>
+                </view>
+                <view class="goods-info-box">
+                  <view class="goods-info-item-row">
+                    <view class="goods-name" bindtap="tapGoods" data-section='{{index}}' data-row='{{goodsIndex}}'>
+                    {{goodsItem.goods.item.itemName}}
+                    </view>
+                    <view class="delete-button" bindtap="deleteGoods" data-section='{{index}}' data-row='{{goodsIndex}}'>
+                      <image src="./delete.png" style="width: 30rpx; height: 30rpx"></image>
+                    </view>
+                  </view>
+                  <view class="goods-bottom-box">
+                    <view class="goods-price">
+                    ￥{{goodsItem.goods.item.retailPrice}}
+                    </view>
+                    <countButton count='{{goodsItem.count}}' bind:countchange='changeCount' data-section='{{index}}' data-row='{{goodsIndex}}' style='margin-right: 15rpx'></countButton>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+    </block>
+    <block wx:else>
+      <view style="width:100%; height: 100%; display:flex; align-items:center; justify-content: center">
+        <view class="empty-content">
+          <view class="empty-title">
+            <image src="./empty.png" style="width: 45rpx; height: 45rpx; margin-right: 20rpx"></image>
+            <view>购物车是空的，快去商城看看吧</view>
+          </view>
+          <view class="empty-title" style="margin-top: 15rpx">
+            <view class="empty-button" bindtap="tapToShop">前去购买</view>
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+  <view class="bottom-button-box">
+    <view class="other-button-box">
+      <view class="other-button" bindtap="tapSelectAll" wx:if='{{false}}'>
+        <image src='{{selectAll?"./select.png":"./unselect.png"}}' style="width: 30rpx; height: 30rpx; margin-right: 8rpx"></image>
+        <view>全选</view>
+      </view>
+      <view class="other-button">
+        <view style="margin-right: 8rpx">合计:</view>
+        <view class="amount">
+        ￥{{totalAmount}}
+        </view>
+      </view>
+    </view>
+    <view class="buy-button" bindtap="tapBuy">
+      <view>购买</view>
+    </view>
+  </view>
+</block>

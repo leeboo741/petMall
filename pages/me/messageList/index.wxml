@@ -1,0 +1,14 @@
+<!--pages/me/messageList/index.wxml-->
+<i-navigation-bar title='站内信' showBackButton='{{true}}'>
+</i-navigation-bar>
+<i-cell wx:for='{{messageList}}'
+        wx:key='messageNo'>
+  <i-card slot='header' title='{{item.messageTitle}}'>
+    <view slot='content'>
+    {{item.messageContent}}
+    </view>
+    <view slot='footer' style='color: gray'>
+    {{item.sendTime}}
+    </view>
+  </i-card>
+</i-cell>

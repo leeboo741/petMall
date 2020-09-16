@@ -20,13 +20,16 @@
     <view class="bgc">
         <image src="/resource/tchlog.png"></image>
     </view>
-    <view class="dibtn1"></view>
-    <!-- <view class="dibtn2" hidden="{{!userinfoScope}}"></view> -->
-    <button bindgetphonenumber="tapLoginOrRegister" open-type="getPhoneNumber" class="wxlogin" openType="getPhoneNumber" hidden="{{phoneScope}}">微信快捷登录</button>
-    <!-- <button bindtap="goLogin" class="phonelogin" hidden="{{showPhoneLogin}}">手机号码登录</button> -->
-
-    <button  class="wxlogin" bindgetuserinfo="bindGetUserInfo" hidden="{{userinfoScope}}" openType="getUserInfo">微信授权 </button>
-    <view class="tishi" hidden="{{userinfoScope}}">申请获取你的公开信息（昵称、头像等）</view>
+    <block wx:if='{{!phoneScope}}'>
+      <button bindgetphonenumber="tapLoginOrRegister" open-type="getPhoneNumber" class="wxlogin" openType="getPhoneNumber">微信快捷登录</button>
+      <view class="tishi">点击登录, 登录至淘宠惠商城系统</view>
+      <button class="phonelogin" bindtap="cancelLogin">暂不登录</button>
+    </block>
+    <block wx:if='{{!userinfoScope}}'>
+      <button  class="wxlogin" bindgetuserinfo="bindGetUserInfo" hidden="{{userinfoScope}}" openType="getUserInfo">微信授权 </button>
+      <view class="tishi">申请获取你的公开信息（昵称、头像等）</view>
+      <button class="phonelogin" bindtap="cancelAuth">暂不授权</button>
+    </block>
 </view>
 
 

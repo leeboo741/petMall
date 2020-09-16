@@ -5,7 +5,8 @@ const UserService = require("../../../services/userService.js");
 const Url_Path=require("../../../macros/urlPath.js");
 
 const ShareManager = require("../../../services/shareService");
-const Utils = require("../../../utils/util")
+const Utils = require("../../../utils/util");
+const pagePath = require("../../../macros/pagePath.js");
 
 Page({
 
@@ -16,8 +17,8 @@ Page({
     checkContract: false, // 是否检查完合约
     height: null,
     businessInfo: null,
-    bond_1: Url_Path.Url_bond_1,
-    bond_2: Url_Path.Url_bond_2,
+    bond_1: Url_Path.Url_Base + Url_Path.Url_bond_1,
+    bond_2: Url_Path.Url_Base + Url_Path.Url_bond_2,
     bondPrice:0,
     payBondInfo:0,
   },
@@ -181,7 +182,7 @@ Page({
 
             })
           } else {
-            showToast: ({
+            wx.showToast({
               title: '出现错误,请稍后再试！',
               icon: 'none',
               duration: 2000
@@ -191,6 +192,20 @@ Page({
 
         }
       )
+    }, function(){
+      wx.showModal({
+        title: '提示',
+        content: '您未登录请先去登录',
+        success(res) {
+          if (res.confirm) {
+            wx.navigateTo({
+              url: pagePath.Page_Login_Index
+            });
+          } else if (res.cancel) {
+            Utils.logInfo('用户点击取消')
+          }
+        }
+      })
     })
   },
 

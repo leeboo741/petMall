@@ -8,6 +8,8 @@ const Enum = require("../../../utils/enum.js");
 
 const ShareManager = require("../../../services/shareService");
 
+const Limit = 20;
+
 Page({
 
   /**
@@ -18,7 +20,33 @@ Page({
       pageIndex: 0, // 页码
       loadState: LoadFootItemState.Loading_State_Empty, // 底部状态
       petsTypeData:[],
-      type: null
+      type: null,
+      tabList: ["狗狗","猫猫"],
+      currentTabIndex: 0
+  },
+
+  /**
+   * 
+   */
+  handleTabChange: function(e){
+    let newIndex = parseInt(e.detail.key);
+    if (newIndex != this.data.currentTabIndex) {
+      this.setData({
+        currentTabIndex: newIndex
+      })
+      this.changeType();
+    }
+  },
+
+  changeType:function(typeNo) {
+    if (Utils.checkEmpty(typeNo)) {
+      this.setData({
+        type: this.data.currentTabIndex==0?10000:10001
+      })
+    }
+    wx.startPullDownRefresh({
+      success: (res) => {},
+    })
   },
 
   /**
@@ -28,7 +56,7 @@ Page({
     this.setData({
       type: options.type
     })
-    wx.startPullDownRefresh();
+    this.changeType(this.data.type);
   },
 
   /**

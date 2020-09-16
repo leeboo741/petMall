@@ -1,8 +1,8 @@
 
 const Page_Home = "/pages/index/index"; // 首页
-const Page_Home_Preferential ="/pages/index/preferential/index";  //特惠抢购详情
 const Page_Home_Nearby ="/pages/index/nearby/index"; // 附近
-const Pate_Home_PetsType ="/pages/index/petstype/index";  //宠物分类
+const Page_Home_PetsType ="/pages/index/petstype/index";  //宠物分类
+const Page_Home_BusinessList = "/pages/index/businessList/index"; // 商家列表
 const Page_Home_Usersmanual = "/pages/index/usersmanual/index";  //用户手册-商家必读
 const Page_Search_Index = "/pages/search/index"; // 搜索页
 
@@ -10,6 +10,8 @@ const Page_Search_Index = "/pages/search/index"; // 搜索页
 const Page_Store_Index = "/oldstore/pages/index"; // 商家 首页
 const Page_Store_StoreInforMation ="/oldstore/pages/storeinformation/index";  //商家信息
 const Page_Store_PetsInforMation ="/oldstore/pages/petsinformation/index"; //宠物信息
+
+const Page_PostStation_Index = "/pages/poststation/index"; // 驿站首页
 
 
 const Page_Mall_Index = "/pages/mall/index"; // 商城 首页
@@ -20,6 +22,7 @@ const Page_Mall_Evaluate ="/pages/mall/evaluate/index";  //评价
 const Page_Mall_Shoppingpayment ="/pages/mall/shoppingpayment/index";  //填写订单页
 
 const Page_Me_Index = "/pages/me/index"; // 我的 首页
+const Page_Me_MessageList = "/pages/me/messageList/index"; // 我的站内信
 const Page_Me_Aistribution ="/pages/me/distribution/index"; //分销
 const Page_Me_AddressManager = "/pages/me/addressManager/index"; // 我的 收货地址 管理
 const Page_Me_AddressManager_AddNew = "/pages/me/addressManager/addNewAddress"; // 我的 收货地址管理 新增收货地址
@@ -45,6 +48,8 @@ const Page_Me_Recharge_Index = "/pages/me/recharge/index"; // 充值 首页
 const Page_Me_Withdrawal_Index = "/pages/me/withdrawal/index"; // 提现 首页
 const Page_Me_Detailed_Index = "/pages/me/detailed/index";  //流水明细
 const Page_Me_ServerList = '/pages/me/serverList/serverList'; // 已预约服务列表
+
+const Page_Me_NewGiftBag = '/pages/newGiftBag/newGiftBag'; // 新客大礼包
 
 const Page_Login_Index = "/pages/login/index"; // 登陆
 const Page_Register_Index = "/pages/login/register/index"; // 注册
@@ -72,9 +77,9 @@ const Page_Baike_ArticleDetail = '/pages/baike/articleDetail'; // 宠物百科�
 module.exports={
   Page_Home, // 首页
 
-  Page_Home_Preferential,//特惠抢购详情
   Page_Home_Nearby,  //附近
-  Pate_Home_PetsType, //宠物分类
+  Page_Home_PetsType, //宠物分类
+  Page_Home_BusinessList, // 商家列表
 
   Page_Search_Index, // 搜索页
   
@@ -82,6 +87,8 @@ module.exports={
   Page_Home_Usersmanual,  //用户手册
   Page_Store_StoreInforMation, //商家信息
   Page_Store_PetsInforMation,  //宠物信息
+
+  Page_PostStation_Index, // 驿站首页
   
   Page_Mall_Index, // 商城首页
   Page_Mall_Sstaplefood, //商城更多
@@ -91,6 +98,7 @@ module.exports={
   Page_Mall_Shoppingpayment,  //填写订单页
 
   Page_Me_Index, // 我的首页
+  Page_Me_MessageList,
   Page_Me_Aistribution, //分销
   Page_Me_AddressManager, // 我的 收货地址 管理
   Page_Me_AddressManager_AddNew, // 我的 收货地址管理 新增收货地址
@@ -116,6 +124,8 @@ module.exports={
   Page_Me_Withdrawal_Index, // 提现 首页
   Page_Me_Detailed_Index, //体现流水明细
   Page_Me_ServerList, // 已预约服务列表
+
+  Page_Me_NewGiftBag, // 新客大礼包
 
   Page_Login_Index, // 登陆
   Page_Register_Index, // 注册

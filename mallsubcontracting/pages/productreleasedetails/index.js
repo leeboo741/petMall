@@ -698,11 +698,12 @@ Page({
         return;
       } else {
         if (that.data.buttonType == 0) {
+          wx.showLoading({
+            title: '提交中...',
+          })
           CommodityReleaseService.releaseCommodities(commoditiesData, function(dataSorece) {
-            wx.showLoading({
-              title: '请稍等！',
-            })
             Utils.logInfo("提交返回出的数据：===> \n" + JSON.stringify(dataSorece));
+            wx.hideLoading();
             if (dataSorece.root == "操作成功") {
               wx.showToast({
                 title: '发布成功！',
@@ -721,7 +722,6 @@ Page({
                 icon: "none"
               })
             }
-            wx.hideLoading();
           })
         } else {
           that.editBusinessReleaseMall(commoditiesData)
@@ -834,6 +834,9 @@ Page({
   editBusinessReleaseMall: function(submitData) {
     let that = this;
     CommodityReleaseService.updateReleaseCommodity(submitData, function(dataSorece) {
+      wx.hideLoading({
+        success: (res) => {},
+      })
       Utils.logInfo("编辑返回数据" + JSON.stringify(dataSorece));
       if (dataSorece.root == "操作成功") {
         wx.showToast({

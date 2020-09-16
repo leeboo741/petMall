@@ -31,7 +31,7 @@
 				<i-icon type="collection_fill" color="#EFCC83" />
 			</view>
 		</view>
-		<view style="color:#ccc;font-size:27rpx;">
+		<view style="color:#ccc;font-size:27rpx;" wx:if='{{storeDetail.detailAddress!=null}}'>
 			{{storeDetail.province}} {{storeDetail.city}} {{storeDetail.detailAddress}}
 		</view>
 	</view>
@@ -68,7 +68,7 @@
 						￥{{petItem.pet.retailPrice}}
 					</view>
 					<view class="business-pets-address">
-						{{storeDetail.province}} {{storeDetail.city}}
+						{{storeDetail.province!=null?storeDetail.province:''}} {{storeDetail.city!=null?storeDetail.city:''}}
 					</view>
 				</view>
 			</view>
@@ -79,7 +79,7 @@
 <view class="business-pets-page" wx:elif='{{currentIndex == 1}}'>
 	<view style="display:flex;flex-wrap:nowrap;">
 	</view>
-	<view class="foodgrain-page-formation" wx:for='{{itemList}}' wx:for-item="Item" wx:for-index="Index" wx:key='{{Item.item.itemNo}}' bindtap="commodityInforMationTap" data-itemno='{{Item.item.itemNo}}' hidden="{{Item.item.itemState == 0}}">
+	<view class="foodgrain-page-formation" wx:for='{{itemList}}' wx:for-item="Item" wx:for-index="Index" wx:key='{{Item.item.itemNo}}' bindtap="commodityInforMationTap" data-itemno='{{Item.item.itemNo}}' hidden="{{Item.item.itemState == 0}}" wx:if='{{!(businessInfo.authType<=1&&Item.item.groupon==1)}}'>
 		<i-image i-class="foodgrain-page-formation-head" imageSrc="{{Item.item.coverImg}}">
 		</i-image>
 		<view class="foodgrain-page-formation-middle">
@@ -103,6 +103,15 @@
 <view class="business-pets-page" wx:elif='{{currentIndex == 2}}'>
 	<view style="display:flex;flex-wrap:nowrap;">
 	</view>
+	<view class="server-item" bindtap="tapTransport">
+		<view class="server-item-image-box">
+			<image src='/resource/t5.png' class="server-item-image">
+			</image>
+		</view>
+		<view class="server-item-title">
+		宠物托运
+		</view>
+	</view>
 	<view class="server-item" wx:for='{{serviceList}}' wx:for-item="serverItem" wx:for-index="serverIndex" wx:key='{{serverItem.serviceTypeNo}}' bindtap="tapServerItem" data-servertypeno='{{serverItem.serviceTypeNo}}' data-servertypename='{{serverItem.serviceTypeName}}'>
 		<view class="server-item-image-box">
 			<image src='{{parse.getServerIcon(serverItem.serviceTypeNo)}}' class="server-item-image">
@@ -116,7 +125,7 @@
 
 
 <view class="business-introduction-page" wx:else>
-	<view class='business-introduction-row'>
+	<view class='business-introduction-row' wx:if='{{storeDetail.detailAddress!=null}}'>
 		<view style="width: 150rpx">
 			地址：
 		</view>
@@ -129,7 +138,7 @@
 	</view>
 	<view class="business-introduction-row">
 		<view style="width: 150rpx">电话：</view>
-		<view style="color: gray; margin: 0rpx 15rpx">{{storeDetail.contactPhone?storeDetail.contactPhone:"暂无商家电话"}}</view>
+		<view style="color: gray; margin: 0rpx 15rpx; color:blue; text-decoration: underline;" bindtap="tapCallPhone" data-phone='{{storeDetail.contactPhone}}'>{{storeDetail.contactPhone?storeDetail.contactPhone:"暂无商家电话"}}</view>
 	</view>
 	<view class='business-introduction-row'>
 		<view  style="width: 150rpx">简介：</view>

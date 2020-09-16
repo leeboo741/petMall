@@ -20,7 +20,16 @@
         </swiper-item>
       </swiper>
     </view>
-    <view class="nav">
+    <view class="nav"
+          bindtap="tapTransport">
+      <view class="nav-item-box">
+        <view class="nav-item">
+          <image class="nav-image" src="/resource/t5.png"></image>
+        </view>
+        <view class="nav-des">
+        托运
+        </view>
+      </view>
       <view wx:for='{{businessServerList}}'
             wx:for-item='serverItem'
             wx:for-index='serverIndex'

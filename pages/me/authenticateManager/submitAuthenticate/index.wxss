@@ -121,3 +121,14 @@
   color: #B0B0B0;
   flex-flow: nowrap;
 }
+
+.alert-box{
+  display: flex;
+  flex-direction: column;
+  font-size: 25rpx;
+  color: red;
+}
+
+.alert-item{
+  padding: 5rpx;
+}

@@ -8,6 +8,7 @@ const Url_Path=require("../../../../macros/urlPath.js");
 const app=getApp();
 
 const ShareManager = require("../../../../services/shareService");
+const PagePath = require("../../../../macros/pagePath");
 
 Page({
 
@@ -92,7 +93,7 @@ Page({
    */
   onLoad: function (options) {
     Utils.logInfo("认证类型：=========>"+options.type);
-    
+    let currentPages = getCurrentPages();
     let tempType = options.type;
     let tempTitle = null;
     if (tempType == 0) {
@@ -545,7 +546,33 @@ Page({
                 duration: 1500,
               })
               setTimeout(function () {
-                wx.navigateBack({ changed: true });
+                let currentPages = getCurrentPages();
+                let fromItemDetail = false;
+                let fromBusinessInfoImprovement = false;
+                let index = 0;
+                let itemIndex = 0;
+                let businessImprovementIndex = 0;
+                currentPages.forEach(item => {
+                  index ++;
+                  if (PagePath.Page_Mall_CommodityInformation == '/'+item.route) {
+                    fromItemDetail = true;
+                    itemIndex = index;
+                  } else if (item.route == "mallsubcontracting/pages/businessimprovement/index") {
+                    fromBusinessInfoImprovement = true;
+                    businessImprovementIndex = index;
+                  }
+                });
+                if (fromItemDetail) {
+                  wx.navigateBack({
+                    delta: currentPages.length - itemIndex,
+                  })
+                } else if (fromBusinessInfoImprovement) {
+                  wx.navigateBack({
+                    delta: currentPages.length - businessImprovementIndex - 1,
+                  })
+                } else {
+                  wx.navigateBack({ changed: true });
+                }
               }, 1500)
             } else {
               wx.showToast({
@@ -612,15 +639,15 @@ Page({
      */
     submitData.city = this.data.region[1];
 
-
-    if (Util.checkEmpty(this.data.serviceIdentifierImagePath)) {
-      wx.showToast({
-        title: '请上传身份证照片',
-        icon: 'none'
-      })
-      return null;
-    }
-    submitData.legalImg = this.data.serviceIdentifierImagePath;
+    // 微信不让上传, 需要调用微信的 生物认证接口 , 暂时没有, 先不要了
+    // if (Util.checkEmpty(this.data.serviceIdentifierImagePath)) {
+    //   wx.showToast({
+    //     title: '请上传身份证照片',
+    //     icon: 'none'
+    //   })
+    //   return null;
+    // }
+    // submitData.legalImg = this.data.serviceIdentifierImagePath;
 
     if (!Util.checkEmpty(this.data.serviceWXQRCodeImagePath)) {
       submitData.weChatImg = this.data.serviceWXQRCodeImagePath;

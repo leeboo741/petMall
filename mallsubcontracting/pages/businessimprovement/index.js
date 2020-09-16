@@ -4,6 +4,7 @@ const Util = require("../../../utils/util.js");
 const UserService = require("../../../services/userService.js");
 const ShareManager = require("../../../services/shareService");
 const Utils = require("../../../utils/util")
+const PagePath = require("../../../macros/pagePath");
 
 Page({
 
@@ -282,17 +283,39 @@ Page({
     UserService.isLogin(function isLoginCallback() {
       UserService.updateBusinessInfo(that.getDataObject(), function(data) {
         Utils.logInfo(JSON.stringify(data))
-        wx.showToast({
-          title: '修改成功！',
-        })
-        setTimeout(
-          function timeOut() {
-            wx.navigateBack({
-
+        UserService.requestBusinessInfo(UserService.getBusinessNo(), function (dataSource) {
+          if (dataSource.authType < 1) {
+            wx.showModal({
+              title:'尚未认证!',
+              content: '发布商品/活体/服务需要认证!',
+              confirmText:'前往认证',
+              cancelText: '暂不认证',
+              success(res) {
+                if (res.confirm) {
+                  wx.navigateTo({
+                    url: PagePath.Page_Me_AuthenticateManager_Index,
+                  })
+                } else if (res.cancel) {
+                  wx.navigateBack({
+                  })
+                }
+              }
             })
-          },
-          1550
-        )
+          } else {
+            wx.showToast({
+              title: '修改成功！',
+            })
+            setTimeout(
+              function timeOut() {
+                wx.navigateBack({
+    
+                })
+              },
+              1550
+            )
+          }
+        })
+        
       })
     })
   }

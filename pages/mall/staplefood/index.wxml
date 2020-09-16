@@ -29,7 +29,7 @@
 <!-- 图片展示信息 -->
 <view class="content-view" style="margin-top: {{(listType=='group'&&itemList&&itemList.length>0)?70:0}}rpx">
   <view class="business-pets-page">
-    <view class="business-pets-information" wx:for='{{itemList}}' wx:for-item="dataSourceItem" wx:for-index="dataSourceIndex" wx:key='{{dataSourceIndex}}' bindtap="commodityInforMationTap" data-key="{{dataSourceItem}}" data-itemno='{{dataSourceItem.item.itemNo}}'>
+    <view class="business-pets-information" wx:for='{{itemList}}' wx:for-item="dataSourceItem" wx:for-index="dataSourceIndex" wx:key='{{dataSourceIndex}}' bindtap="commodityInforMationTap" data-key="{{dataSourceItem}}" data-itemno='{{dataSourceItem.item.itemNo}}' wx:if='{{!(listType!="group"&&dataSourceItem.item.groupon==1)}}'>
       <view class="business-pets-information-image-styhead">  
         <i-image imageSrc="{{dataSourceItem.item.coverImg}}" i-class="business-pets-image">
         </i-image>

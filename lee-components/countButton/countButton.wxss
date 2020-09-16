@@ -1,0 +1,60 @@
+/* components/countButton/countButton.wxss */
+.count-button{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  min-width: 150rpx;
+  height: 50rpx;
+  background: white;
+}
+.reduce-button-box{
+  background: #ee2c2c;
+  color: white;
+  height: 50rpx;
+  width: 50rpx;
+  border-radius: 25rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.plus-button-box{
+  background: #ee2c2c;
+  color: white;
+  height: 50rpx;
+  width: 50rpx;
+  border-radius: 25rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.count-value-box{
+  color: black;
+  padding: 0rpx 20rpx;
+  margin-left: 2rpx;
+  margin-right: 2rpx;
+  min-width: 60rpx;
+}
+
+.reduce-button{
+  font-size: 44rpx;
+  font-weight: bolder;
+}
+
+.plus-button{
+  font-size: 44rpx;
+  font-weight: bolder;
+}
+
+.count-value{
+  font-size: 35rpx;
+  font-weight: bold;
+  text-align: center;
+}
+
+.disable{
+  background: rgb(240, 240, 240);
+  color: gray;
+}
+

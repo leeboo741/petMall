@@ -1,0 +1,14 @@
+<!--components/shoppingcart/shoppingcart.wxml-->
+<block wx:if='{{show}}'>
+  <view class="shoppingcart-box">
+    <view class="mask" bindtap="tapMask"></view>
+    <view class="shoppingcart-content">
+      <view class="shoppingcart-count-box">
+        <view class="shoppingcart-count-title">数量</view>
+        <countButton count='{{count!=null?count:1}}' i-class='count-button' bind:countchange='changeCount'>
+        </countButton>
+      </view>
+      <view class="shoppingcart-button" bindtap="tapAddToShoppingcart">加入购物车</view>
+    </view>
+  </view>
+</block>

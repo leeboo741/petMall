@@ -26,6 +26,8 @@ const Login_Register = 2;
 
 const BusinessObj=require("../entity/businessObj.js");
 const CouponObj=require("../entity/couponObj.js");
+const util = require("../utils/util.js");
+const pagePath = require("../macros/pagePath.js");
 
 
 
@@ -177,6 +179,17 @@ function getPhone() {
 
 /**
  * 获取openId
+ */
+function getUserOpenId() {
+  let userInfo = getLocalUserInfo();
+  if (Util.checkEmpty(userInfo) || Util.checkEmpty(userInfo.openid)) {
+    return null;
+  }
+  return userInfo.openid;
+}
+
+/**
+ * 获取unionId
  * @return openId
  */
 function getOpenId() {
@@ -256,11 +269,6 @@ function isLogin(isLoginCallback, notLoginCallback) {
   if (Util.checkEmpty(businessNo)) {
     if (notLoginCallback && typeof notLoginCallback == 'function') {
       notLoginCallback();
-    } else {
-      wx.showToast({
-        title: '请先登录',
-        icon: 'none'
-      })
     }
     return false;
   } else {
@@ -321,7 +329,8 @@ function _requestPhone(wxCode, encryptedData, iv, dataInfo, loginCallback) {
       code: wxCode,
       encryptedData: encryptedData,
       iv: iv,
-      wxUserInfo: dataInfo
+      wxUserInfo: dataInfo,
+      shareOpenId: app.globalData.shareOpenId? app.globalData.shareOpenId : ""
     },
     method: "POST",
     header: {
@@ -471,7 +480,7 @@ function addBond(param, bondResultCallback) {
  * 获得保证金对象
  */
 function getBusinessBond(businessNo, bondResultCallback){
-  let reuqestParam = new RequestParamObj({
+  let requestParam = new RequestParamObj({
     url: UrlPath.Url_Base + UrlPath.Url_GetBusinessBond + businessNo,
     data: {
     },
@@ -481,14 +490,14 @@ function getBusinessBond(businessNo, bondResultCallback){
       }
     }
   })
-  RequestUtil.RequestGET(reuqestParam);
+  RequestUtil.RequestGET(requestParam);
 }
 
 /**
  * 获取保证金支付金额
  */
 function getBusinessBondPrice(bondResultCallback) {
-  let reuqestParam = new RequestParamObj({
+  let requestParam = new RequestParamObj({
     url: UrlPath.Url_Base + UrlPath.Url_QueryBondAmout,
     data: {
     },
@@ -498,14 +507,14 @@ function getBusinessBondPrice(bondResultCallback) {
       }
     }
   })
-  RequestUtil.RequestGET(reuqestParam);
+  RequestUtil.RequestGET(requestParam);
 }
 
 /**
  * 支付保证金
  */
 function payBond(businessNo, bondResultCallback) {
-  let reuqestParam = new RequestParamObj({
+  let requestParam = new RequestParamObj({
     url: UrlPath.Url_Base + UrlPath.Url_Bond_PayParam,
     data: {
       businessNo: businessNo
@@ -516,7 +525,7 @@ function payBond(businessNo, bondResultCallback) {
       }
     }
   })
-  RequestUtil.RequestGET(reuqestParam);
+  RequestUtil.RequestGET(requestParam);
 }
 
 
@@ -524,7 +533,7 @@ function payBond(businessNo, bondResultCallback) {
  * 本月交易额
  */
 function getThisMonthAmountOfMoney(businessNo, bondResultCallback){
-  let reuqestParam = new RequestParamObj({
+  let requestParam = new RequestParamObj({
     url: UrlPath.Url_Base + UrlPath.Url_TotalMonth,
     data: {
       businessNo: businessNo
@@ -535,7 +544,7 @@ function getThisMonthAmountOfMoney(businessNo, bondResultCallback){
       }
     }
   })
-  RequestUtil.RequestGET(reuqestParam);
+  RequestUtil.RequestGET(requestParam);
 } 
 
 
@@ -544,7 +553,7 @@ function getThisMonthAmountOfMoney(businessNo, bondResultCallback){
  *  Url_BusinessFollow , //获取关注对象（可作为校验）
  */
 function getBusinessFollowAndFs(businessFollowPoj, resultCallback){
-  let reuqestParam = new RequestParamObj({
+  let requestParam = new RequestParamObj({
     url: UrlPath.Url_Base + UrlPath.Url_BusinessFollow +"?paramStr="+ encodeURIComponent(JSON.stringify(BusinessObj.businessFollow(businessFollowPoj)), 'utf-8'),
     data: {},
     success(res) {
@@ -553,7 +562,7 @@ function getBusinessFollowAndFs(businessFollowPoj, resultCallback){
       }
     }
   })
-  RequestUtil.RequestGET(reuqestParam);
+  RequestUtil.RequestGET(requestParam);
 }
 
 /**
@@ -561,7 +570,7 @@ function getBusinessFollowAndFs(businessFollowPoj, resultCallback){
  *     Url_AddFollow , //添加关注或收藏
  */
 function addBusinessFollow(businessFollowPoj, resultCallback){
-  let reuqestParam = new RequestParamObj({
+  let requestParam = new RequestParamObj({
     url: UrlPath.Url_Base + UrlPath.Url_AddFollow + "?paramStr=" + encodeURIComponent(JSON.stringify(BusinessObj.businessFollow(businessFollowPoj)), 'utf-8'),
     data: {},
     method: "PUT",
@@ -574,14 +583,14 @@ function addBusinessFollow(businessFollowPoj, resultCallback){
       }
     }
   })
-  RequestUtil.RequestPUT(reuqestParam);
+  RequestUtil.RequestPUT(requestParam);
 }
 
 /**
  * 查看粉丝
  */
 function getBusinessFansList(bussinessFansObj, resultCallback){
-  let reuqestParam = new RequestParamObj({
+  let requestParam = new RequestParamObj({
     url: UrlPath.Url_Base + UrlPath.Url_Get_BusinessFans + "?queryParam=" + encodeURIComponent(JSON.stringify(bussinessFansObj), 'utf-8'),
     data: {},
     success(res) {
@@ -590,7 +599,7 @@ function getBusinessFansList(bussinessFansObj, resultCallback){
       }
     }
   })
-  RequestUtil.RequestGET(reuqestParam);
+  RequestUtil.RequestGET(requestParam);
 }
 
 /**
@@ -598,7 +607,7 @@ function getBusinessFansList(bussinessFansObj, resultCallback){
  * Url_BusinessFollowList , //关注或收藏列表
  */
 function getBusinessFollowList(businessFollowPoj, resultCallback){
-  let reuqestParam = new RequestParamObj({
+  let requestParam = new RequestParamObj({
     url: UrlPath.Url_Base + UrlPath.Url_BusinessFollowList + "?queryParam=" + encodeURIComponent(JSON.stringify(BusinessObj.businessFollowList(businessFollowPoj)), 'utf-8'),
     data: {},
     success(res) {
@@ -607,7 +616,7 @@ function getBusinessFollowList(businessFollowPoj, resultCallback){
       }
     }
   })
-  RequestUtil.RequestGET(reuqestParam);
+  RequestUtil.RequestGET(requestParam);
 }
 
 /**
@@ -615,7 +624,7 @@ function getBusinessFollowList(businessFollowPoj, resultCallback){
  * Url_BusinessUnfollow ,  //取消关注或收藏
  */
 function businessUnFollow(businessFollowPoj, resultCallback){
-  let reuqestParam = new RequestParamObj({
+  let requestParam = new RequestParamObj({
     url: UrlPath.Url_Base + UrlPath.Url_BusinessUnfollow + "?paramStr=" + encodeURIComponent(JSON.stringify(BusinessObj.businessFollow(businessFollowPoj)), 'utf-8'),
     data: {},
     method: "PUT",
@@ -628,14 +637,14 @@ function businessUnFollow(businessFollowPoj, resultCallback){
       }
     }
   })
-  RequestUtil.RequestPUT(reuqestParam);
+  RequestUtil.RequestPUT(requestParam);
 }
 
 /**
  * 更新商家信息
  */
 function updateBusinessInfo(submissionObject, resultCallback){
-  let reuqestParam = new RequestParamObj({
+  let requestParam = new RequestParamObj({
     url: UrlPath.Url_Base + UrlPath.Url_BusinessDetail,
     data: submissionObject,
     method:"PUT",
@@ -648,7 +657,7 @@ function updateBusinessInfo(submissionObject, resultCallback){
       }
     }
   })
-  RequestUtil.RequestPUT(reuqestParam);
+  RequestUtil.RequestPUT(requestParam);
 }
 
 
@@ -656,7 +665,7 @@ function updateBusinessInfo(submissionObject, resultCallback){
  * 获取积分流水
  */
 function getBusinessCreditFlow(param, resultCallback){
-  let reuqestParam = new RequestParamObj({
+  let requestParam = new RequestParamObj({
     url: UrlPath.Url_Base + UrlPath.Url_BusinessCreditFlow + "?queryParam=" + encodeURIComponent(JSON.stringify(param), 'utf-8'),
     data: {},
     success(res) {
@@ -665,7 +674,7 @@ function getBusinessCreditFlow(param, resultCallback){
       }
     }
   })
-  RequestUtil.RequestGET(reuqestParam);
+  RequestUtil.RequestGET(requestParam);
 }
 
 
@@ -673,7 +682,7 @@ function getBusinessCreditFlow(param, resultCallback){
  * 优惠券列表
  */
 function getCouponList(param, resultCallback){
-  let reuqestParam = new RequestParamObj({
+  let requestParam = new RequestParamObj({
     url: UrlPath.Url_Base + UrlPath.Url_BusinessCouponList + "?queryParam=" + encodeURIComponent(JSON.stringify(CouponObj.couponObj(param)), 'utf-8'),
     data: {},
     success(res) {
@@ -682,7 +691,92 @@ function getCouponList(param, resultCallback){
       }
     }
   })
-  RequestUtil.RequestGET(reuqestParam);
+  RequestUtil.RequestGET(requestParam);
+}
+
+/**
+ * 是否有未领取大礼包
+ * @param {string} businessNo 商家编号
+ * @param {function(boolean, object)} callback 回调 
+ */
+function haveNewGiftBag(businessNo, callback) {
+  let requestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_HaveNewGiftBag,
+    data: {
+      businessNo: businessNo!=null?businessNo: getBusinessNo()
+    },
+    success(res) {
+      if (Util.checkIsFunction(callback)) {
+        callback(true, res.root);
+      }
+      if (res.root) {
+        setTimeout(function(){
+          wx.showModal({
+            title: '领取大礼包',
+            content: '有新客大礼包未领取，是否领取',
+            confirmText: '领取礼包',
+            cancelText: '暂不领取',
+            success(res) {
+              if (res.confirm) {
+                wx.navigateTo({
+                  url: pagePath.Page_Me_NewGiftBag,
+                })
+              }
+            }
+          })
+        },0);
+      }
+    },
+    fail(res) {
+      if (Util.checkIsFunction(callback)) {
+        callback(false, res);
+      }
+    }
+  })
+  RequestUtil.RequestGET(requestParam);
+}
+
+/**
+ * 领取大礼包
+ * @param {string} businessNo 商家编号 
+ * @param {function(boolean, object)} callback 
+ */
+function receiveNewGiftBag(businessNo, callback){
+  let requestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_ReceiveNewGiftBag + "?businessNo=" + businessNo,
+    success(res) {
+      if (util.checkIsFunction(callback)){
+        callback(true, res.root);
+      }
+    },
+    fail(res) {
+      if (util.checkIsFunction(callback)) {
+        callback(false, res);
+      }
+    }
+  })
+  RequestUtil.RequestPOST(requestParam);
+}
+
+/**
+ * 获取新客大礼包列表
+ * @param {function(boolean, object)} callback 
+ */
+function getNewGiftBagList(callback) {
+  let requestParam = new RequestParamObj({
+    url: UrlPath.Url_Base + UrlPath.Url_NewGiftBagList,
+    success(res) {
+      if (Util.checkIsFunction(callback)) {
+        callback(true, res.root);
+      }
+    },
+    fail(res) {
+      if (Util.checkIsFunction(callback)) {
+        callback(false, res);
+      }
+    }
+  })
+  RequestUtil.RequestGET(requestParam);
 }
 
 
@@ -704,7 +798,8 @@ module.exports = {
   updatePoints: updatePoints, // 更新积分
   getBalance: getBalance, // 获取余额数目
   updateBalance: updateBalance, // 更新余额
-  getOpenId: getOpenId, // 获取用户 openId
+  getUserOpenId: getUserOpenId, // 获取 openid
+  getOpenId: getOpenId, // 获取用户 unionid
   isLogin: isLogin, // 用户是否已登录
   register: register, // 用户注册
   getCode: getCode, // 用户注册获取 短信验证
@@ -728,4 +823,7 @@ module.exports = {
   getCouponList: getCouponList, //获得优惠券列表
   getBusinessBondPrice: getBusinessBondPrice, //获得保证金额
   payBond: payBond, //保证金参数
+  haveNewGiftBag: haveNewGiftBag, // 是否有未领取大礼包
+  getNewGiftBagList, // 获取新客大礼包列表
+  receiveNewGiftBag, // 领取大礼包
 }

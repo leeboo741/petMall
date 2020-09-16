@@ -9,7 +9,8 @@ const UserService=require("../../../services/userService.js");
 const Limit = 20;
 const ShareManager = require("../../../services/shareService");
 const ServerManager = require("../../../services/serverManager");
-const Utils = require("../../../utils/util")
+const Utils = require("../../../utils/util");
+const { MINI_PROGRAME_APPID_PETTRANSPORT, ENV_CURRENT } = require("../../../macros/config.js");
 
 Page({
 
@@ -55,6 +56,8 @@ Page({
     mask: true,
 
     fromPosition: false, // 是否从驿站而来, 控制是否需要组装和清除 app.globalData.serviceSelectBusiness
+
+    businessInfo: null,
   },
 
   /**
@@ -66,6 +69,13 @@ Page({
       pageHeight: app.globalData.pageHeight,
       storeNo: options.storeno,
       fromPosition: app.globalData.serviceSelectBusiness?true: false
+    })
+    UserService.isLogin(function isLoginCallback(){
+      UserService.requestBusinessInfo(UserService.getBusinessNo(), function (dataSource) {
+        that.setData({
+          businessInfo: dataSource
+        })
+      })
     })
     that.getStoreDetail(that.data.storeNo,
       function getStoreDetailCallback(storeDetail) {
@@ -101,7 +111,7 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-    if (!fromPosition) {
+    if (!this.data.fromPosition) {
       app.globalData.serviceSelectBusiness = null;
     }
   },
@@ -133,7 +143,7 @@ Page({
         wx.stopPullDownRefresh();
       })
     } else if (that.data.currentIndex == 1) {
-      that.getBusinessReleaseMall(UserService.getBusinessNo(), that.data.offsetList[that.data.currentIndex],function getResultCallback(data) {
+      that.getBusinessReleaseMall(that.data.storeDetail.businessNo, that.data.offsetList[that.data.currentIndex],function getResultCallback(data) {
         that.setData({
           itemList: data
         })
@@ -195,7 +205,7 @@ Page({
         that.setLoadState(LoadFootItemState.Loading_State_Normal);
       })
     } else if (that.data.currentIndex == 1) {
-      that.getBusinessReleaseMall(UserService.getBusinessNo(), that.data.offsetList[that.data.currentIndex],function getResultCallback(res) {
+      that.getBusinessReleaseMall(that.data.storeDetail.businessNo, that.data.offsetList[that.data.currentIndex],function getResultCallback(res) {
         let list = that.data.itemList.concat(data);
         that.setData({
           itemList: list
@@ -245,12 +255,34 @@ Page({
   },
 
   /**
+   * 点击宠物托运
+   */
+  tapTransport: function(){
+
+    wx.navigateToMiniProgram({
+      appId: MINI_PROGRAME_APPID_PETTRANSPORT,
+      path: "pages/index/index2",
+      extraData: {
+        foo: "release"
+      },
+      envVersion: ENV_CURRENT,
+      success(res) {
+        // 打开成功
+        Utils.logInfo(JSON.stringify(res))
+      },
+      fail(res) {
+        Utils.logInfo(JSON.stringify(res))
+      }
+    })
+  },
+
+  /**
    * 点击服务类别
    */
   tapServerItem: function(res) {
     let serverTypeNo = res.currentTarget.dataset.servertypeno;
     let serverTypeName = res.currentTarget.dataset.servertypename;
-    if (!fromPosition) {
+    if (!this.data.fromPosition) {
       app.globalData.serviceSelectBusiness = {business: this.data.storeDetail}
     }
     wx.navigateTo({
@@ -373,7 +405,8 @@ Page({
    * 获取服务列表
    */
   getServerReleaselist: function(offset, callback, failCallback,completeCallback) {
-    ServerManager.getBusinessServerTypeList(UserService.getBusinessNo(), function(result){
+    let that = this;
+    ServerManager.getBusinessServerTypeList(that.data.storeDetail.businessNo, function(result){
       if (Util.checkIsFunction(callback)) {
         callback(result)
       }
@@ -528,4 +561,12 @@ Page({
     })
   },
 
+
+  tapCallPhone: function(e) {
+    if (e.currentTarget.dataset.phone) {
+      wx.makePhoneCall({
+        phoneNumber: e.currentTarget.dataset.phone,
+      })
+    }
+  }
 })

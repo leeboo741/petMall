@@ -1,7 +1,6 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/index/preferential/index",
     "pages/index/nearby/index",
     "pages/index/petstype/index",
     "pages/me/index",
@@ -66,7 +65,10 @@
     "pages/baike/articleDetail",
     "pages/poststation/serverList/index",
     "pages/order/unsendOrderList/confirmSend/expressSelected/index",
-    "pages/me/releaseManager/releaseNew/selectPetGenre/index"
+    "pages/me/releaseManager/releaseNew/selectPetGenre/index",
+    "pages/index/businessList/index",
+    "pages/me/messageList/index",
+    "pages/newGiftBag/newGiftBag"
   ],
   "subpackages": [
     {
@@ -106,7 +108,8 @@
         "pages/businessfollow/index",
         "pages/Integralflow/index",
         "pages/productreleasedetails/itemTypeSelect/index",
-        "pages/productreleasedetails/itemTypeSelect/menuTypeSelect"
+        "pages/productreleasedetails/itemTypeSelect/menuTypeSelect",
+        "pages/shoppingcart/itemShoppingpayment/itemShoppingpayment"
       ]
     }
   ],

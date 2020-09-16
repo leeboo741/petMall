@@ -192,13 +192,17 @@ Page({
   tapMore: function (e) {
     let tempOrder = this.data.dataSource[e.currentTarget.dataset.index];
     if (this.data.currentRole == 0) {
+      let itemList = ["联系商家"];
       wx.showActionSheet({
-        itemList: ["联系商家", "再来一单"],
+        itemList: itemList,
         success(res) {
           if (res.tapIndex == 0) {
             let phone = Config.Service_Phone
-            if (tempOrder.pet != null) {
-              phone = tempOrder.pet.business.phoneNumber
+            if (tempOrder.petNo != null) {
+              phone = tempOrder.shop.contactPhone
+            }
+            if (tempOrder.itemOrderInfoList != null) {
+              phone = tempOrder.shop.contactPhone
             }
             if (Util.checkEmpty(phone)) {
               wx.showToast({
@@ -233,14 +237,20 @@ Page({
         itemList: ["联系买家", "修改订单"],
         success(res) {
           if (res.tapIndex == 0) {
-            if (Util.checkEmpty(tempOrder.customer) || Util.checkEmpty(tempOrder.customer.phone)) {
-              wx.showToast({
-                title: '客户电话不存在',
-                icon:'none'
-              })
+            if (tempOrder.petNo != null) {
+              if (Util.checkEmpty(tempOrder.customer) || Util.checkEmpty(tempOrder.customer.phone)) {
+                wx.showToast({
+                  title: '客户电话不存在',
+                  icon:'none'
+                })
+              } else {
+                wx.makePhoneCall({
+                  phoneNumber: tempOrder.buyer.contactPhone,
+                })
+              }
             } else {
               wx.makePhoneCall({
-                phoneNumber: tempOrder.customer.phone,
+                phoneNumber: tempOrder.buyer.contactPhone,
               })
             }
           } else if (res.tapIndex == 1) {
@@ -249,6 +259,44 @@ Page({
               icon:'none'
             })
           }
+        }
+      })
+    }
+  },
+
+  tapCancel: function(e) {
+    let that = this;
+    let tempIndex = e.currentTarget.dataset.index;
+    let tempOrder = this.data.dataSource[tempIndex];
+    let tempOrderNo = tempOrder.orderNo;
+    let tempBuyerNo = tempOrder.shop.customerNo;
+    let tempWaybillNo = tempOrder.wayBill;
+    if (this.data.currentTabIndex == 0) {
+      OrderService.deletePetOrderByOrderNo(tempOrderNo, tempBuyerNo, tempWaybillNo,function(res) {
+        if (res == 1) {
+          that.data.dataSource.splice(tempIndex, 1);
+          that.setData({
+            dataSource: that.data.dataSource
+          })
+        } else {
+          wx.showToast({
+            title: '取消插入失败',
+            icon: 'none'
+          })
+        }
+      })
+    } else if (this.data.currentTabIndex == 1) {
+      OrderService.deleteItemOrderByOrderNo(tempOrderNo, function(res) {
+        if (res == 1) {
+          that.data.dataSource.splice(tempIndex, 1);
+          that.setData({
+            dataSource: that.data.dataSource
+          })
+        } else {
+          wx.showToast({
+            title: '取消插入失败',
+            icon: 'none'
+          })
         }
       })
     }
@@ -306,9 +354,16 @@ Page({
   requestPayInfo: function (payType, orderNo, getPayInfoCallback) {
     if (payType == 0) {
       PayService.getItemOrderPayInfo(orderNo,
-        function getResultCallback(result) {
-          if (Util.checkIsFunction(getPayInfoCallback)) {
-            getPayInfoCallback(result.root);
+        function getResultCallback(success,result) {
+          if (success) {
+            if (Util.checkIsFunction(getPayInfoCallback)) {
+              getPayInfoCallback(result.root);
+            }
+          } else {
+            wx.showToast({
+              title: '获取支付参数失败',
+              icon: 'none'
+            })
           }
         }
       )

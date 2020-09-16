@@ -40,28 +40,32 @@
     <!-- 订单商品 -->
     <view class="order-goods-box">
       <!-- 商品Item -->
-      <view class="order-goods-item"
-            wx:if='{{currentTabIndex==1}}'
+      <view wx:if='{{currentTabIndex == 1}}'
+            class="order-goods-item"
             catchtap="tapItem"
-            data-index='{{orderIndex}}'
-            data-itemno='{{orderItem.itemNo}}'>
+            wx:for='{{orderItem.itemOrderInfoList}}'
+            wx:for-item='goodsItem'
+            wx:for-index='goodsIndex'
+            wx:key='orderInfoNo'
+            data-section='{{orderIndex}}'
+            data-row='{{goodsIndex}}'
+            data-itemno='{{goodsItem.itemNo}}'>
         <i-image i-class="order-goods-image"
-                 imageSrc='{{orderItem.coverImg}}'
-                 >
+                 imageSrc='{{goodsItem.coverImg}}'>
         </i-image>
         <view class="order-goods-info">
           <view class="order-goods-item-line">
             <view class="order-goods-name">
-            {{orderItem.itemName}}
+            {{goodsItem.itemName}}
             </view>
           </view>
           <view class="order-goods-item-line"
                 style="justify-content: space-between; align-items: flex-end;">
             <view class="order-goods-count">
-            x{{orderItem.qty}}
+            x{{goodsItem.qty}}
             </view>
             <view class="order-goods-price">
-            ￥{{parse.showRetailPrice(orderItem.retailPrice)}}
+            ￥{{parse.showRetailPrice(goodsItem.unitPrice)}}
             </view>
           </view>
         </view>
@@ -177,28 +181,32 @@
     <!-- 订单商品 -->
     <view class="order-goods-box">
       <!-- 商品Item -->
-      <view class="order-goods-item"
-            wx:if='{{currentTabIndex==1}}'
+      <view wx:if='{{currentTabIndex == 1}}'
+            class="order-goods-item"
             catchtap="tapItem"
-            data-index='{{orderIndex}}'
-            data-itemno='{{orderItem.itemNo}}'>
+            wx:for='{{orderItem.itemOrderInfoList}}'
+            wx:for-item='goodsItem'
+            wx:for-index='goodsIndex'
+            wx:key='orderInfoNo'
+            data-section='{{orderIndex}}'
+            data-row='{{goodsIndex}}'
+            data-itemno='{{goodsItem.itemNo}}'>
         <i-image i-class="order-goods-image"
-                 imageSrc='{{orderItem.coverImg}}'
-                 >
+                 imageSrc='{{goodsItem.coverImg}}'>
         </i-image>
         <view class="order-goods-info">
           <view class="order-goods-item-line">
             <view class="order-goods-name">
-            {{orderItem.itemName}}
+            {{goodsItem.itemName}}
             </view>
           </view>
           <view class="order-goods-item-line"
                 style="justify-content: space-between; align-items: flex-end;">
             <view class="order-goods-count">
-            x{{orderItem.qty}}
+            x{{goodsItem.qty}}
             </view>
             <view class="order-goods-price">
-            ￥{{parse.showRetailPrice(orderItem.retailPrice)}}
+            ￥{{parse.showRetailPrice(goodsItem.unitPrice)}}
             </view>
           </view>
         </view>
@@ -278,26 +286,26 @@
 <wxs module='parse'>
   module.exports={
     getStoreLogo: function(orderItem) {
-      if (orderItem.item != null) {
-        return orderItem.item.business.headerImg;
+      if (orderItem.itemOrderInfoList != null) {
+         return orderItem.shop.headImg;
       }
       if (orderItem.pet != null) {
         return orderItem.pet.business.headerImg;
       }
     },
     getSotreName: function(orderItem) {
-      if (orderItem.item != null) {
-        if(orderItem.item.business.businessName==null){
+      if (orderItem.itemOrderInfoList != null) {
+        if(orderItem.shop.businessName==null){
           return "--"
         }else{
-          return orderItem.item.business.businessName;
+         return orderItem.shop.businessName;
         }
       }
-      if (orderItem.pet != null) {
-        if(orderItem.pet.business.businessName==null){
+      if (orderItem.petNo != null) {
+        if(orderItem.shop.businessName==null){
           return "--"
         }else{
-          return orderItem.pet.business.businessName;
+         return orderItem.shop.businessName;
         }
       }
     },
@@ -320,10 +328,10 @@
       return order.pet != null;
     },
     showRetailPrice:function(res){
-      if(res==null){
-        return "--"
+      if(res==null || res==''){
+        return "--";
       }else{
-        return res
+        return res;
       }
     }
   }

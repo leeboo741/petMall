@@ -10,6 +10,7 @@ const Utils = require("../utils/util.js");
 const PagePath = require("../macros/pagePath.js");
 const app = getApp();
 const UserManager = require("../services/userService");
+const pagePath = require("../macros/pagePath.js");
 
 /** 
  *  获取默认分享卡片 
@@ -61,13 +62,26 @@ function getPetShareCard(petName, petId, petImage){
  * @param {*} targetPage 
  */
 function getBaseShareParam(sourceType, targetPage) {
-  return {
-    source: sourceType,
-    target: targetPage,
-    shareCustomerNo: UserManager.getCustomerNo(),
-    shareBusinessNo: UserManager.getBusinessNo(),
-    shareUnionId: UserManager.getOpenId(),
-  };
+  let baseShareParam = {};
+  if (sourceType) {
+    baseShareParam['source'] = sourceType
+  }
+  if (targetPage) {
+    baseShareParam['target'] = targetPage
+  }
+  if (UserManager.getCustomerNo()) {
+    baseShareParam['shareCustomerNo'] = UserManager.getCustomerNo()
+  }
+  if (UserManager.getBusinessNo()) {
+    baseShareParam['shareBusinessNo'] = UserManager.getBusinessNo()
+  }
+  if (UserManager.getOpenId()) {
+    baseShareParam['shareUnionId'] = UserManager.getOpenId()
+  }
+  if (UserManager.getUserOpenId()) {
+    baseShareParam['shareOpenId'] = UserManager.getUserOpenId()
+  }
+  return baseShareParam;
 }
 
 /**
@@ -121,16 +135,21 @@ function ShareData(ptitle, ppath, ppathData, pimageUrl, psuccessCallback) {
 }
 
 // 来源类型
-const OPEN_SOURCE_TYPE_MINI_TRANSPORT = "mini_app_transport";
-const OPEN_SOURCE_TYPE_SHAREDATA = "share_data";
-const OPEN_SOURCE_TYPE_POSTER = "poster"
+const OPEN_SOURCE_TYPE_MINI_TRANSPORT = "mini_app_transport"; // 托运小程序
+const OPEN_SOURCE_TYPE_SHAREDATA = "share_data"; // 分享
+const OPEN_SOURCE_TYPE_POSTER = "poster"; // 海报
+const OPEN_SOURCE_TYPE_SUBSCRIPTION = 'subscription'; // 公众号
 // 目的页面
-const OPEN_TARGET_PAGE_HOME = "home";
-const OPEN_TARGET_PAGE_MALL = "mall";
-const OPEN_TARGET_PAGE_POINTEXCHANGE = 'pointexchange';
-const OPEN_TARGET_PAGE_PETDETAIL = "pet_detail";
-const OPEN_TARGET_PAGE_GOODSDETAIL = "goods_detail";
-const OPEN_TARGET_PAGE_BUSINESSDETAIL = "business_detail";
+const OPEN_TARGET_PAGE_NEARBY = 'nearby'; // 附近,狗狗,猫猫
+const OPEN_TARGET_PAGE_BAIKE = 'baike'; // 百科
+const OPEN_TARGET_PAGE_HOME = "home"; // 首页
+const OPEN_TARGET_PAGE_MALL = "mall"; // 商城
+const OPEN_TARGET_PAGE_POINTEXCHANGE = 'pointexchange'; // 积分兑换
+const OPEN_TARGET_PAGE_PETDETAIL = "pet_detail"; // 宠物详情
+const OPEN_TARGET_PAGE_GOODSDETAIL = "goods_detail"; // 商品详情
+const OPEN_TARGET_PAGE_BUSINESSDETAIL = "business_detail"; // 商家详情
+const OPEN_TARGET_PAGE_SERVICE = 'service'; // 服务
+const OPEN_TARGET_PAGE_GETNEWGIFTBAG = "getnewgiftbag"; // 获取新客大礼包
 /**
  * 首页 handler options
  * 
@@ -138,17 +157,40 @@ const OPEN_TARGET_PAGE_BUSINESSDETAIL = "business_detail";
  */
 function pageHandlerOptions(options) {
   Utils.logInfo("pageHandlerOptions options :\n" + JSON.stringify(options));
-  if (options.source == OPEN_SOURCE_TYPE_MINI_TRANSPORT) {
+  app.globalData.shareOpenId = options.shareopenid; // 持有 分享人 openId
+  app.globalData.shareCustomerNo = options.sharecustomerno; // 持有 分享人 客户编号
+  app.globalData.shareBusinessNo = options.sharebusinessno; // 持有 分享人 商户编号
+  app.globalData.shareUnionId = options.shareunionid; // 持有 分享人 unionId
+  if (options.source == OPEN_SOURCE_TYPE_MINI_TRANSPORT) { // 托运微信小程序 跳转进入
     Utils.logInfo('打开来源:托运微信小程序');
     setJumpTarget(options.target, null);
-  } else if (options.source == OPEN_SOURCE_TYPE_SHAREDATA) {
+  } else if (options.source == OPEN_SOURCE_TYPE_SHAREDATA) { // 点击分享卡片 进入
     Utils.logInfo('分享进入');
     setJumpTarget(options.target, options.data)
-  } else {
-    if (options.q != null) {
-      const param = decodeURIComponent(options.q);
-      if (param.type == OPEN_SOURCE_TYPE_POSTER) {
-        setJumpTarget(param.target, param.businessno);
+  } else if (options.source == OPEN_SOURCE_TYPE_SUBSCRIPTION) {
+    Utils.logInfo('公众号进入');
+    setJumpTarget(options.target, options.data)
+  }else {
+    if (options.q != null) { // 扫普通二维码 进入
+      const urlPath = decodeURIComponent(options.q); // 解析地址
+      const tempList = urlPath.split("?"); // 切割地址和参数
+      const path = tempList[0]; // 地址
+      const paramStr = tempList[1]; // 参数
+      const param = paramStr.split('&'); // 切割参数
+      let paramObj = {}; // 参数对象容器
+      param.forEach(item => {
+        const tempParams = item.split('='); // 切割具体参数
+        const tempParamKey = tempParams[0]; // 参数 key
+        const tempParamValue = tempParams[1]; // 参数 value
+        paramObj[tempParamKey] = tempParamValue; // 装入容器
+      });
+      // 二维码进入 options 不能直接读取参数, 所以要重新持有 分享人信息
+      app.globalData.shareOpenId = paramObj.shareopenid; // 持有 分享人 openId
+      app.globalData.shareCustomerNo = paramObj.sharecustomerno; // 持有 分享人 客户编号
+      app.globalData.shareBusinessNo = paramObj.sharebusinessno; // 持有 分享人 商户编号
+      app.globalData.shareUnionId = paramObj.shareunionid; // 持有 分享人 unionId
+      if (paramObj.type == OPEN_SOURCE_TYPE_POSTER) { // 海报二维码
+        setJumpTarget(paramObj.target, paramObj.businessno);
       }
     }
   }
@@ -178,13 +220,13 @@ function setJumpTarget(target, data){
  */
 function pageJump(data, events, jumpSuccessCallback){
   switch (app.shareData.jumpTarget) {
-    case OPEN_TARGET_PAGE_HOME:
+    case OPEN_TARGET_PAGE_HOME: // 首页
       // Do Nothing
       if (jumpSuccessCallback && typeof jumpSuccessCallback == 'function') {
         jumpSuccessCallback(OPEN_TARGET_PAGE_HOME, null);
       }
       break;
-    case OPEN_TARGET_PAGE_MALL:
+    case OPEN_TARGET_PAGE_MALL: // 商城
       setTimeout(()=>{
         wx.switchTab({
           url: PagePath.Page_Mall_Index,
@@ -198,7 +240,7 @@ function pageJump(data, events, jumpSuccessCallback){
         })
       },0)
       break;
-    case OPEN_TARGET_PAGE_POINTEXCHANGE:
+    case OPEN_TARGET_PAGE_POINTEXCHANGE: // 积分兑换
       setTimeout(()=>{
         wx.navigateTo({
           url: PagePath.Page_Me_Point_PointMall,
@@ -211,7 +253,7 @@ function pageJump(data, events, jumpSuccessCallback){
         })
       },0)
       break;
-    case OPEN_TARGET_PAGE_PETDETAIL:
+    case OPEN_TARGET_PAGE_PETDETAIL: // 宠物详情
       setTimeout(()=>{
         wx.navigateTo({
           url: PagePath.Page_Store_PetsInforMation + '?petno=' + data,
@@ -224,18 +266,20 @@ function pageJump(data, events, jumpSuccessCallback){
         })
       },0)
       break;
-    case OPEN_TARGET_PAGE_BUSINESSDETAIL:
-      wx.navigateTo({
-        url: PagePath.Page_Store_StoreInforMation + '?storeno=' + data,
-        success(res){
-          if (jumpSuccessCallback && typeof jumpSuccessCallback == 'function') {
-            jumpSuccessCallback(OPEN_TARGET_PAGE_BUSINESSDETAIL, res);
-          }
-        },
-        events: events
-      })
+    case OPEN_TARGET_PAGE_BUSINESSDETAIL: // 商家详情
+      setTimeout(() => {
+        wx.navigateTo({
+          url: PagePath.Page_Store_StoreInforMation + '?storeno=' + data,
+          success(res){
+            if (jumpSuccessCallback && typeof jumpSuccessCallback == 'function') {
+              jumpSuccessCallback(OPEN_TARGET_PAGE_BUSINESSDETAIL, res);
+            }
+          },
+          events: events
+        })
+      },0)
       break;
-    case OPEN_TARGET_PAGE_GOODSDETAIL:
+    case OPEN_TARGET_PAGE_GOODSDETAIL: // 商品详情
       setTimeout(()=>{
         wx.navigateTo({
           url: PagePath.Page_Mall_CommodityInformation + "?itemno=" + data,
@@ -247,6 +291,72 @@ function pageJump(data, events, jumpSuccessCallback){
           events: events
         })
       },0)
+      break;
+    case OPEN_TARGET_PAGE_BAIKE:// 百科
+      setTimeout(() => {
+        wx.navigateTo({
+          url: PagePath.Page_Baike_List + "?petsort=" + data,
+          success(res) {
+            if (jumpSuccessCallback && typeof jumpSuccessCallback == 'function') {
+              jumpSuccessCallback(OPEN_TARGET_PAGE_BAIKE, res);
+            }
+          },
+          events: events
+        })
+      },0)
+      break;
+    case OPEN_TARGET_PAGE_NEARBY: // 狗狗,猫猫
+      setTimeout(() => {
+        let tempParam = JSON.parse(data);
+        wx.navigateTo({
+          url: PagePath.Page_Home_Nearby + "?requesttype=" + tempParam.type + "&sortno=" + tempParam.sortno + "&pagetitle=" + tempParam.title,
+          success(res) {
+            if (jumpSuccessCallback && typeof jumpSuccessCallback == 'function') {
+              jumpSuccessCallback(OPEN_TARGET_PAGE_BAIKE, res);
+            }
+          },
+          events: events
+        })
+      },0)
+      break;
+    case OPEN_TARGET_PAGE_SERVICE: // 服务(驿站)
+      setTimeout(() => {
+        wx.switchTab({
+          url: PagePath.Page_PostStation_Index,
+          success: function (res) {
+            if (jumpSuccessCallback && typeof jumpSuccessCallback == 'function') {
+              jumpSuccessCallback(OPEN_TARGET_PAGE_SERVICE, res);
+            }
+          },
+          fail: function(res) {},
+          complete: function(res) {},
+        })
+      },0)
+      break;
+    case OPEN_TARGET_PAGE_GETNEWGIFTBAG: // 获取新客大礼包
+      // 判断是否登录
+      // 登录领取大礼包
+      // 未登录跳转登录
+      // 登录完成领取大礼包
+      setTimeout(function(){
+        UserManager.isLogin(function(){
+          UserManager.haveNewGiftBag()
+        }, function() {
+          wx.showModal({
+            title: '有大礼包待领取',
+            content: '尚未登陆，请登录后领取',
+            confirmText: "前往登录",
+            cancelText: '稍后领取',
+            success(res) {
+              if (res.confirm) {
+                wx.navigateTo({
+                  url: pagePath.Page_Login_Index
+                });
+              }
+            }
+          })
+        })
+      },0);
       break;
   }
 }
@@ -264,6 +374,8 @@ module.exports = {
 
   OPEN_SOURCE_TYPE_MINI_TRANSPORT,
   OPEN_SOURCE_TYPE_SHAREDATA,
+  OPEN_SOURCE_TYPE_POSTER,
+  OPEN_SOURCE_TYPE_SUBSCRIPTION,
 
   OPEN_TARGET_PAGE_HOME,
   OPEN_TARGET_PAGE_MALL,
@@ -271,4 +383,8 @@ module.exports = {
   OPEN_TARGET_PAGE_PETDETAIL,
   OPEN_TARGET_PAGE_GOODSDETAIL,
   OPEN_TARGET_PAGE_BUSINESSDETAIL,
+  OPEN_TARGET_PAGE_NEARBY,
+  OPEN_TARGET_PAGE_BAIKE,
+  OPEN_TARGET_PAGE_SERVICE, 
+  OPEN_TARGET_PAGE_GETNEWGIFTBAG,
 }

@@ -90,20 +90,20 @@ Page({
     }
     WithdrawalService.businessWithdraw(param,function callBack(dataSource){
         Utils.logInfo("提现返回："+JSON.stringify(dataSource))
-        if(dataSource.root==1){
-            wx.showToast({
-              title: '提现成功！',
-              icon:"success",
-              duration:2500
-            })
-            that.onLoad();
-          }else{
-            wx.showToast({
-              title: '提现失败！',
-              icon: "none",
-              duration: 2500
-            })
-          }
+        if(dataSource.root=="操作成功"){
+          wx.showToast({
+            title: '提现成功！',
+            icon:"success",
+            duration:2500
+          })
+          that.onLoad();
+        }else{
+          wx.showToast({
+            title: '提现失败！',
+            icon: "none",
+            duration: 2500
+          })
+        }
     })
   },
 

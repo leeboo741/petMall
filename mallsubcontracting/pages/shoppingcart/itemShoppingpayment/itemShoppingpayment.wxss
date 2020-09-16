@@ -1,0 +1,308 @@
+/* mallsubcontracting/pages/shoppingcart/itemShoppingpayment/itemShoppingpayment.wxss */
+.shoopingpay-head-page{
+  display: flex;
+  flex-direction: column;
+  background-color: #FEF7E4;
+  align-items:center;
+  color: #9C9493;
+  border-bottom: 5rpx dashed #a7a8a8;
+}
+
+.shoppingpay-head-selectAddress-item{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 30rpx;
+  width: 90%;
+  margin: auto;
+}
+
+.shoppingpay-head-selectAddress-item-title{
+  flex-grow: 1;
+}
+
+.shoppingpay-head-receiveAddress-item-column{
+  display: flex;
+  flex-direction: column;
+  padding: 30rpx;
+  width: 90%;
+  margin: auto;
+}
+
+.receive-line{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.receive-name{
+  font-weight: bold;
+  flex-grow: 1;
+}
+
+.receive-phone{
+
+}
+
+.shoopingpay-head-showinfo{
+  height: 210rpx;
+  width: 98%;
+  align-items:center;
+  display: flex;
+  flex-wrap: nowrap;
+  font-weight: bold;
+  padding-left: 2%;
+  position: relative;
+}
+
+.shoopingpay-head-showtext{
+  height:80rpx;
+  display: flex;
+  align-items:center;
+}
+
+.stepper-big-box{
+  position: absolute;
+  right: 30rpx;
+  bottom: 30rpx;
+}
+
+.showinfo-image{
+  width: 150rpx;
+  height: 150rpx;
+  margin-left: 2%;
+  border-radius: 25rpx;
+}
+
+
+/*加减框全局样式*/
+page {
+  padding: 20px 0;
+}
+/*主容器*/
+.stepper {
+  width:100px;
+  height:30px;
+  margin: 0 auto;
+  border: 1px solid #5D98F2;
+  border-radius: 15px;
+}
+/*加号和减号*/
+.stepper text {
+  float: left;
+  width: 29px;
+  line-height: 30px;
+  text-align: center;
+  color: #D54218;
+  font-size: 35rpx;
+}
+/*数值*/
+.stepper input {
+  width: 40px;
+  height: 30px;
+  float: left;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 15px;
+  /* border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc; */
+}
+/*普通样式*/
+.stepper .normal {
+  color:#D54218;
+}
+/*禁用样式*/
+.stepper .disable {
+  color: #ccc;
+}
+
+.show-selleraddress-name{
+  border-top: 2rpx solid #ccc;
+  border-bottom: 2rpx solid #ccc;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 130rpx;
+  width: 95%;
+  padding-left: 5%;
+  color: #ccc;
+}
+
+.page-text{
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  margin: 10rpx auto;
+  color: #A9A9AB;
+}
+
+.transport-box{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 95%;
+  margin: auto;
+}
+
+.transport-item{
+  margin: 10rpx;
+  padding: 15rpx 30rpx;
+  border-radius: 5rpx;
+  border: 1rpx solid #778899;
+  background: white;
+  color: #778899;
+}
+
+.transport-selected{
+  border: 1rpa solid #778899;
+  background: #778899;
+  color: white;
+}
+
+.goshopbottom{
+  border-top:3rpx solid #ccc;
+  position: fixed; 
+  width: 100%;
+  height: 100rpx;
+  bottom: 0rpx;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+}
+
+.bottom-icon-page{
+  height: 90%;
+  width: 250rpx;
+  display: flex;
+  margin-left: 15%;
+  justify-content: center;
+  align-items: center;
+}
+
+.bottom-button-type-two{
+  width: 200rpx;
+  height: 90%;
+  background-color:#FC5545;
+  border-radius:50rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  margin-left: 5%;
+}
+
+.goshopbottom-price{
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+  margin-left: 5%;
+}
+
+.mask-page{
+  width:100%;
+  height: 100%;
+  background:black;
+  z-index: 2;
+  opacity:0.7;
+  position: fixed; 
+  bottom: 0rpx;
+}
+
+.couponList-page{
+  width: 100%;
+  height: 700rpx;
+  background-color:#F3F5F4; 
+  z-index: 3;
+  position: fixed; 
+  bottom: 0rpx;
+}
+
+.couponList-page-head{
+  width: 100%;
+  height: 100rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color:white;
+}
+
+.scroll-view-page{
+  width: 100%;
+  height: 590rpx;
+}
+
+.couponList-info-page{
+  height: 150rpx;
+  width: 94%;
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  background-color:white;
+  margin-top:2%; 
+  margin-left: 3%;
+  border-radius: 20rpx;
+}
+
+.couponList-info-left-page{
+  height: 150rpx;
+  width: 20%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+
+.couponList-left-price-page{
+  height:100rpx;
+  width:100%;
+  border-right:1rpx solid #ccc;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:red;
+  font-size:36rpx;
+}
+.couponList-info-right-page{
+  height: 150rpx;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 3%;
+}
+
+.transpor-sty{
+  width: 98%;
+  display: flex;
+  flex-flow: wrap;
+}
+
+.transpor-sty-box{
+  width: 33.333%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: nowrap;
+  margin-bottom: 3%;
+}
+
+.peisongsty{
+  font-weight: bold;
+  color: #80848f;
+}
+
+.no-transpor-sty{
+  width: 100%;
+  height: 80rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 27rpx;
+  color: #80848f;
+  font-weight: bold;
+}

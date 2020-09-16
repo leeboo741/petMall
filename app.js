@@ -2,10 +2,13 @@
 const UrlPath = require("/macros/urlPath.js");
 const Config = require("/macros/config.js");
 const Utils = require("/utils/util");
+const appUpdateManager = require("./services/appUpdateManager");
 App({
   onLaunch: function () {
     console.log("当前地址:" , UrlPath.Url_Base);
     console.log("当前版本号/构建号：" , Config.Version , "/" , Config.Version_Code);
+    console.log("当前分支: ", Config.Branch);
+    appUpdateManager.checkNewVersionAndUpdate();
   },
   globalData: {
     serviceSelectBusiness: null, // 服务 选中的商家

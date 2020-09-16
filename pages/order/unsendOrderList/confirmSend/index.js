@@ -35,13 +35,14 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.changeSelectType(this.data.typeList[0]);
 
     if (app.globalData.confirmSendOrder != null) {
       Utils.logInfo("获得数据" + JSON.stringify(app.globalData.confirmSendOrder));
       this.setData({
         orderData: app.globalData.confirmSendOrder
       })
+      
+      this.changeSelectType(this.data.typeList[this.data.orderData.shippingMethods]);
       if (!Util.checkEmpty(this.data.orderData.wayBill)) {
         this.setData({
           showInputBillNo: false,

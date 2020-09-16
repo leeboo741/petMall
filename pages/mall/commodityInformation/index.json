@@ -2,7 +2,8 @@
   "usingComponents": {
     "i-navigation-bar": "/lee-components/leeNavigationBar/index",
     "i-icon": "/dist/icon/index",
-    "i-image": "/lee-components/leeImageView/index"
+    "i-image": "/lee-components/leeImageView/index",
+    "shoppingcart": "/lee-components/shoppingcart/shoppingcart"
   },
   "enablePullDownRefresh": true
 }

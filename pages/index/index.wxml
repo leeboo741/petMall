@@ -116,7 +116,7 @@
 						￥ {{upscaleItem.pet.retailPrice}}
 					</view>
 					<view class="text-address">
-						{{parse.showText(upscaleItem.pet.business.province)}} {{parse.showText(upscaleItem.pet.business.city)}}
+						{{parse.showText(upscaleItem.pet.business.province)}}
 					</view>
 				</view>
 			</view>
@@ -222,6 +222,7 @@
 			</view>
 		</view>
 	</view>
+	<view class="section-title-area" bindtap="tapToMoreBusiness">查看更多商家</view>
 </i-panel>
 
 <!-- 热门分类 -->
@@ -239,6 +240,7 @@
 			</view>
 		</view>
 	</view>
+	<view class="section-title-area" bindtap="tapToMoreType">查看更多分类</view>
 </i-panel>
 
 <!-- 加载块 -->

@@ -9,7 +9,6 @@ const Utils = require("../../../utils/util")
 const app = getApp();
 const Shop_Type_Item = "item";
 const Shop_Type_Pet = "pet";
-
 const ShareManager = require("../../../services/shareService");
 
 Page({
@@ -31,6 +30,7 @@ Page({
     selectTransport: null, // 选中的运输方式
 
     minusStatus: 'disable', //是否禁用减号
+    maxusStatus: 'normal', // 是否禁用加号 
     switch1: false, //是否用积分
     showMask: true, //是否隐藏蒙版
     showCouponList: true, //是否隐藏优惠券列表
@@ -45,6 +45,18 @@ Page({
     showCoupon:false, //是否提示优惠券不可用
 
     itemGroupPriceList: [], // 团购商品阶梯价格
+
+    pickUpModeList: [
+      {
+        name: '自取',
+        id: 0,
+      },
+      {
+        name:'商家配送',
+        id: 1,
+      }
+    ], // 取货方式
+    currentPickUpMode: null, // null 斑马配送 
   },
 
   /**
@@ -60,6 +72,7 @@ Page({
       this.setData({
         shopDataSource: app.globalData.shopItem.item,
         itemGroupPriceList: app.globalData.shopItem.itemGrouponList,
+        maxusStatus: app.globalData.shopItem.item.qty <= 1? 'disable': 'normal'
       })
     } else {
       Utils.logInfo("app.globalData.shopPet: \n" + JSON.stringify(app.globalData.shopPet));
@@ -70,8 +83,24 @@ Page({
     UserService.isLogin(function isLoginCallback(){
       that.getDefaultReceivingAddress(UserService.getBusinessNo(), function callback(res) {
         Utils.logInfo(JSON.stringify(res));
+        if (Utils.checkEmpty(res.root)) {
+          wx.showToast({
+            title: '请先新建收货地址',
+            icon: 'none'
+          })
+          return;
+        }
+        let tempAddress = null;
+        res.root.forEach(address => {
+          if (address.isDefault == 1) {
+            tempAddress = address;
+          }
+        });
+        if (tempAddress == null) {
+          tempAddress == res.root[0];
+        }
         that.setData({
-          receiveAddress: res.root[0]
+          receiveAddress: tempAddress
         })
         if (that.data.type == Shop_Type_Pet) {
           that.queryListTransportType(
@@ -100,11 +129,17 @@ Page({
         receiveAddress: app.globalData.selectReceiveAddress
       })
       if (that.data.type == Shop_Type_Pet) {
-        that.queryListTransportType(
-          that.data.shopDataSource.pet.business.city, that.data.receiveAddress.city);
+        if (that.data.receiveAddress != null) {
+          that.queryListTransportType(
+            that.data.shopDataSource.pet.business.city, that.data.receiveAddress.city);
+        }
       }
       app.globalData.selectReceiveAddress = null;
-
+    }
+    if (that.data.type == Shop_Type_Item) {
+      that.setData({
+        currentPickUpMode: that.data.pickUpModeList[0]
+      })
     }
     UserService.isLogin(function isLoginCallback(){
       if (that.data.type == 'pet') {
@@ -188,11 +223,13 @@ Page({
   bindPlus: function() {
     let that = this;
     var num = this.data.num;
-    num++;
-    var minusStatus = num > 1 ? 'normal' : 'disable';
+    if(num < this.data.shopDataSource.qty) {
+      num++;
+    }
+    var maxusStatus = num >= this.data.shopDataSource.qty ? 'disable' : 'normal';
     this.setData({
       num: num,
-      minusStatus: minusStatus,
+      maxusStatus: maxusStatus,
     })
 
     // this.countPrice();
@@ -208,11 +245,16 @@ Page({
    */
   bindManual: function(e) {
     let that = this;
-    var num = e.detail.value;
+    var num = parseInt(e.detail.value) ;
     var minusStatus = num > 1 ? 'normal' : 'disable';
+    if (num > this.data.shopDataSource.qty) {
+      num = this.data.shopDataSource.qty
+    }
+    var maxusStatus = num >= this.data.shopDataSource.qty ? "disable": 'normal';
     this.setData({
       num: num,
       minusStatus: minusStatus,
+      maxusStatus: maxusStatus,
     })
 
     // this.countPrice();
@@ -300,6 +342,15 @@ Page({
   },
 
   /**
+   * 选择配送方式
+   */
+  selectPickupMode: function(e) {
+    this.setData({
+      currentPickUpMode: this.data.pickUpModeList[e.currentTarget.dataset.index]
+    })
+  },
+
+  /**
    * 点击收货地址
    */
   receivingAddressTap: function() {
@@ -328,6 +379,26 @@ Page({
       })
       return;
     }
+    if (this.data.type == 'pet') {
+      if (this.data.currentPickUpMode == null) {
+        if (Utils.checkEmpty(this.data.typeOfShipping)) {
+          wx.showToast({
+            title: '暂无配送线路',
+            icon: 'none'
+          })
+          return;
+        }
+        if (this.data.selectTransport == null) {
+          wx.showToast({
+            title: '请先选择运输方式方式',
+            icon: 'none'
+          })
+          return;
+        }
+      } else {
+        
+      }
+    }
     wx.showLoading({
       title: '下单中...',
     })
@@ -338,61 +409,73 @@ Page({
           Utils.logInfo("下单成功");
           wx.showModal({
             title: '下单成功',
-            content: '是否立即支付',
+            content: '可前往(我的->切换买家)查看订单信息',
+            showCancel: false,
             success(res) {
               if (res.confirm) {
-                that.requestPayInfo(result,
-                  function getPayInfoCallback(payInfoData) {
-                    if (payInfoData == null) {
-                      wx.showToast({
-                        title: '获取支付信息失败',
-                        icon: 'none'
-                      })
-                      return;
-                    }
-                    Utils.logInfo("支付信息： \n" + JSON.stringify(payInfoData));
-                    wx.requestPayment({
-                      timeStamp: payInfoData.timeStamp,
-                      nonceStr: payInfoData.nonceStr,
-                      package: payInfoData.package,
-                      signType: payInfoData.signType,
-                      paySign: payInfoData.paySign,
-                      success(res) {
-                        if (that.data.selectTransport == null && that.data.type == "pet") {
-                          wx.showModal({
-                            title: '提示',
-                            content: '斑马速运将为您提供物流支持,请前往斑马速运小程序查看',
-                            showCancel: false,
+                wx.showModal({
+                  title: '是否立即支付',
+                  content: '也可稍后前往(我的->切换买家->待付款)支付',
+                  confirmText: '立即支付',
+                  cancelText: '稍后支付',
+                  success(res) {
+                    if (res.confirm) {
+                      that.requestPayInfo(result,
+                        function getPayInfoCallback(payInfoData) {
+                          if (payInfoData == null) {
+                            wx.showToast({
+                              title: '获取支付信息失败',
+                              icon: 'none'
+                            })
+                            return;
+                          }
+                          Utils.logInfo("支付信息： \n" + JSON.stringify(payInfoData));
+                          wx.requestPayment({
+                            timeStamp: payInfoData.timeStamp,
+                            nonceStr: payInfoData.nonceStr,
+                            package: payInfoData.package,
+                            signType: payInfoData.signType,
+                            paySign: payInfoData.paySign,
                             success(res) {
-                              if (res.confirm) {
+                              if (that.data.selectTransport == null && that.data.type == "pet") {
+                                wx.showModal({
+                                  title: '提示',
+                                  content: '斑马速运将为您提供物流支持,请前往斑马速运小程序查看',
+                                  showCancel: false,
+                                  success(res) {
+                                    if (res.confirm) {
+                                      wx.navigateBack({
+      
+                                      })
+                                    }
+                                  }
+                                })
+                              } else {
                                 wx.navigateBack({
-
+      
                                 })
                               }
+                            },
+                            fail(res) {
+                              wx.showToast({
+                                title: '支付失败,请稍后重试',
+                                icon: 'none'
+                              })
                             }
                           })
-                        } else {
-                          wx.navigateBack({
-
-                          })
                         }
-                      },
-                      fail(res) {
-                        wx.showToast({
-                          title: '支付失败,请稍后重试',
-                          icon: 'none'
-                        })
-                      }
-                    })
+                      )
+                    } else {
+                      wx.navigateBack({
+                        
+                      })
+                    }
                   }
-                )
-              } else {
-                wx.navigateBack({
-                  
                 })
               }
             }
           })
+          
         } else {
           wx.showToast({
             title: '插入失败',
@@ -426,6 +509,12 @@ Page({
         paymentAmount: 0,
         transportAmount: 0,
         coupon: null,
+      }
+
+      if (app.globalData.shareBusinessNo) {
+        param.shareBusiness = {
+          businessNo: app.globalData.shareBusinessNo
+        }
       }
 
       if (that.data.selectCoupon != null) {
@@ -490,9 +579,16 @@ Page({
   requestPayInfo: function(orderNo, getPayInfoCallback) {
     if (this.data.type == Shop_Type_Item) {
       PayService.getItemOrderPayInfo(orderNo,
-        function getResultCallback(result) {
-          if (Util.checkIsFunction(getPayInfoCallback)) {
-            getPayInfoCallback(result.root);
+        function getResultCallback(success, result) {
+          if (success) {
+            if (Util.checkIsFunction(getPayInfoCallback)) {
+              getPayInfoCallback(result.root);
+            }
+          } else {
+            wx.showToast({
+              title: '获取支付参数失败',
+              icon: 'none'
+            })
           }
         }
       )
@@ -514,18 +610,19 @@ Page({
       this.queryFreightRates();
       return;
     }
-    OrderService.queryListTransportType(startCity, endCity, function callback(dataSource) {
-      if (!Util.checkEmpty(dataSource.root)) {
+    that.setData({
+      currentPickUpMode: null
+    })
+    OrderService.queryListTransportType(startCity, endCity, function callback(success,dataSource) {
+      if (success) {
         that.setData({
           typeOfShipping: dataSource.root
         })
       } else {
         that.setData({
-          typeOfShipping: [],
+          currentPickUpMode: that.data.pickUpModeList[0],
         })
-        that.queryFreightRates();
       }
-
     })
   },
 
@@ -533,6 +630,9 @@ Page({
   //  宠物合计价格以及运费
   queryFreightRates: function() {
     let that = this;
+    wx.showLoading({
+      title: '价格计算中...',
+    })
     UserService.isLogin(function isLoginCallback(){
       let param = {
         pet: {
@@ -561,6 +661,9 @@ Page({
       }
 
       OrderService.getPetOrderPrice(param, function callback(dataSource) {
+        wx.hideLoading({
+          success: (res) => {},
+        })
         Utils.logInfo("获得总价信息==>" + JSON.stringify(dataSource))
         if (dataSource.root.priceState == 0) {
           that.setData({
@@ -603,6 +706,7 @@ Page({
         // transportType: null,
         coupon: null,
         shareBusiness: null
+        
       }
 
       if (that.data.selectCoupon != null) {

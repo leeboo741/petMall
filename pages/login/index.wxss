@@ -1,4 +1,7 @@
 /* pages/login/index.wxss */
+page{
+  background: rgb(242, 244, 246);
+}
 .page-box-full{
   width: 100vw;
   height: 100vh;
@@ -82,14 +85,16 @@
     line-height: 88rpx;
 }
 
+
 .phonelogin {
     width: 590rpx;
     height: 88rpx;
-    background: #595757;
+    background: rgb(242, 244, 246);
+    color: #4CC065;
     border-radius: 32rpx;
+    border: 1rpx solid #4CC065;
     font-family: PingFangSC-Medium;
     font-size: 34rpx;
-    color: #FFFFFF;
     text-align: center;
     position: fixed;
     bottom: 200rpx;

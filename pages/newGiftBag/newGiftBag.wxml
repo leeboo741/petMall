@@ -1,0 +1,58 @@
+<!--pages/receiveCouponList/receiveCouponList.wxml-->
+<i-navigation title='新客大礼包' showBackButton='{{true}}'>
+</i-navigation>
+
+<i-panel>
+  <i-cell-group>
+    <i-cell wx:for='{{couponList}}' wx:key='couponTypeID'>
+      <view slot='header'
+            class='coupon-item'>
+        <view class="coupon-item-content">
+          <view class="coupon-item-header">
+            <block wx:if='{{item.preferentialType == 1}}'>
+              <view class="coupon-item-value">
+              {{item.floatDiscount}}
+              </view>
+              <view class="coupon-item-unit">
+              折
+              </view>
+            </block>
+            <block wx:elif='{{item.preferentialType == 2}}'>
+              <view class="coupon-item-value">
+              {{item.value}}
+              </view>
+              <view class="coupon-item-unit">
+              元
+              </view>
+            </block>
+            <block wx:else>
+
+            </block>
+            <block wx:if='{{item.atLeast}}'>
+              <view class="coupon-item-least">
+              满 {{item.leastAmount}} 可用
+              </view>
+            </block>
+          </view>
+          <view class="coupon-item-content">
+            <view class='coupon-item-title'>
+            {{item.title}}
+            </view>
+          </view>
+          <view class="coupon-item-footer">
+            <view class="coupon-item-info">
+            {{item.rangeStr}}
+            </view>
+            <view class="coupon-item-info">
+            {{item.businessStr}}
+            </view>
+          </view>
+        </view>      
+      </view>
+    </i-cell>
+  </i-cell-group>
+</i-panel>
+
+<view style='height: 100rpx'></view>
+
+<view style='position: fixed; height: 100rpx; left: 0; right: 0; bottom: 0; background: #ee2c2c; color: white; font-size: 35rpx; font-weight: blod; line-height: 100rpx; text-align: center' bindtap="tapReceive">领取大礼包</view>

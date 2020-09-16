@@ -6,16 +6,21 @@
 	"setting": {
 		"urlCheck": false,
 		"es6": true,
+		"enhance": false,
 		"postcss": true,
+		"preloadBackgroundData": false,
 		"minified": true,
 		"newFeature": true,
 		"coverView": true,
+		"nodeModules": false,
 		"autoAudits": false,
 		"showShadowRootInWxmlPanel": true,
 		"scopeDataCheck": false,
+		"uglifyFileName": false,
 		"checkInvalidKey": true,
 		"checkSiteMap": true,
 		"uploadWithSourceMap": true,
+		"compileHotReLoad": false,
 		"babelSetting": {
 			"ignore": [],
 			"disablePlugins": [],
@@ -60,8 +65,8 @@
 			"current": -1,
 			"list": [
 				{
-					"id": -1,
-					"name": "pages/index/index",
+					"id": 0,
+					"name": "托运小程序进入商城",
 					"pathName": "pages/index/index",
 					"query": "source=mini_app_transport&target=mall",
 					"scene": 1037,
@@ -81,7 +86,7 @@
 					"id": 2,
 					"name": "商品分享",
 					"pathName": "pages/index/index",
-					"query": "source=share_data&target=goods_detail&sharecustomerno=16607093121&sharebusinessno=9376d33d108c4c33867f0c1a2c0b7d8b&shareunionid=okKw_s8jX1cM9PT8hRqxkScdD3zs&data=34",
+					"query": "source=share_data&target=goods_detail&sharecustomerno=16607093121&sharebusinessno=9376d33d108c4c33867f0c1a2c0b7d8b&shareunionid=okKw_s8jX1cM9PT8hRqxkScdD3zs&data=33",
 					"scene": 1007
 				},
 				{
@@ -97,6 +102,84 @@
 					"pathName": "pages/index/index",
 					"query": "source=share_data&target=home&sharecustomerno=16607093121&sharebusinessno=9376d33d108c4c33867f0c1a2c0b7d8b&shareunionid=okKw_s8jX1cM9PT8hRqxkScdD3zs",
 					"scene": 1007
+				},
+				{
+					"id": 5,
+					"name": "商家海报二维码",
+					"pathName": "pages/index/index",
+					"query": "q=https%3A%2F%2Fmarket.taochonghui.com%2Fweapp%2Fjump%2Fbusiness%3Ftype%3Dposter%26target%3Dbusiness_detail%26businessno%3Dfffc82220cef41e683323c11638f67fc%26sharecustomerno%3D16607093121%26sharebusinessno%3Dfffc82220cef41e683323c11638f67fc%26shareunionid%3DokKw_s8jX1cM9PT8hRqxkScdD3zs%26shareopenid%3Do1LY440y8xzqj7Yev3F0HzLVCBxs&scancode_time=1596521206",
+					"scene": null
+				},
+				{
+					"id": 6,
+					"name": "公众号-汪星人",
+					"pathName": "pages/index/index",
+					"query": "source=subscription&target=baike&data=10000",
+					"scene": 1035,
+					"referrerInfo": {
+						"appId": "wxca35493268376086"
+					}
+				},
+				{
+					"id": -1,
+					"name": "公众号-喵星人",
+					"pathName": "pages/index/index",
+					"query": "source=subscription&target=baike&data=10001",
+					"scene": 1035,
+					"referrerInfo": {
+						"appId": "wxca35493268376086"
+					}
+				},
+				{
+					"id": 8,
+					"name": "公众号-我要狗狗",
+					"pathName": "pages/index/index",
+					"query": "source=subscription&target=nearby&data= {\"type\": 4,\"sortno\": 10000,\"title\": \"狗狗\"}",
+					"scene": 1035,
+					"referrerInfo": {
+						"appId": "wxca35493268376086"
+					}
+				},
+				{
+					"id": 9,
+					"name": "公众号-我要猫猫",
+					"pathName": "pages/index/index",
+					"query": "source=subscription&target=nearby&data={\"type\": 4,\"sortno\": 10001,\"title\": \"猫猫\"}",
+					"scene": 1035,
+					"referrerInfo": {
+						"appId": "wxca35493268376086"
+					}
+				},
+				{
+					"id": 10,
+					"name": "公众号-我要洗澡",
+					"pathName": "pages/index/index",
+					"query": "source=subscription&target=service",
+					"scene": 1035,
+					"referrerInfo": {
+						"appId": "wxca35493268376086"
+					}
+				},
+				{
+					"id": -1,
+					"name": "公众号-商品特惠",
+					"pathName": "pages/index/index",
+					"query": "source=subscription&target=mall",
+					"scene": 1035,
+					"referrerInfo": {
+						"appId": "wxca35493268376086"
+					}
+				},
+				{
+					"id": -1,
+					"name": "托运获取大礼包",
+					"pathName": "pages/index/index",
+					"query": "source=mini_app_transport&target=getnewgiftbag",
+					"scene": 1037,
+					"referrerInfo": {
+						"appId": "wxcbdaa290fc45a263",
+						"extraData": "{}"
+					}
 				}
 			]
 		}

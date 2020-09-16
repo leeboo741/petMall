@@ -1,17 +1,25 @@
 
-const Config = require("./config");
 const config = require("./config");
 
 let Url_Base;
-if (Config.ENV_CURRENT == Config.ENV_DEV) {
-  Url_Base = "http://192.168.3.111:7070"; // ---- 祥林
-  // Url_Base = "http://192.168.3.233:7070"; // ---- 胡
-} else if (config.ENV_CURRENT == config.ENV_RELEASE) {
-  Url_Base = "https://market.taochonghui.com";
-} else {
-  Url_Base = "https://market.taochonghui.com";
+switch(config.ENV_CURRENT) {
+  case config.ENV_DEV: 
+    // Url_Base = "http://192.168.3.40:7070";
+    Url_Base = "http://192.168.3.110:7070";
+    break;
+  case config.ENV_RELEASE:
+    Url_Base = "https://market.taochonghui.com";
+    break;
+  case config.ENV_DEV_Guo:
+    Url_Base = "http://192.168.3.132:7070";
+    break;
+  case config.ENV_DEV_Zhou:
+    Url_Base = "http://192.168.3.40:7070";
+    break;
+  default:
+    Url_Base = "https://market.taochonghui.com";
+    break;
 }
-
 
 const Url_Login = "/user"; // 登陆
 const Url_Decode = "/login"; // 登陆
@@ -26,6 +34,9 @@ const Url_Search = "/api/query/"; // 搜索接口
 const Url_TotalMonth = "/business/payFlow/totalMonth"; //本月交易额
 
 const Url_balance = "/api/balance/"; //查询用户余额 
+const Url_HaveNewGiftBag = "/api/business/getNewGiftBag"; // 是否有新客礼包未领取
+const Url_ReceiveNewGiftBag = "/api/business/coupon/exchange/receiveNewGuestGiftBag"; // 领取新客大礼包
+const Url_NewGiftBagList = "/api/business/coupon/list/listNewGuestGiftBag"; // 新客大礼包列表
 
 const Url_BusinessFlow = "/api/business/flow"; //商家流水
 
@@ -129,7 +140,12 @@ const Url_Pet_ReleaseList = "/businessDetail/businessDetail"; // 已发布宠物
 const Url_Order_AddNew_Pet = "/api/order/pet"; // 新增宠物订单
 const Url_Order_AddNew_Item = "/api/order/item"; // 新增商品订单
 
-
+function Url_Order_Delete_Pet(orderNo,buyerNo,wayBillNo) {
+  return "/api/customer/pet/order/delPetOrderByNO?orderNo=" + orderNo + "&buyer_customer_no=" + buyerNo + "&way_bill=" + wayBillNo;
+} // 删除宠物订单
+function Url_Order_Delete_Item(orderNo) {
+  return "/api/customer/item/order/deleteItemOrderByNo?orderNo=" + orderNo;
+} // 删除商品订单
 
 function Url_Order_ConfirmSend_Item(orderNo, wayBill, expressCompany) {
   // const wayBillUrl = wayBill?"/way-bill/" + wayBill: "";
@@ -348,6 +364,11 @@ function Url_Account_Add() {
   return "/api/business/account";
 }
 
+const Url_Message_GetAll = '/api/customer/message'; // 获取所有站内信列表
+const Url_Message_GetNew = '/api/customer/message/listMessageByUpdateTimeAndBusinessNo'; // 获取最新站内信列表
+const Url_Message_GetNewCount = "/api/customer/message/countMsgByUpdateTimeAndBusinessNo"; // 获取最新站内信数量
+const Url_BusinessList_All = '/api/business/getAllBusiness'; // 查询所有商家列表
+
 module.exports = {
   Url_Base, // Base Url
 
@@ -418,7 +439,8 @@ module.exports = {
 
   Url_Order_AddNew_Pet, // 新增宠物订单
   Url_Order_AddNew_Item, // 新增商品订单
-
+  Url_Order_Delete_Pet, // 删除宠物订单
+  Url_Order_Delete_Item, // 删除商品订单
   Url_Order_ConfirmSend_Pet, // 确认 宠物发货
   Url_Order_ConfirmSend_Item, // 确认 商品发货
   Url_Order_ConfirmRecive_Pet, // 确认 宠物收货
@@ -443,6 +465,9 @@ module.exports = {
 
   Url_TotalMonth, //本月交易额
   Url_balance, //查询用户余额
+  Url_HaveNewGiftBag, // 是否有新客礼包未领取 true 是 false 不是
+  Url_ReceiveNewGiftBag, // 领取新客大礼包 
+  Url_NewGiftBagList, // 新客大礼包列表
 
   Url_BusinessFlow, //商家流水
   Url_Withdraw, //商家提现
@@ -580,4 +605,9 @@ module.exports = {
   Url_Account_List, // 收款账户
   Url_Account_Delete, // 删除收款账户
   Url_Account_Add, // 新建收款账户
+
+  Url_Message_GetAll, // 获取站内信列表
+  Url_Message_GetNew, // 获取站内信最新
+  Url_Message_GetNewCount, // 获取最新站内信数量
+  Url_BusinessList_All, // 查询所有商家列表
 }

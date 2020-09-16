@@ -286,7 +286,7 @@ function getBusinessList(cityName, areaName, latitude, longitude, offset, limit,
       lat: latitude,
       lng: longitude,
       offset: offset?offset:0,
-      limit: limit?limit:20,
+      limit: limit?limit:2000,
     },
     success(res) {
       if (Util.checkIsFunction(getBusinessListCallback)) {

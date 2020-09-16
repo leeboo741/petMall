@@ -432,8 +432,14 @@ Page({
       //   pics.push(pic);
       // }
       // serviceObj.pics = pics;
+      wx.showLoading({
+        title: '提交中...',
+      })
       if (Utils.checkEmpty(serviceObj.serviceID)) {
         ServerManager.releaseServer(serviceObj, function releaseCallback(result) {
+          wx.hideLoading({
+            success: (res) => {},
+          })
           Utils.logInfo(result);
           wx.showModal({
             title: '新增完成',
@@ -453,6 +459,9 @@ Page({
         })
       } else {
         ServerManager.editServer(serviceObj, function(result){
+          wx.hideLoading({
+            success: (res) => {},
+          })
           Utils.logInfo(result);
           wx.showModal({
             title: '编辑完成',

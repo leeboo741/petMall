@@ -8,6 +8,7 @@ const OrderService = require("../../../services/orderService");
 const PagePath = require("../../../macros/pagePath");
 
 const ShareManager = require("../../../services/shareService");
+const { MINI_PROGRAME_APPID_PETTRANSPORT, ENV_CURRENT } = require("../../../macros/config.js");
 
 Page({
 
@@ -258,12 +259,12 @@ Page({
    */
   tapConfirmOrder: function(){
     wx.navigateToMiniProgram({
-      appId: "wxcbdaa290fc45a263",
+      appId: MINI_PROGRAME_APPID_PETTRANSPORT,
       path: "pages/index/index2",
       extraData: {
         foo: "release"
       },
-      envVersion: "release",
+      envVersion: ENV_CURRENT,
       success(res) {
         // 打开成功
         Utils.logInfo(JSON.stringify(res))

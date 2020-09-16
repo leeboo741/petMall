@@ -110,7 +110,7 @@
     </view>
 
     <view class="foodgrain-page">
-      <view class="foodgrain-page-formation" wx:for='{{itemList}}' wx:for-item="Item" wx:for-index="Index" wx:key='{{Item.item.itemNo}}' bindtap="commodityInforMationTap" data-itemno='{{Item.item.itemNo}}'>
+      <view class="foodgrain-page-formation" wx:for='{{itemList}}' wx:for-item="Item" wx:for-index="Index" wx:key='{{Item.item.itemNo}}' bindtap="commodityInforMationTap" data-itemno='{{Item.item.itemNo}}' wx:if='{{Item.item.groupon != 1}}'>
         <i-image i-class="foodgrain-page-formation-head" imageSrc="{{Item.item.coverImg}}" >
         </i-image>
         <view class="foodgrain-page-formation-middle">

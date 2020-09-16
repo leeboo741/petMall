@@ -111,7 +111,7 @@
 
 <view class="pets-informaction-tabs">
 	<view style="color:#ccc; margin-right: 15rpx;">服务:</view>
-	<view wx:for="{{service}}" wx:for-item='serviceItem' wx:for-index='serviceIndex' wx:key='{{serviceIndex}}' style="margin-left:3%;disply:flex;color:#F9A513;">
+	<view wx:for="{{service}}" wx:for-item='serviceItem' wx:for-index='serviceIndex' wx:key='idx' style="margin-left:3%;disply:flex;color:#F9A513;">
 		<i-icon type="success_fill" color="#F9A513" /> {{serviceItem}}
 	</view>
 	<view style="margin-left:3%;disply:flex;color:#F9A513;" hidden="{{petDetailData.pet.business.authType>0?false:true}}">
@@ -243,8 +243,8 @@
 	</view>
 
 	<view class="bottom-showinfor">
-		<view class="bottom-button-type-two" bindtap="goShopTap">
-			担保购买
+		<view class="{{petDetailData.pet.petIsSell==1?'bottom-button-type-two-disable':''}} bottom-button-type-two" bindtap="goShopTap">
+		{{petDetailData.pet.petIsSell==1?'已售出':'担保购买'}}
 		</view>
 	</view>
 </view>

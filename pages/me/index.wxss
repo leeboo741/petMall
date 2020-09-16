@@ -262,6 +262,17 @@
   justify-content: center;
   align-items: center;
   border-radius: 30rpx 0rpx 0rpx 30rpx;
+  position: relative;
+}
+
+.red-pot{
+  position: absolute;
+  left: 10rpx;
+  top: -10rpx;
+  width: 30rpx;
+  height: 30rpx;
+  border-radius: 15rpx;
+  background: red;
 }
 
 .order-action-box{

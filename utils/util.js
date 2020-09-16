@@ -200,7 +200,11 @@ function BD09_GCJ02(t) {
  * 内置导航
  */
 function openBaiduLocation(t) {
-  t = t || {}, t = this.BD09_GCJ02(t), wx.openLocation(t);
+  // t = t || {}, t = this.BD09_GCJ02(t), wx.openLocation(t);
+  wx.openLocation({
+    latitude: t.lat,
+    longitude: t.lng,
+  })
 }
 
 /**

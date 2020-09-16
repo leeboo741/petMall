@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "countButton": "/lee-components/countButton/countButton"
+  }
+}

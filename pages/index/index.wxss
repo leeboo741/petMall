@@ -373,7 +373,7 @@
   text-overflow:ellipsis;
   -webkit-box-orient:vertical;
   word-break:break-all;
-
+  max-width: 50%;
 }
 
 .text-original-price{

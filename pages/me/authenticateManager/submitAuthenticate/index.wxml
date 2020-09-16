@@ -84,7 +84,8 @@
 
 
 <i-panel i-class='panel'
-         title='{{type==0?"手持身份证照片":"法定代表人手持身份证照片"}}'>
+         title='{{type==0?"手持身份证照片":"法定代表人手持身份证照片"}}'
+         wx:if='{{false}}'>
   <i-cell>
     <view slot='header'
           class="upload-image-item">
@@ -110,6 +111,16 @@
         <image class="upload-explain-image"
                src='{{explain_identifier}}'>
         </image>
+      </view>
+    </view>
+  </i-cell>
+  <i-cell>
+    <view class="alert-box" slot='header'>
+      <view class="alert-item">
+      1. 请确保本人操作上传真实、有效、清晰的手持身份证照片。
+      </view>
+      <view class="alert-item">
+      2. 手持身份证照片仅用于本次认证审核使用，本公司绝不会泄露您的资料。
       </view>
     </view>
   </i-cell>
