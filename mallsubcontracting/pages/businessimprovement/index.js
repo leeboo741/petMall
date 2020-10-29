@@ -293,7 +293,7 @@ Page({
               success(res) {
                 if (res.confirm) {
                   wx.navigateTo({
-                    url: PagePath.Page_Me_AuthenticateManager_Index,
+                    url: PagePath.Page_Me_AuthenticateManager_Submit,
                   })
                 } else if (res.cancel) {
                   wx.navigateBack({

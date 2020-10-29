@@ -79,10 +79,12 @@ Page({
     })
     that.getStoreDetail(that.data.storeNo,
       function getStoreDetailCallback(storeDetail) {
-        that.setData({
-          storeDetail: storeDetail,
-        })
-        wx.startPullDownRefresh();
+        if (storeDetail != null) {
+          that.setData({
+            storeDetail: storeDetail,
+          })
+          wx.startPullDownRefresh();
+        }
       })
   },
 
@@ -252,6 +254,12 @@ Page({
    */
   onShareAppMessage: function () {
     return ShareManager.getBusinessShareData(this.data.storeDetail.businessName,this.data.storeDetail.businessNo, this.data.storeDetail.headImg);
+  },
+
+  tapShoppingcart: function(){
+    wx.navigateTo({
+      url: "/mallsubcontracting/pages/shoppingcart/index"
+    })
   },
 
   /**

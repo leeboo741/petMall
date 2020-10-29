@@ -6,6 +6,8 @@ const {
 const RequestUtil = require("../utils/requestUtil.js");
 const UrlPath = require("../macros/urlPath.js");
 const requestParamObj = require("../utils/requestParamObj.js");
+const urlPath = require("../macros/urlPath.js");
+const util = require("../utils/util.js");
 
 /**
  * 根据单号删除宠物订单
@@ -747,31 +749,157 @@ function getPetOrderTransport(orderNo, getTransportCallback) {
   RequestUtil.RequestGET(requestParam);
 }
 
+/**
+ * 修改商品订单价格
+ * @param {string} orderNo 订单编号
+ * @param {number} newPrice 改后价格
+ * @param {function(boolean, object)} callback 回调
+ */
+function changeItemOrderPrice(orderNo, newPrice, callback) {
+  let requestParam = new RequestParamObj({
+    url: urlPath.Url_Base + urlPath.Url_Item_Order_ChangePrice,
+    data: {
+      orderNo: orderNo,
+      price: newPrice
+    },
+    header: {
+      'content-type': "application/x-www-form-urlencoded"
+    },
+    success(res) {
+      if (util.checkIsFunction(callback)) {
+        callback(true, res)
+      }
+    },
+    fail (res) {
+      if (util.checkIsFunction(callback)) {
+        callback(false, res)
+      }
+    }
+  })
+  RequestUtil.RequestPOST(requestParam);
+}
+
+/**
+ * 修改宠物订单价格
+ * @param {string} orderNo 订单编号
+ * @param {number} newPrice 改后价格
+ * @param {function(boolean, object)} callback 回调
+ */
+function changePetOrderPrice(orderNo, newPrice, callback) {
+  let requestParam = new RequestParamObj({
+    url: urlPath.Url_Base + urlPath.Url_Pet_Order_ChangePrice,
+    data: {
+      orderNo: orderNo,
+      price: newPrice
+    },
+    header: {
+      'content-type': "application/x-www-form-urlencoded"
+    },
+    success(res) {
+      if (util.checkIsFunction(callback)) {
+        callback(true, res)
+      }
+    },
+    fail (res) {
+      if (util.checkIsFunction(callback)) {
+        callback(false, res)
+      }
+    }
+  })
+  RequestUtil.RequestPOST(requestParam);
+}
+
+/**
+ * 上传商品订单付款凭证
+ * @param {string} orderNo 订单编号
+ * @param {string} paymentVoucher 付款凭证
+ * @param {function(boolean, object)} callback 回调
+ */
+function uploadItemOrderPaymentVoucher(orderNo, paymentVoucher, callback){
+  let requestParam = new RequestParamObj({
+    url: urlPath.Url_Base + urlPath.Url_Item_UploadPaymentVoucher,
+    data: {
+      orderNo: orderNo,
+      paymentVoucher: paymentVoucher
+    },
+    header: {
+      'content-type': "application/x-www-form-urlencoded"
+    },
+    success(res) {
+      if (util.checkIsFunction(callback)) {
+        callback(true,res.root)
+      }
+    },
+    fail(res) {
+      if (util.checkIsFunction(callback)) {
+        callback(false,res)
+      }
+    }
+  })
+  RequestUtil.RequestPOST(requestParam);
+}
+
+/**
+ * 上传宠物订单付款凭证
+ * @param {string} orderNo 订单编号
+ * @param {string} paymentVoucher 付款凭证
+ * @param {function(boolean, object)} callback 回调
+ */
+function uploadPetOrderPaymentVoucher(orderNo, paymentVoucher, callback) {
+  let requestParam = new RequestParamObj({
+    url: urlPath.Url_Base + urlPath.Url_Pet_UploadPaymentVoucher,
+    data: {
+      orderNo: orderNo,
+      paymentVoucher: paymentVoucher
+    },
+    header: {
+      'content-type': "application/x-www-form-urlencoded"
+    },
+    success(res) {
+      if (util.checkIsFunction(callback)) {
+        callback(true,res.root)
+      }
+    },
+    fail(res) {
+      if (util.checkIsFunction(callback)) {
+        callback(false,res)
+      }
+    }
+  })
+  RequestUtil.RequestPOST(requestParam);
+}
 
 module.exports={
   deletePetOrderByOrderNo: deletePetOrderByOrderNo, // 删除宠物订单
   deleteItemOrderByOrderNo: deleteItemOrderByOrderNo, // 删除商品订单
   getPetOrderTransport: getPetOrderTransport, // 获取宠物订单运输详情
+
   getPetOrderDetail: getPetOrderDetail, // 获取宠物订单详情
   getItemOrderDetail: getItemOrderDetail, // 获取商品订单详情
+
   queryFreightRates: queryFreightRates, //获取运价
   queryListTransportType: queryListTransportType, //获取运输方式
   addNewItemOrder: addNewItemOrder, // 新增商品订单
   getItemOrderPrice: getItemOrderPrice, //获取订单价格
   addNewPetOrder: addNewPetOrder, // 新增宠物订单
+
   customerQueryOrderList: customerQueryOrderList, // 客户 查询订单
   businessQueryOrderList: businessQueryOrderList, // 商户 查询订单
+
   confirmSendPetOrder: confirmSendPetOrder, // 确认发货 宠物
   confirmSendItemOrder: confirmSendItemOrder, // 确认发货 商品
   confirmRecivePetOrder: confirmRecivePetOrder, // 确认收货 宠物
   confirmReciveItemOrder: confirmReciveItemOrder, // 确认收货 商品
+
   petRefundOrder: petRefundOrder, // 发起退款 宠物
   itemRefundOrder: itemRefundOrder, // 发起退款 商品
   refundDetail: refundDetail, // 获取退款单详情
   confirmRefundPet: confirmRefundPet, // 确认退款 宠物
   confirmRefundItem: confirmRefundItem, // 确认退款 商品
+
   getAbleCouponList: getAbleCouponList, //获得本单据可用优惠券
   getPetOrderPrice: getPetOrderPrice, //获得宠物订单总价
+
   customerQueryBeShipped: customerQueryBeShipped, //买家宠物待发货
   customerQueryToBeEvaluated: customerQueryToBeEvaluated, //买家宠物待评价
   customerQueryToBeReceived: customerQueryToBeReceived, //买家宠物待收货
@@ -789,4 +917,10 @@ module.exports={
   businessGoodOrderToBeShipped: businessGoodOrderToBeShipped, //卖家商品待发货订单
   businessGoodOrderToBeEvaluated: businessGoodOrderToBeEvaluated, //卖家商品待评价订单
   businessGoodOrderToBeReceived: businessGoodOrderToBeReceived, //卖家商品待收货订单
+
+  changeItemOrderPrice: changeItemOrderPrice, // 修改商品订单价格
+  changePetOrderPrice: changePetOrderPrice, // 修改宠物订单价格
+
+  uploadItemOrderPaymentVoucher: uploadItemOrderPaymentVoucher, // 上传商品订单付款凭证
+  uploadPetOrderPaymentVoucher: uploadPetOrderPaymentVoucher, // 上传宠物订单付款凭证
 }

@@ -4,17 +4,20 @@
 </i-navigation-bar>
 
 <i-cell-group>
-  <view wx:for="{{businessDetailed}}"
+  <block wx:for="{{businessDetailed}}"
         wx:for-item='businessDetailedItem'
         wx:for-index='businessDetailedIndex'
         wx:key='{{businessDetailedIndex}}'
-        hidden="{{businessDetailedItem.shopAmount==null?true:false}}">
-       <i-cell title=" + {{businessDetailedItem.shopAmount}}" 
-               label="{{businessDetailedItem.createDate}} {{businessDetailedItem.createTime}}"
-               is-link>
-               <view bindtap="showDetail" slot="footer" >点击查看</view>
+        wx:if="{{businessDetailedItem.shopAmount!=null}}">
+       <i-cell is-link>
+               <view slot='header' class="item-header">
+                <view class="item-title">订单号:{{businessDetailedItem.orderNo}}</view>
+                <view class="item-value">+ {{businessDetailedItem.shopAmount}}</view>
+                <view class="item-time">{{businessDetailedItem.createDate}} {{businessDetailedItem.createTime}}</view>
+               </view>
+               <view bindtap="showDetail" slot="footer" data-orderno='{{businessDetailedItem.orderNo}}'>点击查看</view>
        </i-cell>
-  </view>
+  </block>
 </i-cell-group>
 
 <!-- 加载块 -->

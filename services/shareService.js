@@ -5,11 +5,9 @@
  * 
  */
 
-const Util = require("../utils/util.js");
-const Utils = require("../utils/util.js");
-const PagePath = require("../macros/pagePath.js");
+const util = require("../utils/util");
 const app = getApp();
-const UserManager = require("../services/userService");
+const userService = require("../services/userService");
 const pagePath = require("../macros/pagePath.js");
 
 /** 
@@ -17,7 +15,7 @@ const pagePath = require("../macros/pagePath.js");
  */
 function getDefaultShareCard(){
   let param = getBaseShareParam(OPEN_SOURCE_TYPE_SHAREDATA, OPEN_TARGET_PAGE_HOME);
-  return ShareData("淘宠惠商城",PagePath.Page_Home,param,null,null);
+  return ShareData("淘宠惠商城",pagePath.Page_Home,param,null,null);
 }
 
 /**
@@ -29,7 +27,7 @@ function getDefaultShareCard(){
 function getBusinessShareData(businessName, businessId, businessImage) {
   let param = getBaseShareParam(OPEN_SOURCE_TYPE_SHAREDATA, OPEN_TARGET_PAGE_BUSINESSDETAIL);
   param.data = businessId;
-  return ShareData(businessName, PagePath.Page_Home, param, businessImage, null);
+  return ShareData(businessName, pagePath.Page_Home, param, businessImage, null);
 }
 
 /**
@@ -41,7 +39,7 @@ function getBusinessShareData(businessName, businessId, businessImage) {
 function getGoodsShareData(goodsName, goodsId, goodsImage){
   let param = getBaseShareParam(OPEN_SOURCE_TYPE_SHAREDATA, OPEN_TARGET_PAGE_GOODSDETAIL);
   param.data = goodsId;
-  return ShareData(goodsName, PagePath.Page_Home, param, goodsImage, null);
+  return ShareData(goodsName, pagePath.Page_Home, param, goodsImage, null);
 }
 
 /**
@@ -53,7 +51,19 @@ function getGoodsShareData(goodsName, goodsId, goodsImage){
 function getPetShareCard(petName, petId, petImage){
   let param = getBaseShareParam(OPEN_SOURCE_TYPE_SHAREDATA, OPEN_TARGET_PAGE_PETDETAIL);
   param.data = petId;
-  return ShareData(petName, PagePath.Page_Home, param, petImage, null);
+  return ShareData(petName, pagePath.Page_Home, param, petImage, null);
+}
+
+/**
+ * 获取代支付分享
+ * @param {string} orderNo 订单编号
+ * @param {number} amount 订单金额
+ * @param {number} otherPayType 代支付类型
+ */
+function getShareToOtherPay(orderNo, otherPayType){
+  let param = getBaseShareParam(OPEN_SOURCE_TYPE_SHAREDATA, OPEN_TARGET_PAGE_ORDERDETAIL);
+  param.data = JSON.stringify({orderno: orderNo, amount: amount, otherpaytype: otherPayType});
+  return ShareData('请查看并确认订单',  pagePath.Page_Home, param, null, null);
 }
 
 /**
@@ -69,17 +79,17 @@ function getBaseShareParam(sourceType, targetPage) {
   if (targetPage) {
     baseShareParam['target'] = targetPage
   }
-  if (UserManager.getCustomerNo()) {
-    baseShareParam['shareCustomerNo'] = UserManager.getCustomerNo()
+  if (userService.getCustomerNo()) {
+    baseShareParam['shareCustomerNo'] = userService.getCustomerNo()
   }
-  if (UserManager.getBusinessNo()) {
-    baseShareParam['shareBusinessNo'] = UserManager.getBusinessNo()
+  if (userService.getBusinessNo()) {
+    baseShareParam['shareBusinessNo'] = userService.getBusinessNo()
   }
-  if (UserManager.getOpenId()) {
-    baseShareParam['shareUnionId'] = UserManager.getOpenId()
+  if (userService.getOpenId()) {
+    baseShareParam['shareUnionId'] = userService.getOpenId()
   }
-  if (UserManager.getUserOpenId()) {
-    baseShareParam['shareOpenId'] = UserManager.getUserOpenId()
+  if (userService.getUserOpenId()) {
+    baseShareParam['shareOpenId'] = userService.getUserOpenId()
   }
   return baseShareParam;
 }
@@ -130,7 +140,7 @@ function ShareData(ptitle, ppath, ppathData, pimageUrl, psuccessCallback) {
   }
   if (imageUrl != null) obj.imageUrl = imageUrl;
   if (successCallback != null) obj.success = successCallback;
-  Utils.logInfo("分享数据:" + JSON.stringify(obj));
+  util.logInfo("分享数据:" + JSON.stringify(obj));
   return obj;
 }
 
@@ -148,6 +158,7 @@ const OPEN_TARGET_PAGE_POINTEXCHANGE = 'pointexchange'; // 积分兑换
 const OPEN_TARGET_PAGE_PETDETAIL = "pet_detail"; // 宠物详情
 const OPEN_TARGET_PAGE_GOODSDETAIL = "goods_detail"; // 商品详情
 const OPEN_TARGET_PAGE_BUSINESSDETAIL = "business_detail"; // 商家详情
+const OPEN_TARGET_PAGE_ORDERDETAIL = "order_detail"; // 订单详情
 const OPEN_TARGET_PAGE_SERVICE = 'service'; // 服务
 const OPEN_TARGET_PAGE_GETNEWGIFTBAG = "getnewgiftbag"; // 获取新客大礼包
 /**
@@ -156,19 +167,19 @@ const OPEN_TARGET_PAGE_GETNEWGIFTBAG = "getnewgiftbag"; // 获取新客大礼包
  * @param {*} options 
  */
 function pageHandlerOptions(options) {
-  Utils.logInfo("pageHandlerOptions options :\n" + JSON.stringify(options));
+  util.logInfo("pageHandlerOptions options :\n" + JSON.stringify(options));
   app.globalData.shareOpenId = options.shareopenid; // 持有 分享人 openId
   app.globalData.shareCustomerNo = options.sharecustomerno; // 持有 分享人 客户编号
   app.globalData.shareBusinessNo = options.sharebusinessno; // 持有 分享人 商户编号
   app.globalData.shareUnionId = options.shareunionid; // 持有 分享人 unionId
   if (options.source == OPEN_SOURCE_TYPE_MINI_TRANSPORT) { // 托运微信小程序 跳转进入
-    Utils.logInfo('打开来源:托运微信小程序');
+    util.logInfo('打开来源:托运微信小程序');
     setJumpTarget(options.target, null);
   } else if (options.source == OPEN_SOURCE_TYPE_SHAREDATA) { // 点击分享卡片 进入
-    Utils.logInfo('分享进入');
+    util.logInfo('分享进入');
     setJumpTarget(options.target, options.data)
   } else if (options.source == OPEN_SOURCE_TYPE_SUBSCRIPTION) {
-    Utils.logInfo('公众号进入');
+    util.logInfo('公众号进入');
     setJumpTarget(options.target, options.data)
   }else {
     if (options.q != null) { // 扫普通二维码 进入
@@ -229,7 +240,7 @@ function pageJump(data, events, jumpSuccessCallback){
     case OPEN_TARGET_PAGE_MALL: // 商城
       setTimeout(()=>{
         wx.switchTab({
-          url: PagePath.Page_Mall_Index,
+          url: pagePath.Page_Mall_Index,
           success: function (res) {
             if (jumpSuccessCallback && typeof jumpSuccessCallback == 'function') {
               jumpSuccessCallback(OPEN_TARGET_PAGE_MALL, res);
@@ -243,7 +254,7 @@ function pageJump(data, events, jumpSuccessCallback){
     case OPEN_TARGET_PAGE_POINTEXCHANGE: // 积分兑换
       setTimeout(()=>{
         wx.navigateTo({
-          url: PagePath.Page_Me_Point_PointMall,
+          url: pagePath.Page_Me_Point_PointMall,
           success(res) {
             if (jumpSuccessCallback && typeof jumpSuccessCallback == 'function') {
               jumpSuccessCallback(OPEN_TARGET_PAGE_POINTEXCHANGE, res);
@@ -256,7 +267,7 @@ function pageJump(data, events, jumpSuccessCallback){
     case OPEN_TARGET_PAGE_PETDETAIL: // 宠物详情
       setTimeout(()=>{
         wx.navigateTo({
-          url: PagePath.Page_Store_PetsInforMation + '?petno=' + data,
+          url: pagePath.Page_Store_PetsInforMation + '?petno=' + data,
           success(res){
             if (jumpSuccessCallback && typeof jumpSuccessCallback == 'function') {
               jumpSuccessCallback(OPEN_TARGET_PAGE_PETDETAIL, res);
@@ -269,7 +280,7 @@ function pageJump(data, events, jumpSuccessCallback){
     case OPEN_TARGET_PAGE_BUSINESSDETAIL: // 商家详情
       setTimeout(() => {
         wx.navigateTo({
-          url: PagePath.Page_Store_StoreInforMation + '?storeno=' + data,
+          url: pagePath.Page_Store_StoreInforMation + '?storeno=' + data,
           success(res){
             if (jumpSuccessCallback && typeof jumpSuccessCallback == 'function') {
               jumpSuccessCallback(OPEN_TARGET_PAGE_BUSINESSDETAIL, res);
@@ -282,7 +293,7 @@ function pageJump(data, events, jumpSuccessCallback){
     case OPEN_TARGET_PAGE_GOODSDETAIL: // 商品详情
       setTimeout(()=>{
         wx.navigateTo({
-          url: PagePath.Page_Mall_CommodityInformation + "?itemno=" + data,
+          url: pagePath.Page_Mall_CommodityInformation + "?itemno=" + data,
           success(res){
             if (jumpSuccessCallback && typeof jumpSuccessCallback == 'function') {
               jumpSuccessCallback(OPEN_TARGET_PAGE_GOODSDETAIL, res);
@@ -295,7 +306,7 @@ function pageJump(data, events, jumpSuccessCallback){
     case OPEN_TARGET_PAGE_BAIKE:// 百科
       setTimeout(() => {
         wx.navigateTo({
-          url: PagePath.Page_Baike_List + "?petsort=" + data,
+          url: pagePath.Page_Baike_List + "?petsort=" + data,
           success(res) {
             if (jumpSuccessCallback && typeof jumpSuccessCallback == 'function') {
               jumpSuccessCallback(OPEN_TARGET_PAGE_BAIKE, res);
@@ -309,7 +320,7 @@ function pageJump(data, events, jumpSuccessCallback){
       setTimeout(() => {
         let tempParam = JSON.parse(data);
         wx.navigateTo({
-          url: PagePath.Page_Home_Nearby + "?requesttype=" + tempParam.type + "&sortno=" + tempParam.sortno + "&pagetitle=" + tempParam.title,
+          url: pagePath.Page_Home_Nearby + "?requesttype=" + tempParam.type + "&sortno=" + tempParam.sortno + "&pagetitle=" + tempParam.title,
           success(res) {
             if (jumpSuccessCallback && typeof jumpSuccessCallback == 'function') {
               jumpSuccessCallback(OPEN_TARGET_PAGE_BAIKE, res);
@@ -322,7 +333,7 @@ function pageJump(data, events, jumpSuccessCallback){
     case OPEN_TARGET_PAGE_SERVICE: // 服务(驿站)
       setTimeout(() => {
         wx.switchTab({
-          url: PagePath.Page_PostStation_Index,
+          url: pagePath.Page_PostStation_Index,
           success: function (res) {
             if (jumpSuccessCallback && typeof jumpSuccessCallback == 'function') {
               jumpSuccessCallback(OPEN_TARGET_PAGE_SERVICE, res);
@@ -339,8 +350,8 @@ function pageJump(data, events, jumpSuccessCallback){
       // 未登录跳转登录
       // 登录完成领取大礼包
       setTimeout(function(){
-        UserManager.isLogin(function(){
-          UserManager.haveNewGiftBag()
+        userService.isLogin(function(){
+          userService.haveNewGiftBag()
         }, function() {
           wx.showModal({
             title: '有大礼包待领取',
@@ -358,7 +369,58 @@ function pageJump(data, events, jumpSuccessCallback){
         })
       },0);
       break;
+    case OPEN_TARGET_PAGE_ORDERDETAIL: // 订单详情
+      setTimeout(function(){
+        let tempParam = JSON.parse(data);
+        app.globalData.otherPayInfo = tempParam;
+      },0)
+      break;
   }
+}
+
+/**
+ * 检查是否有未支付订单信息
+ */
+function checkOtherPayInfo(){
+  setTimeout(function(){
+    if (app.globalData.otherPayInfo) {
+      userService.isLogin(function(){
+        wx.showModal({
+          title: "有代支付订单",
+          content: "订单:" + app.globalData.otherPayInfo.orderno + " 请查看详情",
+          confirmColor: "#EE2C2C",
+          confirmText: "查看详情",
+          cancelText: "返回首页",
+          success(res) {
+            if (res.confirm) {
+              wx.navigateTo({
+                url: pagePath.Page_Order_Detail + "?orderno=" + app.globalData.otherPayInfo.orderno + "&otherpaytype=" + app.globalData.otherPayInfo.otherpaytype,
+              })
+              app.globalData.otherPayInfo = null;
+            } else {
+              app.globalData.otherPayInfo = null;
+            }
+          }
+        })
+      }, function(){
+        wx.showModal({
+          title: '有代支付订单',
+          content: '尚未登陆，请登录后查看',
+          confirmText: "前往登录",
+          cancelText: '稍后查看',
+          success(res) {
+            if (res.confirm) {
+              wx.navigateTo({
+                url: pagePath.Page_Login_Index
+              });
+            } else {
+              app.globalData.otherPayInfo = null;
+            }
+          }
+        })
+      })
+    }
+  },0)
 }
 
 module.exports = {
@@ -366,6 +428,7 @@ module.exports = {
   getBusinessShareData: getBusinessShareData,
   getGoodsShareData: getGoodsShareData,
   getPetShareCard: getPetShareCard,
+  getShareToOtherPay: getShareToOtherPay,
   ShareData: ShareData,
   pageHandlerOptions: pageHandlerOptions,
   setJumpTarget: setJumpTarget,
@@ -383,8 +446,11 @@ module.exports = {
   OPEN_TARGET_PAGE_PETDETAIL,
   OPEN_TARGET_PAGE_GOODSDETAIL,
   OPEN_TARGET_PAGE_BUSINESSDETAIL,
+  OPEN_TARGET_PAGE_ORDERDETAIL,
   OPEN_TARGET_PAGE_NEARBY,
   OPEN_TARGET_PAGE_BAIKE,
   OPEN_TARGET_PAGE_SERVICE, 
   OPEN_TARGET_PAGE_GETNEWGIFTBAG,
+
+  checkOtherPayInfo: checkOtherPayInfo,
 }

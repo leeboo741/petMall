@@ -25,60 +25,6 @@
 				</view>
 			</view>
 		</i-cell>
-		<!-- 商品信息 -->
-		<block wx:if='{{order.itemNo != null}}'>
-			<i-cell>
-				<view class="goods-box" slot='header' bindtap="tapItemDetail" data-itemno='{{order.itemNo}}'>
-					<view class="goods-image-box">
-						<i-image i-class="goods-image" imageSrc='{{order.coverImg}}'>
-						</i-image>
-					</view>
-					<view class="goods-info-box">
-						<view class="goods-info-line">
-							<view class="goods-info-name">
-								{{order.itemName}}
-							</view>
-							<view class="goods-info-count">
-								x{{order.qty}}
-							</view>
-						</view>
-						<view class="goods-info-line">
-							<view class="goods-info-price">
-								￥{{order.paymentAmount}}
-							</view>
-						</view>
-					</view>
-				</view>
-			</i-cell>
-
-			<i-cell>
-				<view class="price-box" slot='header'>
-					<view class="price-title-box">
-						<view class="price-title">
-							价格明细
-						</view>
-					</view>
-					<view class='price-content-box'>
-						<view class="price-content-item">
-							<view class="price-content-item-title">
-								价格
-							</view>
-							<view class="price-content-item-value">
-								{{order.retailPrice}} X {{order.qty}}
-							</view>
-						</view>
-						<view class="price-content-item" wx:if='{{order.coupon}}'>
-							<view class="price-content-item-title">
-								优惠券抵扣
-							</view>
-							<view class="price-content-item-value">
-								-{{order.couponAmount}}
-							</view>
-						</view>
-					</view>
-				</view>
-			</i-cell>
-		</block>
 		<!-- 宠物信息 -->
 		<block wx:if='{{order.petNo != null}}'>
 			<i-cell>
@@ -136,7 +82,71 @@
 				</view>
 			</i-cell>
 		</block>
+		<!-- 商品信息 -->
+		<block wx:else>
+			<i-cell-group>
+				<block wx:for='{{order.itemOrderInfoList}}' wx:key='itemNo' wx:for-item='goodsItem'>
+					<i-cell>
+						<view class="goods-box" slot='header' bindtap="tapItemDetail" data-itemno='{{goodsItem.itemNo}}'>
+							<view class="goods-image-box">
+								<i-image i-class="goods-image" imageSrc='{{goodsItem.coverImg}}'>
+								</i-image>
+							</view>
+							<view class="goods-info-box">
+								<view class="goods-info-line">
+									<view class="goods-info-name">
+										{{goodsItem.itemName}}
+									</view>
+									<view class="goods-info-count">
+										x{{goodsItem.qty}}
+									</view>
+								</view>
+								<view class="goods-info-line">
+									<view class="goods-info-price">
+										￥{{goodsItem.unitPrice}}
+									</view>
+								</view>
+							</view>
+						</view>
+					</i-cell>
+				</block>
+				<i-cell>
+					<view class="price-box" slot='header'>
+						<view class="price-title-box">
+							<view class="price-title">
+								价格明细
+							</view>
+						</view>
+						<view class='price-content-box'>
+							<view class="price-content-item">
+								<view class="price-content-item-title">
+									价格
+								</view>
+								<view class="price-content-item-value">
+									￥{{order.paymentAmount}}
+								</view>
+							</view>
+							<view class="price-content-item" wx:if='{{order.coupon}}'>
+								<view class="price-content-item-title">
+									优惠券抵扣
+								</view>
+								<view class="price-content-item-value">
+									-{{order.couponAmount}}
+								</view>
+							</view>
+						</view>
+					</view>
+				</i-cell>
+			</i-cell-group>
+		</block>
+		<i-cell title='订单状态' value='{{parse.getOrderState(order)}}'>
 
+		</i-cell>
+	</i-cell-group>
+</i-panel>
+
+<i-panel i-class='panel' title='订单基本信息'>
+	<i-cell-group>
 		<i-cell>
 			<view class="detail-box" slot='header'>
 				<view class="detail-item">
@@ -159,9 +169,31 @@
 					<view class="detail-title">
 						收货地址
 					</view>
-					<view class="detail-value">
-						{{order.receivingAddress}}
+					<block wx:if='{{order.petNo != null}}'>
+						<view class="detail-value">
+							{{order.receivingAddress}}
+						</view>
+					</block>
+					<block wx:else>
+						<view class="detail-value">
+							{{order.buyerAddress}}
+						</view>
+					</block>
+				</view>
+				<view class="detail-item">
+					<view class="detail-title">
+						收货电话
 					</view>
+					<block wx:if='{{order.petNo != null}}'>
+						<view class="detail-value" style="color: blue;text-decoration: underline;text-decoration-color: blue;" bindtap="tapContact" data-phone='{{order.receivingPhone}}'>
+							{{order.receivingPhone}}
+						</view>
+					</block>
+					<block wx:else>
+						<view class="detail-value"  style="color: blue;text-decoration: underline;text-decoration-color: blue;" bindtap="tapContact" data-phone='{{order.buyerPhone}}'>
+							{{order.buyerPhone}}
+						</view>
+					</block>
 				</view>
 				<view class="detail-item">
 					<view class="detail-title">
@@ -387,8 +419,49 @@
     </i-cell>
   </i-panel>
 </block>
+
+<block wx:if='{{otherPayType != null}}'>
+	<block wx:if='{{otherPayType == "0"}}'>
+		<view style='height: 90rpx; width: 100%'></view>
+		<view style='height: 90rpx; position: fixed; bottom: 0; left: 0; right: 0; display: flex; align-items: center; justify-content: center;'>
+			<button style="width: 100%;" type='warn' bindtap="tapOtherPay">支付订单</button>
+		</view>
+	</block>
+	<block wx:else>
+		<view style='height: 90rpx; width: 100%'></view>
+		<view style='height: 90rpx; position: fixed; bottom: 0; left: 0; right: 0; display: flex; align-items: center; justify-content: center;'>
+			<button style="width: 100%;" type='warn' bindtap="tapOtherPayOffLine">已确认，请线下联系商家支付</button>
+		</view>
+	</block>
+</block>
+
 <wxs module='parse'>
 	module.exports = {
+		getOrderState: function(order){
+			if (order.paymentState != 1) {
+				return "待付款";
+			} else {
+				if (order.driverState != 1) {
+					return "待发货";
+				} else {
+					if (order.receiveState != 1) {
+						return "待收货";
+					} else {
+						if (order.evaluateState != 1) {
+							return "待评价";
+						} else {
+							return "已完成";
+						}
+					}
+				}
+			}
+		},
+		showVideo: function(videoList) {
+			if (videoList != null && videoList.length > 0) {
+				return true;
+			}
+			return false;
+		},
     getTempDeliverPhone: function(order){
       if (order.orderTempDelivers != null && order.orderTempDelivers.length > 0) {
         return order.orderTempDelivers[order.orderTempDelivers.length-1].recipientPhone;
@@ -438,11 +511,5 @@
 			}
 			return "母";
 		},
-		showItemCell: function(order) {
-			return order.itemNo != null;
-		},
-		showPetCell: function(order) {
-			return order.petNo != null;
-		}
 	}
 </wxs>

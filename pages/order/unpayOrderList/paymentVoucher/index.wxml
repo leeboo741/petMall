@@ -1,0 +1,39 @@
+<!--pages/order/unpayOrderList/paymentVoucher/index.wxml-->
+<i-navigationbar title='上传付款凭证'
+                  showBackButton>
+</i-navigationbar>
+
+<i-panel i-class='panel' title='订单信息'>
+  <i-cell-group>
+    <i-cell title='订单编号'
+            value='{{order.orderNo}}'>
+    </i-cell>
+  </i-cell-group>
+</i-panel>
+
+<i-panel i-class='panel' title='付款凭证'>
+  <i-cell>
+    <i-imageupload  slot='header'
+                    uploadUrl='{{uploadUrl}}'
+                    name='multipartFile'
+                    startUpload='{{false}}'
+                    autoUpload='{{true}}'
+                    bind:upload-complete='uploadComplete'
+                    bind:delete-image='deleteImage'
+                    bind:addnew='addNewImage'
+                    ableDelete='{{false}}'
+                    selectMode='cover'
+                    maxImageCount='{{1}}'
+                    imageSourceType="{{['album', 'camera']}}"
+                    showAddNewButton='{{true}}'
+                    ableVideo="{{false}}">
+    </i-imageupload>
+  </i-cell>
+</i-panel>
+
+<i-panel i-class='panel'>
+  <i-cell>
+    <button slot='header' style="width: 100%" type="warn" bindtap='uploadPaymentVoucher' disabled="{{disable}}" loading="{{loading}}">确定上传</button>
+  </i-cell>
+</i-panel>
+

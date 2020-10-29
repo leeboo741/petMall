@@ -21,6 +21,7 @@ const Enum = require("../../utils/enum.js");
 const ShareManager = require("../../services/shareService");
 const Utils = require("../../utils/util");
 const { MINI_PROGRAME_APPID_PETTRANSPORT, ENV_CURRENT } = require("../../macros/config.js");
+const shareService = require("../../services/shareService");
 
 Page({
   /**
@@ -132,7 +133,7 @@ Page({
         groupItemList: data.root,
       })
     });
-
+    shareService.checkOtherPayInfo();
   }, 
 
   /**

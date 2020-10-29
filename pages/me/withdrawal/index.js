@@ -117,6 +117,7 @@ Page({
       bindInputMoney: inputValue
     })
   },
+  
   /**
    * 点击流水明细
    */

@@ -4,7 +4,7 @@ const config = require("./config");
 let Url_Base;
 switch(config.ENV_CURRENT) {
   case config.ENV_DEV: 
-    // Url_Base = "http://192.168.3.40:7070";
+    // Url_Base = "http://192.168.3.44:7070";
     Url_Base = "http://192.168.3.110:7070";
     break;
   case config.ENV_RELEASE:
@@ -26,7 +26,7 @@ const Url_Decode = "/login"; // 登陆
 const Url_Register = "/register"; // 注册
 const Url_GetCode = "/business/VerificationCode"; // 获取短信验证码
 const Url_Auth = "/api/business/auth"; // 商家认证
-const Url_Auth_ByAuthNo = "/api/business/auth/"; //根据单据编号查询
+const Url_Auth_ByAuthNo = "/api/business/auth/"; //根据商家编号查询商家认证信息
 
 const Url_LoginBusiness = "/api/business/detail/"; // 转换卖家身份
 const Url_Search = "/api/query/"; // 搜索接口
@@ -187,6 +187,12 @@ const Url_Pay_Item = "/pay/weChat/item"; // 获取商品订单支付信息
 const Url_Pay_Server = "/pay/weChat/service"; // 获取服务订单支付信息
 
 const Url_Item_QueryOrderPrice = "/api/order/item/price"; //获取商品订单价格
+
+const Url_Item_Order_ChangePrice = "/api/order/item/updateOrderPrice"; // 修改商品订单价格
+const Url_Pet_Order_ChangePrice = "/api/order/pet/updateOrderPrice"; // 修改宠物订单价格
+
+const Url_Item_UploadPaymentVoucher = "/api/order/item/uploadPaymentVoucher"; // 上传商品订单付款凭证
+const Url_Pet_UploadPaymentVoucher = "/api/order/pet/uploadPaymentVoucher"; // 上传宠物订单付款凭证
 
 /**
  * 买家宠物订单
@@ -529,6 +535,11 @@ module.exports = {
   Url_Pet_OrderPrice, //宠物订单总价
   Url_Item_QueryOrderPrice, //获得商品订单价格
 
+  Url_Item_Order_ChangePrice, // 修改商品订单价格
+  Url_Pet_Order_ChangePrice, // 修改宠物订单价格
+
+  Url_Item_UploadPaymentVoucher, // 上传商品订单付款凭证
+  Url_Pet_UploadPaymentVoucher, // 上传宠物订单付款凭证
   /**
    * 买家宠物订单
    */

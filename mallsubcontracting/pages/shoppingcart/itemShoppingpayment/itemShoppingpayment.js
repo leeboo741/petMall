@@ -53,32 +53,34 @@ Page({
       totalAmount: totalAmount
     })
     let that = this;
-    userService.isLogin(function isLoginCallback(){
-      that.getDefaultReceivingAddress(userService.getBusinessNo(), function callback(res) {
-        util.logInfo(JSON.stringify(res));
-        if (util.checkEmpty(res.root)) {
-          wx.showToast({
-            title: '请先新建收货地址',
-            icon: 'none'
-          })
-          return;
-        }
-        let tempAddress = null;
-        res.root.forEach(address => {
-          if (address.isDefault == 1) {
-            tempAddress = address;
+    if (userService.getBusinessNo() != this.data.shoppingcartDataSource.business.businessNo) {
+      userService.isLogin(function isLoginCallback(){
+        that.getDefaultReceivingAddress(userService.getBusinessNo(), function callback(res) {
+          util.logInfo(JSON.stringify(res));
+          if (util.checkEmpty(res.root)) {
+            wx.showToast({
+              title: '请先新建收货地址',
+              icon: 'none'
+            })
+            return;
           }
-        });
-        if (tempAddress == null) {
-          tempAddress == res.root[0];
-        }
-        that.setData({
-          receiveAddress: tempAddress
+          let tempAddress = null;
+          res.root.forEach(address => {
+            if (address.isDefault == 1) {
+              tempAddress = address;
+            }
+          });
+          if (tempAddress == null) {
+            tempAddress == res.root[0];
+          }
+          that.setData({
+            receiveAddress: tempAddress
+          })
+          
+          that.queryItemTotalPrice();
         })
-        
-        that.queryItemTotalPrice();
       })
-    })
+    }
   },
 
   /**
@@ -272,6 +274,7 @@ Page({
     wx.showLoading({
       title: '请稍等...',
     })
+    let that = this;
     userService.isLogin(function(){
       orderService.addNewItemOrder(param, function(success, data){
         wx.hideLoading()
@@ -290,8 +293,14 @@ Page({
                   confirmText: '立即支付',
                   cancelText: '稍后支付',
                   success(res) {
-                    if (res.confirm) {                
-                      that.getPay(data.root);
+                    if (res.confirm) {       
+                      if (userService.getBusinessNo() == that.data.shoppingcartDataSource.business.businessNo) {
+                        wx.navigateTo({
+                          url: "/mallsubcontracting/pages/shoppingcart/payment/index?type=1&orderno=" + data.root,
+                        })
+                      } else {         
+                        that.getPay(data.root);
+                      }
                     } else {
                       wx.navigateBack()
                     }

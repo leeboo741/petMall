@@ -1,0 +1,29 @@
+<!--pages/order/unpayOrderList/changePrice/index.wxml-->
+
+<i-navigationbar title='修改订单价格'
+                  showBackButton>
+</i-navigationbar>
+<i-panel i-class='panel' title='订单信息'>
+  <i-cell-group>
+    <i-cell title='订单编号'
+            value='{{order.orderNo}}'>
+    </i-cell>
+    <i-cell title='订单价格'
+            value='{{order.paymentAmount}}'>
+    </i-cell>
+  </i-cell-group>
+</i-panel>
+
+<i-panel i-class='panel' title='修改价格'>
+  <i-cell-group>
+    <i-cell title='修改价格'>
+      <input type="digit" slot='footer' placeholder="请输入要修改的价格" bindinput="inputNewPrice"/>
+    </i-cell>
+  </i-cell-group>
+</i-panel>
+
+<i-panel i-class='panel'>
+  <i-cell>
+    <button slot='header' style="width: 100%" type="warn" bindtap='changePrice'>确定修改</button>
+  </i-cell>
+</i-panel>

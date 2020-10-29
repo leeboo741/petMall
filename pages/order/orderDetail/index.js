@@ -9,6 +9,7 @@ const PagePath = require("../../../macros/pagePath");
 
 const ShareManager = require("../../../services/shareService");
 const { MINI_PROGRAME_APPID_PETTRANSPORT, ENV_CURRENT } = require("../../../macros/config.js");
+const payService = require("../../../services/payService.js");
 
 Page({
 
@@ -20,6 +21,8 @@ Page({
     orderNo: null,
     type: null,
     transport: null, // 运输详情
+
+    otherPayType: null, // 代支付类型
   },
 
   /**
@@ -29,7 +32,8 @@ Page({
     Utils.logInfo(JSON.stringify(app.globalData.detailOrder))
     this.setData({
       orderNo: options.orderno,
-      type: options.type?options.type:""
+      type: options.type?options.type:"",
+      otherPayType: options.otherpaytype
     })
     let that = this;
     wx.showLoading({
@@ -273,5 +277,57 @@ Page({
         Utils.logInfo(JSON.stringify(res))
       }
     })
+  },
+
+  /**
+   * 点击代支付 商家
+   */
+  tapOtherPayOffLine: function(){
+    wx.navigateBack()
+  },
+
+  /**
+   * 点击代支付 平台
+   */
+  tapOtherPay: function(){
+    wx.showLoading({
+      title: '支付中...',
+    })
+    let that = this;
+    this.requestPayInfo(this.data.order.orderNo, function(success, data){
+      wx.hideLoading({
+        success: (res) => {},
+      })
+      if (success) {
+        console.log(data);
+        wx.requestPayment({
+          timeStamp: data.root.timeStamp,
+          nonceStr: data.root.nonceStr,
+          package: data.root.package,
+          signType: data.root.signType,
+          paySign: data.root.paySign,
+          success(res) {
+            wx.showModal({
+              title: '支付成功',
+              content: "订单: " + that.data.order.orderNo + " 支付成功",
+              showCancel: false,
+              success(res) {
+                if (res.confirm) {
+                  wx.navigateBack()
+                }
+              }
+            })
+          }
+        })
+      } 
+    })
+  },
+
+  requestPayInfo: function(orderNo, callback) {
+    if (this.data.order.petNo == null) {
+      payService.getItemOrderPayInfo(orderNo, callback);
+    } else {
+      payService.getPetOrderPayInfo(orderNo, callback);
+    }
   }
 })

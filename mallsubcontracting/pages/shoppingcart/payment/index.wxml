@@ -1,0 +1,34 @@
+<!--mallsubcontracting/pages/shoppingcart/payment/index.wxml-->
+<i-navigationbar title='确认支付' showBackButton='{{true}}'>
+</i-navigationbar>
+
+<i-panel i-class='panel' title='订单信息'>
+  <i-cell-group>
+    <i-cell title='订单编号' value='{{order.orderNo}}'></i-cell>
+    <i-cell title='订单金额' value='{{order.paymentAmount}}'></i-cell>
+  </i-cell-group>
+</i-panel>
+<i-panel i-class='panel' title='自定义价格'>
+  <i-cell-group>
+    <i-cell title='自定义价格'>
+      <input type="digit" value='{{newPrice}}' placeholder="请输入自定义价格" bindinput='inputCustomPrice' slot='footer' class="input-area"/>
+    </i-cell>
+    <i-cell>
+      <button slot='footer' class='change-button' type='primary' bindtap="tapChange" disabled="{{changeDisable}}" loading="{{changeing}}">修改价格</button>
+    </i-cell>
+  </i-cell-group>
+</i-panel>
+<i-panel i-class='panel' title='提交信息'>
+  <i-cell-group>
+    <i-cell title='付款方式'>
+      <radio-group slot='footer' style="width: 100;" bindchange="changePayType">
+        <label style="font-size: 26rpx; width: 50%" wx:for="{{payType}}">
+          <radio value="{{item.value}}" checked="{{item.checked}}"/>{{item.name}}
+        </label>
+      </radio-group>
+    </i-cell>
+    <i-cell>
+      <button slot='header' class="submit-button" type='warn' disabled="{{submitDisable}}" open-type="share">发送至客户</button>
+    </i-cell>
+  </i-cell-group>
+</i-panel>

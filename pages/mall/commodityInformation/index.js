@@ -225,7 +225,7 @@ Page({
           success(res) {
             if (res.confirm) {
               wx.navigateTo({
-                url: Page_path.Page_Me_AuthenticateManager_Index,
+                url: Page_path.Page_Me_AuthenticateManager_Submit,
               })
             } else if(res.cancel){
               wx.navigateBack({
@@ -235,13 +235,13 @@ Page({
         })
         return;
       }
-      if (that.data.itemDetailData.item.business.businessNo == UserService.getBusinessNo()) {
-        wx.showToast({
-          title: '您不能购买自己的商品哦！',
-          icon: "none"
-        })
-        return;
-      }
+      // if (that.data.itemDetailData.item.business.businessNo == UserService.getBusinessNo()) {
+      //   wx.showToast({
+      //     title: '您不能购买自己的商品哦！',
+      //     icon: "none"
+      //   })
+      //   return;
+      // }
       app.globalData.shopItem = that.data.itemDetailData;
       wx.navigateTo({
         url: Page_path.Page_Mall_Shoppingpayment + "?type=item"

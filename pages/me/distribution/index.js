@@ -165,7 +165,7 @@ Page({
 
   selectStartDate: function (res) {
     this.setData({
-      startDate: e.detail.value,
+      startDate: res.detail.value,
     })
     this.compareOptionsDate();
   },
@@ -173,7 +173,7 @@ Page({
 
   selectEndDate: function (res) {
     this.setData({
-      endDate: e.detail.value
+      endDate: res.detail.value
     })
     this.compareOptionsDate();
   },

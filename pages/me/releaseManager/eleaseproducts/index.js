@@ -2,7 +2,8 @@
 const PagePath = require("../../../../macros/pagePath.js");
 const UserService = require("../../../../services/userService.js");
 const ShareManager = require("../../../../services/shareService");
-const Utils = require("../../../../utils/util")
+const Utils = require("../../../../utils/util");
+const pagePath = require("../../../../macros/pagePath.js");
 
 Page({
 
@@ -119,25 +120,14 @@ Page({
         if (dataSource != null && dataSource.authType != null) {
 
           if (dataSource.authType == 0) {
-            if (productType == 0) {
-              that.showModleInfo("您未进行个人认证，您确定要去认证吗？", 0)
-            } else if (productType == 1) {
-              that.showModleInfo("您未进行商家认证，您确定要去认证吗？", 1)
-            } else {
-              that.showModleInfo("您未进行平台认证，您确定要去认证吗？", 2)
-            }
+            that.showModleInfo("您未进行卖家认证，您确定要去认证吗？", 0)
           } else if (dataSource.authType == 1) {
             if (productType == 0) {
               wx.navigateTo({
                 url: PagePath.Page_Me_ReleaseManager_ReleaseNew + "?type=" + 0,
               })
-            } else if (productType == 1) {
-              that.showModleInfo("您未进行商家认证，您确定要去认证吗？", 1)
-              // wx.navigateTo({
-              //   url: "../../../../mallsubcontracting/pages/productreleasedetails/index"
-              // })
             } else {
-              that.showModleInfo("您未进行平台认证，您确定要去认证吗？", 2)
+              that.showModleInfo("您认证信息不完善，是否前去补充认证信息？", 1)
             }
           } else if (dataSource.authType == 2) {
             if (productType == 0) {
@@ -148,11 +138,8 @@ Page({
               wx.navigateTo({
                 url: "../../../../mallsubcontracting/pages/productreleasedetails/index"
               })
-            } else {
-              // wx.navigateTo({
-              //   url: "../../../../mallsubcontracting/pages/publishingservice/index"
-              // })
-              that.showModleInfo("您未进行平台认证，您确定要去认证吗？", 2)
+            }  else {
+              that.showModleInfo("您认证信息不完善，是否前去补充认证信息？", 1)
             }
           } else {
             if (productType == 0) {
@@ -186,7 +173,7 @@ Page({
       success(res) {
         if (res.confirm) {
           wx.navigateTo({
-            url: "../../authenticateManager/submitAuthenticate/index?type=" + tripType
+            url: PagePath.Page_Me_AuthenticateManager_Submit
           })
         } else if (res.cancel) {
           Utils.logInfo('用户点击取消')

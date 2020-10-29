@@ -6,6 +6,6 @@
     "i-cell-group": "/dist/cell-group/index",
     "i-icon": "/lee-components/leeIcon/index",
     "i-progress": "/dist/progress/index",
-    "i-image-upload": "/lee-components/leeImageUpload/index"
+    "i-imageUpload": "/lee-components/leeImageUpload/index"
   }
 }

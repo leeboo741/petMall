@@ -143,15 +143,15 @@
   line-height: 35px;
   flex-grow: 1;
   width: 100%;
-  text-align: right;
+  text-align: center;
 }
 
 .placeholder-text{
-  color: gray;
+  color: rgb(210, 210, 210);
 }
 
 .normal-text{
-  color: rgb(210, 210, 210);
+  color: gray;
 }
 
 .foodgrainmore-head-titleselect{

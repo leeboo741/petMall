@@ -98,6 +98,10 @@
 			</view>
 		</view>
 	</view>
+
+	<view class="float-button" bindtap="tapShoppingcart">
+		<image class="float-button-image" src="/resource/shoppingcart.png"></image>
+	</view>
 </view>
 <!-- 服务列表 -->
 <view class="business-pets-page" wx:elif='{{currentIndex == 2}}'>

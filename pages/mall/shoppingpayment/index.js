@@ -10,6 +10,7 @@ const app = getApp();
 const Shop_Type_Item = "item";
 const Shop_Type_Pet = "pet";
 const ShareManager = require("../../../services/shareService");
+const userService = require("../../../services/userService.js");
 
 Page({
 
@@ -380,23 +381,25 @@ Page({
       return;
     }
     if (this.data.type == 'pet') {
-      if (this.data.currentPickUpMode == null) {
-        if (Utils.checkEmpty(this.data.typeOfShipping)) {
-          wx.showToast({
-            title: '暂无配送线路',
-            icon: 'none'
-          })
-          return;
+      if (this.data.shopDataSource.pet.freeShipping != 1) {
+        if (this.data.currentPickUpMode == null) {
+          if (Utils.checkEmpty(this.data.typeOfShipping)) {
+            wx.showToast({
+              title: '暂无配送线路',
+              icon: 'none'
+            })
+            return;
+          }
+          if (this.data.selectTransport == null) {
+            wx.showToast({
+              title: '请先选择运输方式方式',
+              icon: 'none'
+            })
+            return;
+          }
+        } else {
+          
         }
-        if (this.data.selectTransport == null) {
-          wx.showToast({
-            title: '请先选择运输方式方式',
-            icon: 'none'
-          })
-          return;
-        }
-      } else {
-        
       }
     }
     wx.showLoading({
@@ -420,51 +423,57 @@ Page({
                   cancelText: '稍后支付',
                   success(res) {
                     if (res.confirm) {
-                      that.requestPayInfo(result,
-                        function getPayInfoCallback(payInfoData) {
-                          if (payInfoData == null) {
-                            wx.showToast({
-                              title: '获取支付信息失败',
-                              icon: 'none'
-                            })
-                            return;
-                          }
-                          Utils.logInfo("支付信息： \n" + JSON.stringify(payInfoData));
-                          wx.requestPayment({
-                            timeStamp: payInfoData.timeStamp,
-                            nonceStr: payInfoData.nonceStr,
-                            package: payInfoData.package,
-                            signType: payInfoData.signType,
-                            paySign: payInfoData.paySign,
-                            success(res) {
-                              if (that.data.selectTransport == null && that.data.type == "pet") {
-                                wx.showModal({
-                                  title: '提示',
-                                  content: '斑马速运将为您提供物流支持,请前往斑马速运小程序查看',
-                                  showCancel: false,
-                                  success(res) {
-                                    if (res.confirm) {
-                                      wx.navigateBack({
-      
-                                      })
-                                    }
-                                  }
-                                })
-                              } else {
-                                wx.navigateBack({
-      
-                                })
-                              }
-                            },
-                            fail(res) {
+                      if (userService.getBusinessNo() == that.data.shopDataSource.pet.business.businessNo) {
+                        wx.navigateTo({
+                          url: "/mallsubcontracting/pages/shoppingcart/payment/index?type=0&orderno=" + result,
+                        })
+                      } else {
+                        that.requestPayInfo(result,
+                          function getPayInfoCallback(payInfoData) {
+                            if (payInfoData == null) {
                               wx.showToast({
-                                title: '支付失败,请稍后重试',
+                                title: '获取支付信息失败',
                                 icon: 'none'
                               })
+                              return;
                             }
-                          })
-                        }
-                      )
+                            Utils.logInfo("支付信息： \n" + JSON.stringify(payInfoData));
+                            wx.requestPayment({
+                              timeStamp: payInfoData.timeStamp,
+                              nonceStr: payInfoData.nonceStr,
+                              package: payInfoData.package,
+                              signType: payInfoData.signType,
+                              paySign: payInfoData.paySign,
+                              success(res) {
+                                if (that.data.selectTransport == null && that.data.type == "pet") {
+                                  wx.showModal({
+                                    title: '提示',
+                                    content: '斑马速运将为您提供物流支持,请前往斑马速运小程序查看',
+                                    showCancel: false,
+                                    success(res) {
+                                      if (res.confirm) {
+                                        wx.navigateBack({
+        
+                                        })
+                                      }
+                                    }
+                                  })
+                                } else {
+                                  wx.navigateBack({
+        
+                                  })
+                                }
+                              },
+                              fail(res) {
+                                wx.showToast({
+                                  title: '支付失败,请稍后重试',
+                                  icon: 'none'
+                                })
+                              }
+                            })
+                          }
+                        )
+                      }
                     } else {
                       wx.navigateBack({
                         
@@ -594,9 +603,16 @@ Page({
       )
     } else {
       PayService.getPetOrderPayInfo(orderNo,
-        function getResultCallback(result) {
-          if (Util.checkIsFunction(getPayInfoCallback)) {
-            getPayInfoCallback(result.root);
+        function getResultCallback(success, result) {
+          if (success) {
+            if (Util.checkIsFunction(getPayInfoCallback)) {
+              getPayInfoCallback(result.root);
+            }
+          } else {
+            wx.showToast({
+              title: '获取支付参数失败',
+              icon: 'none'
+            })
           }
         }
       )

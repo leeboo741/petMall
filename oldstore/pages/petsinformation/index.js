@@ -207,13 +207,13 @@ Page({
     Utils.logInfo("点击担保购买！");
     let that = this;
     UserService.isLogin(function isLoginCallback(){
-      if (that.data.storeDetailData.businessNo == UserService.getBusinessNo()) {
-        wx.showToast({
-          title: '您不能购买自己的宠物哦！',
-          icon: "none"
-        })
-        return;
-      }
+      // if (that.data.storeDetailData.businessNo == UserService.getBusinessNo()) {
+      //   wx.showToast({
+      //     title: '您不能购买自己的宠物哦！',
+      //     icon: "none"
+      //   })
+      //   return;
+      // }
       app.globalData.shopPet = that.data.petDetailData;
       wx.navigateTo({
         url: Page_path.Page_Mall_Shoppingpayment + "?type=pet"

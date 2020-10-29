@@ -8,6 +8,7 @@ const Utils = require("../../utils/util.js");
 const ServerManager = require("../../services/serverManager.js");
 const ShareManager = require("../../services/shareService");
 const MessageManager = require("../../services/messageManager");
+const userService = require("../../services/userService.js");
 const app = getApp();
 
 const Buyer_Action_Index_Unpay = 0; // 买家 待付款
@@ -40,6 +41,7 @@ const Seller_Action_Index_Change = 12; // 卖家 切换身份
 const Seller_Action_Index_Verify = 13; // 卖家 核销
 const Seller_Action_Index_Poster = 14; // 卖家 海报
 const Seller_Action_Index_Server = 15; // 卖家 客服
+const Seller_Action_Index_MyStore = 16; // 卖家 我的店铺
 
 Page({
 
@@ -196,7 +198,7 @@ Page({
       {
         name: "卖家认证",
         iconPath: "../../resource/qualification.png",
-        link: PagePath.Page_Me_AuthenticateManager_Index,
+        link: PagePath.Page_Me_AuthenticateManager_Submit,
         show: true,
       },
       {
@@ -232,6 +234,12 @@ Page({
       {
         name: "客服热线",
         iconPath: "../../resource/customerservice.png",
+        link: "",
+        show: true,
+      },
+      {
+        name: "我的店铺",
+        iconPath: "../../resource/myStore.png",
         link: "",
         show: true,
       },
@@ -513,6 +521,10 @@ Page({
         Utils.logInfo('生成海报');
         that.setData({
           showPoster: true,
+        })
+      } else if (e.currentTarget.dataset.index == Seller_Action_Index_MyStore) {
+        wx.navigateTo({
+          url: PagePath.Page_Store_StoreInforMation + '?storeno=' + userService.getBusinessNo() +"&showtype=0",
         })
       } else {
         wx.navigateTo({

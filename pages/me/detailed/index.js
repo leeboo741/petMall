@@ -5,6 +5,7 @@ const UserService=require("../../../services/userService.js");
 const Page_Size=20;
 const ShareManager = require("../../../services/shareService");
 const Utils = require("../../../utils/util")
+const PagePath = require("../../../macros/pagePath");
 
 Page({
 
@@ -17,6 +18,16 @@ Page({
     loadState: LoadFootItemState.Loading_State_Normal, // 底部状态
     offset:0, //页数
     
+  },
+
+  /**
+   * 查看详情
+   * @param {*} e 
+   */
+  showDetail: function(e) {
+    wx.navigateTo({
+      url: PagePath.Page_Order_Detail + "?orderno=" + e.currentTarget.dataset.orderno
+    })
   },
 
   /**

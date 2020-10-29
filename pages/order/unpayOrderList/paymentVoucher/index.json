@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "i-navigationbar": "/lee-components/leeNavigationBar/index",
+    "i-panel": "/dist/panel/index",
+    "i-cell-group": "/dist/cell-group/index",
+    "i-cell": "/dist/cell/index",
+    "i-imageupload": "/lee-components/leeImageUpload/index"
+  }
+}

@@ -13,6 +13,7 @@ const app = getApp();
 const Limit = 20;
 
 const ShareManager = require("../../../services/shareService");
+const orderService = require("../../../services/orderService.js");
 
 Page({
 
@@ -190,6 +191,7 @@ Page({
    * 点击更多
    */
   tapMore: function (e) {
+    let that = this;
     let tempOrder = this.data.dataSource[e.currentTarget.dataset.index];
     if (this.data.currentRole == 0) {
       let itemList = ["联系商家"];
@@ -234,7 +236,7 @@ Page({
       })
     } else {
       wx.showActionSheet({
-        itemList: ["联系买家", "修改订单"],
+        itemList: ["联系买家", "改价", "上传付款凭证","发送至客户支付"],
         success(res) {
           if (res.tapIndex == 0) {
             if (tempOrder.petNo != null) {
@@ -254,10 +256,25 @@ Page({
               })
             }
           } else if (res.tapIndex == 1) {
-            wx.showToast({
-              title: '修改订单',
-              icon:'none'
+            app.globalData.changePriceOrder = tempOrder;
+            wx.navigateTo({
+              url: '/pages/order/unpayOrderList/changePrice/index',
             })
+          } else if (res.tapIndex == 2) {
+            app.globalData.paymentVoucherOrder = tempOrder;
+            wx.navigateTo({
+              url: '/pages/order/unpayOrderList/paymentVoucher/index',
+            })
+          } else if (res.tapIndex == 3) {
+            if (tempOrder.petNo != null) {
+              wx.navigateTo({
+                url: "/mallsubcontracting/pages/shoppingcart/payment/index?type=0&orderno=" + tempOrder.orderNo,
+              })
+            } else {
+              wx.navigateTo({
+                url: "/mallsubcontracting/pages/shoppingcart/payment/index?type=1&orderno=" + tempOrder.orderNo,
+              })
+            }
           }
         }
       })
@@ -369,9 +386,16 @@ Page({
       )
     } else {
       PayService.getPetOrderPayInfo(orderNo,
-        function getResultCallback(result) {
-          if (Util.checkIsFunction(getPayInfoCallback)) {
-            getPayInfoCallback(result.root);
+        function getResultCallback(success, result) {
+          if (success) {
+            if (Util.checkIsFunction(getPayInfoCallback)) {
+              getPayInfoCallback(result.root);
+            }
+          } else {
+            wx.showToast({
+              title: '获取支付参数失败',
+              icon: 'none'
+            })
           }
         }
       )

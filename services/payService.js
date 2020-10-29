@@ -62,7 +62,12 @@ function getPetOrderPayInfo(orderNo, getPetOrderPayInfoCallback) {
     },
     success(res) {
       if (Util.checkIsFunction(getPetOrderPayInfoCallback)) {
-        getPetOrderPayInfoCallback(res)
+        getPetOrderPayInfoCallback(true,res)
+      }
+    }, 
+    fail(res) {
+      if (Util.checkIsFunction(getPetOrderPayInfoCallback)) {
+        getPetOrderPayInfoCallback(false, res);
       }
     }
   })

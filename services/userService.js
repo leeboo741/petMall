@@ -135,16 +135,13 @@ function saveLocalUserInfo(userInfo) {
  * @param deleteCallback 删除回调
  */
 function deleteLocalUserInfo(deleteCallback) {
-  wx.removeStorage({
-    key: Key_UserInfo,
-    success(res) {
-      Utils.logInfo("删除用户 success: \n" + JSON.stringify(res));
+  wx.clearStorage({
+    success: (res) => {
       if (deleteCallback && typeof deleteCallback == "function") {
         deleteCallback(true)
       }
     },
-    fail(res) {
-      Utils.logInfo("删除用户 fail: \n" + JSON.stringify(res));
+    fail: (res) => {
       if (deleteCallback && typeof deleteCallback == "function") {
         deleteCallback(false)
       }
@@ -647,17 +644,13 @@ function updateBusinessInfo(submissionObject, resultCallback){
   let requestParam = new RequestParamObj({
     url: UrlPath.Url_Base + UrlPath.Url_BusinessDetail,
     data: submissionObject,
-    method:"PUT",
-    header: {
-      'content-type': 'application/json'
-    },
     success(res) {
       if (Util.checkIsFunction(resultCallback)) {
         resultCallback(res);
       }
     }
   })
-  RequestUtil.RequestPUT(requestParam);
+  RequestUtil.RequestPOST(requestParam);
 }
 
 

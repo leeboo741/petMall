@@ -92,6 +92,25 @@
   width: 100%;
   display: flex;
   flex-wrap: wrap;
+  position: relative;
+}
+
+.float-button{
+  position: fixed;
+  right: 20rpx;
+  bottom: 150rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 60rpx;
+  background: #ee2c2c;
+}
+
+.float-button-image{
+  width: 60rpx;
+  height: 60rpx;
 }
 
 .business-pets-information {

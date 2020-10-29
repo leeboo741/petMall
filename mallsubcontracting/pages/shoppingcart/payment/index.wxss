@@ -1,0 +1,17 @@
+/* mallsubcontracting/pages/shoppingcart/payment/index.wxss */
+
+.input-area{
+  width: 100%;
+}
+
+.change-button{
+  width: 200rpx;
+  height: 70rpx;
+  line-height: 70rpx;
+  font-size: 28rpx;
+  text-align: center;
+}
+
+.submit-button{
+  width: 100%;
+}
